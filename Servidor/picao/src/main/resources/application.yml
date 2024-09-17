@@ -7,9 +7,10 @@ jwt:
 
 spring:
   datasource:
-    password: postgres
-    url: jdbc:postgres://localhost:5432/golpi
+    url: jdbc:postgresql://localhost:5432/golpi
     username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
   #zona horaria
   jackson:
     time-zone: America/Bogota

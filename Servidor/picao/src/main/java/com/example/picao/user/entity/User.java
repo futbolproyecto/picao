@@ -16,6 +16,12 @@ public class User {
     @Column(name = "id", nullable = false)
     private Integer id;
 
+    @Column(length = 50, unique = true, nullable = false)
+    private String username;
+
+    @Column()
+    private String password;
+
     @Column(name = "name", length = 50)
     private String name;
 
@@ -28,14 +34,12 @@ public class User {
     @Column(name = "second_last_name", length = 50)
     private String secondLastName;
 
-    @Column(name = "mobile_number", length = 20)
+    @Column(name = "mobile_number", length = 20, unique = true, nullable = false)
     private String mobileNumber;
 
-    @Column(name = "email", length = 80)
+    @Column(name = "email", length = 80, unique = true, nullable = false)
     private String email;
 
-    @Column(name = "password", length = 20)
-    private String password;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "city_id")
