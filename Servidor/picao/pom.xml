@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.example</groupId>
-	<artifactId>picao</artifactId>
+	<artifactId>golpi</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>picao</name>
+	<name>golpi</name>
 	<description>Proyecto futbol amateur</description>
 	<url/>
 	<licenses>
@@ -53,6 +53,11 @@
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<scope>runtime</scope>
 		</dependency>
 	</dependencies>
 
