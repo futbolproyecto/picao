@@ -1,5 +1,6 @@
 package com.example.picao;
 
+import com.example.picao.role.entity.Role;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,7 +16,7 @@ public class Profile {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "rol_id")
-    private com.example.picao.Role rol;
+    private Role rol;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "modul_id")

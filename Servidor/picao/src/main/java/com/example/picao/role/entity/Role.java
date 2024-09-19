@@ -1,5 +1,6 @@
-package com.example.picao;
+package com.example.picao.role.entity;
 
+import com.example.picao.role.ERole;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -9,17 +10,15 @@ import lombok.experimental.FieldDefaults;
 @Getter
 @Setter
 @Entity
+@Table(name = "roles")
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Table(name = "countries")
-public class Country {
+public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
 
-    @Column(name = "name", length = 50)
-    String name;
-
-    @Column(name = "cell_prefix", length = 10)
-    String cellPrefix;
+    @Enumerated(EnumType.STRING)
+    @Column(length = 50)
+    ERole name;
 
 }
