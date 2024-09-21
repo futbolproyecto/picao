@@ -2,7 +2,7 @@ package com.example.picao.core.security;
 
 import com.example.picao.core.security.jwt.JwtTokenValidator;
 import com.example.picao.user.repository.UserRepository;
-import com.example.picao.user.service.impl.UserServiceImp;
+import com.example.picao.user.service.impl.UserServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -53,7 +53,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationProvider authenticationProvider(UserServiceImp userDetailService) {
+    public AuthenticationProvider authenticationProvider(UserServiceImpl userDetailService) {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setPasswordEncoder(passwordEncoder());
         provider.setUserDetailsService(userDetailService);

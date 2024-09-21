@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
  */
 @AllArgsConstructor
 @Service
-public class UserServiceImp implements UserService, UserDetailsService {
+public class UserServiceImpl implements UserService, UserDetailsService {
 
     private final UserRepository userRepository;
 
