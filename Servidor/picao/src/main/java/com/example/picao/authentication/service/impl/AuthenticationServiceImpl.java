@@ -32,8 +32,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public AuthResponseDTO login(LoginRequestDTO loginRequestDTO) {
 
-        System.out.println("--------------");
-        System.out.println(passwordEncoder.encode(loginRequestDTO.password()));
 
         User user = userRepository.findByUsername(loginRequestDTO.username())
                 .orElseThrow(() -> new AppException(
