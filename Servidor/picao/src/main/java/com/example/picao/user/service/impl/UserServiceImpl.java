@@ -1,5 +1,6 @@
 package com.example.picao.user.service.impl;
 
+import com.example.picao.core.util.UsefulMethods;
 import com.example.picao.user.repository.UserRepository;
 import com.example.picao.user.service.UserService;
 import lombok.AllArgsConstructor;
@@ -28,9 +29,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         com.example.picao.user.entity.User userEntity = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("El usuario " + username + " no existe."));
 
-        Collection<? extends GrantedAuthority> roles = userEntity.getRoles().stream().map(
-                        role -> new SimpleGrantedAuthority(role.getName().name()))
-                .collect(Collectors.toSet());
 
         return new User(userEntity.getUsername(),
                 userEntity.getPassword(),
@@ -38,7 +36,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 true,
                 true,
                 true,
-                roles);
+                UsefulMethods.getAuthorities(userEntity.getRoles()));
     }
 
 
