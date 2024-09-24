@@ -1,6 +1,8 @@
 package com.example.picao.user.service.impl;
 
 import com.example.picao.core.util.UsefulMethods;
+import com.example.picao.user.dto.CreateUserRequestDTO;
+import com.example.picao.user.dto.UserResponseDTO;
 import com.example.picao.user.repository.UserRepository;
 import com.example.picao.user.service.UserService;
 import lombok.AllArgsConstructor;
@@ -40,4 +42,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
 
+    @Override
+    public UserResponseDTO createUser(CreateUserRequestDTO createUserRequestDTO) {
+        return null;
+    }
 }

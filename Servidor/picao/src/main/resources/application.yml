@@ -6,6 +6,7 @@ jwt:
     key: 76397924423F4528482B4D6251655468576D5A7134743777217A25432A46294A
 
 spring:
+
   datasource:
     url: jdbc:postgresql://localhost:5432/golpi
     username: postgres
@@ -13,6 +14,7 @@ spring:
     driver-class-name: org.postgresql.Driver
   #zona horaria
   jackson:
+    date-format: yyyy-MM-dd
     time-zone: America/Bogota
   jpa:
     hibernate:

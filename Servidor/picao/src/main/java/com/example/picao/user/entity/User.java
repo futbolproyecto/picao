@@ -4,12 +4,13 @@ import com.example.picao.City;
 import com.example.picao.role.entity.Role;
 import com.example.picao.Status;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.Set;
 
 @Getter
@@ -22,29 +23,28 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
 
-    @Column(length = 50, unique = true, nullable = false)
+    @Column(length = 50, unique = true)
     String username;
 
     @Column(nullable = false)
     String password;
 
-    @Column(name = "name", length = 50)
+    @Column(length = 50, nullable = false)
     String name;
 
-    @Column(name = "second_name", length = 50)
+    @Column(length = 50)
     String secondName;
 
-    @Column(name = "last_name", length = 50)
+    @Column(length = 50, nullable = false)
     String lastName;
 
-    @Column(name = "second_last_name", length = 50)
+    @Column(length = 50)
     String secondLastName;
 
-    @Column(name = "mobile_number", length = 20, unique = true, nullable = false)
+    @Column(length = 20, unique = true, nullable = false)
     String mobileNumber;
 
     @Column(length = 80, unique = true, nullable = false)
-    @Email(message = "correo invalido")
     String email;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -61,5 +61,7 @@ public class User {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "status_id")
     Status status;
+
+    LocalDate dateOfBirth;
 
 }
