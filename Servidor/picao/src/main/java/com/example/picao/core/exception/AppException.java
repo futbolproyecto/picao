@@ -16,7 +16,7 @@ public class AppException extends RuntimeException {
     public AppException(ErrorMessages errorMessages, HttpStatus httpStatus) {
         super(errorMessages.getMessage());
         this.errorMessages = errorMessages;
-        this.httpStatus = getHttpStatus();
+        this.httpStatus = httpStatus;
 
     }
 }

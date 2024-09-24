@@ -22,10 +22,10 @@ public record CreateUserRequestDTO(
         @NotBlank
         @Size(min = 10, message = Constants.VALIDATE_PHONE_NUMBER)
         String mobileNumber,
-        @Email(regexp = Constants.REGEX_EMAIL, message = "Correo invalido")
+        @Email(regexp = Constants.REGEX_EMAIL, message = "Por favor, ingresa un correo electrónico válido.")
         String email,
         @NotBlank
-        @Size(min = 6, message = Constants.VALIDATE_PHONE_NUMBER)
+        @Size(min = 6, message = Constants.VALIDATE_PASSWORD)
         String password,
         @JsonFormat(pattern = "yyyy-MM-dd")
         LocalDate dateOfBirth

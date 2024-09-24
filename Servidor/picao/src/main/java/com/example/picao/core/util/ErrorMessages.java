@@ -12,7 +12,16 @@ public enum ErrorMessages {
 
     UNHANDLED_ERROR("Error desconocido",
             "Contacte el administrador del sistema",
-            "E2");
+            "E2"),
+    DUPLICATE_EMAIL("El correo electrónico ya se encuentra registrado",
+            "Verifique la informacion ingresada",
+            "E4"),
+    DUPLICATE_PHONE_NUMBER("El numero de celular ya se encuentra registrado",
+            "Verifique la informacion ingresada",
+            "E5"),
+    INVALID_PASSWORD_PATTERN("La contraseña debe tener al menos 6 caracteres, una letra mayúscula, una letra minúscula, un número y un carácter especial.",
+            "Verifique la informacion ingresada",
+            "E5");
 
     private final String message;
     private final String recommendation;
