@@ -34,7 +34,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        com.example.picao.user.entity.User userEntity = userRepository.findByUsername(username)
+        com.example.picao.user.entity.User userEntity = userRepository.findByMobileNumber(username)
                 .orElseThrow(() -> new UsernameNotFoundException("El usuario " + username + " no existe."));
 
 

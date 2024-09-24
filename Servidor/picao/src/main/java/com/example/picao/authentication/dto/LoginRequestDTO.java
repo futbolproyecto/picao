@@ -1,4 +1,9 @@
 package com.example.picao.authentication.dto;
 
-public record LoginRequestDTO(String username, String password) {
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+public record LoginRequestDTO(
+        @JsonProperty("mobile_number")
+        String mobile_number,
+        String password) {
 }

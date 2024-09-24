@@ -9,4 +9,10 @@ public class Constants {
     public static final String VALIDATE_PHONE_NUMBER = "El numero celular debe tener minimo 10 caracteres";
     public static final String VALIDATE_PASSWORD = "la contrasena debe tener minimo 6 caracteres";
     public static final String PASSWORD_PATTERN = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{6,}$";
+    /**
+     * rutas sin seguridad
+     */
+    public static final String[] UNSAFE_ROUTES = {
+            "/authentication/login"
+    };
 }

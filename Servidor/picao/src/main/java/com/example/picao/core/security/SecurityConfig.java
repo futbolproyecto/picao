@@ -1,6 +1,7 @@
 package com.example.picao.core.security;
 
 import com.example.picao.core.security.jwt.JwtTokenValidator;
+import com.example.picao.core.util.Constants;
 import com.example.picao.user.repository.UserRepository;
 import com.example.picao.user.service.impl.UserServiceImpl;
 import lombok.AllArgsConstructor;
@@ -39,7 +40,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(http -> {
-                    http.requestMatchers("/authentication/login").permitAll();
+                    http.requestMatchers(Constants.UNSAFE_ROUTES).permitAll();
                     http.anyRequest().authenticated();
                 })
                 .addFilterBefore(new JwtTokenValidator(jwtUtils, handlerExceptionResolver, userRepository),

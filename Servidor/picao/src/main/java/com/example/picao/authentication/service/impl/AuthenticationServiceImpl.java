@@ -33,7 +33,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     public AuthResponseDTO login(LoginRequestDTO loginRequestDTO) {
 
 
-        User user = userRepository.findByUsername(loginRequestDTO.username())
+        User user = userRepository.findByMobileNumber(loginRequestDTO.mobile_number())
                 .orElseThrow(() -> new AppException(
                         ErrorMessages.AUTHENTICATION_ERROR, HttpStatus.BAD_REQUEST));
 
