@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:picao/core/bindings/initial_binding.dart';
 import 'package:picao/core/routes/app_pages.dart';
-import 'package:picao/modules/user/views/login_page.dart';
+import 'package:picao/modules/login/views/login_page.dart';
 
 void main() {
   runApp(const MainApp());
@@ -23,7 +23,7 @@ class MainApp extends StatelessWidget {
       title: 'Golpi',
       home: LoginPage(),
       initialBinding: InitialBinding(),
-      initialRoute: AppPages.initial,
+      initialRoute: AppPages.login,
       getPages: AppPages.routes,
       debugShowCheckedModeBanner: false,
       theme: ThemeData(

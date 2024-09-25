@@ -1,17 +1,17 @@
 import 'package:get/get.dart';
-import 'package:picao/data/repositories/user/user_repository.dart';
-import 'package:picao/modules/user/models/user_model.dart';
+import 'package:picao/data/repositories/login/login_repository.dart';
+import 'package:picao/modules/login/models/user_model.dart';
 
 class LoginController extends GetxController {
-  final UserRepository userRepository;
-  LoginController({required this.userRepository});
+  final LoginRepository loginRepository;
+  LoginController({required this.loginRepository});
 
   var isLoading = false.obs;
   var user = Rxn<UserModel>();
 
   Future<void> login(String username, String password) async {
     isLoading.value = true;
-    user.value = await userRepository.login(username, password);
+    user.value = await loginRepository.login(username, password);
     isLoading.value = false;
 
     if (user.value != null) {

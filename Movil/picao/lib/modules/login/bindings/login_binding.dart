@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-class UserBindings extends Bindings {
+class LoginBinding extends Bindings {
   @override
   void dependencies() {}
 }

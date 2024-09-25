@@ -1,11 +1,12 @@
-import 'package:picao/data/providers/user/user_provider.dart';
+//import 'package:get/get.dart';
+import 'package:picao/data/providers/login/user_provider.dart';
 import 'package:picao/modules/login/models/user_model.dart';
 
-class UserRepository {
-  final UserProvider userProvider;
-  UserRepository({required this.userProvider});
+class LoginRepository {
+  final LoginProvider loginProvider;
+  LoginRepository({required this.loginProvider});
 
-  Future<UserModel?> registerUser(String username, String password) async {
+  Future<UserModel?> login(String username, String password) async {
     // Simulación de una petición HTTP para login
     await Future.delayed(const Duration(seconds: 2));
     if (username == 'user' && password == 'password') {
