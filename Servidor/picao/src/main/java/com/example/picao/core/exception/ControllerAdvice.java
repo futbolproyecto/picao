@@ -12,11 +12,12 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicReference;
 
 @RestControllerAdvice
 @Order(Ordered.HIGHEST_PRECEDENCE)
-public class ControllerAdvice  {
+public class ControllerAdvice {
 
     @ExceptionHandler(value = RuntimeException.class)
     public ResponseEntity<GenericResponseErrorDTO> exception() {
@@ -40,7 +41,8 @@ public class ControllerAdvice  {
             errors.set(String.format("%s %s", fieldName, errorMessage));
         });
 
-        // Devolvemos un GenericResponseErrorDTO con los errores
         return GenericResponseErrorDTO.formResponseError(errors.get(), HttpStatus.BAD_REQUEST);
     }
+
+
 }

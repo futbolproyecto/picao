@@ -27,3 +27,6 @@ spring:
 logging:
   level:
     org.springframework.web: DEBUG
+twilio:
+  accountSid: AC4e390862fc25a97f9e5842d2a817463f
+  authToken: af1cc89d7e8a359ee6b1d93eac1fab21
