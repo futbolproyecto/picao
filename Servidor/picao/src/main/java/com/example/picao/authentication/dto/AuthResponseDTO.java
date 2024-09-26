@@ -1,6 +1,7 @@
 package com.example.picao.authentication.dto;
 
 import com.example.picao.role.entity.Role;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import java.util.Set;
@@ -9,7 +10,8 @@ import java.util.Set;
 public class AuthResponseDTO {
 
     Integer id;
-    String username;
+    @JsonProperty("mobile_number")
+    String mobileNumber;
     String token;
     Set<Role> roles;
 

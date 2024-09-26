@@ -24,3 +24,6 @@ spring:
         format_sql: true
   application:
     name: golpi
+logging:
+  level:
+    org.springframework.web: DEBUG

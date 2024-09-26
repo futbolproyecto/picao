@@ -1,7 +1,6 @@
 package com.example.picao.user.service.impl;
 
 import com.example.picao.core.exception.AppException;
-import com.example.picao.core.util.Constants;
 import com.example.picao.core.util.ErrorMessages;
 import com.example.picao.core.util.UsefulMethods;
 import com.example.picao.core.util.mapper.UserMapper;
@@ -16,9 +15,9 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.regex.Pattern;
 
 /**
  * Clase impl para implementar logica de negocio para usuario
@@ -28,8 +27,8 @@ import java.util.regex.Pattern;
 public class UserServiceImpl implements UserService, UserDetailsService {
 
     private final UserRepository userRepository;
-    private static final Pattern pattern = Pattern.compile(Constants.PASSWORD_PATTERN);
     private static final UserMapper userMapper = Mappers.getMapper(UserMapper.class);
+    private final PasswordEncoder passwordEncoder;
 
 
     @Override
@@ -61,13 +60,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                     throw new AppException(ErrorMessages.DUPLICATE_EMAIL, HttpStatus.BAD_REQUEST);
                 });
 
-        if (pattern.matcher(createUserRequestDTO.password()).matches()) {
-            throw new AppException(ErrorMessages.INVALID_PASSWORD_PATTERN, HttpStatus.BAD_REQUEST);
-        }
-
         try {
             com.example.picao.user.entity.User user = userMapper.toUser(createUserRequestDTO);
-            return userMapper.toUserResponseDTO(user);
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            return userMapper.toUserResponseDTO(userRepository.save(user));
 
         } catch (RuntimeException e) {
             throw new RuntimeException(e.getMessage());

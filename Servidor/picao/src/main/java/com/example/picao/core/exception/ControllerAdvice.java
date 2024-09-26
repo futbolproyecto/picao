@@ -2,19 +2,21 @@ package com.example.picao.core.exception;
 
 import com.example.picao.core.util.ErrorMessages;
 import com.example.picao.core.util.dto.GenericResponseErrorDTO;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 
 @RestControllerAdvice
-public class ControllerAdvice extends ResponseEntityExceptionHandler {
+@Order(Ordered.HIGHEST_PRECEDENCE)
+public class ControllerAdvice  {
 
     @ExceptionHandler(value = RuntimeException.class)
     public ResponseEntity<GenericResponseErrorDTO> exception() {
@@ -29,17 +31,16 @@ public class ControllerAdvice extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Object> handleValidationExceptions(MethodArgumentNotValidException ex) {
-
-        Map<String, String> errors = new HashMap<>();
-        ex.getBindingResult().getAllErrors().forEach((error) -> {
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<GenericResponseErrorDTO> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
+        AtomicReference<String> errors = new AtomicReference<>("");
+        ex.getBindingResult().getAllErrors().forEach(error -> {
             String fieldName = ((FieldError) error).getField();
             String errorMessage = error.getDefaultMessage();
-            errors.put(fieldName, errorMessage);
+            errors.set(String.format("%s %s", fieldName, errorMessage));
         });
 
-        body.put("errors", errors);
-
-        return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
+        // Devolvemos un GenericResponseErrorDTO con los errores
+        return GenericResponseErrorDTO.formResponseError(errors.get(), HttpStatus.BAD_REQUEST);
     }
 }

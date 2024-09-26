@@ -3,8 +3,6 @@ package com.example.picao.core.exception;
 import com.example.picao.core.util.ErrorMessages;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @Getter
 public class AppException extends RuntimeException {

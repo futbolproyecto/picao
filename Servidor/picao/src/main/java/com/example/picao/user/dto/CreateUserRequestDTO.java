@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 import java.time.LocalDate;
@@ -20,13 +21,13 @@ public record CreateUserRequestDTO(
         @JsonProperty("second_last_name")
         String secondLastName,
         @NotBlank
-        @Size(min = 10, message = Constants.VALIDATE_PHONE_NUMBER)
+        @Size(min = 10, message = Constants.ERROR_MESSAGE_PHONE_NUMBER)
         @JsonProperty("mobile_number")
         String mobileNumber,
-        @Email(regexp = Constants.REGEX_EMAIL, message = "Ingresa un correo electrónico válido.")
+        @Email(regexp = Constants.REGEX_EMAIL, message = Constants.ERROR_MESSAGE_EMAIL)
         String email,
         @NotBlank
-        @Size(min = 6, message = Constants.VALIDATE_PASSWORD)
+        @Pattern(regexp = Constants.PASSWORD_PATTERN, message =Constants.ERROR_MESSAGE_PASSWORD)
         String password,
         @JsonFormat(pattern = "yyyy-MM-dd")
         @JsonProperty("date_of_birth")
