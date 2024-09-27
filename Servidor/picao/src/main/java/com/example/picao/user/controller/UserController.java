@@ -6,10 +6,7 @@ import com.example.picao.user.service.UserService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Clase controlador para administrar las peticiones HTTP
@@ -25,5 +22,11 @@ public class UserController {
     public ResponseEntity<GenericResponseDTO> create(
             @RequestBody @Valid CreateUserRequestDTO createUserRequestDTO) {
         return GenericResponseDTO.genericResponse(userService.createUser(createUserRequestDTO));
+    }
+
+    @PostMapping(value = "validate-otp")
+    public ResponseEntity<GenericResponseDTO> validateOtp(
+            @RequestParam("otp") String otp, @RequestParam("mobile_number") String mobileNumber) {
+        return GenericResponseDTO.genericResponse(userService.validateOtp(otp, mobileNumber));
     }
 }

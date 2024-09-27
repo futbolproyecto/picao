@@ -21,6 +21,12 @@ public enum ErrorMessages {
             "E5"),
     INVALID_PASSWORD_PATTERN("La contraseña debe tener al menos 6 caracteres, una letra mayúscula, una letra minúscula, un número y un carácter especial.",
             "Verifique la informacion ingresada",
+            "E5"),
+    INVALID_OTP("El código ingresado es incorrecto.",
+            "Por favor, inténtalo nuevamente.",
+            "E5"),
+    OTP_EXPIRED("El OTP ingresado caduco.",
+            "Solicite nuevamente el envio de un OTP",
             "E5");
 
     private final String message;

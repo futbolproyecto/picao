@@ -63,4 +63,7 @@ public class User {
 
     LocalDate dateOfBirth;
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    Otp otp;
+
 }

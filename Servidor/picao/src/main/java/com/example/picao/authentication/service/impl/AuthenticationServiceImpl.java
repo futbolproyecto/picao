@@ -48,8 +48,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
             return authResponse;
 
-        } catch (RuntimeException ex) {
-            throw new RuntimeException(ex.getMessage());
+        } catch (AppException ex) {
+            throw new AppException(ex.getErrorMessages(), ex.getHttpStatus());
         }
 
     }
