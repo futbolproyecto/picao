@@ -6,6 +6,7 @@ import com.example.picao.core.util.UsefulMethods;
 import com.example.picao.core.util.mapper.UserMapper;
 import com.example.picao.user.dto.CreateUserRequestDTO;
 import com.example.picao.user.entity.Otp;
+import com.example.picao.user.entity.UserEntity;
 import com.example.picao.user.repository.OtpRepository;
 import com.example.picao.user.repository.UserRepository;
 import com.example.picao.user.service.UserService;
@@ -53,7 +54,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        com.example.picao.user.entity.User userEntity = userRepository.findByMobileNumber(username)
+        UserEntity userEntity = userRepository.findByMobileNumber(username)
                 .orElseThrow(() -> new UsernameNotFoundException("El usuario " + username + " no existe."));
 
 
@@ -83,17 +84,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
             String otp = generateOTP();
 
-            com.example.picao.user.entity.User user = userMapper.toUser(createUserRequestDTO);
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            UserEntity userEntity = userMapper.toUser(createUserRequestDTO);
+            userEntity.setPassword(passwordEncoder.encode(userEntity.getPassword()));
 
-            user.setOtp(Otp.builder()
-                    .code(otp)
-                    .createdAt(LocalDateTime.now())
-                    .user(user)
-                    .build());
+            userEntity.setOtp(createOtpEntity(otp, userEntity));
 
-            userMapper.toUserResponseDTO(userRepository.save(user));
-            sendOtpWhatsApp(user.getMobileNumber(), otp);
+            userMapper.toUserResponseDTO(userRepository.save(userEntity));
+            sendOtpWhatsApp(userEntity.getMobileNumber(), otp);
 
 
             return 0;
@@ -110,6 +107,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 .map(user -> {
                     if (!isExpiredOtp(user.getOtp().getCreatedAt())) {
                         otpRepository.deleteByUserId(user.getId());
+                        user.setValidatedOtp(true);
+                        userRepository.save(user);
                         return "Número de celular verificado con éxito.";
                     } else {
                         otpRepository.deleteByUserId(user.getId());
@@ -117,6 +116,28 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                     }
                 })
                 .orElseThrow(() -> new AppException(ErrorMessages.INVALID_OTP, HttpStatus.NOT_FOUND));
+    }
+
+    @Override
+    public String resendOtp(String mobileNumber) {
+
+        try {
+            UserEntity userEntity = userRepository.findByMobileNumber(mobileNumber).orElseThrow(
+                    () -> new AppException(ErrorMessages.PHONE_NUMBER_NOT_EXIST, HttpStatus.NOT_FOUND));
+
+            String otp = generateOTP();
+            userEntity.getOtp().setCode(otp);
+            userEntity.getOtp().setCreatedAt(LocalDateTime.now());
+            otpRepository.save(userEntity.getOtp());
+
+            sendOtpWhatsApp(mobileNumber, otp);
+
+            return "Codigo enviado nuevamente";
+
+        } catch (AppException e) {
+            throw new AppException(e.getErrorMessages(), e.getHttpStatus());
+        }
+
     }
 
     private void sendOtpWhatsApp(String destinationNumberPhone, String otp) {
@@ -141,5 +162,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     private boolean isExpiredOtp(LocalDateTime createdAt) {
         return LocalDateTime.now().isAfter(createdAt.plusMinutes(1));
+    }
+
+    private Otp createOtpEntity(String otp, UserEntity userEntity) {
+        return Otp.builder()
+                .code(otp)
+                .createdAt(LocalDateTime.now())
+                .userEntity(userEntity)
+                .build();
     }
 }

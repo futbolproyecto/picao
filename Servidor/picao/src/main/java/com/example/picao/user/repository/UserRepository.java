@@ -1,6 +1,6 @@
 package com.example.picao.user.repository;
 
-import com.example.picao.user.entity.User;
+import com.example.picao.user.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -13,16 +13,16 @@ import java.util.Optional;
  */
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Integer> {
+public interface UserRepository extends JpaRepository<UserEntity, Integer> {
 
-    Optional<User> findByUsername(String username);
+    Optional<UserEntity> findByUsername(String username);
 
-    Optional<User> findByMobileNumber(String mobileNumbre);
+    Optional<UserEntity> findByMobileNumber(String mobileNumbre);
 
-    Optional<User> findByEmail(String email);
+    Optional<UserEntity> findByEmail(String email);
 
-    @Query("select u from User u where u.mobileNumber= :mobileNumber and u.otp.code = :otpCode")
-    Optional<User> findOtpUser(String otpCode, String mobileNumber);
+    @Query("select u from UserEntity u where u.mobileNumber= :mobileNumber and u.otp.code = :otpCode")
+    Optional<UserEntity> findOtpUser(String otpCode, String mobileNumber);
 
 
 

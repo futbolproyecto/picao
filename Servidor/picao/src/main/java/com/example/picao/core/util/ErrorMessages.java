@@ -27,6 +27,9 @@ public enum ErrorMessages {
             "E5"),
     OTP_EXPIRED("El OTP ingresado caduco.",
             "Solicite nuevamente el envio de un OTP",
+            "E5"),
+    PHONE_NUMBER_NOT_EXIST("Usuario no se encuentra registrado.",
+            "Verifique la informacion ingresada",
             "E5");
 
     private final String message;

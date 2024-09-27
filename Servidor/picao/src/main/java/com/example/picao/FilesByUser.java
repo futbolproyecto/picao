@@ -1,6 +1,6 @@
 package com.example.picao;
 
-import com.example.picao.user.entity.User;
+import com.example.picao.user.entity.UserEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,6 +21,6 @@ public class FilesByUser {
     @MapsId("userId")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private UserEntity userEntity;
 
 }

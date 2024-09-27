@@ -7,7 +7,7 @@ import com.example.picao.core.exception.AppException;
 import com.example.picao.core.security.jwt.JwtUtils;
 import com.example.picao.core.util.ErrorMessages;
 import com.example.picao.core.util.UsefulMethods;
-import com.example.picao.user.entity.User;
+import com.example.picao.user.entity.UserEntity;
 import com.example.picao.core.util.mapper.UserMapper;
 import com.example.picao.user.repository.UserRepository;
 import lombok.AllArgsConstructor;
@@ -33,18 +33,18 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     public AuthResponseDTO login(LoginRequestDTO loginRequestDTO) {
 
 
-        User user = userRepository.findByMobileNumber(loginRequestDTO.mobile_number())
+        UserEntity userEntity = userRepository.findByMobileNumber(loginRequestDTO.mobile_number())
                 .orElseThrow(() -> new AppException(
                         ErrorMessages.AUTHENTICATION_ERROR, HttpStatus.BAD_REQUEST));
 
-        if (!passwordEncoder.matches(loginRequestDTO.password(), user.getPassword())) {
+        if (!passwordEncoder.matches(loginRequestDTO.password(), userEntity.getPassword())) {
             throw new AppException(
                     ErrorMessages.AUTHENTICATION_ERROR, HttpStatus.BAD_REQUEST);
         }
 
         try {
-            AuthResponseDTO authResponse = UserMapper.USER.toAuthResponseDTO(user);
-            authResponse.setToken(generateToken(user));
+            AuthResponseDTO authResponse = UserMapper.USER.toAuthResponseDTO(userEntity);
+            authResponse.setToken(generateToken(userEntity));
 
             return authResponse;
 
@@ -54,11 +54,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     }
 
-    private String generateToken(User user) {
+    private String generateToken(UserEntity userEntity) {
 
         Authentication authentication = new UsernamePasswordAuthenticationToken(
-                user.getUsername(), null,
-                UsefulMethods.getAuthorities(user.getRoles()));
+                userEntity.getUsername(), null,
+                UsefulMethods.getAuthorities(userEntity.getRoles()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 

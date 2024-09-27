@@ -1,6 +1,6 @@
 package com.example.picao;
 
-import com.example.picao.user.entity.User;
+import com.example.picao.user.entity.UserEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,7 +22,7 @@ public class FieldsSchedule {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private User user;
+    private UserEntity userEntity;
 
     @Column(name = "start_time")
     private LocalTime startTime;

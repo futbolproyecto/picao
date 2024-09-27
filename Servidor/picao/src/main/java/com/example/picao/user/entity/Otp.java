@@ -28,6 +28,6 @@ public class Otp {
 
     @OneToOne
     @JoinColumn(name = "user_id", nullable = false)
-    User user;
+    UserEntity userEntity;
 
 }

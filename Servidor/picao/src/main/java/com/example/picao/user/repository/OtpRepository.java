@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 public interface OtpRepository extends JpaRepository<Otp, Integer> {
 
     @Modifying
-    @Query("DELETE FROM Otp o WHERE o.user.id = :userId")
+    @Query("DELETE FROM Otp o WHERE o.userEntity.id = :userId")
     void deleteByUserId(Integer userId);
 
 }

@@ -17,7 +17,7 @@ import java.util.Set;
 @Entity
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "users")
-public class User {
+public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
@@ -63,7 +63,14 @@ public class User {
 
     LocalDate dateOfBirth;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "userEntity", cascade = CascadeType.ALL)
     Otp otp;
+
+    Boolean validatedOtp;
+
+    @PrePersist
+    public void prePersist() {
+        validatedOtp = false;
+    }
 
 }
