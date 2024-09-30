@@ -62,6 +62,11 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.3"
+  flutter_localizations:
+    dependency: transitive
+    description: flutter
+    source: sdk
+    version: "0.0.0"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -75,6 +80,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.6.6"
+  intl:
+    dependency: transitive
+    description:
+      name: intl
+      sha256: "3bc132a9dbce73a7e4a21a17d06e1878839ffbf975568bc875c60537824b0c4d"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.18.1"
   lints:
     dependency: transitive
     description:
@@ -115,6 +128,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.8.3"
+  reactive_date_time_picker:
+    dependency: "direct main"
+    description:
+      name: reactive_date_time_picker
+      sha256: "346956358fd2553dbda4babdefc8d4b0dd99691e6b611dbe7e7de26896b40ff8"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.0.0"
+  reactive_forms:
+    dependency: "direct main"
+    description:
+      name: reactive_forms
+      sha256: "9b1fb18e0aae9c50cfa0aaabaaa38bc4d78eefc9b7b95fa9c947b051f6524b8e"
+      url: "https://pub.dev"
+    source: hosted
+    version: "17.0.1"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -186,4 +215,4 @@ packages:
     version: "0.3.0"
 sdks:
   dart: ">=3.2.0 <4.0.0"
-  flutter: ">=3.13.0"
+  flutter: ">=3.16.0"

@@ -18,7 +18,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.userRegister,
-      page: () => UserRegisterPage(),
+      page: () => const UserRegisterPage(),
       binding: UserBinding(),
     ),
   ];

@@ -3,16 +3,26 @@ import 'package:get/get.dart';
 import 'package:picao/core/routes/app_pages.dart';
 import 'package:picao/modules/login/controller/login_controller.dart';
 import 'package:picao/modules/widgets/ui_text_field.dart';
+import 'package:reactive_forms/reactive_forms.dart';
 
 class LoginPage extends StatelessWidget {
+  LoginPage({super.key});
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
 
-  LoginPage({super.key});
+  final FormGroup formLogin = FormGroup({
+    'email': FormControl<String>(validators: [
+      Validators.required,
+      Validators.email,
+      Validators.maxLength(50)
+    ]),
+    'password': FormControl<String>(
+        validators: [Validators.required, Validators.maxLength(50)]),
+  });
 
   @override
   Widget build(BuildContext context) {
-        final LoginController loginController = Get.find<LoginController>();
+    final LoginController loginController = Get.find<LoginController>();
 
     const Color primaryColor = Color(0xFF04a57e);
     const Color secondaryColor = Color(0xFF19F489);
@@ -32,7 +42,7 @@ class LoginPage extends StatelessWidget {
             ),
             InkWell(
               onTap: () {
-                Get.offNamed(AppPages.userRegister);
+                Get.toNamed(AppPages.userRegister);
               },
               child: Container(
                   margin: const EdgeInsets.only(left: 10),
@@ -74,74 +84,107 @@ class LoginPage extends StatelessWidget {
               ),
             ],
           ),
-          child: Column(children: [
-            const SizedBox(height: 20),
-            const Text(
-              'Bienvenido de nuevo',
-              style: TextStyle(
-                color: Colors.black87,
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 15),
-            const Text(
-              'Ingresa tus datos de sesion',
-              style: TextStyle(
-                color: Colors.black54,
-                fontSize: 14,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 20),
-            UiTextFiel().textField(
-              labelText: 'Correo',
-              prefixIcon: Icons.email_outlined,
-              colorPrefixIcon: primaryColor,
-            ),
-            const SizedBox(height: 20),
-            UiTextFiel().textField(
-              labelText: 'Clave',
-              prefixIcon: Icons.lock_outline,
-              colorPrefixIcon: primaryColor,
-              obscureText: true,
-              suffixIcon: Icons.remove_red_eye,
-            ),
-            const SizedBox(height: 20),
-            Obx(
-              () => loginController.isLoading.value
-                  ? const CircularProgressIndicator()
-                  : Center(
-                      child: SizedBox(
-                        width: double.infinity,
-                        child: ElevatedButton(
-                          onPressed: () {},
-                          style: ElevatedButton.styleFrom(
-                              padding: const EdgeInsets.symmetric(vertical: 15),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
+          child: ListView.builder(
+            itemCount: 1,
+            itemBuilder: (context, index) {
+              return ReactiveFormBuilder(
+                  form: () => formLogin,
+                  builder: (
+                    BuildContext context,
+                    FormGroup reactiveFormLogin,
+                    Widget? child,
+                  ) {
+                    return Column(children: [
+                      const Text(
+                        'Bienvenido de nuevo',
+                        style: TextStyle(
+                          color: Colors.black87,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 15),
+                      const Text(
+                        'Ingresa tus datos de sesion',
+                        style: TextStyle(
+                          color: Colors.black54,
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      UiTextFiel().textField(
+                        formControlName: 'email',
+                        labelText: 'Correo',
+                        prefixIcon: Icons.email_outlined,
+                        colorPrefixIcon: primaryColor,
+                        validationMessages: {
+                          ValidationMessage.required: (error) =>
+                              'Campo requerido',
+                        },
+                      ),
+                      const SizedBox(height: 20),
+                      Obx(
+                        () => UiTextFiel().textField(
+                          formControlName: 'password',
+                          labelText: 'Clave',
+                          prefixIcon: Icons.lock_outline,
+                          colorPrefixIcon: primaryColor,
+                          obscureText: loginController.obscureText.value,
+                          suffixIcon: IconButton(
+                              onPressed: loginController.toggleObscureText,
+                              icon: Icon(
+                                loginController.obscureText.value
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
+                              )),
+                          validationMessages: {
+                            ValidationMessage.required: (error) =>
+                                'Campo requerido',
+                          },
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      Obx(
+                        () => loginController.isLoading.value
+                            ? const CircularProgressIndicator()
+                            : Center(
+                                child: SizedBox(
+                                  width: double.infinity,
+                                  child: ElevatedButton(
+                                    onPressed: () {},
+                                    style: ElevatedButton.styleFrom(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 15),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                        ),
+                                        backgroundColor: primaryColor),
+                                    child: const Text(
+                                      'Ingresar',
+                                      style: TextStyle(
+                                          fontSize: 18, color: Colors.white),
+                                    ),
+                                  ),
+                                ),
                               ),
-                              backgroundColor: primaryColor),
+                      ),
+                      Center(
+                        child: TextButton(
+                          onPressed: () {},
                           child: const Text(
-                            'Ingresar',
-                            style: TextStyle(fontSize: 18, color: Colors.white),
+                            '¿Olvidaste tu contraseña?',
+                            style: TextStyle(
+                              color: primaryColor,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-            ),
-            Center(
-              child: TextButton(
-                onPressed: () {},
-                child: const Text(
-                  '¿Olvidaste tu contraseña?',
-                  style: TextStyle(
-                    color: primaryColor,
-                  ),
-                ),
-              ),
-            ),
-          ]),
+                    ]);
+                  });
+            },
+          ),
         )),
       ]),
     );

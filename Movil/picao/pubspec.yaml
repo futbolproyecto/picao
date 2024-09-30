@@ -10,6 +10,8 @@ dependencies:
   flutter:
     sdk: flutter
   get: ^4.6.6
+  reactive_forms: ^17.0.1
+  reactive_date_time_picker: ^4.0.0
 
 dev_dependencies:
   flutter_test:
