@@ -6,6 +6,4 @@ public interface UserService {
 
     int createUser(CreateUserRequestDTO createUserRequestDTO);
 
-    String validateOtp(String otp,String mobileNumber);
-    String resendOtp(String mobileNumber);
 }

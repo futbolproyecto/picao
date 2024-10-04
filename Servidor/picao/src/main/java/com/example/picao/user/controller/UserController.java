@@ -24,15 +24,5 @@ public class UserController {
         return GenericResponseDTO.genericResponse(userService.createUser(createUserRequestDTO));
     }
 
-    @PostMapping(value = "validate-otp")
-    public ResponseEntity<GenericResponseDTO> validateOtp(
-            @RequestParam("otp") String otp, @RequestParam("mobile_number") String mobileNumber) {
-        return GenericResponseDTO.genericResponse(userService.validateOtp(otp, mobileNumber));
-    }
 
-    @PostMapping(value = "resend-otp")
-    public ResponseEntity<GenericResponseDTO> validateOtp(
-            @RequestParam("mobile_number") String mobileNumber) {
-        return GenericResponseDTO.genericResponse(userService.resendOtp(mobileNumber));
-    }
 }
