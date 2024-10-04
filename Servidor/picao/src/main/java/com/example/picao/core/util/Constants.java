@@ -15,6 +15,7 @@ public class Constants {
      * rutas sin seguridad
      */
     public static final String[] UNSAFE_ROUTES = {
-            "/authentication/login"
+            "/authentication/login",
+            "/user/create"
     };
 }
