@@ -63,14 +63,5 @@ public class UserEntity {
 
     LocalDate dateOfBirth;
 
-    @OneToOne(mappedBy = "userEntity", cascade = CascadeType.ALL)
-    Otp otp;
-
-    Boolean validatedOtp;
-
-    @PrePersist
-    public void prePersist() {
-        validatedOtp = false;
-    }
 
 }

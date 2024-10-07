@@ -1,4 +1,4 @@
-package com.example.picao.user.entity;
+package com.example.picao.otp.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -20,14 +20,18 @@ public class Otp {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 20)
     String code;
+
+    @Column(nullable = false, length = 20)
+    String mobileNumber;
 
     @Column(nullable = false)
     LocalDateTime createdAt;
 
-    @OneToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    UserEntity userEntity;
+
+
+
+
 
 }
