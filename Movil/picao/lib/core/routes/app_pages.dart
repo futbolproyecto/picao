@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 import 'package:picao/core/bindings/initial_binding.dart';
 import 'package:picao/modules/login/views/login_page.dart';
 import 'package:picao/modules/user/bindigs/user_binding.dart';
-import 'package:picao/modules/user/views/user_register_pages.dart';
+import 'package:picao/modules/user/views/user_register_page.dart';
 
 part 'app_routes.dart';
 

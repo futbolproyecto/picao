@@ -1,4 +1,6 @@
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:picao/core/constants/constants.dart';
 import 'package:picao/core/exception/custom_exception.dart';
 import 'package:picao/core/exception/models/error_model.dart';
 
@@ -28,6 +30,7 @@ class UserController extends GetxController {
   var hasCapital = false.obs;
   var hasLower = false.obs;
   var hasNumber = false.obs;
+  var scrollController = ScrollController();
 
   var formUserRegistrer = FormGroup({
     'name': FormControl<String>(
@@ -60,6 +63,7 @@ class UserController extends GetxController {
 
   Future<void> sendOtp() async {
     try {
+      formUserRegistrer.unfocus();
       QuickAlert.show(
         context: Get.context!,
         type: QuickAlertType.loading,
@@ -70,58 +74,80 @@ class UserController extends GetxController {
       );
 
       await userRepository
-          .registerUser(UserRegisterModel.fromJson(formUserRegistrer.value));
+          .sendOtp(formUserRegistrer.control('mobile_number').value);
 
       Get.back();
-      ModalOtpValidation().modal(
+
+      QuickAlert.show(
         context: Get.context!,
-        formOtpConfirmation: formOtpConfirmation,
+        type: QuickAlertType.custom,
+        widget: ModalOtpValidation().validateOtp(
+          context: Get.context!,
+          formOtpConfirmation: formOtpConfirmation,
+          mobileNumber: formUserRegistrer.control('mobile_number').value,
+        ),
+        onConfirmBtnTap: () => registerUser(),
+        confirmBtnText: 'Validar',
+        confirmBtnColor: Constants.primaryColor,
       );
     } on CustomException catch (e) {
       Get.back();
       QuickAlert.show(
         context: Get.context!,
         type: QuickAlertType.error,
-        text: e.error.error,
+        title: 'Oops...',
+        text: '${e.error.error}\n${e.error.recommendation}',
       );
     } on Exception catch (_) {
       Get.back();
       QuickAlert.show(
         context: Get.context!,
         type: QuickAlertType.error,
-        text: ErrorModel().uncontrolledError().error!,
+        title: 'Oops...',
+        text:
+            '${ErrorModel().uncontrolledError().error!}\n${ErrorModel().uncontrolledError().recommendation!}',
       );
     }
   }
 
   Future<void> registerUser() async {
     try {
-      QuickAlert.show(
-        context: Get.context!,
-        type: QuickAlertType.loading,
-        title: 'Cargando...',
-        text: 'Registrando usuario',
-      );
+      formOtpConfirmation.markAllAsTouched();
+      if (formOtpConfirmation.valid) {
+        QuickAlert.show(
+          context: Get.context!,
+          type: QuickAlertType.loading,
+          title: 'Cargando...',
+          text: 'Registrando usuario',
+          barrierDismissible: false,
+          disableBackBtn: true,
+        );
 
-      await userRepository
-          .registerUser(UserRegisterModel.fromJson(formUserRegistrer.value));
+        await userRepository
+            .registerUser(UserRegisterModel.fromJson(formUserRegistrer.value));
 
-      QuickAlert.show(
-        context: Get.context!,
-        type: QuickAlertType.error,
-        text: 'Proceso exitoso',
-      );
+        Get.back();
+        QuickAlert.show(
+          context: Get.context!,
+          type: QuickAlertType.success,
+          text: 'Proceso exitoso',
+        );
+      }
     } on CustomException catch (e) {
+      Get.back();
       QuickAlert.show(
         context: Get.context!,
         type: QuickAlertType.error,
-        text: e.error.error,
+        title: 'Oops...',
+        text: '${e.error.error}\n${e.error.recommendation}',
       );
     } on Exception catch (_) {
+      Get.back();
       QuickAlert.show(
         context: Get.context!,
         type: QuickAlertType.error,
-        text: ErrorModel().uncontrolledError().error!,
+        text:
+            '${ErrorModel().uncontrolledError().error!}\n${ErrorModel().uncontrolledError().recommendation!}',
       );
     }
   }
@@ -133,16 +159,29 @@ class UserController extends GetxController {
   void validateFormatPassword() {
     formUserRegistrer.control("password").valueChanges.listen((value) {
       if (value != null) {
-        print('>>>>>>>>>');
-        print(value.contains(RegExp(r'[!@#\$%^&*(),.?":{}|<>]')));
         showValidationPassword.value = true;
+        _scrollToBottom();
         hasEspecialCaracter.value =
             value.contains(RegExp(r'[!@#\$%^&*(),.?":{}|<>]'));
         hasMinCaracter.value = (value.length >= 6);
         hasCapital.value = value.contains(RegExp(r'[A-Z]'));
         hasLower.value = value.contains(RegExp(r'[a-z]'));
         hasNumber.value = value.contains(RegExp(r'[0-9]'));
+      } else {
+        showValidationPassword.value = false;
       }
     });
+  }
+
+  void _scrollToBottom() {
+    if (showValidationPassword.value) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        scrollController.animateTo(
+          scrollController.position.maxScrollExtent,
+          duration: const Duration(seconds: 1),
+          curve: Curves.easeOut,
+        );
+      });
+    }
   }
 }

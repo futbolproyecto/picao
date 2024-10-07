@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:picao/core/routes/app_pages.dart';
+import 'package:picao/modules/widgets/ui_buttoms.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:picao/modules/widgets/ui_text_field.dart';
 import 'package:picao/modules/user/controller/user_controller.dart';
@@ -64,6 +65,7 @@ class UserRegisterPage extends StatelessWidget {
             ),
             child: ListView.builder(
                 itemCount: 1,
+                controller: userController.scrollController,
                 itemBuilder: (context, index) {
                   return ReactiveFormBuilder(
                       form: () => userController.formUserRegistrer,
@@ -271,31 +273,16 @@ class UserRegisterPage extends StatelessWidget {
                                 ],
                               ))),
                           const SizedBox(height: 20),
-                          Center(
-                            child: SizedBox(
-                              width: double.infinity,
-                              child: ElevatedButton(
-                                onPressed: () async {
-                                  reactiveFormUserRegistrer.markAllAsTouched();
-                                  if (reactiveFormUserRegistrer.valid) {
-                                    await userController.sendOtp();
-                                  }
-                                },
-                                style: ElevatedButton.styleFrom(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 15),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                    backgroundColor: primaryColor),
-                                child: const Text(
-                                  'Ingresar',
-                                  style: TextStyle(
-                                      fontSize: 18, color: Colors.white),
-                                ),
-                              ),
-                            ),
-                          ),
+                          UiButtoms(
+                                  onPressed: () {
+                                    reactiveFormUserRegistrer
+                                        .markAllAsTouched();
+                                    if (reactiveFormUserRegistrer.valid) {
+                                      userController.sendOtp();
+                                    }
+                                  },
+                                  title: 'Ingresar')
+                              .primaryButtom()
                         ]);
                       });
                 }),

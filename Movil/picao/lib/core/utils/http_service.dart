@@ -14,7 +14,7 @@ class HttpService {
   Future<Object?> post(Map<String, dynamic>? body) async {
     try {
       final response = await http.post(
-        Uri.parse('$baseUrl/user/create'),
+        Uri.parse('$baseUrl/$endPoint'),
         headers: {'Content-Type': 'application/json'},
         body: json.encode(body),
       );
