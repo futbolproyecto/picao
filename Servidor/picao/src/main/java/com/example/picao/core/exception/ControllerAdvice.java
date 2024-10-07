@@ -18,12 +18,6 @@ import java.util.concurrent.atomic.AtomicReference;
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class ControllerAdvice {
 
-    @ExceptionHandler(value = RuntimeException.class)
-    public ResponseEntity<GenericResponseErrorDTO> exception() {
-        return GenericResponseErrorDTO.genericResponseError(
-                ErrorMessages.UNHANDLED_ERROR, HttpStatus.BAD_REQUEST);
-    }
-
     @ExceptionHandler(value = AppException.class)
     public ResponseEntity<GenericResponseErrorDTO> requestException(AppException ex) {
         return GenericResponseErrorDTO.genericResponseError(
@@ -42,6 +36,13 @@ public class ControllerAdvice {
 
         return GenericResponseErrorDTO.formResponseError(errors.get(), HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(value = RuntimeException.class)
+    public ResponseEntity<GenericResponseErrorDTO> exception() {
+        return GenericResponseErrorDTO.genericResponseError(
+                ErrorMessages.UNHANDLED_ERROR, HttpStatus.BAD_REQUEST);
+    }
+
 
 
 }

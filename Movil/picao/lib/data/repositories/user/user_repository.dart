@@ -5,13 +5,19 @@ class UserRepository {
   final UserProvider userProvider;
   UserRepository({required this.userProvider});
 
-  Future<UserRegisterModel?> registerUser(
-      UserRegisterModel userRegisterModel) async {
-    // Simulación de una petición HTTP para login
-    await Future.delayed(const Duration(seconds: 2));
-    if (userRegisterModel.password == 'Golpi') {
-      return userRegisterModel;
+  Future<void> sendOtp(String mobileNumber) async {
+    try {
+      await userProvider.sendOtp(mobileNumber);
+    } on Exception catch (_) {
+      rethrow;
     }
-    return null;
+  }
+
+  Future<void> registerUser(UserRegisterModel userRegisterModel) async {
+    try {
+      await userProvider.registerUser(userRegisterModel);
+    } on Exception catch (_) {
+      rethrow;
+    }
   }
 }

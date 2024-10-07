@@ -1,6 +1,20 @@
+import 'package:picao/core/utils/http_service.dart';
+import 'package:picao/modules/user/models/user_model.dart';
+
 class UserProvider {
-  // Aquí defines los métodos de comunicación con tu API
-  Future<void> registerUser(String username, String password) async {
-    // Lógica para el login
+  Future<void> sendOtp(String mobileNumber) async {
+    try {
+      await HttpService('create').post({'mobile_umber': mobileNumber});
+    } on Exception catch (_) {
+      rethrow;
+    }
+  }
+
+  Future<void> registerUser(UserRegisterModel userRegisterModel) async {
+    try {
+      await HttpService('create').post(userRegisterModel.toJson());
+    } on Exception catch (_) {
+      rethrow;
+    }
   }
 }

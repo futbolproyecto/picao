@@ -21,6 +21,8 @@ public class UserController {
     @PostMapping(value = "create")
     public ResponseEntity<GenericResponseDTO> create(
             @RequestBody @Valid CreateUserRequestDTO createUserRequestDTO) {
+        System.out.println(">>>>>>>>");
+        System.out.println(createUserRequestDTO);
         return GenericResponseDTO.genericResponse(userService.createUser(createUserRequestDTO));
     }
 

@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:flutter/material.dart';
 import 'package:picao/core/routes/app_pages.dart';
-import 'package:picao/modules/user/controller/user_controller.dart';
-import 'package:picao/modules/widgets/ui_text_field.dart';
 import 'package:reactive_forms/reactive_forms.dart';
+import 'package:picao/modules/widgets/ui_text_field.dart';
+import 'package:picao/modules/user/controller/user_controller.dart';
 
 class UserRegisterPage extends StatelessWidget {
   const UserRegisterPage({super.key});
@@ -83,7 +83,7 @@ class UserRegisterPage extends StatelessWidget {
                           ),
                           const SizedBox(height: 20),
                           UiTextFiel().textField(
-                            formControlName: 'names',
+                            formControlName: 'name',
                             labelText: 'Nombres',
                             prefixIcon: Icons.person_2_outlined,
                             colorPrefixIcon: primaryColor,
@@ -94,7 +94,7 @@ class UserRegisterPage extends StatelessWidget {
                           ),
                           const SizedBox(height: 20),
                           UiTextFiel().textField(
-                            formControlName: 'surnames',
+                            formControlName: 'last_name',
                             labelText: 'Apellidos',
                             prefixIcon: Icons.person_2_outlined,
                             colorPrefixIcon: primaryColor,
@@ -109,6 +109,30 @@ class UserRegisterPage extends StatelessWidget {
                             labelText: 'Correo',
                             prefixIcon: Icons.email_outlined,
                             colorPrefixIcon: primaryColor,
+                            validationMessages: {
+                              ValidationMessage.required: (error) =>
+                                  'Campo requerido',
+                            },
+                          ),
+                          const SizedBox(height: 20),
+                          UiTextFiel().textField(
+                            formControlName: 'mobile_number',
+                            labelText: 'Celular',
+                            prefixIcon: Icons.phone_android_outlined,
+                            colorPrefixIcon: primaryColor,
+                            validationMessages: {
+                              ValidationMessage.required: (error) =>
+                                  'Campo requerido',
+                            },
+                          ),
+                          const SizedBox(height: 20),
+                          UiTextFiel().datePickerField(
+                            formControlName: 'date_of_birth',
+                            labelText: 'Fecha nacimiento',
+                            prefixIcon: Icons.date_range_outlined,
+                            colorPrefixIcon: primaryColor,
+                            firstDate: DateTime(1900),
+                            lastDate: DateTime.now(),
                             validationMessages: {
                               ValidationMessage.required: (error) =>
                                   'Campo requerido',
@@ -158,63 +182,119 @@ class UserRegisterPage extends StatelessWidget {
                               },
                             ),
                           ),
-                          const SizedBox(height: 20),
-                          UiTextFiel().textField(
-                            formControlName: 'cell_phone',
-                            labelText: 'Celular',
-                            prefixIcon: Icons.phone_android_outlined,
-                            colorPrefixIcon: primaryColor,
-                            validationMessages: {
-                              ValidationMessage.required: (error) =>
-                                  'Campo requerido',
-                            },
-                          ),
-                          const SizedBox(height: 20),
-                          UiTextFiel().datePickerField(
-                            formControlName: 'birthdate',
-                            labelText: 'Fecha nacimiento',
-                            prefixIcon: Icons.date_range_outlined,
-                            colorPrefixIcon: primaryColor,
-                            firstDate: DateTime(1900),
-                            lastDate: DateTime.now(),
-                            validationMessages: {
-                              ValidationMessage.required: (error) =>
-                                  'Campo requerido',
-                            },
-                          ),
-                          const SizedBox(height: 20),
-                          Obx(
-                            () => userController.isLoading.value
-                                ? const CircularProgressIndicator()
-                                : Center(
-                                    child: SizedBox(
-                                      width: double.infinity,
-                                      child: ElevatedButton(
-                                        onPressed: () {
-                                          reactiveFormUserRegistrer
-                                              .markAllAsTouched();
-
-                                          if (reactiveFormUserRegistrer.valid) {
-                                            userController.registerUser();
-                                          }
-                                        },
-                                        style: ElevatedButton.styleFrom(
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 15),
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                            ),
-                                            backgroundColor: primaryColor),
-                                        child: const Text(
-                                          'Ingresar',
-                                          style: TextStyle(
-                                              fontSize: 18,
-                                              color: Colors.white),
-                                        ),
-                                      ),
-                                    ),
+                          const SizedBox(height: 10),
+                          Obx(() => Visibility(
+                              visible:
+                                  userController.showValidationPassword.value,
+                              child: Column(
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      const Text('Caracteres especiales'),
+                                      userController.hasEspecialCaracter.value
+                                          ? const Icon(
+                                              Icons.check_circle_outline,
+                                              color: secondaryColor,
+                                            )
+                                          : const Icon(
+                                              Icons.error_outline,
+                                              color: Colors.amber,
+                                            )
+                                    ],
                                   ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      const Text('6 caracteres'),
+                                      userController.hasMinCaracter.value
+                                          ? const Icon(
+                                              Icons.check_circle_outline,
+                                              color: secondaryColor,
+                                            )
+                                          : const Icon(
+                                              Icons.error_outline,
+                                              color: Colors.amber,
+                                            )
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      const Text('Mayuscula'),
+                                      userController.hasCapital.value
+                                          ? const Icon(
+                                              Icons.check_circle_outline,
+                                              color: secondaryColor,
+                                            )
+                                          : const Icon(
+                                              Icons.error_outline,
+                                              color: Colors.amber,
+                                            )
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      const Text('Minuscula'),
+                                      userController.hasLower.value
+                                          ? const Icon(
+                                              Icons.check_circle_outline,
+                                              color: secondaryColor,
+                                            )
+                                          : const Icon(
+                                              Icons.error_outline,
+                                              color: Colors.amber,
+                                            )
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      const Text('Numeros'),
+                                      userController.hasNumber.value
+                                          ? const Icon(
+                                              Icons.check_circle_outline,
+                                              color: secondaryColor,
+                                            )
+                                          : const Icon(
+                                              Icons.error_outline,
+                                              color: Colors.amber,
+                                            )
+                                    ],
+                                  ),
+                                ],
+                              ))),
+                          const SizedBox(height: 20),
+                          Center(
+                            child: SizedBox(
+                              width: double.infinity,
+                              child: ElevatedButton(
+                                onPressed: () async {
+                                  reactiveFormUserRegistrer.markAllAsTouched();
+                                  if (reactiveFormUserRegistrer.valid) {
+                                    await userController.sendOtp();
+                                  }
+                                },
+                                style: ElevatedButton.styleFrom(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 15),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    backgroundColor: primaryColor),
+                                child: const Text(
+                                  'Ingresar',
+                                  style: TextStyle(
+                                      fontSize: 18, color: Colors.white),
+                                ),
+                              ),
+                            ),
                           ),
                         ]);
                       });
