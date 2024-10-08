@@ -73,6 +73,11 @@ public class OtpServiceImpl implements OtpService {
     @Override
     public String sendOtp(String mobileNumber) {
 
+        otpRepository.findByMobileNumber(mobileNumber).ifPresent(
+                otpBD -> {
+                    throw new AppException(ErrorMessages.GENERATED_OTP, HttpStatus.BAD_REQUEST);
+        });
+
         String otp = generateOTP();
         otpRepository.save(Otp.builder()
                 .code(otp)

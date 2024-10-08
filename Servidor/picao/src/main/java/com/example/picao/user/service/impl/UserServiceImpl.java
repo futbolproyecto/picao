@@ -55,7 +55,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                         throw new AppException(ErrorMessages.DUPLICATE_PHONE_NUMBER, HttpStatus.BAD_REQUEST);
                     });
 
-            userRepository.findByMobileNumber(createUserRequestDTO.email()).ifPresent(
+            userRepository.findByEmail(createUserRequestDTO.email()).ifPresent(
                     user -> {
                         throw new AppException(ErrorMessages.DUPLICATE_EMAIL, HttpStatus.BAD_REQUEST);
                     });

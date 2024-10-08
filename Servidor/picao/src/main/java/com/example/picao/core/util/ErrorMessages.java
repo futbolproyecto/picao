@@ -30,6 +30,9 @@ public enum ErrorMessages {
             "E5"),
     PHONE_NUMBER_NOT_EXIST("Usuario no se encuentra registrado.",
             "Verifique la informacion ingresada",
+            "E5"),
+    GENERATED_OTP("Ya genero un otp para el celular indicado.",
+            "Verifique el otp enviado o genere uno nuevo.",
             "E5");
 
     private final String message;
