@@ -272,6 +272,18 @@ class UserRegisterPage extends StatelessWidget {
                                   ),
                                 ],
                               ))),
+                          Row(
+                            children: [
+                              ReactiveCheckbox(
+                                  formControlName: 'terms_and_conditions'),
+                              const Text('Acepto los '),
+                              UiButtoms(onPressed: () {}, title: 'Terminos')
+                                  .textButtom(Colors.black),
+                              const Text('y'),
+                              UiButtoms(onPressed: () {}, title: 'Condiciones')
+                                  .textButtom(Colors.black),
+                            ],
+                          ),
                           const SizedBox(height: 20),
                           UiButtoms(
                                   onPressed: () {
@@ -282,7 +294,8 @@ class UserRegisterPage extends StatelessWidget {
                                     }
                                   },
                                   title: 'Ingresar')
-                              .primaryButtom()
+                              .primaryButtom(),
+                          const SizedBox(height: 20),
                         ]);
                       });
                 }),

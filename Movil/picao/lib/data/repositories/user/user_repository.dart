@@ -13,6 +13,14 @@ class UserRepository {
     }
   }
 
+  Future<void> validateOtp(String otp, String mobileNumber) async {
+    try {
+      await userProvider.validateOtp(otp, mobileNumber);
+    } on Exception catch (_) {
+      rethrow;
+    }
+  }
+
   Future<void> registerUser(UserRegisterModel userRegisterModel) async {
     try {
       await userProvider.registerUser(userRegisterModel);

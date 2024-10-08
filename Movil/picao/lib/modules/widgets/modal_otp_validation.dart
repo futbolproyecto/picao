@@ -12,7 +12,7 @@ class ModalOtpValidation {
     const Color primaryColor = Color(0xFF04a57e);
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10),
-      height: 200,
+      height: 130,
       width: screenSize.width * 0.99,
       child: ListView.builder(
           itemCount: 1,
@@ -44,13 +44,6 @@ class ModalOtpValidation {
                               'Campo requerido',
                         },
                       ),
-                      /* const SizedBox(height: 20),
-                      Row(
-                        children: [
-                          UiButtoms(onPressed: onPressed, title: 'Validar')
-                              .primaryButtom()
-                        ],
-                      ) */
                     ],
                   );
                 });

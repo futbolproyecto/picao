@@ -39,14 +39,22 @@ class UiButtoms {
         style: ElevatedButton.styleFrom(
             padding: const EdgeInsets.symmetric(vertical: 15),
             shape: RoundedRectangleBorder(
+              side: BorderSide(color: Constants.primaryColor),
               borderRadius: BorderRadius.circular(10),
             ),
-            backgroundColor: Constants.secondaryColor),
+            backgroundColor: Colors.white),
         child: Text(
           title,
-          style: const TextStyle(fontSize: 18, color: Colors.white),
+          style: TextStyle(fontSize: 18, color: Constants.primaryColor),
         ),
       ),
+    );
+  }
+
+  Widget textButtom(Color color) {
+    return TextButton(
+      child: Text(title, style: TextStyle(color: color)),
+      onPressed: () => onPressed(),
     );
   }
 }

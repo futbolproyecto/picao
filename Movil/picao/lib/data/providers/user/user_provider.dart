@@ -6,7 +6,16 @@ class UserProvider {
   Future<void> sendOtp(String mobileNumber) async {
     try {
       await HttpService(ConstantEndpoints.sendOtp)
-          .post({'mobile_number': mobileNumber});
+          .postRequesParam({'mobile_number': mobileNumber});
+    } on Exception catch (_) {
+      rethrow;
+    }
+  }
+
+  Future<void> validateOtp(String otp, String mobileNumber) async {
+    try {
+      await HttpService(ConstantEndpoints.validateOtp)
+          .putRequesParam({'otp': otp, 'mobile_number': mobileNumber});
     } on Exception catch (_) {
       rethrow;
     }

@@ -1,12 +1,15 @@
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:flutter/material.dart';
 import 'package:picao/core/constants/constants.dart';
 import 'package:picao/core/exception/custom_exception.dart';
 import 'package:picao/core/exception/models/error_model.dart';
+import 'package:picao/core/routes/app_pages.dart';
 
 import 'package:picao/data/repositories/user/user_repository.dart';
 import 'package:picao/modules/user/models/user_model.dart';
 import 'package:picao/modules/widgets/modal_otp_validation.dart';
+import 'package:picao/modules/widgets/ui_alert_message.dart';
+import 'package:picao/modules/widgets/ui_buttoms.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:reactive_forms/reactive_forms.dart';
@@ -47,10 +50,15 @@ class UserController extends GetxController {
         validators: [Validators.required, Validators.maxLength(50)]),
     'password_confirmation': FormControl<String>(
         validators: [Validators.required, Validators.maxLength(50)]),
-    'mobile_number': FormControl<String>(
-        validators: [Validators.required, Validators.maxLength(50)]),
+    'mobile_number': FormControl<String>(validators: [
+      Validators.required,
+      Validators.minLength(10),
+      Validators.maxLength(50)
+    ]),
     'date_of_birth': FormControl<DateTime>(
         validators: [Validators.required, Validators.maxLength(50)]),
+    'terms_and_conditions':
+        FormControl<bool>(value: false, validators: [Validators.requiredTrue]),
   }, validators: [
     const MustMatchValidator('password', 'password_confirmation', false)
   ]);
@@ -68,7 +76,7 @@ class UserController extends GetxController {
         context: Get.context!,
         type: QuickAlertType.loading,
         title: 'Cargando...',
-        text: 'Registrando usuario',
+        text: 'Confirmando informacion',
         barrierDismissible: false,
         disableBackBtn: true,
       );
@@ -77,40 +85,40 @@ class UserController extends GetxController {
           .sendOtp(formUserRegistrer.control('mobile_number').value);
 
       Get.back();
-
-      QuickAlert.show(
-        context: Get.context!,
-        type: QuickAlertType.custom,
-        widget: ModalOtpValidation().validateOtp(
-          context: Get.context!,
-          formOtpConfirmation: formOtpConfirmation,
-          mobileNumber: formUserRegistrer.control('mobile_number').value,
-        ),
-        onConfirmBtnTap: () => registerUser(),
-        confirmBtnText: 'Validar',
-        confirmBtnColor: Constants.primaryColor,
-      );
+      UiAlertMessage(Get.context!).custom(
+          child: ModalOtpValidation().validateOtp(
+            context: Get.context!,
+            formOtpConfirmation: formOtpConfirmation,
+            mobileNumber: formUserRegistrer.control('mobile_number').value,
+          ),
+          actions: [
+            UiButtoms(
+                    onPressed: () {
+                      Get.back();
+                      validateOtp();
+                    },
+                    title: 'Validar')
+                .textButtom(Constants.primaryColor),
+            UiButtoms(
+                    onPressed: () {
+                      Get.back();
+                    },
+                    title: 'Cerrar')
+                .textButtom(Colors.black),
+          ]);
     } on CustomException catch (e) {
       Get.back();
-      QuickAlert.show(
-        context: Get.context!,
-        type: QuickAlertType.error,
-        title: 'Oops...',
-        text: '${e.error.error}\n${e.error.recommendation}',
-      );
+      UiAlertMessage(Get.context!)
+          .error(message: '${e.error.error}\n${e.error.recommendation}');
     } on Exception catch (_) {
       Get.back();
-      QuickAlert.show(
-        context: Get.context!,
-        type: QuickAlertType.error,
-        title: 'Oops...',
-        text:
-            '${ErrorModel().uncontrolledError().error!}\n${ErrorModel().uncontrolledError().recommendation!}',
-      );
+      UiAlertMessage(Get.context!).error(
+          message:
+              '${ErrorModel().uncontrolledError().error!}\n${ErrorModel().uncontrolledError().recommendation!}');
     }
   }
 
-  Future<void> registerUser() async {
+  Future<void> validateOtp() async {
     try {
       formOtpConfirmation.markAllAsTouched();
       if (formOtpConfirmation.valid) {
@@ -118,37 +126,65 @@ class UserController extends GetxController {
           context: Get.context!,
           type: QuickAlertType.loading,
           title: 'Cargando...',
-          text: 'Registrando usuario',
+          text: 'Validando otp',
           barrierDismissible: false,
           disableBackBtn: true,
         );
 
-        await userRepository
-            .registerUser(UserRegisterModel.fromJson(formUserRegistrer.value));
+        await userRepository.validateOtp(
+            formOtpConfirmation.control('otp_number').value,
+            formUserRegistrer.control('mobile_number').value);
 
         Get.back();
-        QuickAlert.show(
-          context: Get.context!,
-          type: QuickAlertType.success,
-          text: 'Proceso exitoso',
-        );
+        formOtpConfirmation.reset();
+        registerUser();
       }
     } on CustomException catch (e) {
       Get.back();
-      QuickAlert.show(
-        context: Get.context!,
-        type: QuickAlertType.error,
-        title: 'Oops...',
-        text: '${e.error.error}\n${e.error.recommendation}',
-      );
+      formOtpConfirmation.reset();
+      UiAlertMessage(Get.context!)
+          .error(message: '${e.error.error}\n${e.error.recommendation}');
     } on Exception catch (_) {
       Get.back();
+      formOtpConfirmation.reset();
+      UiAlertMessage(Get.context!).error(
+          message:
+              '${ErrorModel().uncontrolledError().error!}\n${ErrorModel().uncontrolledError().recommendation!}');
+    }
+  }
+
+  Future<void> registerUser() async {
+    try {
       QuickAlert.show(
         context: Get.context!,
-        type: QuickAlertType.error,
-        text:
-            '${ErrorModel().uncontrolledError().error!}\n${ErrorModel().uncontrolledError().recommendation!}',
+        type: QuickAlertType.loading,
+        title: 'Cargando...',
+        text: 'Registrando usuario',
+        barrierDismissible: false,
+        disableBackBtn: true,
       );
+
+      await userRepository
+          .registerUser(UserRegisterModel.fromJson(formUserRegistrer.value));
+
+      Get.back();
+      UiAlertMessage(Get.context!).success(
+          message: 'La informacion se registro de manera exitosa',
+          barrierDismissible: false,
+          actionButtom: () {
+            formUserRegistrer.reset();
+            formOtpConfirmation.reset();
+            Get.offNamed(AppPages.login);
+          });
+    } on CustomException catch (e) {
+      Get.back();
+      UiAlertMessage(Get.context!)
+          .error(message: '${e.error.error}\n${e.error.recommendation}');
+    } on Exception catch (_) {
+      Get.back();
+      UiAlertMessage(Get.context!).error(
+          message:
+              '${ErrorModel().uncontrolledError().error!}\n${ErrorModel().uncontrolledError().recommendation!}');
     }
   }
 
