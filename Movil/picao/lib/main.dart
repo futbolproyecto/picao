@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:picao/core/bindings/initial_binding.dart';
+import 'package:picao/core/constants/constants.dart';
 import 'package:picao/core/routes/app_pages.dart';
 import 'package:picao/modules/login/views/login_page.dart';
 
@@ -14,11 +15,13 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      statusBarColor: Color(0xFF04a57e), // Cambia el color de la barra de estado
-      statusBarIconBrightness: Brightness.light, // Cambia el color de los iconos de la barra de estado a claro
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor:
+          Constants.primaryColor, // Cambia el color de la barra de estado
+      statusBarIconBrightness: Brightness
+          .light, // Cambia el color de los iconos de la barra de estado a claro
     ));
-    
+
     return GetMaterialApp(
       title: 'Golpi',
       home: LoginPage(),
@@ -27,7 +30,7 @@ class MainApp extends StatelessWidget {
       getPages: AppPages.routes,
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primaryColor: const Color(0xFF04a57e),
+        primaryColor: Constants.primaryColor,
         textTheme: const TextTheme(
           bodyMedium: TextStyle(color: Colors.black),
         ),

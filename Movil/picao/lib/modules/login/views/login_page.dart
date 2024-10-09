@@ -172,7 +172,9 @@ class LoginPage extends StatelessWidget {
                       ),
                       Center(
                         child: TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Get.toNamed(AppPages.chagePassword);
+                          },
                           child: const Text(
                             '¿Olvidaste tu contraseña?',
                             style: TextStyle(
