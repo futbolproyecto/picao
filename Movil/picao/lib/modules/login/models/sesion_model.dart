@@ -1,13 +1,13 @@
-class LoginModel {
+class SesionModel {
   final String username;
   final String token;
-  LoginModel({
+  SesionModel({
     required this.username,
     required this.token,
   });
 
-  factory LoginModel.fromJson(Map<String, dynamic> json) {
-    return LoginModel(
+  factory SesionModel.fromJson(Map<String, dynamic> json) {
+    return SesionModel(
       username: json['username'],
       token: json['token'],
     );

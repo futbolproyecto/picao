@@ -1,13 +1,12 @@
-import 'package:picao/data/providers/user/user_provider.dart';
+import 'package:picao/core/constants/constant_endpoints.dart';
+import 'package:picao/core/utils/http_service.dart';
 import 'package:picao/modules/user/models/user_model.dart';
 
 class UserRepository {
-  final UserProvider userProvider;
-  UserRepository({required this.userProvider});
-
   Future<void> sendOtp(String mobileNumber) async {
     try {
-      await userProvider.sendOtp(mobileNumber);
+      await HttpService(ConstantEndpoints.sendOtp)
+          .postRequesParam({'mobile_number': mobileNumber});
     } on Exception catch (_) {
       rethrow;
     }
@@ -15,7 +14,8 @@ class UserRepository {
 
   Future<void> validateOtp(String otp, String mobileNumber) async {
     try {
-      await userProvider.validateOtp(otp, mobileNumber);
+      await HttpService(ConstantEndpoints.validateOtp)
+          .putRequesParam({'otp': otp, 'mobile_number': mobileNumber});
     } on Exception catch (_) {
       rethrow;
     }
@@ -23,7 +23,8 @@ class UserRepository {
 
   Future<void> registerUser(UserRegisterModel userRegisterModel) async {
     try {
-      await userProvider.registerUser(userRegisterModel);
+      await HttpService(ConstantEndpoints.createUser)
+          .post(userRegisterModel.toJson());
     } on Exception catch (_) {
       rethrow;
     }

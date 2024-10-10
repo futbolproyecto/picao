@@ -2,23 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:picao/core/routes/app_pages.dart';
 import 'package:picao/modules/login/controller/login_controller.dart';
+import 'package:picao/modules/widgets/ui_buttoms.dart';
 import 'package:picao/modules/widgets/ui_text_field.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 
 class LoginPage extends StatelessWidget {
-  LoginPage({super.key});
-  final usernameController = TextEditingController();
-  final passwordController = TextEditingController();
-
-  final FormGroup formLogin = FormGroup({
-    'email': FormControl<String>(validators: [
-      Validators.required,
-      Validators.email,
-      Validators.maxLength(50)
-    ]),
-    'password': FormControl<String>(
-        validators: [Validators.required, Validators.maxLength(50)]),
-  });
+  const LoginPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +77,7 @@ class LoginPage extends StatelessWidget {
             itemCount: 1,
             itemBuilder: (context, index) {
               return ReactiveFormBuilder(
-                  form: () => formLogin,
+                  form: () => loginController.formLogin,
                   builder: (
                     BuildContext context,
                     FormGroup reactiveFormLogin,
@@ -114,7 +103,7 @@ class LoginPage extends StatelessWidget {
                       ),
                       const SizedBox(height: 20),
                       UiTextFiel().textField(
-                        formControlName: 'email',
+                        formControlName: 'mobile_number',
                         labelText: 'Correo',
                         prefixIcon: Icons.email_outlined,
                         colorPrefixIcon: primaryColor,
@@ -145,31 +134,15 @@ class LoginPage extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 20),
-                      Obx(
-                        () => loginController.isLoading.value
-                            ? const CircularProgressIndicator()
-                            : Center(
-                                child: SizedBox(
-                                  width: double.infinity,
-                                  child: ElevatedButton(
-                                    onPressed: () {},
-                                    style: ElevatedButton.styleFrom(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 15),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                        ),
-                                        backgroundColor: primaryColor),
-                                    child: const Text(
-                                      'Ingresar',
-                                      style: TextStyle(
-                                          fontSize: 18, color: Colors.white),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                      ),
+                      UiButtoms(
+                              onPressed: () {
+                                reactiveFormLogin.markAllAsTouched();
+                                if (reactiveFormLogin.valid) {
+                                  loginController.login();
+                                }
+                              },
+                              title: 'Ingresar')
+                          .primaryButtom(),
                       Center(
                         child: TextButton(
                           onPressed: () {
