@@ -23,15 +23,14 @@ public class Otp {
     @Column(nullable = false, length = 20)
     String code;
 
-    @Column(nullable = false, length = 20)
+    @Column(length = 20)
     String mobileNumber;
+
+    @Column(length = 100)
+    String email;
 
     @Column(nullable = false)
     LocalDateTime createdAt;
-
-
-
-
 
 
 }

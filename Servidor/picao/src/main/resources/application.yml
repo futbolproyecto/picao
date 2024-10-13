@@ -12,21 +12,39 @@ spring:
     username: postgres
     password: postgres
     driver-class-name: org.postgresql.Driver
+
   #zona horaria
   jackson:
     date-format: yyyy-MM-dd
     time-zone: America/Bogota
+
   jpa:
     hibernate:
       ddl-auto: create-drop
     properties:
       hibernate:
         format_sql: true
+
   application:
     name: golpi
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: futboleroproyecto@gmail.com
+    password: cuutxtrejzpfrrxw
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+          ssl:
+            trust: smtp.gmail.com
 logging:
   level:
     org.springframework.web: DEBUG
+
 twilio:
   accountSid: AC4e390862fc25a97f9e5842d2a817463f
   authToken: af1cc89d7e8a359ee6b1d93eac1fab21

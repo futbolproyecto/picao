@@ -2,6 +2,7 @@ package com.example.picao.otp.service.impl;
 
 import com.example.picao.core.exception.AppException;
 import com.example.picao.core.util.ErrorMessages;
+import com.example.picao.core.util.UsefulMethods;
 import com.example.picao.otp.entity.Otp;
 import com.example.picao.otp.repository.OtpRepository;
 import com.example.picao.otp.service.OtpService;
@@ -14,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.concurrent.ThreadLocalRandom;
 
 @Service
 public class OtpServiceImpl implements OtpService {
@@ -48,6 +48,7 @@ public class OtpServiceImpl implements OtpService {
                 .orElseThrow(() -> new AppException(ErrorMessages.INVALID_OTP, HttpStatus.NOT_FOUND));
     }
 
+    @Transactional
     @Override
     public String resendOtp(String mobileNumber) {
 
@@ -55,7 +56,7 @@ public class OtpServiceImpl implements OtpService {
             Otp otpBD = otpRepository.findByMobileNumber(mobileNumber).orElseThrow(
                     () -> new AppException(ErrorMessages.PHONE_NUMBER_NOT_EXIST, HttpStatus.NOT_FOUND));
 
-            String otp = generateOTP();
+            String otp = UsefulMethods.generateOTP();
             otpBD.setCode(otp);
             otpBD.setCreatedAt(LocalDateTime.now());
             otpRepository.save(otpBD);
@@ -70,15 +71,16 @@ public class OtpServiceImpl implements OtpService {
 
     }
 
+    @Transactional
     @Override
     public String sendOtp(String mobileNumber) {
 
         otpRepository.findByMobileNumber(mobileNumber).ifPresent(
                 otpBD -> {
                     throw new AppException(ErrorMessages.GENERATED_OTP, HttpStatus.BAD_REQUEST);
-        });
+                });
 
-        String otp = generateOTP();
+        String otp = UsefulMethods.generateOTP();
         otpRepository.save(Otp.builder()
                 .code(otp)
                 .mobileNumber(mobileNumber)
@@ -101,15 +103,6 @@ public class OtpServiceImpl implements OtpService {
                         "su codigo otp es: " + otp)
                 .create();
 
-    }
-
-    private String generateOTP() {
-        int length = 6;
-        StringBuilder otp = new StringBuilder();
-        for (int i = 0; i < length; i++) {
-            otp.append(ThreadLocalRandom.current().nextInt(0, 10));
-        }
-        return otp.toString();
     }
 
     private boolean isExpiredOtp(LocalDateTime createdAt) {

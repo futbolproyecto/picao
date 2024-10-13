@@ -17,6 +17,7 @@ public class Constants {
     public static final String[] UNSAFE_ROUTES = {
             "/authentication/login",
             "/user/create",
+            "/user/recover-password/**",
             "/otp/**"
     };
 }

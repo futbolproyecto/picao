@@ -33,7 +33,10 @@ public enum ErrorMessages {
             "E5"),
     GENERATED_OTP("Ya genero un otp para el celular indicado.",
             "Verifique el otp enviado o genere uno nuevo.",
-            "E5");
+            "E5"),
+    EMAIL_DOES_NOT_EXIST("El correo electrónico no se encuentra registrado",
+            "Verifique la informacion ingresada",
+            "E4");
 
     private final String message;
     private final String recommendation;

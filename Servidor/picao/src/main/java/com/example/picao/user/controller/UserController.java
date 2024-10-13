@@ -24,5 +24,10 @@ public class UserController {
         return GenericResponseDTO.genericResponse(userService.createUser(createUserRequestDTO));
     }
 
+    @PostMapping(value = "recover-password/{email}")
+    public ResponseEntity<GenericResponseDTO> recoverPassword(@PathVariable String email) {
+        return GenericResponseDTO.genericResponse(userService.recoverPassword(email));
+    }
+
 
 }
