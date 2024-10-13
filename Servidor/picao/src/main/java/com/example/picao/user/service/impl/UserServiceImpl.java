@@ -87,9 +87,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         }
     }
 
+    @Transactional
     @Override
     public int recoverPassword(String emailUser) {
-
         try {
             if (!userRepository.existsByEmail(emailUser))
                 throw new AppException(ErrorMessages.EMAIL_DOES_NOT_EXIST, HttpStatus.BAD_REQUEST);
