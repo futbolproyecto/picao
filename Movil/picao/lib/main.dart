@@ -24,7 +24,7 @@ class MainApp extends StatelessWidget {
 
     return GetMaterialApp(
       title: 'Golpi',
-      home: LoginPage(),
+      home: const LoginPage(),
       initialBinding: InitialBinding(),
       initialRoute: AppPages.login,
       getPages: AppPages.routes,

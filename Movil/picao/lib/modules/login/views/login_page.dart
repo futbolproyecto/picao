@@ -22,6 +22,7 @@ class LoginPage extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
+            const SizedBox(height: 50),
             const Text(
               '¿No tienes una cuenta?',
               style: TextStyle(

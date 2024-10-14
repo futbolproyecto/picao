@@ -6,6 +6,7 @@ import 'package:picao/core/exception/models/error_model.dart';
 import 'package:picao/core/routes/app_pages.dart';
 
 import 'package:picao/data/repositories/user/user_repository.dart';
+import 'package:picao/modules/user/models/change_password_model.dart';
 import 'package:picao/modules/user/models/user_model.dart';
 import 'package:picao/modules/widgets/modal_otp_validation.dart';
 import 'package:picao/modules/widgets/ui_alert_message.dart';
@@ -34,6 +35,8 @@ class UserController extends GetxController {
   var hasLower = false.obs;
   var hasNumber = false.obs;
   var scrollController = ScrollController();
+  var isValidateEmail = true.obs;
+  var isEmailValidated = false.obs;
 
   var formUserRegistrer = FormGroup({
     'name': FormControl<String>(
@@ -69,6 +72,30 @@ class UserController extends GetxController {
     ),
   });
 
+  var formOtpEmailConfirmation = FormGroup({
+    'otp_number': FormControl<String>(
+      validators: [Validators.required, Validators.maxLength(50)],
+    ),
+  });
+
+  var formEmailRecoveryPassword = FormGroup({
+    'email': FormControl<String>(
+      validators: [
+        Validators.required,
+        Validators.email,
+      ],
+    ),
+  });
+
+  var formChangePassword = FormGroup({
+    'password': FormControl<String>(
+        validators: [Validators.required, Validators.maxLength(50)]),
+    'password_confirmation': FormControl<String>(
+        validators: [Validators.required, Validators.maxLength(50)]),
+  }, validators: [
+    const MustMatchValidator('password', 'password_confirmation', false)
+  ]);
+
   Future<void> sendOtp() async {
     try {
       formUserRegistrer.unfocus();
@@ -93,9 +120,60 @@ class UserController extends GetxController {
           ),
           actions: [
             UiButtoms(
+                    onPressed: () async {
+                      Get.back();
+                      await validateOtp();
+                      registerUser();
+                    },
+                    title: 'Validar')
+                .textButtom(Constants.primaryColor),
+            UiButtoms(
                     onPressed: () {
                       Get.back();
-                      validateOtp();
+                    },
+                    title: 'Cerrar')
+                .textButtom(Colors.black),
+          ]);
+    } on CustomException catch (e) {
+      Get.back();
+      UiAlertMessage(Get.context!)
+          .error(message: '${e.error.error}\n${e.error.recommendation}');
+    } on Exception catch (_) {
+      Get.back();
+      UiAlertMessage(Get.context!).error(
+          message:
+              '${ErrorModel().uncontrolledError().error!}\n${ErrorModel().uncontrolledError().recommendation!}');
+    }
+  }
+
+  Future<void> sendOtpEmail() async {
+    try {
+      formEmailRecoveryPassword.unfocus();
+      QuickAlert.show(
+        context: Get.context!,
+        type: QuickAlertType.loading,
+        title: 'Cargando...',
+        text: 'Confirmando informacion',
+        barrierDismissible: false,
+        disableBackBtn: true,
+      );
+
+      await userRepository
+          .sendOtpEmail(formEmailRecoveryPassword.control('email').value);
+
+      Get.back();
+      UiAlertMessage(Get.context!).custom(
+          child: ModalOtpValidation().validateOtpEmail(
+            context: Get.context!,
+            formOtpEmailConfirmation: formOtpConfirmation,
+            email: formEmailRecoveryPassword.control('email').value,
+          ),
+          actions: [
+            UiButtoms(
+                    onPressed: () async {
+                      Get.back();
+                      await validateOtpEmail();
+                      changePassword();
                     },
                     title: 'Validar')
                 .textButtom(Constants.primaryColor),
@@ -137,7 +215,39 @@ class UserController extends GetxController {
 
         Get.back();
         formOtpConfirmation.reset();
-        registerUser();
+      }
+    } on CustomException catch (e) {
+      Get.back();
+      formOtpConfirmation.reset();
+      UiAlertMessage(Get.context!)
+          .error(message: '${e.error.error}\n${e.error.recommendation}');
+    } on Exception catch (_) {
+      Get.back();
+      formOtpConfirmation.reset();
+      UiAlertMessage(Get.context!).error(
+          message:
+              '${ErrorModel().uncontrolledError().error!}\n${ErrorModel().uncontrolledError().recommendation!}');
+    }
+  }
+
+  Future<void> validateOtpEmail() async {
+    try {
+      formOtpConfirmation.markAllAsTouched();
+      if (formOtpConfirmation.valid) {
+        QuickAlert.show(
+          context: Get.context!,
+          type: QuickAlertType.loading,
+          title: 'Cargando...',
+          text: 'Validando otp',
+          barrierDismissible: false,
+          disableBackBtn: true,
+        );
+
+        await userRepository.validateOtpEmail(
+            formOtpConfirmation.control('otp_number').value,
+            formEmailRecoveryPassword.control('email').value);
+
+        Get.back();
       }
     } on CustomException catch (e) {
       Get.back();
@@ -166,6 +276,41 @@ class UserController extends GetxController {
 
       await userRepository
           .registerUser(UserRegisterModel.fromJson(formUserRegistrer.value));
+
+      Get.back();
+      UiAlertMessage(Get.context!).success(
+          message: 'La informacion se registro de manera exitosa',
+          barrierDismissible: false,
+          actionButtom: () {
+            formUserRegistrer.reset();
+            formOtpConfirmation.reset();
+            Get.offNamed(AppPages.login);
+          });
+    } on CustomException catch (e) {
+      Get.back();
+      UiAlertMessage(Get.context!)
+          .error(message: '${e.error.error}\n${e.error.recommendation}');
+    } on Exception catch (_) {
+      Get.back();
+      UiAlertMessage(Get.context!).error(
+          message:
+              '${ErrorModel().uncontrolledError().error!}\n${ErrorModel().uncontrolledError().recommendation!}');
+    }
+  }
+
+  Future<void> changePassword() async {
+    try {
+      QuickAlert.show(
+        context: Get.context!,
+        type: QuickAlertType.loading,
+        title: 'Cargando...',
+        text: 'Cambiando contraseña',
+        barrierDismissible: false,
+        disableBackBtn: true,
+      );
+
+      await userRepository.changePassword(
+          ChangePasswordModel.fromJson(formUserRegistrer.value));
 
       Get.back();
       UiAlertMessage(Get.context!).success(

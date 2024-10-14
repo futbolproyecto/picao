@@ -3,7 +3,7 @@ import 'package:picao/core/bindings/initial_binding.dart';
 import 'package:picao/modules/home/views/home_page.dart';
 import 'package:picao/modules/login/views/login_page.dart';
 import 'package:picao/modules/user/bindigs/user_binding.dart';
-import 'package:picao/modules/user/views/change_password_page.dart';
+import 'package:picao/modules/user/views/recover_password_page.dart';
 import 'package:picao/modules/user/views/user_register_page.dart';
 
 part 'app_routes.dart';
@@ -27,7 +27,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.chagePassword,
-      page: () => const ChangePasswordPage(),
+      page: () => const RecoverPasswordPage(),
       binding: UserBinding(),
     ),
     GetPage(
