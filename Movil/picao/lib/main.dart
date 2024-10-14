@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:picao/core/bindings/initial_binding.dart';
 import 'package:picao/core/constants/constants.dart';
 import 'package:picao/core/routes/app_pages.dart';
-import 'package:picao/modules/login/views/login_page.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 
 void main() {
   runApp(const MainApp());
@@ -19,12 +19,23 @@ class MainApp extends StatelessWidget {
       statusBarColor:
           Constants.primaryColor, // Cambia el color de la barra de estado
       statusBarIconBrightness: Brightness
-          .light, // Cambia el color de los iconos de la barra de estado a claro
+          .dark, // Cambia el color de los iconos de la barra de estado a claro
     ));
 
     return GetMaterialApp(
+      builder: (context, widget) => ResponsiveWrapper.builder(
+          BouncingScrollWrapper.builder(context, widget!),
+           maxWidth: 1200,
+          defaultScale: true,
+          breakpoints: [
+            const ResponsiveBreakpoint.resize(450, name: MOBILE),
+            const ResponsiveBreakpoint.autoScale(800, name: TABLET),
+            const ResponsiveBreakpoint.autoScale(1000, name: TABLET),
+            const ResponsiveBreakpoint.resize(1200, name: DESKTOP),
+            const ResponsiveBreakpoint.autoScale(2460, name: "4K"),
+          ],
+          backgroundColor: Constants.primaryColor),
       title: 'Golpi',
-      home: const LoginPage(),
       initialBinding: InitialBinding(),
       initialRoute: AppPages.login,
       getPages: AppPages.routes,

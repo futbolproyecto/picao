@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:picao/core/constants/constants.dart';
 import 'package:picao/core/routes/app_pages.dart';
 import 'package:picao/modules/login/controller/login_controller.dart';
 import 'package:picao/modules/widgets/ui_buttoms.dart';
+import 'package:picao/modules/widgets/ui_text.dart';
 import 'package:picao/modules/widgets/ui_text_field.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 
@@ -13,9 +15,6 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final LoginController loginController = Get.find<LoginController>();
 
-    const Color primaryColor = Color(0xFF04a57e);
-    const Color secondaryColor = Color(0xFF19F489);
-
     return Scaffold(
       body: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
         const SizedBox(height: 40),
@@ -23,13 +22,7 @@ class LoginPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             const SizedBox(height: 50),
-            const Text(
-              '¿No tienes una cuenta?',
-              style: TextStyle(
-                color: primaryColor,
-                fontSize: 14,
-              ),
-            ),
+            UiText(text: '¿No tienes una cuenta?').phraseBlack(),
             InkWell(
               onTap: () {
                 Get.toNamed(AppPages.userRegister);
@@ -39,7 +32,7 @@ class LoginPage extends StatelessWidget {
                   width: 80,
                   height: 30,
                   decoration: BoxDecoration(
-                      color: secondaryColor.withOpacity(0.5),
+                      color: Constants.primaryColor,
                       borderRadius: const BorderRadius.all(Radius.circular(5))),
                   child: const Center(child: Text('Registrar'))),
             )
@@ -50,11 +43,7 @@ class LoginPage extends StatelessWidget {
           'assets/img/golpilogo.png',
           width: 80,
         ),
-        const Text('Golpi',
-            style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.bold,
-            )),
+        UiText(text: 'Golpi').title(),
         const SizedBox(height: 20),
         Expanded(
             child: Container(
@@ -85,29 +74,15 @@ class LoginPage extends StatelessWidget {
                     Widget? child,
                   ) {
                     return Column(children: [
-                      const Text(
-                        'Bienvenido de nuevo',
-                        style: TextStyle(
-                          color: Colors.black87,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 15),
-                      const Text(
-                        'Ingresa tus datos de sesion',
-                        style: TextStyle(
-                          color: Colors.black54,
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                      UiText(text: 'Bienvenido de nuevo').title(),
+                      const SizedBox(height: 10),
+                      UiText(text: 'Ingresa tus datos de sesion').phraseBlack(),
                       const SizedBox(height: 20),
                       UiTextFiel().textField(
                         formControlName: 'mobile_number',
                         labelText: 'Correo',
                         prefixIcon: Icons.email_outlined,
-                        colorPrefixIcon: primaryColor,
+                        colorPrefixIcon: Constants.primaryColor,
                         validationMessages: {
                           ValidationMessage.required: (error) =>
                               'Campo requerido',
@@ -119,7 +94,7 @@ class LoginPage extends StatelessWidget {
                           formControlName: 'password',
                           labelText: 'Clave',
                           prefixIcon: Icons.lock_outline,
-                          colorPrefixIcon: primaryColor,
+                          colorPrefixIcon: Constants.primaryColor,
                           obscureText: loginController.obscureText.value,
                           suffixIcon: IconButton(
                               onPressed: loginController.toggleObscureText,
@@ -149,12 +124,8 @@ class LoginPage extends StatelessWidget {
                           onPressed: () {
                             Get.toNamed(AppPages.chagePassword);
                           },
-                          child: const Text(
-                            '¿Olvidaste tu contraseña?',
-                            style: TextStyle(
-                              color: primaryColor,
-                            ),
-                          ),
+                          child: UiText(text: '¿Olvidaste tu contraseña?')
+                              .phraseBlack(),
                         ),
                       ),
                     ]);

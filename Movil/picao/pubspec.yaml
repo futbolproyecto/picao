@@ -15,6 +15,7 @@ dependencies:
   http: ^1.2.0
   intl: ^0.18.1
   quickalert: ^1.1.0
+  responsive_framework: ^0.1.7
 
 dev_dependencies:
   flutter_test:
@@ -25,4 +26,21 @@ flutter:
   uses-material-design: true
   assets:
     - assets/img/
+    - assets/fonts/
+
+  fonts:
+    - family: Montserrat
+      fonts:
+        - asset: assets/fonts/Montserrat-Regular.ttf
+        - asset: assets/fonts/Montserrat-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Montserrat-Italic.ttf
+          style: italic
+    - family: Helvetica
+      fonts:
+        - asset: assets/fonts/Helvetica-Regular.ttf
+        - asset: assets/fonts/Helvetica-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Helvetica-Italic.ttf
+          style: italic
 

@@ -21,15 +21,16 @@ class UiTextFiel {
         contentPadding:
             const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
         labelText: labelText,
-        labelStyle: const TextStyle(color: Colors.black54),
+        labelStyle: const TextStyle(
+          color: Colors.black54,
+          fontFamily: 'Montserrat',
+        ),
         prefixIcon: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Icon(prefixIcon, color: colorPrefixIcon),
         ),
-        suffixIcon: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: suffixIcon
-        ),
+        suffixIcon:
+            Padding(padding: const EdgeInsets.all(8.0), child: suffixIcon),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(15.0),
         ),
@@ -66,7 +67,10 @@ class UiTextFiel {
         contentPadding:
             const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
         labelText: labelText,
-        labelStyle: const TextStyle(color: Colors.black54),
+        labelStyle: const TextStyle(
+          color: Colors.black54,
+          fontFamily: 'Montserrat',
+        ),
         prefixIcon: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Icon(prefixIcon, color: colorPrefixIcon),

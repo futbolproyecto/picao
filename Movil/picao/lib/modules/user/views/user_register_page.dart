@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:picao/core/constants/constants.dart';
 import 'package:picao/core/routes/app_pages.dart';
 import 'package:picao/modules/widgets/ui_buttoms.dart';
+import 'package:picao/modules/widgets/ui_text.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:picao/modules/widgets/ui_text_field.dart';
 import 'package:picao/modules/user/controller/user_controller.dart';
@@ -21,13 +22,7 @@ class UserRegisterPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             const SizedBox(height: 50),
-            Text(
-              '¿Ya tienes una cuenta?',
-              style: TextStyle(
-                color: Constants.primaryColor,
-                fontSize: 14,
-              ),
-            ),
+            UiText(text: '¿Ya tienes una cuenta?').phraseBlack(),
             InkWell(
               onTap: () {
                 Get.offNamed(AppPages.login);
@@ -37,7 +32,7 @@ class UserRegisterPage extends StatelessWidget {
                   width: 80,
                   height: 30,
                   decoration: BoxDecoration(
-                      color: Constants.secondaryColor.withOpacity(0.5),
+                      color: Constants.primaryColor,
                       borderRadius: const BorderRadius.all(Radius.circular(5))),
                   child: const Center(child: Text('Ingresar'))),
             )
@@ -74,14 +69,7 @@ class UserRegisterPage extends StatelessWidget {
                         Widget? child,
                       ) {
                         return Column(children: [
-                          const Text(
-                            'Registro de informacion',
-                            style: TextStyle(
-                              color: Colors.black87,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
+                          UiText(text: 'Registro de informacion').title(),
                           const SizedBox(height: 20),
                           UiTextFiel().textField(
                             formControlName: 'name',

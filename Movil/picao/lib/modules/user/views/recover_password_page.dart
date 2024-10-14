@@ -4,6 +4,7 @@ import 'package:picao/core/constants/constants.dart';
 import 'package:picao/core/routes/app_pages.dart';
 import 'package:picao/modules/user/controller/user_controller.dart';
 import 'package:picao/modules/widgets/ui_buttoms.dart';
+import 'package:picao/modules/widgets/ui_text.dart';
 import 'package:picao/modules/widgets/ui_text_field.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 
@@ -22,13 +23,7 @@ class RecoverPasswordPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               const SizedBox(height: 50),
-              Text(
-                '¿Ya tienes una cuenta?',
-                style: TextStyle(
-                  color: Constants.primaryColor,
-                  fontSize: 14,
-                ),
-              ),
+              UiText(text: '¿Deseas iniciar sesion?').phraseBlack(),
               InkWell(
                 onTap: () {
                   Get.offNamed(AppPages.login);
@@ -38,7 +33,7 @@ class RecoverPasswordPage extends StatelessWidget {
                     width: 80,
                     height: 30,
                     decoration: BoxDecoration(
-                        color: Constants.secondaryColor.withOpacity(0.5),
+                        color: Constants.primaryColor,
                         borderRadius:
                             const BorderRadius.all(Radius.circular(5))),
                     child: const Center(child: Text('Ingresar'))),
@@ -78,23 +73,12 @@ class RecoverPasswordPage extends StatelessWidget {
                           ) {
                             return Column(
                               children: [
-                                const Text(
-                                  'Restablecer contraseña',
-                                  style: TextStyle(
-                                    color: Colors.black87,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
+                                UiText(text: 'Restablecer contraseña').title(),
                                 const SizedBox(height: 20),
-                                const Text(
-                                  'Por favor, introduce el correo electrónico asociado a tu cuenta para recuperar tu contraseña.',
-                                  style: TextStyle(
-                                    color: Colors.black54,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
+                                UiText(
+                                        text:
+                                            'Por favor, introduce el correo electrónico asociado a tu cuenta para recuperar tu contraseña.')
+                                    .paragraphBlack(),
                                 const SizedBox(height: 20),
                                 UiTextFiel().textField(
                                   formControlName: 'email',
