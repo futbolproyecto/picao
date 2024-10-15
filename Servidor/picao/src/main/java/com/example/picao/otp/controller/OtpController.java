@@ -15,22 +15,39 @@ public class OtpController {
     private final OtpService otpService;
 
 
-    @PostMapping(value = "send")
+    @PostMapping(value = "send-mobilenumber")
     public ResponseEntity<GenericResponseDTO> sendOtp(
             @RequestParam("mobile_number") String mobileNumber) {
-        return GenericResponseDTO.genericResponse(otpService.sendOtp(mobileNumber));
+        return GenericResponseDTO.genericResponse(otpService.sendMobileNumber(mobileNumber));
     }
 
 
-    @PutMapping(value = "validate")
+    @PutMapping(value = "validate-mobilenumber")
     public ResponseEntity<GenericResponseDTO> validateOtp(
             @RequestParam("otp") String otp, @RequestParam("mobile_number") String mobileNumber) {
-        return GenericResponseDTO.genericResponse(otpService.validateOtp(otp, mobileNumber));
+        return GenericResponseDTO.genericResponse(otpService.validateMobileNumber(otp, mobileNumber));
     }
 
-    @PutMapping(value = "resend")
+    @PutMapping(value = "resend-mobilenumber")
     public ResponseEntity<GenericResponseDTO> validateOtp(
             @RequestParam("mobile_number") String mobileNumber) {
-        return GenericResponseDTO.genericResponse(otpService.resendOtp(mobileNumber));
+        return GenericResponseDTO.genericResponse(otpService.resendMobileNumber(mobileNumber));
+    }
+
+    @PostMapping(value = "send-email")
+    public ResponseEntity<GenericResponseDTO> sendEmail(
+            @RequestParam("email") String email) {
+        return GenericResponseDTO.genericResponse(otpService.sendEmail(email));
+    }
+
+    @PutMapping(value = "validate-email")
+    public ResponseEntity<GenericResponseDTO> validateEmail(
+            @RequestParam("otp") String otp, @RequestParam("email") String email) {
+        return GenericResponseDTO.genericResponse(otpService.validateEmail(otp, email));
+    }
+
+    @PostMapping(value = "resend-email")
+    public ResponseEntity<GenericResponseDTO> resendEmail(@RequestParam("email") String email) {
+        return GenericResponseDTO.genericResponse(otpService.resendEmail(email));
     }
 }

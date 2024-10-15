@@ -2,7 +2,14 @@ package com.example.picao.otp.service;
 
 public interface OtpService {
 
-    Boolean validateOtp(String otp,String mobileNumber);
-    String resendOtp(String mobileNumber);
-    String sendOtp(String mobileNumber);
+    Boolean validateMobileNumber(String otp, String mobileNumber);
+
+    String resendMobileNumber(String mobileNumber);
+
+    String sendMobileNumber(String mobileNumber);
+
+    String sendEmail(String emailUser);
+
+    Boolean validateEmail(String otp, String emailUser);
+    String resendEmail(String emailUser);
 }
