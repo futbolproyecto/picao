@@ -32,8 +32,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public AuthResponseDTO login(LoginRequestDTO loginRequestDTO) {
 
-
-        UserEntity userEntity = userRepository.findByMobileNumber(loginRequestDTO.mobile_number())
+        UserEntity userEntity = userRepository.findByMobileNumberOrEmail(loginRequestDTO.emailOrMobileNumber())
                 .orElseThrow(() -> new AppException(
                         ErrorMessages.AUTHENTICATION_ERROR, HttpStatus.BAD_REQUEST));
 
@@ -57,7 +56,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private String generateToken(UserEntity userEntity) {
 
         Authentication authentication = new UsernamePasswordAuthenticationToken(
-                userEntity.getUsername(), null,
+                userEntity.getEmail(), null,
                 UsefulMethods.getAuthorities(userEntity.getRoles()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
