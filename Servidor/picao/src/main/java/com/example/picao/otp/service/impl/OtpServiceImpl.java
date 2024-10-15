@@ -90,7 +90,6 @@ public class OtpServiceImpl implements OtpService {
                 .createdAt(LocalDateTime.now())
                 .build());
 
-
         sendOtpWhatsApp(mobileNumber, otp);
 
         return "Codigo enviado nuevamente";
@@ -143,26 +142,6 @@ public class OtpServiceImpl implements OtpService {
                 .orElseThrow(() -> new AppException(ErrorMessages.INVALID_OTP, HttpStatus.NOT_FOUND));
     }
 
-    @Transactional
-    @Override
-    public String resendEmail(String emailUser) {
-        try {
-            Otp otpBD = otpRepository.findByEmail(emailUser).orElseThrow(
-                    () -> new AppException(ErrorMessages.EMAIL_DOES_NOT_EXIST, HttpStatus.NOT_FOUND));
-
-            String otp = generateOTP();
-            otpBD.setCode(otp);
-            otpBD.setCreatedAt(LocalDateTime.now());
-            otpRepository.save(otpBD);
-
-            sendEmailOtp(emailUser, otp);
-
-            return "Codigo enviado nuevamente";
-
-        } catch (AppException e) {
-            throw new AppException(e.getErrorMessages(), e.getHttpStatus());
-        }
-    }
 
     private void sendOtpWhatsApp(String destinationNumberPhone, String otp) {
         Twilio.init(accountSid, authToken);

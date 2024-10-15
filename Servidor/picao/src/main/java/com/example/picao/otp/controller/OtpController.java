@@ -46,8 +46,4 @@ public class OtpController {
         return GenericResponseDTO.genericResponse(otpService.validateEmail(otp, email));
     }
 
-    @PostMapping(value = "resend-email")
-    public ResponseEntity<GenericResponseDTO> resendEmail(@RequestParam("email") String email) {
-        return GenericResponseDTO.genericResponse(otpService.resendEmail(email));
-    }
 }

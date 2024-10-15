@@ -11,5 +11,4 @@ public interface OtpService {
     String sendEmail(String emailUser);
 
     Boolean validateEmail(String otp, String emailUser);
-    String resendEmail(String emailUser);
 }
