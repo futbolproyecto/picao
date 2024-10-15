@@ -40,7 +40,7 @@ public class OtpController {
         return GenericResponseDTO.genericResponse(otpService.sendEmail(email));
     }
 
-    @PutMapping(value = "validate-email")
+    @PostMapping(value = "validate-email")
     public ResponseEntity<GenericResponseDTO> validateEmail(
             @RequestParam("otp") String otp, @RequestParam("email") String email) {
         return GenericResponseDTO.genericResponse(otpService.validateEmail(otp, email));

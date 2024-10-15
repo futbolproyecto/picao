@@ -121,7 +121,7 @@ public class OtpServiceImpl implements OtpService {
 
             sendEmailOtp(otpGenerated, emailUser);
 
-            return "Codigo enviado nuevamente";
+            return "Codigo enviado correctamente";
 
         } catch (
                 AppException e) {

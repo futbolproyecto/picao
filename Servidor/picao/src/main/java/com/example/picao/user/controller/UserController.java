@@ -1,6 +1,7 @@
 package com.example.picao.user.controller;
 
 import com.example.picao.core.util.dto.GenericResponseDTO;
+import com.example.picao.user.dto.ChangePasswordRequestDTO;
 import com.example.picao.user.dto.CreateUserRequestDTO;
 import com.example.picao.user.service.UserService;
 import jakarta.validation.Valid;
@@ -22,6 +23,12 @@ public class UserController {
     public ResponseEntity<GenericResponseDTO> create(
             @RequestBody @Valid CreateUserRequestDTO createUserRequestDTO) {
         return GenericResponseDTO.genericResponse(userService.createUser(createUserRequestDTO));
+    }
+
+    @PutMapping(value = "change-password")
+    public ResponseEntity<GenericResponseDTO> changePassword(
+            @RequestBody @Valid ChangePasswordRequestDTO requestDTO) {
+        return GenericResponseDTO.genericResponse(userService.changePassword(requestDTO));
     }
 
 
