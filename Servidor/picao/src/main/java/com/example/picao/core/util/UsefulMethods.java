@@ -6,7 +6,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.Collection;
 import java.util.Set;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
 /**
@@ -23,14 +22,7 @@ public class UsefulMethods {
                 .collect(Collectors.toSet());
     }
 
-    public static String generateOTP() {
-        int length = 6;
-        StringBuilder otp = new StringBuilder();
-        for (int i = 0; i < length; i++) {
-            otp.append(ThreadLocalRandom.current().nextInt(0, 10));
-        }
-        return otp.toString();
-    }
+
 
 
 }

@@ -8,6 +8,6 @@ INSERT INTO cities (name,country_id) VALUES ('cali',1);
 INSERT INTO statuses (description) VALUES ('activo'),('inactivo');
 
 -- crear usuario inicial
-INSERT INTO users (name,second_name,last_name,second_last_name,mobile_number,email,password,username,city_id,status_id) VALUES ('golpi','segundo nombre','apellido golpi','segundo apellido golpi','1234567890','golpi@gmail.com','$2a$10$an2sN0xzn8Ve7yjAoPNdHufOvtA5dfW2jd3ZKZtBpD5LPwWEzBYSC','golpi',1,1);
+INSERT INTO users (name,second_name,last_name,second_last_name,mobile_number,email,password,username,city_id,status_id) VALUES ('golpi','segundo nombre','apellido golpi','segundo apellido golpi','1234567890','barcandres91@gmail.com','$2a$10$an2sN0xzn8Ve7yjAoPNdHufOvtA5dfW2jd3ZKZtBpD5LPwWEzBYSC','golpi',1,1);
 -- se asignan roles
-INSERT INTO user_roles (role_id, user_id) VALUES (1,1),(2,1);
+--INSERT INTO user_roles (role_id, user_id) VALUES (1,1),(2,1);

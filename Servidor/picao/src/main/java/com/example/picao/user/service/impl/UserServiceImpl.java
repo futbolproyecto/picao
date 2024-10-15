@@ -4,8 +4,8 @@ import com.example.picao.core.exception.AppException;
 import com.example.picao.core.util.ErrorMessages;
 import com.example.picao.core.util.UsefulMethods;
 import com.example.picao.core.util.mapper.UserMapper;
-import com.example.picao.otp.entity.Otp;
 import com.example.picao.otp.repository.OtpRepository;
+import com.example.picao.user.dto.ChangePasswordRequestDTO;
 import com.example.picao.user.dto.CreateUserRequestDTO;
 import com.example.picao.user.entity.UserEntity;
 import com.example.picao.user.repository.UserRepository;
@@ -13,10 +13,7 @@ import com.example.picao.user.service.UserService;
 
 import lombok.RequiredArgsConstructor;
 import org.mapstruct.factory.Mappers;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -25,20 +22,15 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 
 @RequiredArgsConstructor()
 @Service
 public class UserServiceImpl implements UserService, UserDetailsService {
 
-    @Value("${spring.mail.username}")
-    private String email;
-
     private static final UserMapper userMapper = Mappers.getMapper(UserMapper.class);
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final JavaMailSender mailSender;
     private final OtpRepository otpRepository;
 
 
@@ -59,21 +51,21 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Transactional
     @Override
-    public int createUser(CreateUserRequestDTO createUserRequestDTO) {
+    public int createUser(CreateUserRequestDTO requestDTO) {
         try {
 
-            userRepository.findByMobileNumber(createUserRequestDTO.mobileNumber()).ifPresent(
+            userRepository.findByMobileNumber(requestDTO.mobileNumber()).ifPresent(
                     user -> {
                         throw new AppException(ErrorMessages.DUPLICATE_PHONE_NUMBER, HttpStatus.BAD_REQUEST);
                     });
 
-            userRepository.findByEmail(createUserRequestDTO.email()).ifPresent(
+            userRepository.findByEmail(requestDTO.email()).ifPresent(
                     user -> {
                         throw new AppException(ErrorMessages.DUPLICATE_EMAIL, HttpStatus.BAD_REQUEST);
                     });
 
 
-            UserEntity userEntity = userMapper.toUser(createUserRequestDTO);
+            UserEntity userEntity = userMapper.toUser(requestDTO);
             userEntity.setPassword(passwordEncoder.encode(userEntity.getPassword()));
 
 
@@ -89,35 +81,25 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Transactional
     @Override
-    public int recoverPassword(String emailUser) {
+    public int changePassword(ChangePasswordRequestDTO requestDTO) {
         try {
-            if (!userRepository.existsByEmail(emailUser))
-                throw new AppException(ErrorMessages.EMAIL_DOES_NOT_EXIST, HttpStatus.BAD_REQUEST);
 
-            String otp = UsefulMethods.generateOTP();
-            otpRepository.save(Otp.builder()
-                    .code(otp)
-                    .email(emailUser)
-                    .createdAt(LocalDateTime.now())
-                    .build());
+            if (otpRepository.findByEmailAndCode(requestDTO.email(), requestDTO.otp()).isEmpty())
+                throw new AppException(ErrorMessages.INVALID_OTP, HttpStatus.NOT_FOUND);
 
-            SimpleMailMessage message = new SimpleMailMessage();
-            message.setTo(emailUser);
-            message.setSubject("Recuperacion contraseña");
-            message.setText("se le olvido la contraseña papi, tenga su codigo " + otp);
-            message.setFrom(email);
+            UserEntity user = userRepository.findByEmail(requestDTO.email()).orElseThrow(
+                    () -> new AppException(ErrorMessages.EMAIL_NOT_EXIST, HttpStatus.NOT_FOUND));
 
-            mailSender.send(message);
-
+            otpRepository.deleteOtp(requestDTO.otp());
+            user.setPassword(passwordEncoder.encode(requestDTO.password()));
+            userRepository.save(user);
             return 0;
-        } catch (AppException e) {
+
+        } catch (
+                AppException e) {
             throw new AppException(e.getErrorMessages(), e.getHttpStatus());
         }
-
     }
 
-    private boolean isExpiredOtp(LocalDateTime createdAt) {
-        return LocalDateTime.now().isAfter(createdAt.minusHours(24));
-    }
 
 }
