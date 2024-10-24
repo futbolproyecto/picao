@@ -4,9 +4,9 @@ import 'package:picao/modules/user/models/change_password_model.dart';
 import 'package:picao/modules/user/models/user_model.dart';
 
 class UserRepository {
-  Future<void> sendOtp(String mobileNumber) async {
+  Future<void> sendOtpMobileNumber(String mobileNumber) async {
     try {
-      await HttpService(ConstantEndpoints.sendOtp)
+      await HttpService(ConstantEndpoints.sendOtpMobileNumber)
           .postRequesParam({'mobile_number': mobileNumber});
     } on Exception catch (_) {
       rethrow;
@@ -15,7 +15,7 @@ class UserRepository {
 
   Future<void> sendOtpEmail(String email) async {
     try {
-      await HttpService(ConstantEndpoints.sendOtp)
+      await HttpService(ConstantEndpoints.sendOtpEmail)
           .postRequesParam({'email': email});
     } on Exception catch (_) {
       rethrow;
@@ -33,8 +33,8 @@ class UserRepository {
 
   Future<void> validateOtpEmail(String otp, String email) async {
     try {
-      await HttpService(ConstantEndpoints.validateOtp)
-          .putRequesParam({'otp': otp, 'email': email});
+      await HttpService(ConstantEndpoints.validateOtpEmail)
+          .postRequesParam({'otp': otp, 'email': email});
     } on Exception catch (_) {
       rethrow;
     }
@@ -52,7 +52,7 @@ class UserRepository {
   Future<void> changePassword(ChangePasswordModel changePasswordModel) async {
     try {
       await HttpService(ConstantEndpoints.changePassword)
-          .post(changePasswordModel.toJson());
+          .put(changePasswordModel.toJson());
     } on Exception catch (_) {
       rethrow;
     }

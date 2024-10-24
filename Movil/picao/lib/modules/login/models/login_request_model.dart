@@ -1,22 +1,22 @@
 class LoginRequestModel {
-  final String mobileNumber;
+  final String emailOrMobileNumber;
   final String password;
 
   LoginRequestModel({
-    required this.mobileNumber,
+    required this.emailOrMobileNumber,
     required this.password,
   });
 
   factory LoginRequestModel.fromJson(Map<String, dynamic> json) {
     return LoginRequestModel(
-      mobileNumber: json['mobile_number'],
+      emailOrMobileNumber: json['email_or_mobile_number'],
       password: json['password'],
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'mobile_number': mobileNumber,
+      'email_or_mobile_number': emailOrMobileNumber,
       'password': password,
     };
   }

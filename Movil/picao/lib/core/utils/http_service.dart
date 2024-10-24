@@ -31,6 +31,27 @@ class HttpService {
     }
   }
 
+  Future<Object?> put(Map<String, dynamic>? body) async {
+    try {
+      final response = await http.put(
+        Uri.http(ConstantEndpoints.baseUrl, endPoint),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode(body),
+      );
+
+      if (response.statusCode != HttpStatus.ok) {
+        throw CustomException(
+            ErrorModel.fromJson(jsonDecode(utf8.decode(response.bodyBytes))));
+      }
+
+      return response.body;
+    } on CustomException catch (_) {
+      rethrow;
+    } on Exception catch (_) {
+      throw CustomException(ErrorModel().uncontrolledError());
+    }
+  }
+
   Future<Object?> postRequesParam(Map<String, String>? parameters) async {
     try {
       final response = await http.post(

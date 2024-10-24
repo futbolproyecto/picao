@@ -14,7 +14,7 @@ class LoginController extends GetxController {
   LoginController({required this.loginRepository});
 
   var formLogin = FormGroup({
-    'mobile_number': FormControl<String>(
+    'email_or_mobile_number': FormControl<String>(
         validators: [Validators.required, Validators.maxLength(50)]),
     'password': FormControl<String>(
         validators: [Validators.required, Validators.maxLength(50)]),

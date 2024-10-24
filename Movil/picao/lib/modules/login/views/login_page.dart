@@ -79,7 +79,7 @@ class LoginPage extends StatelessWidget {
                       UiText(text: 'Ingresa tus datos de sesion').phraseBlack(),
                       const SizedBox(height: 20),
                       UiTextFiel().textField(
-                        formControlName: 'mobile_number',
+                        formControlName: 'email_or_mobile_number',
                         labelText: 'Correo',
                         prefixIcon: Icons.email_outlined,
                         colorPrefixIcon: Constants.primaryColor,

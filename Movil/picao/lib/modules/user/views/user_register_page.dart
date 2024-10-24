@@ -277,7 +277,7 @@ class UserRegisterPage extends StatelessWidget {
                                     reactiveFormUserRegistrer
                                         .markAllAsTouched();
                                     if (reactiveFormUserRegistrer.valid) {
-                                      userController.sendOtp();
+                                      userController.sendOtpMobileNumber();
                                     }
                                   },
                                   title: 'Ingresar')

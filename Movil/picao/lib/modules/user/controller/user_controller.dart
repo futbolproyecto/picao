@@ -21,7 +21,8 @@ class UserController extends GetxController {
 
   @override
   void onInit() {
-    validateFormatPassword();
+    validateFormatPasswordUser();
+    validateFormatPasswordRecoverPassword();
     super.onInit();
   }
 
@@ -72,12 +73,6 @@ class UserController extends GetxController {
     ),
   });
 
-  var formOtpEmailConfirmation = FormGroup({
-    'otp_number': FormControl<String>(
-      validators: [Validators.required, Validators.maxLength(50)],
-    ),
-  });
-
   var formEmailRecoveryPassword = FormGroup({
     'email': FormControl<String>(
       validators: [
@@ -96,7 +91,7 @@ class UserController extends GetxController {
     const MustMatchValidator('password', 'password_confirmation', false)
   ]);
 
-  Future<void> sendOtp() async {
+  Future<void> sendOtpMobileNumber() async {
     try {
       formUserRegistrer.unfocus();
       QuickAlert.show(
@@ -108,8 +103,8 @@ class UserController extends GetxController {
         disableBackBtn: true,
       );
 
-      await userRepository
-          .sendOtp(formUserRegistrer.control('mobile_number').value);
+      await userRepository.sendOtpMobileNumber(
+          formUserRegistrer.control('mobile_number').value);
 
       Get.back();
       UiAlertMessage(Get.context!).custom(
@@ -173,7 +168,6 @@ class UserController extends GetxController {
                     onPressed: () async {
                       Get.back();
                       await validateOtpEmail();
-                      changePassword();
                     },
                     title: 'Validar')
                 .textButtom(Constants.primaryColor),
@@ -247,6 +241,9 @@ class UserController extends GetxController {
             formOtpConfirmation.control('otp_number').value,
             formEmailRecoveryPassword.control('email').value);
 
+        isEmailValidated.value = true;
+        isValidateEmail.value = false;
+
         Get.back();
       }
     } on CustomException catch (e) {
@@ -309,15 +306,20 @@ class UserController extends GetxController {
         disableBackBtn: true,
       );
 
-      await userRepository.changePassword(
-          ChangePasswordModel.fromJson(formUserRegistrer.value));
+      ChangePasswordModel changePasswordModel = ChangePasswordModel(
+          email: formEmailRecoveryPassword.control('email').value,
+          password: formChangePassword.control('password').value,
+          otp: formOtpConfirmation.control('otp_number').value);
+
+      await userRepository.changePassword(changePasswordModel);
 
       Get.back();
       UiAlertMessage(Get.context!).success(
-          message: 'La informacion se registro de manera exitosa',
+          message: 'La clave se actualizo correctamente',
           barrierDismissible: false,
           actionButtom: () {
-            formUserRegistrer.reset();
+            formEmailRecoveryPassword.reset();
+            formChangePassword.reset();
             formOtpConfirmation.reset();
             Get.offNamed(AppPages.login);
           });
@@ -337,8 +339,25 @@ class UserController extends GetxController {
     obscureText.value = !obscureText.value;
   }
 
-  void validateFormatPassword() {
+  void validateFormatPasswordUser() {
     formUserRegistrer.control("password").valueChanges.listen((value) {
+      if (value != null) {
+        showValidationPassword.value = true;
+        _scrollToBottom();
+        hasEspecialCaracter.value =
+            value.contains(RegExp(r'[!@#\$%^&*(),.?":{}|<>]'));
+        hasMinCaracter.value = (value.length >= 6);
+        hasCapital.value = value.contains(RegExp(r'[A-Z]'));
+        hasLower.value = value.contains(RegExp(r'[a-z]'));
+        hasNumber.value = value.contains(RegExp(r'[0-9]'));
+      } else {
+        showValidationPassword.value = false;
+      }
+    });
+  }
+
+  void validateFormatPasswordRecoverPassword() {
+    formChangePassword.control("password").valueChanges.listen((value) {
       if (value != null) {
         showValidationPassword.value = true;
         _scrollToBottom();
