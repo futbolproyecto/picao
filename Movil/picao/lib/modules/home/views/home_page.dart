@@ -15,6 +15,40 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: UiText(text: 'Golpi').titlePrimaryColor(),
         automaticallyImplyLeading: false,
+        actions: [
+          PopupMenuButton(
+              icon: const Icon(Icons.more_vert),
+              offset: const Offset(0, 45),
+              color: Colors.white,
+              onSelected: (value) {
+                // Acción según el valor seleccionado
+                switch (value) {
+                  case 1:
+                    print('Perfil');
+                    break;
+                  case 2:
+                    print('Ajustes');
+                    break;
+                  case 3:
+                    homeController.closeSesion();
+                    break;
+                }
+              },
+              itemBuilder: (context) => [
+                    PopupMenuItem(
+                      value: 1,
+                      child: UiText(text: 'Perfil').phraseBlack(),
+                    ),
+                    PopupMenuItem(
+                      value: 2,
+                      child: UiText(text: 'Ajustes').phraseBlack(),
+                    ),
+                    PopupMenuItem(
+                      value: 3,
+                      child: UiText(text: 'Salir').phraseBlack(),
+                    ),
+                  ])
+        ],
       ),
       body: Center(
         child: SizedBox(
