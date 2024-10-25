@@ -17,6 +17,17 @@ class UiText {
     );
   }
 
+  Widget titlePrimaryColor() {
+    return Text(
+      text,
+      style: TextStyle(
+          fontFamily: 'Montserrat',
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+          color: Constants.primaryColor),
+    );
+  }
+
   Widget phraseSemiBold() {
     return Text(
       text,

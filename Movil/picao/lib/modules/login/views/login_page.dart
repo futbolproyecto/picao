@@ -1,12 +1,12 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:picao/core/constants/constants.dart';
+import 'package:flutter/material.dart';
 import 'package:picao/core/routes/app_pages.dart';
-import 'package:picao/modules/login/controller/login_controller.dart';
-import 'package:picao/modules/widgets/ui_buttoms.dart';
-import 'package:picao/modules/widgets/ui_text.dart';
-import 'package:picao/modules/widgets/ui_text_field.dart';
 import 'package:reactive_forms/reactive_forms.dart';
+import 'package:picao/modules/widgets/ui_text.dart';
+import 'package:picao/core/constants/constants.dart';
+import 'package:picao/modules/widgets/ui_buttoms.dart';
+import 'package:picao/modules/widgets/ui_text_field.dart';
+import 'package:picao/modules/login/controller/login_controller.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});

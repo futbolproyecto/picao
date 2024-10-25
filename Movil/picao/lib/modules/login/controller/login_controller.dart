@@ -1,13 +1,15 @@
 import 'package:get/get.dart';
-import 'package:picao/core/exception/custom_exception.dart';
-import 'package:picao/core/exception/models/error_model.dart';
+import 'package:quickalert/quickalert.dart';
 import 'package:picao/core/routes/app_pages.dart';
+import 'package:reactive_forms/reactive_forms.dart';
+import 'package:picao/data/service/secure_storage.dart';
+import 'package:picao/core/exception/custom_exception.dart';
+import 'package:picao/modules/widgets/ui_alert_message.dart';
+import 'package:picao/core/exception/models/error_model.dart';
+import 'package:picao/modules/login/models/sesion_model.dart';
+import 'package:picao/core/constants/constant_secure_storage.dart';
 import 'package:picao/data/repositories/login/login_repository.dart';
 import 'package:picao/modules/login/models/login_request_model.dart';
-import 'package:picao/modules/login/models/sesion_model.dart';
-import 'package:picao/modules/widgets/ui_alert_message.dart';
-import 'package:quickalert/quickalert.dart';
-import 'package:reactive_forms/reactive_forms.dart';
 
 class LoginController extends GetxController {
   final LoginRepository loginRepository;
@@ -35,7 +37,14 @@ class LoginController extends GetxController {
         disableBackBtn: true,
       );
 
-      await loginRepository.login(LoginRequestModel.fromJson(formLogin.value));
+      final response = await loginRepository
+          .login(LoginRequestModel.fromJson(formLogin.value));
+
+      final sesionModel = SesionModel.fromJson(response);
+
+      SecureStorage()
+          .addNewItem(ConstantSecureStorage.tokenSesion, sesionModel.token);
+
       Get.back();
       Get.toNamed(AppPages.home);
     } on CustomException catch (e) {

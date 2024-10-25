@@ -5,7 +5,7 @@ abstract class Routes {
   static const userRegister = _Paths.userRegister;
   static const chagePassword = _Paths.chagePassword;
   static const home = _Paths.home;
-  // Otras rutas
+  static const splash = _Paths.splash;
 }
 
 abstract class _Paths {
@@ -13,5 +13,5 @@ abstract class _Paths {
   static const userRegister = '/user-register';
   static const chagePassword = '/chage-password';
   static const home = '/home';
-  // Otras rutas
+  static const splash = '/splash';
 }

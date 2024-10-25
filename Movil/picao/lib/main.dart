@@ -16,16 +16,14 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor:
-          Constants.primaryColor, // Cambia el color de la barra de estado
-      statusBarIconBrightness: Brightness
-          .dark, // Cambia el color de los iconos de la barra de estado a claro
+      statusBarColor: Constants.primaryColor,
+      statusBarIconBrightness: Brightness.dark,
     ));
 
     return GetMaterialApp(
       builder: (context, widget) => ResponsiveWrapper.builder(
           BouncingScrollWrapper.builder(context, widget!),
-           maxWidth: 1200,
+          maxWidth: 1200,
           defaultScale: true,
           breakpoints: [
             const ResponsiveBreakpoint.resize(450, name: MOBILE),
@@ -37,7 +35,7 @@ class MainApp extends StatelessWidget {
           backgroundColor: Constants.primaryColor),
       title: 'Golpi',
       initialBinding: InitialBinding(),
-      initialRoute: AppPages.login,
+      initialRoute: AppPages.splash,
       getPages: AppPages.routes,
       debugShowCheckedModeBanner: false,
       theme: ThemeData(

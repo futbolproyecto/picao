@@ -1,16 +1,17 @@
-import 'dart:convert';
 import 'dart:io';
+import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:picao/core/constants/constant_endpoints.dart';
 import 'package:picao/core/exception/custom_exception.dart';
+import 'package:picao/core/constants/constant_endpoints.dart';
 import 'package:picao/core/exception/models/error_model.dart';
+import 'package:picao/core/utils/general_model.dart';
 
 class HttpService {
   final String endPoint;
   HttpService(this.endPoint);
 
-  Future<Object?> post(Map<String, dynamic>? body) async {
+  Future<Map<String, dynamic>> post(Map<String, dynamic>? body) async {
     try {
       final response = await http.post(
         Uri.http(ConstantEndpoints.baseUrl, endPoint),
@@ -22,8 +23,10 @@ class HttpService {
         throw CustomException(
             ErrorModel.fromJson(jsonDecode(utf8.decode(response.bodyBytes))));
       }
+      final generalModel =
+          GeneralModel.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
 
-      return response.body;
+      return generalModel.jsonStringifyToMaps(generalModel.payload);
     } on CustomException catch (_) {
       rethrow;
     } on Exception catch (_) {

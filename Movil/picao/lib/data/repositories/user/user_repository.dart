@@ -1,7 +1,7 @@
-import 'package:picao/core/constants/constant_endpoints.dart';
 import 'package:picao/core/utils/http_service.dart';
-import 'package:picao/modules/user/models/change_password_model.dart';
 import 'package:picao/modules/user/models/user_model.dart';
+import 'package:picao/core/constants/constant_endpoints.dart';
+import 'package:picao/modules/user/models/change_password_model.dart';
 
 class UserRepository {
   Future<void> sendOtpMobileNumber(String mobileNumber) async {
