@@ -1,0 +1,125 @@
+.container-main {
+  width: 100%;
+  min-height: 100vh;
+  overflow: hidden;
+  background-color: #c4c4c4;
+  padding: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Montserrat";
+}
+
+.container-box {
+  position: relative;
+  width: 100%;
+  max-width: 1060px;
+  height: 660px;
+  background-color: #fff;
+  border-radius: 3.3rem;
+  box-shadow: 0 60px 40px -30px rgba(0, 0, 0, 0.27);
+}
+
+.container-login {
+  position: absolute;
+  width: calc(100% - 4.1rem);
+  height: calc(100% - 4.1rem);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.formulario {
+  position: absolute;
+  height: 100%;
+  width: 50%;
+  top: 5%;
+  left: 0;
+}
+
+form {
+  padding-top: 1rem;
+  max-width: 400px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+h1 {
+  font-family: "Montserrat";
+  font-size: 2.1rem;
+  font-weight: bold;
+  color: black;
+}
+
+.custom-input {
+  width: 95%;
+  font-size: 15px;
+  margin-top: 5px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo img {
+  width: 110px;
+  margin: 0.3rem;
+}
+
+.boton {
+  padding-top: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.boton .btn {
+  background-color: #52ff96;
+  font-size: 16px;
+  color: white;
+  height: 45px;
+  width: 50%;
+  border-radius: 10px;
+}
+
+a {
+  color: #52ff96;
+  font-weight: bold;
+}
+
+.forgot-password {
+  font-weight: normal;
+  font-size: 15px;
+  color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.carousel {
+  position: absolute;
+  height: 80%;
+  width: 50%;
+  left: 48%;
+  top: 10%;
+  background-color: #6e3296;
+  border-radius: 2rem;
+}
+
+.images {
+  padding: 70px 30px 0 30px;
+}
+
+.image {
+  opacity: 0;
+  width: 100%;
+  border-radius: 1rem;
+}
+
+.image.show {
+  opacity: 1;
+}

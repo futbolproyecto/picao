@@ -21,10 +21,12 @@
             ],
             "tsConfig": "tsconfig.app.json",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/favicon.ico"
             ],
             "styles": [
+              "@angular/material/prebuilt-themes/purple-green.css",
+              "src/assets/css/global.css",
               "src/styles.css"
             ],
             "scripts": [],
@@ -85,10 +87,12 @@
             ],
             "tsConfig": "tsconfig.spec.json",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/favicon.ico"
             ],
             "styles": [
+              "@angular/material/prebuilt-themes/purple-green.css",
+              "src/assets/css/global.css",
               "src/styles.css"
             ],
             "scripts": []
