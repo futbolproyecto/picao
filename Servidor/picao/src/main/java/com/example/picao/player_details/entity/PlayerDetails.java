@@ -1,4 +1,4 @@
-package com.example.picao;
+package com.example.picao.player_details.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -10,17 +10,21 @@ import lombok.experimental.FieldDefaults;
 @Setter
 @Entity
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Table(name = "cities")
-public class City {
+@Table(name = "player_details")
+public class PlayerDetails {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
 
-    @Column(name = "name", length = 50)
-    String name;
+    @Column(length = 20, unique = true)
+    String nickname;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "country_id")
-    Country country;
+    @Column(length = 5)
+    Double stature;
+
+    @Column(length = 3)
+    Integer weight;
+
 
 }
