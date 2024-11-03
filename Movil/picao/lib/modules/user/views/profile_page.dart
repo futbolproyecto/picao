@@ -1,44 +1,26 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:picao/core/constants/constants.dart';
-import 'package:picao/core/routes/app_pages.dart';
 import 'package:picao/modules/widgets/ui_buttoms.dart';
 import 'package:picao/modules/widgets/ui_text.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:picao/modules/widgets/ui_text_field.dart';
 import 'package:picao/modules/user/controller/user_controller.dart';
 
-class RegisterUserPage extends StatelessWidget {
-  const RegisterUserPage({super.key});
+class ProfilePage extends StatelessWidget {
+  const ProfilePage({super.key});
 
   @override
   Widget build(BuildContext context) {
     final UserController userController = Get.find<UserController>();
 
     return Scaffold(
+      appBar: AppBar(
+        title: UiText(text: 'Perfil').titlePrimaryColor(),
+        automaticallyImplyLeading: true,
+      ),
       body: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
         const SizedBox(height: 40),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            const SizedBox(height: 50),
-            UiText(text: '¿Ya tienes una cuenta?').phraseBlack(),
-            InkWell(
-              onTap: () {
-                Get.offNamed(AppPages.login);
-              },
-              child: Container(
-                  margin: const EdgeInsets.only(left: 10),
-                  width: 80,
-                  height: 30,
-                  decoration: BoxDecoration(
-                      color: Constants.primaryColor,
-                      borderRadius: const BorderRadius.all(Radius.circular(5))),
-                  child: const Center(child: Text('Ingresar'))),
-            )
-          ],
-        ),
-        const SizedBox(height: 20),
         Expanded(
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -69,7 +51,8 @@ class RegisterUserPage extends StatelessWidget {
                         Widget? child,
                       ) {
                         return Column(children: [
-                          UiText(text: 'Registro de informacion').title(),
+                          const SizedBox(height: 10),
+                          UiText(text: 'Mi perfil').title(),
                           const SizedBox(height: 20),
                           UiTextFiel().textField(
                             formControlName: 'name',
@@ -131,7 +114,7 @@ class RegisterUserPage extends StatelessWidget {
                           Obx(
                             () => UiTextFiel().textField(
                               formControlName: 'password',
-                              labelText: 'Clave',
+                              labelText: 'Alias',
                               prefixIcon: Icons.lock_outline,
                               colorPrefixIcon: Constants.primaryColor,
                               obscureText: userController.obscureText.value,
