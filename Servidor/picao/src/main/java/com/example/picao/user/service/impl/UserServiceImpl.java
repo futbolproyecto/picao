@@ -7,6 +7,7 @@ import com.example.picao.core.util.mapper.UserMapper;
 import com.example.picao.otp.repository.OtpRepository;
 import com.example.picao.user.dto.ChangePasswordRequestDTO;
 import com.example.picao.user.dto.CreateUserRequestDTO;
+import com.example.picao.user.dto.UserResponseDTO;
 import com.example.picao.user.entity.UserEntity;
 import com.example.picao.user.repository.UserRepository;
 import com.example.picao.user.service.UserService;
@@ -51,7 +52,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Transactional
     @Override
-    public int createUser(CreateUserRequestDTO requestDTO) {
+    public UserResponseDTO createUser(CreateUserRequestDTO requestDTO) {
         try {
 
             userRepository.findByMobileNumber(requestDTO.mobileNumber()).ifPresent(
@@ -69,10 +70,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             userEntity.setPassword(passwordEncoder.encode(userEntity.getPassword()));
 
 
-            userMapper.toUserResponseDTO(userRepository.save(userEntity));
+            return userMapper.toUserResponseDTO(userRepository.save(userEntity));
 
-
-            return 0;
 
         } catch (AppException e) {
             throw new AppException(e.getErrorMessages(), e.getHttpStatus());
