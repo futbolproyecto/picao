@@ -12,6 +12,7 @@ import {
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Constant } from '../../../shared/utils/constant';
+import { RegistroComponent } from '../../registro/registro.component';
 
 @Component({
   selector: 'app-login',
@@ -23,6 +24,7 @@ import { Constant } from '../../../shared/utils/constant';
     MatButtonModule,
     FormsModule,
     ReactiveFormsModule,
+    RegistroComponent,
   ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],

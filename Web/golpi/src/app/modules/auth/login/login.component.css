@@ -35,15 +35,22 @@
   width: 50%;
   top: 5%;
   left: 0;
+  display: grid;
+  transition: 0.8s ease-in-out;
 }
 
 form {
-  padding-top: 1rem;
+  padding-top: 0.5rem;
   max-width: 400px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+}
+
+.contactenos {
+  opacity: 0;
+  pointer-events: none;
 }
 
 h1 {
@@ -56,10 +63,11 @@ h1 {
 .custom-input {
   width: 95%;
   font-size: 15px;
-  margin-top: 5px;
+  margin-top: 2px;
 }
 
 .logo {
+  padding-bottom: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -71,7 +79,6 @@ h1 {
 }
 
 .boton {
-  padding-top: 1rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -102,10 +109,10 @@ a {
 
 .carousel {
   position: absolute;
-  height: 80%;
+  height: 90%;
   width: 50%;
   left: 48%;
-  top: 10%;
+  top: 5%;
   background-color: #6e3296;
   border-radius: 2rem;
 }

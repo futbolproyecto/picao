@@ -2,12 +2,15 @@
   <div class="container-box">
     <div class="container-login">
       <div class="formulario">
-        <div class="logo">
-          <img src="./assets/img/logo_normal.png" alt="Logo" />
-        </div>
-        <form [formGroup]="formularioLogin">
+        <form [formGroup]="formularioLogin" class="inicio-sesion">
+          <div class="logo">
+            <img src="./assets/img/logo_normal.png" alt="Logo" />
+          </div>
           <h1>Bienvenidos</h1>
-          <p>¿No tienes una cuenta? <a href="#">Regístrate</a></p>
+          <p>
+            ¿No tienes una cuenta?
+            <a href="#" class="toggle">Contáctenos</a>
+          </p>
           <div class="input-form">
             <mat-form-field class="custom-input" appearance="outline">
               <mat-icon matPrefix class="custom-icon">mail</mat-icon>
@@ -22,7 +25,6 @@
             <small class="text-error" *ngIf="validarCorreo()">
               {{ correoError }}
             </small>
-
 
             <mat-form-field class="custom-input" appearance="outline">
               <mat-icon matPrefix class="custom-icon">lock</mat-icon>
@@ -41,7 +43,7 @@
             <small class="text-error" *ngIf="validarPass()">
               {{ passError }}
             </small>
-            
+
             <a href="#" class="forgot-password">¿Olvidaste tu contraseña?</a>
 
             <br />
@@ -58,25 +60,13 @@
             </div>
           </div>
         </form>
+
+        <div class="contactenos">
+          <app-registro></app-registro>
+        </div>
       </div>
       <div class="carousel">
-        <div class="images">
-          <img
-            src="./assets/img/publicidad/Cancha1.jpg"
-            alt=""
-            class="image img-1 show"
-          />
-          <img
-            src="./assets/img/publicidad/Cancha2.jpg"
-            alt=""
-            class="image img-2"
-          />
-          <img
-            src="./assets/img/publicidad/Cancha3.jpg"
-            alt=""
-            class="image img-3"
-          />
-        </div>
+        <div class="images"></div>
       </div>
     </div>
   </div>
