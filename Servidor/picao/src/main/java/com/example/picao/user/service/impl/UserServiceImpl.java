@@ -87,7 +87,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 throw new AppException(ErrorMessages.INVALID_OTP, HttpStatus.NOT_FOUND);
 
             UserEntity user = userRepository.findByEmail(requestDTO.email()).orElseThrow(
-                    () -> new AppException(ErrorMessages.EMAIL_NOT_EXIST, HttpStatus.NOT_FOUND));
+                    () -> new AppException(ErrorMessages.USER_NOT_EXIST, HttpStatus.NOT_FOUND));
 
             otpRepository.deleteOtp(requestDTO.otp());
             user.setPassword(passwordEncoder.encode(requestDTO.password()));
