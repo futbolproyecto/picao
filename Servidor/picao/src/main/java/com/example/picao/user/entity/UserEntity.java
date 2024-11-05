@@ -1,6 +1,6 @@
 package com.example.picao.user.entity;
 
-import com.example.picao.City;
+import com.example.picao.city.entity.City;
 import com.example.picao.role.entity.Role;
 import com.example.picao.Status;
 import jakarta.persistence.*;

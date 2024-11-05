@@ -39,6 +39,9 @@ public enum ErrorMessages {
             "E4"),
     EMAIL_NOT_EXIST("Usuario no se encuentra registrado.",
             "Verifique la informacion ingresada",
+            "E5"),
+    DEPARTMENT_NOT_EXIST("Departamento no se encuentra registrado.",
+            "Verifique la informacion ingresada",
             "E5");
     private final String message;
     private final String recommendation;

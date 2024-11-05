@@ -1,5 +1,6 @@
 package com.example.picao;
 
+import com.example.picao.city.entity.City;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

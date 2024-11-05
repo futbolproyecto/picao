@@ -9,9 +9,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-/**
- * Clase controlador para administrar las peticiones HTTP
- */
+
 @RestController
 @AllArgsConstructor
 @RequestMapping("/user")
