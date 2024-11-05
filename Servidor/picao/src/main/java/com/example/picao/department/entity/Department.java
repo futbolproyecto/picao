@@ -1,6 +1,7 @@
 package com.example.picao.department.entity;
 
 import com.example.picao.city.entity.City;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -22,6 +23,7 @@ public class Department {
     @Column(length = 100)
     String name;
 
-    @OneToMany
+    @OneToMany(mappedBy = "department",fetch = FetchType.LAZY)
+    @JsonManagedReference
     List<City> cities;
 }
