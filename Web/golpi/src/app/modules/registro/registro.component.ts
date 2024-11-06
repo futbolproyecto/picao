@@ -12,6 +12,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { Constant } from '../../shared/utils/constant';
+import { ModoAuthService } from '../../core/service/modo-auth.service';
+import { MatSelectModule } from '@angular/material/select';
+import { trigger, transition, style, animate } from '@angular/animations';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
   selector: 'app-registro',
@@ -23,22 +27,41 @@ import { Constant } from '../../shared/utils/constant';
     MatButtonModule,
     FormsModule,
     ReactiveFormsModule,
+    MatSelectModule,
+    MatFormFieldModule,
   ],
   templateUrl: './registro.component.html',
-  styleUrl: './registro.component.css',
+  styleUrls: ['./registro.component.css'],
+  animations: [
+    trigger('transitionMessages', [
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate('300ms', style({ opacity: 1 })),
+      ]),
+      transition(':leave', [animate('300ms', style({ opacity: 0 }))]),
+    ]),
+  ],
 })
 export class RegistroComponent {
   private formBuilder = inject(UntypedFormBuilder);
+  private ModoAuthService = inject(ModoAuthService);
 
+  public esModoRegistro: boolean = false;
   public formularioRegistro: UntypedFormGroup = new UntypedFormGroup({});
 
   //cadenas para errores
   public nombreError: string = '';
+  public indicadorError: string = '';
   public celularError: string = '';
   public correoError: string = '';
 
+  public selected: string = 'COP';
+
   constructor() {
     this.buildForm();
+    this.ModoAuthService.esModoRegistro$.subscribe((modo) => {
+      this.esModoRegistro = modo;
+    });
   }
 
   buildForm(): void {
@@ -51,6 +74,7 @@ export class RegistroComponent {
           Validators.maxLength(Constant.CAMPO_MAXIMO_50),
         ],
       ],
+      indicador: ['', [Validators.required]],
       celular: [
         '',
         [
@@ -76,6 +100,10 @@ export class RegistroComponent {
     return this.formularioRegistro.get('nombre')!;
   }
 
+  get indicador(): AbstractControl {
+    return this.formularioRegistro.get('indicador')!;
+  }
+
   get celular(): AbstractControl {
     return this.formularioRegistro.get('celular')!;
   }
@@ -95,6 +123,17 @@ export class RegistroComponent {
         status = true;
       } else if (this.nombre.hasError('maxlength')) {
         this.nombreError = Constant.ERROR_CAMPO_MAXIMO_50;
+        status = true;
+      }
+    }
+    return status;
+  }
+
+  validarIndicador(): boolean {
+    let status = false;
+    if (this.indicador.touched) {
+      if (this.indicador.hasError('required')) {
+        this.indicadorError = Constant.ERROR_CAMPO_REQUERIDO;
         status = true;
       }
     }
@@ -136,6 +175,15 @@ export class RegistroComponent {
       }
     }
     return status;
+  }
+
+  cambioModoInicioRegistro() {
+    this.ModoAuthService.setModoRegistro(false);
+    this.limpiarFormulario();
+  }
+
+  limpiarFormulario(): void {
+    this.formularioRegistro.reset();
   }
 
   enviar(): void {

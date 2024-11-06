@@ -1,4 +1,4 @@
-<div class="container-main">
+<div class="container-main" [class.modo-registro]="esModoRegistro">
   <div class="container-box">
     <div class="container-login">
       <div class="formulario">
@@ -9,7 +9,12 @@
           <h1>Bienvenidos</h1>
           <p>
             ¿No tienes una cuenta?
-            <a href="#" class="toggle">Contáctenos</a>
+            <a
+              routerLink="/contactenos"
+              class="toggle"
+              (click)="cambioModoInicioRegistro()"
+              >Contáctenos</a
+            >
           </p>
           <div class="input-form">
             <mat-form-field class="custom-input" appearance="outline">
@@ -66,7 +71,7 @@
         </div>
       </div>
       <div class="carousel">
-        <div class="images"></div>
+        <app-carousel></app-carousel>
       </div>
     </div>
   </div>

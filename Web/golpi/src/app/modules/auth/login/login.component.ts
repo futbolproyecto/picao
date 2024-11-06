@@ -13,6 +13,11 @@ import {
 import { CommonModule } from '@angular/common';
 import { Constant } from '../../../shared/utils/constant';
 import { RegistroComponent } from '../../registro/registro.component';
+import { ModoAuthService } from '../../../core/service/modo-auth.service';
+import { CarouselComponent } from '../../../shared/components/layout/carousel/carousel.component';
+import { Router } from '@angular/router';
+import { trigger, transition, style, animate } from '@angular/animations';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
   selector: 'app-login',
@@ -25,22 +30,39 @@ import { RegistroComponent } from '../../registro/registro.component';
     FormsModule,
     ReactiveFormsModule,
     RegistroComponent,
+    CarouselComponent,
+    MatFormFieldModule,
   ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
+  animations: [
+    trigger('transitionMessages', [
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate('300ms', style({ opacity: 1 })),
+      ]),
+      transition(':leave', [animate('300ms', style({ opacity: 0 }))]),
+    ]),
+  ],
 })
 export class LoginComponent {
-  private formBuilder = inject(UntypedFormBuilder);
-
   public passVisible: boolean = true;
+  public esModoRegistro: boolean = false;
   public formularioLogin: UntypedFormGroup = new UntypedFormGroup({});
 
   //cadenas para errores
   public correoError: string = '';
   public passError: string = '';
 
-  constructor() {
+  constructor(
+    private formBuilder: UntypedFormBuilder,
+    private ModoAuthService: ModoAuthService,
+    private router: Router
+  ) {
     this.buildForm();
+    this.ModoAuthService.esModoRegistro$.subscribe((modo) => {
+      this.esModoRegistro = modo;
+    });
   }
 
   buildForm(): void {
@@ -111,12 +133,21 @@ export class LoginComponent {
     this.passVisible = !this.passVisible;
   }
 
-  iniciarSesion(): void {
-    if (this.formularioLogin.invalid) {
-      this.formularioLogin.markAllAsTouched();
-      return;
-    }
+  cambioModoInicioRegistro() {
+    this.ModoAuthService.setModoRegistro(true);
+    this.limpiarFormulario();
+  }
 
-    console.log('Iniciando sesión...');
+  limpiarFormulario(): void {
+    this.formularioLogin.reset();
+  }
+
+  iniciarSesion(): void {
+    if (this.formularioLogin.valid) {
+      console.log('Iniciando sesion...');
+      this.router.navigate(['/home']);
+    } else {
+      this.formularioLogin.markAllAsTouched();
+    }
   }
 }

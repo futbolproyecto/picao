@@ -1,14 +1,22 @@
-<div class="formulario">
-  <form [formGroup]="formularioRegistro" class="contactenos">
+<div class="formulario-registro" [class.modo-registro]="esModoRegistro">
+  <form [formGroup]="formularioRegistro" class="contacto">
     <div class="logo">
       <img src="./assets/img/logo_normal.png" alt="Logo" />
     </div>
     <h1>En breve te contactaremos. ¡Déjanos tus datos!</h1>
-    <p>¿Ya tienes una cuenta? <a href="#" class="toggle">Iniciar sesión</a></p>
+    <p>
+      ¿Ya tienes una cuenta?
+      <a
+        routerLink="/iniciar-sesion"
+        class="toggle"
+        (click)="cambioModoInicioRegistro()"
+        >Iniciar sesión</a
+      >
+    </p>
     <div class="input-form">
       <mat-form-field class="custom-input" appearance="outline">
         <mat-icon matPrefix class="custom-icon">badge</mat-icon>
-        <mat-label>Nombre Completo</mat-label>
+        <mat-label>Nombre completo</mat-label>
         <input
           matInput
           formControlName="nombre"
@@ -20,23 +28,33 @@
         {{ nombreError }}
       </small>
 
-      <mat-form-field class="custom-input" appearance="outline">
-        <mat-icon matPrefix class="custom-icon">call</mat-icon>
-        <mat-label>Celular</mat-label>
-        <input
-          matInput
-          formControlName="celular"
-          type="text"
-          autocomplete="off"
-        />
-      </mat-form-field>
+      <div class="container-celular">
+        <mat-form-field appearance="outline" class="custom-input-indicativo">
+          <mat-select [(value)]="selected">
+            <mat-option value="COP">+57</mat-option>
+            <mat-option value="EEUU">+1</mat-option>
+            <mat-option value="MEX">+52</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="custom-input-celular" appearance="outline">
+          <mat-icon matPrefix class="custom-icon">call</mat-icon>
+          <mat-label>Celular</mat-label>
+          <input
+            matInput
+            formControlName="celular"
+            type="text"
+            autocomplete="off"
+          />
+        </mat-form-field>
+      </div>
       <small class="text-error" *ngIf="validarCelular()">
         {{ celularError }}
       </small>
 
       <mat-form-field class="custom-input" appearance="outline">
         <mat-icon matPrefix class="custom-icon">mail</mat-icon>
-        <mat-label>Correo</mat-label>
+        <mat-label>Correo electronico</mat-label>
         <input
           matInput
           formControlName="correo"

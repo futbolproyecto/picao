@@ -33,24 +33,18 @@
   position: absolute;
   height: 100%;
   width: 50%;
-  top: 5%;
+  top: 6%;
   left: 0;
-  display: grid;
-  transition: 0.8s ease-in-out;
+  transition: 0.9s ease-in-out;
+  z-index: 1;
 }
 
 form {
-  padding-top: 0.5rem;
   max-width: 400px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-}
-
-.contactenos {
-  opacity: 0;
-  pointer-events: none;
 }
 
 h1 {
@@ -67,21 +61,23 @@ h1 {
 }
 
 .logo {
-  padding-bottom: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-bottom: 20px;
 }
 
 .logo img {
   width: 110px;
-  margin: 0.3rem;
+  margin: 0.1rem;
 }
 
 .boton {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: 30px;
+  padding-bottom: 2rem;
 }
 
 .boton .btn {
@@ -115,18 +111,80 @@ a {
   top: 5%;
   background-color: #6e3296;
   border-radius: 2rem;
+  z-index: 2;
 }
 
-.images {
-  padding: 70px 30px 0 30px;
-}
-
-.image {
+.contactenos {
   opacity: 0;
-  width: 100%;
-  border-radius: 1rem;
+  pointer-events: none;
 }
 
-.image.show {
+.container-main.modo-registro .inicio-sesion {
+  opacity: 0;
+  transition: opacity 0.02s 0.4s;
+  pointer-events: none;
+}
+
+.container-main.modo-registro .contactenos {
   opacity: 1;
+  transition: opacity 0.02s 0.4s;
+  pointer-events: all;
+}
+
+.container-main:not(.modo-registro) .inicio-sesion {
+  opacity: 1;
+  transition: opacity 0.02s 0.4s;
+  pointer-events: all;
+}
+
+.container-main:not(.modo-registro) .contactenos {
+  opacity: 0;
+  transition: opacity 0.02s 0.4s;
+  pointer-events: none;
+}
+
+.container-main.modo-registro .formulario {
+  left: 54%;
+}
+
+.container-main.modo-registro .carousel {
+  left: 0%;
+}
+
+.container-main .carousel {
+  transition: left 0.8s ease-in-out;
+}
+
+@media (max-width: 952px) {
+  .container-box {
+    height: auto;
+    max-width: 550px;
+    overflow: hidden;
+  }
+
+  .container-login {
+    position: static;
+    transform: none;
+    width: revert;
+    height: revert;
+    padding: 2rem;
+  }
+
+  .formulario {
+    position: revert;
+    width: 100%;
+    height: auto;
+  }
+
+  .carousel {
+    position: revert;
+    width: 100%;
+    height: auto;
+  }
+
+  form {
+    max-width: revert;
+    padding: 1.5rem 2.5rem;
+    transition: transform 0.8s ease-in-out, opacity 0.45s linear;
+  }
 }

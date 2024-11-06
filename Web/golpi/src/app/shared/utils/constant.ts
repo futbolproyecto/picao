@@ -14,6 +14,7 @@ export class Constant {
   static PATTERN_LETRAS_NUMEROS = /^[A-Za-z0-9]+$/;
 
   //  Form field errors
+  static ERROR_CAMPO_REQUERIDO = 'Campo requerido';
   static ERROR_FORM_INCOMPLETO =
     'Todos los campos deben estar correctamente diligenciados.';
   static ERROR_CAMPO_REQUERIDO_CORREO = 'Ingrese su correo';
