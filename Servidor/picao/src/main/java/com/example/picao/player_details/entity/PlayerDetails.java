@@ -3,6 +3,7 @@ package com.example.picao.player_details.entity;
 import com.example.picao.city.entity.City;
 import com.example.picao.dominant_foot.entity.DominantFoot;
 import com.example.picao.position_player.entity.PositionPlayer;
+import com.example.picao.user.entity.UserEntity;
 import com.example.picao.zone.entity.Zone;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -41,6 +42,10 @@ public class PlayerDetails {
 
     @ManyToOne(fetch = FetchType.LAZY)
     City city;
+
+    @OneToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id", unique = true)
+    UserEntity user;
 
 
 }

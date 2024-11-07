@@ -7,6 +7,7 @@ import com.example.picao.core.util.mapper.UserMapper;
 import com.example.picao.otp.repository.OtpRepository;
 import com.example.picao.user.dto.ChangePasswordRequestDTO;
 import com.example.picao.user.dto.CreateUserRequestDTO;
+import com.example.picao.user.dto.UserResponseDTO;
 import com.example.picao.user.entity.UserEntity;
 import com.example.picao.user.repository.UserRepository;
 import com.example.picao.user.service.UserService;
@@ -88,7 +89,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 throw new AppException(ErrorMessages.INVALID_OTP, HttpStatus.NOT_FOUND);
 
             UserEntity user = userRepository.findByEmail(requestDTO.email()).orElseThrow(
-                    () -> new AppException(ErrorMessages.EMAIL_NOT_EXIST, HttpStatus.NOT_FOUND));
+                    () -> new AppException(ErrorMessages.USER_NOT_EXIST, HttpStatus.NOT_FOUND));
 
             otpRepository.deleteOtp(requestDTO.otp());
             user.setPassword(passwordEncoder.encode(requestDTO.password()));
@@ -101,5 +102,21 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         }
     }
 
+    @Override
+    public UserResponseDTO getUserById(int id) {
+        try {
 
+            UserEntity userEntity = userRepository.findById(id).orElseThrow(
+                    () -> new AppException(ErrorMessages.USER_NOT_EXIST, HttpStatus.NOT_FOUND));
+
+            return userMapper.toUserResponseDTO(userEntity);
+
+        } catch (
+                AppException e) {
+            throw new AppException(e.getErrorMessages(), e.getHttpStatus());
+        }
+    }
 }
+
+
+

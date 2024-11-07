@@ -37,7 +37,7 @@ public enum ErrorMessages {
     EMAIL_DOES_NOT_EXIST("El correo electrónico proporcionado no está registrado",
             "Por favor, verifica e intenta de nuevo o crea una nueva cuenta.",
             "E4"),
-    EMAIL_NOT_EXIST("Usuario no se encuentra registrado.",
+    USER_NOT_EXIST("Usuario no se encuentra registrado.",
             "Verifique la informacion ingresada",
             "E5"),
     DEPARTMENT_NOT_EXIST("Departamento no se encuentra registrado.",

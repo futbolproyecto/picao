@@ -1,6 +1,7 @@
 package com.example.picao.user.entity;
 
 import com.example.picao.city.entity.City;
+import com.example.picao.player_details.entity.PlayerDetails;
 import com.example.picao.role.entity.Role;
 import com.example.picao.Status;
 import jakarta.persistence.*;
@@ -46,10 +47,6 @@ public class UserEntity {
     @Column(length = 80, unique = true, nullable = false)
     String email;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "city_id")
-    City city;
-
     @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
             CascadeType.REFRESH})
     @JoinTable(name = "user_roles",
@@ -62,6 +59,9 @@ public class UserEntity {
     Status status;
 
     LocalDate dateOfBirth;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    PlayerDetails playerDetails;
 
 
 }
