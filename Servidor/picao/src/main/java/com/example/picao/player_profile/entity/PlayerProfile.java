@@ -1,8 +1,9 @@
-package com.example.picao.player_details.entity;
+package com.example.picao.player_profile.entity;
 
 import com.example.picao.city.entity.City;
 import com.example.picao.dominant_foot.entity.DominantFoot;
 import com.example.picao.position_player.entity.PositionPlayer;
+import com.example.picao.user.entity.UserEntity;
 import com.example.picao.zone.entity.Zone;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -14,8 +15,8 @@ import lombok.experimental.FieldDefaults;
 @Setter
 @Entity
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Table(name = "player_details")
-public class PlayerDetails {
+@Table(name = "player_profile")
+public class PlayerProfile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,6 +42,10 @@ public class PlayerDetails {
 
     @ManyToOne(fetch = FetchType.LAZY)
     City city;
+
+    @OneToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id", unique = true)
+    UserEntity user;
 
 
 }

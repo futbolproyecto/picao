@@ -10,4 +10,8 @@ public interface UserService {
 
     int changePassword(ChangePasswordRequestDTO changePasswordRequestDTO);
 
+    UserResponseDTO getUserById(int id);
+
+
+
 }

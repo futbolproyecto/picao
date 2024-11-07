@@ -29,5 +29,11 @@ public class UserController {
         return GenericResponseDTO.genericResponse(userService.changePassword(requestDTO));
     }
 
+    @GetMapping(value = "get-by-id/{id}")
+    public ResponseEntity<GenericResponseDTO> getById(
+            @PathVariable Integer id) {
+        return GenericResponseDTO.genericResponse(userService.getUserById(id));
+    }
+
 
 }

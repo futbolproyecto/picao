@@ -6,6 +6,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 
@@ -14,6 +15,7 @@ import lombok.experimental.FieldDefaults;
 @Entity
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "dominant_foot")
+@NoArgsConstructor()
 public class DominantFoot {
 
     @Id
@@ -21,5 +23,9 @@ public class DominantFoot {
 
     @Column(length = 30)
     String name;
+
+    public DominantFoot(Integer id) {
+        this.id = id;
+    }
 }
 
