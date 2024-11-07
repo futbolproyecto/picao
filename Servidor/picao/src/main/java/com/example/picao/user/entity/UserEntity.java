@@ -1,7 +1,6 @@
 package com.example.picao.user.entity;
 
-import com.example.picao.city.entity.City;
-import com.example.picao.player_details.entity.PlayerDetails;
+import com.example.picao.player_profile.entity.PlayerProfile;
 import com.example.picao.role.entity.Role;
 import com.example.picao.Status;
 import jakarta.persistence.*;
@@ -61,7 +60,7 @@ public class UserEntity {
     LocalDate dateOfBirth;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-    PlayerDetails playerDetails;
+    PlayerProfile playerProfile;
 
 
 }

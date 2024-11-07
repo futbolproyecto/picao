@@ -1,11 +1,11 @@
-package com.example.picao.player_details.dto;
+package com.example.picao.player_profile.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
 
-public record CreatePlayerDetailsRequestDTO(
+public record CreatePlayerProfileRequestDTO(
         @NotBlank
         @Length(max = 20)
         String nickname,

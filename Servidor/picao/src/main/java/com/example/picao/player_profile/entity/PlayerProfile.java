@@ -1,4 +1,4 @@
-package com.example.picao.player_details.entity;
+package com.example.picao.player_profile.entity;
 
 import com.example.picao.city.entity.City;
 import com.example.picao.dominant_foot.entity.DominantFoot;
@@ -16,7 +16,7 @@ import lombok.experimental.FieldDefaults;
 @Entity
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "player_details")
-public class PlayerDetails {
+public class PlayerProfile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
