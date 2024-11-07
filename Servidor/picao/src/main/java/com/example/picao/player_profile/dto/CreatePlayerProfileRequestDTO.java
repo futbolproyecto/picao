@@ -1,32 +1,30 @@
 package com.example.picao.player_profile.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import org.hibernate.validator.constraints.Length;
+import jakarta.validation.constraints.*;
 
 public record CreatePlayerProfileRequestDTO(
         @NotBlank
-        @Length(max = 20)
+        @Size(max = 20)
         String nickname,
         @NotNull
-        @Length(max = 5)
+        @Max(5)
         Double stature,
         @NotNull
-        @Length(max = 3)
         Integer weight,
         @NotNull
-        @JsonProperty("position_player")
-        Integer positionPlayer,
+        @JsonProperty("position_player_id")
+        Integer positionPlayerId,
         @NotNull
-        @JsonProperty("dominant_foot")
-        Integer dominantFoot,
+        @JsonProperty("dominant_foot_id")
+        Integer dominantFootId,
         @NotNull
-        Integer zone,
+        @JsonProperty("zone_id")
+        Integer zoneId,
         @NotNull
-        Integer city,
+        @JsonProperty("city_id")
+        Integer cityId,
         @NotNull
-        Integer user) {
-
-
+        @JsonProperty("user_id")
+        Integer userId) {
 }

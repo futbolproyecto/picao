@@ -8,7 +8,7 @@ import com.example.picao.core.security.jwt.JwtUtils;
 import com.example.picao.core.util.ErrorMessages;
 import com.example.picao.core.util.UsefulMethods;
 import com.example.picao.user.entity.UserEntity;
-import com.example.picao.core.util.mapper.UserMapper;
+import com.example.picao.user.mapper.UserMapper;
 import com.example.picao.user.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;

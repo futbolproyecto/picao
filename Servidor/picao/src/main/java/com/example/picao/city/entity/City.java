@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 
@@ -12,16 +13,21 @@ import lombok.experimental.FieldDefaults;
 @Setter
 @Entity
 @FieldDefaults(level = AccessLevel.PRIVATE)
-    @Table(name = "cities")
-    public class City {
+@Table(name = "cities")
+@NoArgsConstructor()
+public class City {
 
-        @Id
-        Integer id;
+    @Id
+    Integer id;
 
-        @Column(length = 100)
-        String name;
+    @Column(length = 100)
+    String name;
 
-        @ManyToOne(fetch = FetchType.LAZY)
-        @JsonBackReference
-        Department department;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonBackReference
+    Department department;
+
+    public City(Integer id) {
+        this.id = id;
     }
+}

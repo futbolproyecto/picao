@@ -15,7 +15,7 @@ import lombok.experimental.FieldDefaults;
 @Setter
 @Entity
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Table(name = "player_details")
+@Table(name = "player_profile")
 public class PlayerProfile {
 
     @Id

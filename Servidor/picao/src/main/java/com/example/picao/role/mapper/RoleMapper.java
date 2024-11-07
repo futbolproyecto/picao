@@ -1,4 +1,4 @@
-package com.example.picao.core.util.mapper;
+package com.example.picao.role.mapper;
 
 import org.mapstruct.factory.Mappers;
 

@@ -4,7 +4,7 @@ import com.example.picao.player_profile.dto.CreatePlayerProfileRequestDTO;
 
 public interface PlayerProfileService {
 
-    int createPlayerProfile(CreatePlayerProfileRequestDTO createPlayerProfileRequestDTO);
+    int createPlayerProfile(CreatePlayerProfileRequestDTO requestDTO);
 
 
 
