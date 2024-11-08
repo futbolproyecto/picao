@@ -3,6 +3,7 @@ package com.example.picao.player_profile.service.impl;
 import com.example.picao.city.repository.CityRepository;
 import com.example.picao.core.exception.AppException;
 import com.example.picao.core.util.ErrorMessages;
+import com.example.picao.player_profile.entity.PlayerProfile;
 import com.example.picao.player_profile.mapper.PlayerProfileMapper;
 import com.example.picao.dominant_foot.repository.DominantFootRepository;
 import com.example.picao.player_profile.dto.CreatePlayerProfileRequestDTO;
@@ -29,7 +30,7 @@ public class PlayerProfileServiceImpl implements PlayerProfileService {
     private final PlayerProfileRepository playerProfileRepository;
 
     @Override
-    public int createPlayerProfile(CreatePlayerProfileRequestDTO requestDTO) {
+    public PlayerProfile createPlayerProfile(CreatePlayerProfileRequestDTO requestDTO) {
         try {
 
             playerProfileRepository.findByNickname(requestDTO.nickname()).ifPresent(
@@ -49,9 +50,7 @@ public class PlayerProfileServiceImpl implements PlayerProfileService {
             zoneRepository.findById(requestDTO.zoneId()).orElseThrow(
                     () -> new AppException(ErrorMessages.GENERIC_NOT_EXIST, HttpStatus.NOT_FOUND));
 
-            playerProfileRepository.save(MAPPER.toPlayerProfile(requestDTO));
-
-            return 0;
+            return  playerProfileRepository.save(MAPPER.toPlayerProfile(requestDTO));
 
         } catch (AppException e) {
             throw new AppException(e.getErrorMessages(), e.getHttpStatus());

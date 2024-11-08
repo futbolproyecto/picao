@@ -70,7 +70,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             userEntity.setPassword(passwordEncoder.encode(userEntity.getPassword()));
 
 
-            MAPPER.toUserResponseDTO(userRepository.save(userEntity));
+           return MAPPER.toUserResponseDTO(userRepository.save(userEntity));
 
 
         } catch (AppException e) {
