@@ -21,7 +21,7 @@ public record CreateUserRequestDTO(
         @JsonProperty("second_last_name")
         String secondLastName,
         @NotBlank
-        @Size(min = 10, message = Constants.ERROR_MESSAGE_PHONE_NUMBER)
+        @Size(min = 10, message = Constants.ERROR_MESSAGE_PHONE_NUMBER_SIZE)
         @JsonProperty("mobile_number")
         String mobileNumber,
         @Email(regexp = Constants.REGEX_EMAIL, message = Constants.ERROR_MESSAGE_EMAIL)
