@@ -18,6 +18,11 @@ import { CarouselComponent } from '../../../shared/components/layout/carousel/ca
 import { Router } from '@angular/router';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { UsuarioDto } from '../../../core/models/usuario-dto';
+import { AuthService } from '../../../core/service/auth.service';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { finalize, Subscription } from 'rxjs';
+import { GenericDto } from '../../../core/models/generic-dto';
 
 @Component({
   selector: 'app-login',
@@ -46,6 +51,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
   ],
 })
 export class LoginComponent {
+  public authService = inject(AuthService);
+  private spinnerService = inject(NgxSpinnerService);
+
   public passVisible: boolean = true;
   public esModoRegistro: boolean = false;
   public formularioLogin: UntypedFormGroup = new UntypedFormGroup({});
@@ -80,7 +88,7 @@ export class LoginComponent {
         '',
         [
           Validators.required,
-          Validators.minLength(Constant.CAMPO_MINIMO_CONTRASENA),
+          // Validators.minLength(Constant.CAMPO_MINIMO_CONTRASENA),
           Validators.maxLength(Constant.CAMPO_MAXIMO_CONTRASENA),
         ],
       ],
@@ -118,10 +126,12 @@ export class LoginComponent {
       if (this.pass.hasError('required')) {
         this.passError = Constant.ERROR_CAMPO_REQUERIDO_CONTRASENA;
         status = true;
-      } else if (this.pass.hasError('minlength')) {
-        this.passError = Constant.ERROR_CAMPO_MINIMO_CONTRASENA;
-        status = true;
-      } else if (this.pass.hasError('maxlength')) {
+      }
+      // else if (this.pass.hasError('minlength')) {
+      //   this.passError = Constant.ERROR_CAMPO_MINIMO_CONTRASENA;
+      //   status = true;
+      // }
+      else if (this.pass.hasError('maxlength')) {
         this.passError = Constant.ERROR_CAMPO_MAXIMO_CONTRASENA;
         status = true;
       }
@@ -142,12 +152,24 @@ export class LoginComponent {
     this.formularioLogin.reset();
   }
 
-  iniciarSesion(): void {
-    if (this.formularioLogin.valid) {
-      console.log('Iniciando sesion...');
-      this.router.navigate(['/home']);
-    } else {
-      this.formularioLogin.markAllAsTouched();
-    }
+  iniciarSesion() {
+    console.log(this.formularioLogin.valid);
+
+    const usuario: UsuarioDto = {
+      email_or_mobile_number: this.correo?.value,
+      password: this.pass?.value,
+    };
+
+    console.log(usuario);
+    this.authService.iniciarSesion(usuario).subscribe({
+      next: (resp) => {
+        console.log('holi', resp);
+        this.router.navigate(['/home']);
+      },
+      error: (err) => console.log(err),
+      complete: () => {
+        this.formularioLogin.markAllAsTouched();
+      },
+    });
   }
 }
