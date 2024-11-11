@@ -10,12 +10,9 @@ import com.example.picao.zone.entity.Zone;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
-import org.mapstruct.factory.Mappers;
 
 @Mapper()
 public interface PlayerProfileMapper {
-
-    PlayerProfileMapper PLAYER_PROFILE = Mappers.getMapper(PlayerProfileMapper.class);
 
     @Mapping(source = "positionPlayerId", target = "positionPlayer", qualifiedByName = "mapPositionPlayer")
     @Mapping(source = "dominantFootId", target = "dominantFoot", qualifiedByName = "mapDominantFoot")
