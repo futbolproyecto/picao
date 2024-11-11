@@ -10,6 +10,7 @@ import com.example.picao.player_profile.dto.CreatePlayerProfileRequestDTO;
 import com.example.picao.player_profile.repository.PlayerProfileRepository;
 import com.example.picao.player_profile.service.PlayerProfileService;
 import com.example.picao.position_player.repository.PositionPlayerRepository;
+import com.example.picao.user.repository.UserRepository;
 import com.example.picao.zone.repository.ZoneRepository;
 import lombok.RequiredArgsConstructor;
 import org.mapstruct.factory.Mappers;
@@ -28,6 +29,7 @@ public class PlayerProfileServiceImpl implements PlayerProfileService {
     private final PositionPlayerRepository positionPlayerRepository;
     private final DominantFootRepository dominantFootRepository;
     private final PlayerProfileRepository playerProfileRepository;
+    private final UserRepository userRepository;
 
     @Override
     public PlayerProfile createPlayerProfile(CreatePlayerProfileRequestDTO requestDTO) {
@@ -44,13 +46,16 @@ public class PlayerProfileServiceImpl implements PlayerProfileService {
             positionPlayerRepository.findById(requestDTO.positionPlayerId()).orElseThrow(
                     () -> new AppException(ErrorMessages.GENERIC_NOT_EXIST, HttpStatus.NOT_FOUND));
 
-            cityRepository.findById(requestDTO.cityId()).orElseThrow(
-                    () -> new AppException(ErrorMessages.GENERIC_NOT_EXIST, HttpStatus.NOT_FOUND));
-
             zoneRepository.findById(requestDTO.zoneId()).orElseThrow(
                     () -> new AppException(ErrorMessages.GENERIC_NOT_EXIST, HttpStatus.NOT_FOUND));
 
-            return  playerProfileRepository.save(MAPPER.toPlayerProfile(requestDTO));
+            cityRepository.findById(requestDTO.cityId()).orElseThrow(
+                    () -> new AppException(ErrorMessages.GENERIC_NOT_EXIST, HttpStatus.NOT_FOUND));
+
+            userRepository.findById(requestDTO.userId()).orElseThrow(
+                    () -> new AppException(ErrorMessages.GENERIC_NOT_EXIST, HttpStatus.NOT_FOUND));
+
+            return playerProfileRepository.save(MAPPER.toPlayerProfile(requestDTO));
 
         } catch (AppException e) {
             throw new AppException(e.getErrorMessages(), e.getHttpStatus());

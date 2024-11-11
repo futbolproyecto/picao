@@ -16,7 +16,7 @@ import lombok.experimental.FieldDefaults;
 @Table(name = "teams")
 public class Team {
     @Id
-    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
 
     @Column(name = "name", length = 50)

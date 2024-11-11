@@ -48,6 +48,9 @@ public enum ErrorMessages {
             "E5"),
     GENERIC_NOT_EXIST("Informacion ingresada no existe en base de datos.",
             "Verifique la informacion ingresada",
+            "E5"),
+    DUPLICATE_TEAM_NAME("El nombre del equipo ya está registrado.",
+            "Por favor, elige otro nombre e intenta nuevamente",
             "E5");
     private final String message;
     private final String recommendation;

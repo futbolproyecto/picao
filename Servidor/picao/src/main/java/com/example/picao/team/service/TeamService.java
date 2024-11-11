@@ -5,5 +5,5 @@ import com.example.picao.team.entity.Team;
 
 public interface TeamService {
 
-    int createTeam(CreateTeamRequestDTO requestDTO);
+    Team createTeam(CreateTeamRequestDTO requestDTO);
 }
