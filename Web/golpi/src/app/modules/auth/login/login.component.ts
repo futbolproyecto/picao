@@ -18,11 +18,15 @@ import { CarouselComponent } from '../../../shared/components/layout/carousel/ca
 import { Router } from '@angular/router';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { UsuarioDto } from '../../../core/models/usuario-dto';
+import { LoginRequestDto } from '../../../data/schema/loginRequestDto';
 import { AuthService } from '../../../core/service/auth.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { finalize, Subscription } from 'rxjs';
 import { GenericDto } from '../../../core/models/generic-dto';
+import { AuthRequestDto } from '../../../data/schema/authRequestDto';
+import { AutenticacionStoreService } from '../../../core/store/auth/autenticacion-store.service';
+import { MessageExceptionDto } from '../../../data/schema/MessageExceptionDto';
+import { AlertsService } from '../../../core/service/alerts.service';
 
 @Component({
   selector: 'app-login',
@@ -52,11 +56,15 @@ import { GenericDto } from '../../../core/models/generic-dto';
 })
 export class LoginComponent {
   public authService = inject(AuthService);
-  private spinnerService = inject(NgxSpinnerService);
+  private alertsService = inject(AlertsService);
+  private subscripcion: Subscription = new Subscription();
+  private readonly autenticacionStore = inject(AutenticacionStoreService);
+  public usuario: AuthRequestDto = new AuthRequestDto();
 
   public passVisible: boolean = true;
   public esModoRegistro: boolean = false;
   public formularioLogin: UntypedFormGroup = new UntypedFormGroup({});
+  public loginRequestDto: LoginRequestDto = new LoginRequestDto();
 
   //cadenas para errores
   public correoError: string = '';
@@ -79,8 +87,7 @@ export class LoginComponent {
         '',
         [
           Validators.required,
-          Validators.email,
-          Validators.minLength(Constant.CAMPO_MINIMO_11),
+          Validators.minLength(Constant.CAMPO_MINIMO_10),
           Validators.maxLength(Constant.CAMPO_MAXIMO_50),
         ],
       ],
@@ -106,11 +113,8 @@ export class LoginComponent {
   validarCorreo(): boolean {
     let status = false;
     if (this.correo.touched) {
-      if (this.correo.hasError('required')) {
-        this.correoError = Constant.ERROR_CAMPO_REQUERIDO_CORREO;
-        status = true;
-      } else if (this.correo.hasError('minlength')) {
-        this.correoError = Constant.ERROR_CAMPO_MINIMO_11;
+      if (this.correo.hasError('minlength')) {
+        this.correoError = Constant.ERROR_CAMPO_MINIMO_10;
         status = true;
       } else if (this.correo.hasError('maxlength')) {
         this.correoError = Constant.ERROR_CAMPO_MAXIMO_50;
@@ -153,23 +157,38 @@ export class LoginComponent {
   }
 
   iniciarSesion() {
-    console.log(this.formularioLogin.valid);
+    if (this.formularioLogin.valid) {
+      const usuario: LoginRequestDto = {
+        email_or_mobile_number: this.correo?.value,
+        password: this.pass?.value,
+      };
 
-    const usuario: UsuarioDto = {
-      email_or_mobile_number: this.correo?.value,
-      password: this.pass?.value,
-    };
+      this.subscripcion = this.authService.iniciarSesion(usuario).subscribe({
+        next: (resp: GenericDto<AuthRequestDto>) => {
+          const usuario: AuthRequestDto =
+            resp.payload ?? ({} as AuthRequestDto);
+          this.autenticacionStore.adicionarSesion(usuario);
+          this.router.navigate(['/home']);
+          this.limpiarFormulario();
+        },
+        error: (err) => {
+          const errorDto = new MessageExceptionDto({
+            status: err.error?.status,
+            error: err.error?.error,
+            recommendation: err.error?.recommendation,
+          });
 
-    console.log(usuario);
-    this.authService.iniciarSesion(usuario).subscribe({
-      next: (resp) => {
-        console.log('holi', resp);
-        this.router.navigate(['/home']);
-      },
-      error: (err) => console.log(err),
-      complete: () => {
-        this.formularioLogin.markAllAsTouched();
-      },
-    });
+          this.alertsService.fireError(errorDto);
+        },
+      });
+    } else {
+      this.formularioLogin.markAllAsTouched();
+      this.alertsService.toast('error', Constant.ERROR_FORM_INCOMPLETO);
+    }
+  }
+  ngOnDestroy(): void {
+    if (this.subscripcion) {
+      this.subscripcion.unsubscribe();
+    }
   }
 }

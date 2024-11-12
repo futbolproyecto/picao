@@ -1,4 +1,10 @@
-export interface GenericDto {
+export class GenericDto<T = any> {
   status?: number;
-  payload?: object;
+  payload?: T;
+
+  constructor(init?: Partial<GenericDto>) {
+    if (init) {
+      Object.assign(this, init);
+    }
+  }
 }

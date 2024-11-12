@@ -1,0 +1,11 @@
+.footer {
+  display: flex;
+  justify-content: center;
+}
+
+.container-footer {
+  padding: 10px;
+  text-align: left;
+  font-family: "Montserrat";
+  color: #727e8c;
+}

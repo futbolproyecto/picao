@@ -1,9 +1,10 @@
 export class Constant {
   //Cantidad minima Validators
-  static CAMPO_MINIMO_11 = 11;
   static CAMPO_MINIMO_CONTRASENA = 6;
   static CAMPO_MINIMO_4 = 4;
   static CAMPO_MINIMO_7 = 7;
+  static CAMPO_MINIMO_10 = 10;
+  static CAMPO_MINIMO_11 = 11;
 
   //Cantidad maxima Validators
   static CAMPO_MAXIMO_50 = 50;
@@ -19,6 +20,7 @@ export class Constant {
     'Todos los campos deben estar correctamente diligenciados.';
   static ERROR_CAMPO_REQUERIDO_CORREO = 'Ingrese su correo';
   static ERROR_CAMPO_REQUERIDO_CONTRASENA = 'Ingrese su contraseña';
+  static ERROR_CAMPO_MINIMO_10 = 'Este campo es de mínimo 10 caracteres';
   static ERROR_CAMPO_MINIMO_11 = 'Este campo es de mínimo 11 caracteres';
   static ERROR_CAMPO_MAXIMO_50 = 'Este campo es de máximo 50 caracteres';
   static ERROR_CAMPO_MINIMO_CONTRASENA = 'Este campo es de mínimo 6 caracteres';
