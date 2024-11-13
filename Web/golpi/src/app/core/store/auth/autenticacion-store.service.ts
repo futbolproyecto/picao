@@ -41,4 +41,8 @@ export class AutenticacionStoreService {
       });
     return token;
   }
+
+  public obtenerSesion$(): Observable<AuthRequestDto> {
+    return this.store.select(fromAutenticacionSelectors.selectSesion);
+  }
 }

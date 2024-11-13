@@ -1,20 +1,76 @@
-<div class="logo">
-  <a href="" class="titulo">
+<div class="container-sidemenu">
+  <div class="logo">
     <div class="logo-img">
       <img src="./assets/img/logo_normal.png" alt="" />
     </div>
-    GOLPI
-  </a>
-</div>
-<div class="sidebar-wrapper">
-  <div class="user">
-    <span>Nombre usuario</span>
+    <a href="">GOLPI</a>
   </div>
-  <div class="menu">
+
+  <div class="sidebar-wrapper">
+    <div class="user" (click)="toggleSubmodulosUsuario()">
+      <span
+        >{{ usuario.name }} {{ usuario.lastName }}
+        <mat-icon>{{
+          mostrarSubmodulosUsuario ? "expand_less" : "expand_more"
+        }}</mat-icon></span
+      >
+
+      <div class="submenu">
+        <ul *ngIf="mostrarSubmodulosUsuario">
+          <li>
+            <a href=""
+              ><i class="material-icons icono-menu">password</i>
+              <p>Cambiar contraseña</p></a
+            >
+          </li>
+          <li>
+            <a href=""
+              ><i class="material-icons icono-menu">manage_accounts</i>
+              <p>Actualizar datos</p></a
+            >
+          </li>
+          <li>
+            <a href=""
+              ><i class="material-icons logout">logout</i>
+              <p>Cerrar sesión</p></a
+            >
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="menu">
+      <ul>
+        <li>
+          <a href=""
+            ><i class="material-icons icono-menu">sports_soccer</i>
+            <p>Crear establecimiento</p></a
+          >
+        </li>
+        <li>
+          <a href=""
+            ><i class="material-icons icono-menu">event</i>
+            <p>Administrar agenda</p></a
+          >
+        </li>
+        <li>
+          <a href=""
+            ><i class="material-icons icono-menu">format_list_bulleted_add</i>
+            <p>Organizar partidos</p></a
+          >
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="cerrar">
     <ul>
-      <li><a href="">Menu1</a></li>
-      <li><a href="">Menu2</a></li>
-      <li><a href="">Menu3</a></li>
+      <li>
+        <a (click)="CerrarSesion()">
+          <i class="material-icons iconred">logout</i>
+          CERRAR SESIÓN
+        </a>
+      </li>
     </ul>
   </div>
 </div>

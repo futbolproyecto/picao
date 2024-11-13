@@ -8,5 +8,9 @@ export const selectAutenticacion =
 export const selectTokenSesion = createSelector(
   selectAutenticacion,
   (state) => state?.sesion?.token ?? ''
+);
 
-)
+export const selectSesion = createSelector(
+  selectAutenticacion,
+  (state) => state.sesion
+);
