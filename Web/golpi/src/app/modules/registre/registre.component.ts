@@ -18,7 +18,7 @@ import { trigger, transition, style, animate } from '@angular/animations';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
-  selector: 'app-registro',
+  selector: 'app-registre',
   standalone: true,
   imports: [
     CommonModule,
@@ -30,8 +30,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     MatSelectModule,
     MatFormFieldModule,
   ],
-  templateUrl: './registro.component.html',
-  styleUrls: ['./registro.component.css'],
+  templateUrl: './registre.component.html',
+  styleUrls: ['./registre.component.css'],
   animations: [
     trigger('transitionMessages', [
       transition(':enter', [
@@ -42,7 +42,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     ]),
   ],
 })
-export class RegistroComponent {
+export class RegistreComponent {
   private formBuilder = inject(UntypedFormBuilder);
   private ModoAuthService = inject(ModoAuthService);
 

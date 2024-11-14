@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal, Signal } from '@angular/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
@@ -11,6 +11,7 @@ import { UsuarioResponseDto } from '../../../../data/schema/userResponseDto';
 import { AutenticacionStoreService } from '../../../../core/store/auth/autenticacion-store.service';
 import { UserService } from '../../../../core/service/user.service';
 import { catchError, map, switchMap } from 'rxjs/operators'; // Para usar switchMap
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-sidebar',
@@ -21,6 +22,7 @@ import { catchError, map, switchMap } from 'rxjs/operators'; // Para usar switch
     MatSidenavModule,
     MatButtonModule,
     MatListModule,
+    RouterModule,
   ],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.css',
@@ -36,6 +38,7 @@ export class SidebarComponent implements OnInit {
   public usuario: UsuarioResponseDto = new UsuarioResponseDto();
   public mostrarSubmodulosUsuario: boolean = false;
   public nombreMostrar: string = '';
+  public menuExpandido: boolean = false;
 
   constructor() {
     this.usuario$ = this.autenticacionStoreService.obtenerSesion$();

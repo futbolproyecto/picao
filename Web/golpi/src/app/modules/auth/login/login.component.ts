@@ -12,7 +12,7 @@ import {
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Constant } from '../../../shared/utils/constant';
-import { RegistroComponent } from '../../registro/registro.component';
+import { RegistreComponent } from '../../registre/registre.component';
 import { ModoAuthService } from '../../../core/service/modo-auth.service';
 import { CarouselComponent } from '../../../shared/components/layout/carousel/carousel.component';
 import { Router } from '@angular/router';
@@ -38,7 +38,7 @@ import { AlertsService } from '../../../core/service/alerts.service';
     MatButtonModule,
     FormsModule,
     ReactiveFormsModule,
-    RegistroComponent,
+    RegistreComponent,
     CarouselComponent,
     MatFormFieldModule,
   ],
