@@ -46,11 +46,10 @@ public class SecurityConfig {
                 })
                 .addFilterBefore(new JwtTokenValidator(jwtUtils, handlerExceptionResolver, userRepository),
                         UsernamePasswordAuthenticationFilter.class)
-                .addFilter(corsFilter())  // Agrega el filtro CORS explícitamente
                 .build();
     }
 
-    @Bean
+    /*@Bean
     public CorsFilter corsFilter() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
         corsConfiguration.addAllowedOrigin("http://localhost:4200");
@@ -64,7 +63,7 @@ public class SecurityConfig {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", corsConfiguration);
         return new CorsFilter(source);
-    }
+    }*/
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
