@@ -2,10 +2,6 @@ package com.example.picao.core.security.cors;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpHeaders;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -13,18 +9,16 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class Cors {
 
     @Bean
-    public CorsFilter corsFilter() {
-        CorsConfiguration corsConfiguration = new CorsConfiguration();
-        corsConfiguration.addAllowedOrigin("http://localhost:4200");
-        corsConfiguration.addAllowedMethod("*");
-        corsConfiguration.addAllowedHeader("*");
-        corsConfiguration.setAllowCredentials(true);
-        corsConfiguration.addExposedHeader(HttpHeaders.CONTENT_DISPOSITION);
-        corsConfiguration.addExposedHeader(HttpHeaders.CONTENT_TYPE);
-        corsConfiguration.addExposedHeader(HttpHeaders.CACHE_CONTROL);
-
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", corsConfiguration);
-        return new CorsFilter(source);
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**") // Permite todas las rutas
+                        .allowedOrigins("http://localhost:4200") // URL del frontend Angular
+                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // Métodos permitidos
+                        .allowedHeaders("*") // Permite todos los encabezados
+                        .allowCredentials(true); // Permitir cookies/sesiones si es necesario
+            }
+        };
     }
 }
