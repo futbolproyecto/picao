@@ -14,7 +14,7 @@ public interface TeamMapper {
 
     @Mapping(source = "zoneId", target = "zone", qualifiedByName = "mapZone")
     @Mapping(source = "cityId", target = "city", qualifiedByName = "mapCity")
-    @Mapping(source = "userId", target = "user", qualifiedByName = "mapUser")
+    @Mapping(source = "userId", target = "ownerUser", qualifiedByName = "mapUser")
     Team toTeam(CreateTeamRequestDTO requestDTO);
 
     @Named("mapZone")
