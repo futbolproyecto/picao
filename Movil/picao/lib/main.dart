@@ -22,16 +22,18 @@ class MainApp extends StatelessWidget {
 
     return GetMaterialApp(
       builder: (context, widget) => ResponsiveWrapper.builder(
-          BouncingScrollWrapper.builder(context, widget!),
-          maxWidth: 1200,
-          defaultScale: true,
-          breakpoints: [
-            const ResponsiveBreakpoint.resize(450, name: MOBILE),
-            const ResponsiveBreakpoint.autoScale(800, name: TABLET),
-            const ResponsiveBreakpoint.autoScale(1000, name: TABLET),
-            const ResponsiveBreakpoint.resize(1200, name: DESKTOP),
-            const ResponsiveBreakpoint.autoScale(2460, name: "4K"),
-          ],
+            BouncingScrollWrapper.builder(context, widget!),
+            mediaQueryData: MediaQuery.of(context)
+                .copyWith(textScaler: TextScaler.noScaling),
+            maxWidth: 1200,
+            defaultScale: true,
+            breakpoints: [
+              const ResponsiveBreakpoint.resize(450, name: MOBILE),
+              const ResponsiveBreakpoint.autoScale(800, name: TABLET),
+              const ResponsiveBreakpoint.autoScale(1000, name: TABLET),
+              const ResponsiveBreakpoint.resize(1200, name: DESKTOP),
+              const ResponsiveBreakpoint.autoScale(2460, name: "4K"),
+            ],
           backgroundColor: Constants.primaryColor),
       title: 'Golpi',
       initialBinding: InitialBinding(),
