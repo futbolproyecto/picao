@@ -1,1 +1,66 @@
-<p>user works!</p>
+<div class="container">
+  <mat-card class="form-card">
+    <div class="form-header">
+      <h2>Actualizar datos</h2>
+    </div>
+    <form class="form-content">
+      <div class="form-group">
+        <mat-form-field appearance="outline">
+          <mat-label>Primer nombre</mat-label>
+          <input matInput />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Segundo nombre</mat-label>
+          <input matInput />
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field appearance="outline">
+          <mat-label>Primer apellido</mat-label>
+          <input matInput />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Segundo apellido</mat-label>
+          <input matInput />
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field appearance="outline">
+          <mat-label>Nombre usuario</mat-label>
+          <input matInput />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Correo electrónico</mat-label>
+          <input matInput type="email" />
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field appearance="outline">
+          <mat-label>Celular</mat-label>
+          <input matInput type="tel" />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Ciudad</mat-label>
+          <input matInput />
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field appearance="outline">
+          <mat-label>Fecha de nacimiento</mat-label>
+          <input matInput [matDatepicker]="picker" />
+          <mat-hint>MM/DD/YYYY</mat-hint>
+          <mat-datepicker-toggle
+            matIconSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="boton">
+        <button mat-raised-button class="btn" type="button">
+          INICIAR SESION
+        </button>
+      </div>
+    </form>
+  </mat-card>
+</div>
