@@ -1,6 +1,7 @@
 export class Constant {
   //Cantidad minima Validators
   static CAMPO_MINIMO_CONTRASENA = 6;
+  static CAMPO_MINIMO_2 = 2;
   static CAMPO_MINIMO_4 = 4;
   static CAMPO_MINIMO_7 = 7;
   static CAMPO_MINIMO_10 = 10;
@@ -10,8 +11,11 @@ export class Constant {
   static CAMPO_MAXIMO_50 = 50;
   static CAMPO_MAXIMO_CONTRASENA = 30;
   static CAMPO_MAXIMO_20 = 20;
+  static CAMPO_MAXIMO_100 = 100;
 
   static PATTERN_NUMEROS = /^\d+$/;
+  static PATTERN_CORREO =
+    /^[a-z0-9+_-]+(?:\.[a-z0-9+_-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/;
   static PATTERN_LETRAS_NUMEROS = /^[A-Za-z0-9]+$/;
 
   //  Form field errors
@@ -20,6 +24,7 @@ export class Constant {
     'Todos los campos deben estar correctamente diligenciados.';
   static ERROR_CAMPO_REQUERIDO_CORREO = 'Ingrese su correo';
   static ERROR_CAMPO_REQUERIDO_CONTRASENA = 'Ingrese su contraseña';
+  static ERROR_CAMPO_MINIMO_2 = 'Este campo es de mínimo 2 caracteres';
   static ERROR_CAMPO_MINIMO_10 = 'Este campo es de mínimo 10 caracteres';
   static ERROR_CAMPO_MINIMO_11 = 'Este campo es de mínimo 11 caracteres';
   static ERROR_CAMPO_MAXIMO_50 = 'Este campo es de máximo 50 caracteres';
@@ -33,4 +38,5 @@ export class Constant {
   static ERROR_CAMPO_MAXIMO_20 = 'Este campo es de máximo 20 caracteres';
   static ERROR_CAMPO_SOLO_NUMEROS = 'Solo se permiten números';
   static ERROR_CAMPO_SOLO_NUMEROS_LETRAS = 'Solo se permiten números y letras';
+  static ERROR_CAMPO_EMAIL_INVALIDO = 'El email es inválido';
 }

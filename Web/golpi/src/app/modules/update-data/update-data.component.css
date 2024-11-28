@@ -1,51 +1,23 @@
-.container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background-color: #f5f5f5;
-}
-
-h2 {
-  font-family: "Montserrat";
-  margin-left: 15px;
-}
-
-.form-card {
-  width: 50%;
-  background: white;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.form-header {
-  background-color: #6e3296;
-  color: white;
-  padding: 10px;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-}
-
 .form-content {
-  padding: 25px;
+  padding: 0 25px;
 }
 
 .form-group {
   display: flex;
   gap: 20px;
-  margin-bottom: 15px;
 }
 
 mat-form-field {
-  flex: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .boton {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 30px;
-  padding-bottom: 1rem;
 }
 
 .boton .btn {
@@ -57,9 +29,111 @@ mat-form-field {
   border-radius: 10px;
 }
 
-/* button {
+.container-celular {
   width: 100%;
-  background-color: #00e676;
-  color: white;
+  display: flex;
+}
+
+.custom-input-indicativo {
+  width: 30%;
+  margin: 0 3px 0 0;
+}
+
+.container-matches {
+  padding: 15px;
+  min-height: calc(100vh - 170px);
+  display: flex;
+  flex-flow: column;
+}
+
+h1 {
   font-weight: bold;
-} */
+  font-size: 20px;
+  color: #6e3296;
+  font-family: "Montserrat";
+}
+
+.card {
+  width: 100%;
+  padding-bottom: 30px;
+  background: #ffffff;
+  box-shadow: 0px 3px 15px #9b9b9b;
+  border-radius: 10px;
+}
+
+.container-card {
+  padding: 10px;
+}
+
+.container-modulos {
+  display: flex;
+  flex-flow: row;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+ul {
+  display: flex;
+  flex-flow: row;
+  justify-content: flex-start;
+  padding: 10px;
+}
+
+li {
+  list-style: none;
+  cursor: pointer;
+  text-decoration: none;
+  border-bottom: 2px solid #eceff1;
+  padding: 10px 30px 10px 30px;
+  font-family: Roboto, sans-serif;
+  font-size: 18px;
+  color: #707070;
+}
+
+li:hover {
+  border-bottom: 2px solid #6e3296;
+  color: #6e3296;
+}
+
+.active-tab {
+  border-bottom: 2px solid #6e3296;
+  color: #6e3296;
+}
+
+.container-pestana {
+  text-align: center;
+  color: #6e3296;
+}
+
+p {
+  font-size: 20px;
+}
+
+span {
+  font-weight: bold;
+  font-size: 24px;
+}
+
+.text-error {
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
+  display: block;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.container-pestana,
+.container-actualizar {
+  transition: opacity 0.3s ease-in-out;
+  opacity: 1;
+}
+
+.container-pestana.ng-leave-active,
+.container-actualizar.ng-leave-active {
+  opacity: 0;
+}

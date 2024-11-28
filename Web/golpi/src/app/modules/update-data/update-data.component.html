@@ -1,66 +1,171 @@
-<div class="container">
-  <mat-card class="form-card">
-    <div class="form-header">
-      <h2>Actualizar datos</h2>
-    </div>
-    <form class="form-content">
-      <div class="form-group">
-        <mat-form-field appearance="outline">
-          <mat-label>Primer nombre</mat-label>
-          <input matInput />
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-          <mat-label>Segundo nombre</mat-label>
-          <input matInput />
-        </mat-form-field>
+<div class="container-matches">
+  <h1>
+    <h1>Usuario / {{ nombrePestana }}</h1>
+  </h1>
+  <div class="card">
+    <app-card>
+      <div class="container-card">
+        <div class="container-modulos">
+          <ul>
+            <li
+              [class.active-tab]="actualizarActivo"
+              (click)="activarPestana('actualizar')"
+            >
+              <a>Actualizar datos</a>
+            </li>
+            <li
+              [class.active-tab]="cambiarActivo"
+              (click)="activarPestana('cambiar')"
+            >
+              <a>Cambiar contraseña</a>
+            </li>
+          </ul>
+        </div>
       </div>
-      <div class="form-group">
-        <mat-form-field appearance="outline">
-          <mat-label>Primer apellido</mat-label>
-          <input matInput />
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-          <mat-label>Segundo apellido</mat-label>
-          <input matInput />
-        </mat-form-field>
+
+      <div class="container-pestanas">
+        <!-- Pestaña Actualizar -->
+        <div *ngIf="actualizarActivo" class="container-actualizar">
+          <form [formGroup]="formularioActualizar" class="form-content">
+            <div class="form-group">
+              <mat-form-field appearance="outline">
+                <mat-label>Primer nombre</mat-label>
+                <input matInput formControlName="primer_nombre" />
+              </mat-form-field>
+              <small class="text-error" *ngIf="validarPrimerNombre()">
+                {{ primerNombreError }}
+              </small>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Segundo nombre</mat-label>
+                <input matInput formControlName="segundo_nombre" />
+              </mat-form-field>
+              <small class="text-error" *ngIf="validarSegundoNombre()">
+                {{ segundoNombreError }}
+              </small>
+            </div>
+
+            <div class="form-group">
+              <mat-form-field appearance="outline">
+                <mat-label>Primer apellido</mat-label>
+                <input matInput formControlName="primer_apellido" />
+              </mat-form-field>
+              <small class="text-error" *ngIf="validarPrimerApellido()">
+                {{ primerApellidoError }}
+              </small>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Segundo apellido</mat-label>
+                <input matInput formControlName="segundo_apellido" />
+              </mat-form-field>
+              <small class="text-error" *ngIf="validarSegundoApellido()">
+                {{ segundoApellidoError }}
+              </small>
+            </div>
+
+            <div class="form-group">
+              <mat-form-field appearance="outline">
+                <mat-label>Nombre usuario</mat-label>
+                <input matInput formControlName="nombre_usuario" />
+              </mat-form-field>
+              <small class="text-error" *ngIf="validarNombreUsuario()">
+                {{ nombreUsuarioError }}
+              </small>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Correo electrónico</mat-label>
+                <input matInput formControlName="correo" />
+              </mat-form-field>
+              <small class="text-error" *ngIf="validarCorreo()">
+                {{ correoError }}
+              </small>
+            </div>
+
+            <div class="form-group">
+              <div class="container-celular">
+                <mat-form-field
+                  appearance="outline"
+                  class="custom-input-indicativo"
+                >
+                  <mat-select [(value)]="selected">
+                    <mat-option value="COP">+57</mat-option>
+                    <mat-option value="EEUU">+1</mat-option>
+                    <mat-option value="MEX">+52</mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field
+                  class="custom-input-celular"
+                  appearance="outline"
+                >
+                  <mat-icon matPrefix class="custom-icon">call</mat-icon>
+                  <mat-label>Celular</mat-label>
+                  <input
+                    matInput
+                    formControlName="celular"
+                    type="text"
+                    autocomplete="off"
+                  />
+                </mat-form-field>
+                <small class="text-error" *ngIf="validarCelular()">
+                  {{ celularError }}
+                </small>
+              </div>
+              <mat-form-field appearance="outline">
+                <mat-label>Ciudad</mat-label>
+                <mat-select [(value)]="selected" formControlName="ciudad">
+                  <mat-option value="1">Colombia</mat-option>
+                  <mat-option value="2">Estados unidos</mat-option>
+                  <mat-option value="3">México</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <small class="text-error" *ngIf="validarCiudad()">
+                {{ ciudadError }}
+              </small>
+            </div>
+
+            <div class="form-group">
+              <mat-form-field appearance="outline">
+                <mat-label>Fecha de nacimiento</mat-label>
+                <input
+                  matInput
+                  [matDatepicker]="picker"
+                  formControlName="fecha_nacimiento"
+                />
+                <mat-hint>MM/DD/YYYY</mat-hint>
+                <mat-datepicker-toggle
+                  matIconSuffix
+                  [for]="picker"
+                ></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+              <small class="text-error" *ngIf="validarFechaNacimiento()">
+                {{ fechaNacimientoError }}
+              </small>
+            </div>
+
+            <div class="boton">
+              <button
+                mat-raised-button
+                class="btn"
+                type="button"
+                (click)="actualizarDatos()"
+              >
+                Guardar
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Pestaña Cambiar Contraseña -->
+        <div *ngIf="cambiarActivo" class="container-pestana">
+          <!-- <mat-icon matSuffix>warning</mat-icon>
+          <p>Página en construcción</p>
+          <span>Cambio de contraseña</span> -->
+
+          <app-change-password></app-change-password>
+        </div>
       </div>
-      <div class="form-group">
-        <mat-form-field appearance="outline">
-          <mat-label>Nombre usuario</mat-label>
-          <input matInput />
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-          <mat-label>Correo electrónico</mat-label>
-          <input matInput type="email" />
-        </mat-form-field>
-      </div>
-      <div class="form-group">
-        <mat-form-field appearance="outline">
-          <mat-label>Celular</mat-label>
-          <input matInput type="tel" />
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-          <mat-label>Ciudad</mat-label>
-          <input matInput />
-        </mat-form-field>
-      </div>
-      <div class="form-group">
-        <mat-form-field appearance="outline">
-          <mat-label>Fecha de nacimiento</mat-label>
-          <input matInput [matDatepicker]="picker" />
-          <mat-hint>MM/DD/YYYY</mat-hint>
-          <mat-datepicker-toggle
-            matIconSuffix
-            [for]="picker"
-          ></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field>
-      </div>
-      <div class="boton">
-        <button mat-raised-button class="btn" type="button">
-          INICIAR SESION
-        </button>
-      </div>
-    </form>
-  </mat-card>
+    </app-card>
+  </div>
 </div>
