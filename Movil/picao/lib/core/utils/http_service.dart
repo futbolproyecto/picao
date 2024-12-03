@@ -14,7 +14,7 @@ class HttpService {
   Future<Map<String, dynamic>> post(Map<String, dynamic>? body) async {
     try {
       final response = await http.post(
-        Uri.http(ConstantEndpoints.baseUrl, endPoint),
+        Uri.parse('${ConstantEndpoints.baseUrl}/$endPoint'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode(body),
       );
@@ -37,7 +37,7 @@ class HttpService {
   Future<Object?> put(Map<String, dynamic>? body) async {
     try {
       final response = await http.put(
-        Uri.http(ConstantEndpoints.baseUrl, endPoint),
+        Uri.parse('${ConstantEndpoints.baseUrl}/$endPoint'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode(body),
       );
@@ -58,7 +58,7 @@ class HttpService {
   Future<Object?> postRequesParam(Map<String, String>? parameters) async {
     try {
       final response = await http.post(
-        Uri.http(ConstantEndpoints.baseUrl, endPoint, parameters),
+        Uri.parse('${ConstantEndpoints.baseUrl}/$endPoint'),
         headers: {'Content-Type': 'application/json'},
       );
 
@@ -78,7 +78,7 @@ class HttpService {
   Future<Object?> putRequesParam(Map<String, String>? parameters) async {
     try {
       final response = await http.put(
-        Uri.http(ConstantEndpoints.baseUrl, endPoint, parameters),
+        Uri.parse('${ConstantEndpoints.baseUrl}/$endPoint'),
         headers: {'Content-Type': 'application/json'},
       );
 

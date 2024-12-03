@@ -1,5 +1,5 @@
 class ConstantEndpoints {
-  static String baseUrl = '172.26.1.11:8092';
+  static String baseUrl = 'https://golpipruebas.up.railway.app';
   static String login = 'authentication/login';
   static String createUser = '/user/create';
   static String sendOtpMobileNumber = '/otp/send-mobilenumber';
