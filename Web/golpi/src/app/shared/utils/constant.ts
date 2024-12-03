@@ -17,12 +17,14 @@ export class Constant {
   static PATTERN_CORREO =
     /^[a-z0-9+_-]+(?:\.[a-z0-9+_-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/;
   static PATTERN_LETRAS_NUMEROS = /^[A-Za-z0-9]+$/;
+  static PATTERN_CONTRASENA =
+    /^(?=\D*\d)(?=[^a-z]*[a-z])(?=[^A-Z]*[A-Z]).{8,30}$/;
 
   //  Form field errors
   static ERROR_CAMPO_REQUERIDO = 'Campo requerido';
   static ERROR_FORM_INCOMPLETO =
     'Todos los campos deben estar correctamente diligenciados.';
-  static ERROR_CAMPO_REQUERIDO_CORREO = 'Ingrese su correo';
+  static ERROR_CAMPO_REQUERIDO_CORREO = 'Ingrese su correo electrónico celular';
   static ERROR_CAMPO_REQUERIDO_CONTRASENA = 'Ingrese su contraseña';
   static ERROR_CAMPO_MINIMO_2 = 'Este campo es de mínimo 2 caracteres';
   static ERROR_CAMPO_MINIMO_10 = 'Este campo es de mínimo 10 caracteres';

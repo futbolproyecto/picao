@@ -14,3 +14,13 @@
   font-family: "Montserrat";
   src: url("./assets/fonts/Montserrat-VariableFont_wght.ttf");
 }
+
+/* Estilo global para la alerta */
+.custom-popup .swal2-title {
+  margin-bottom: 5px;
+  padding: 0em 1.6em 0.3em;
+}
+
+.custom-popup .swal2-text {
+  margin-top: 0;
+}

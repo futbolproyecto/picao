@@ -2,8 +2,8 @@ import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/enviroment';
-import { UsuarioResponseDto } from '../../data/schema/userResponseDto';
 import { GenericDto } from '../models/generic-dto';
+import { OtpRequestDto } from '../../data/schema/otpRequestDto';
 
 @Injectable({
   providedIn: 'root',
@@ -14,5 +14,9 @@ export class UserService {
 
   getById(id: number): Observable<GenericDto> {
     return this.http.get<GenericDto>(this.baseUrl + `/user/get-by-id/${id}`);
+  }
+
+  envioCodigo(otpDto: OtpRequestDto) {
+    return this.http.put(this.baseUrl + `/user/change-password`, otpDto);
   }
 }

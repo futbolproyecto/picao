@@ -19,7 +19,7 @@
           <div class="input-form">
             <mat-form-field class="custom-input" appearance="outline">
               <mat-icon matPrefix class="custom-icon">mail</mat-icon>
-              <mat-label>Correo electrónico</mat-label>
+              <mat-label>Correo electrónico o celular</mat-label>
               <input
                 matInput
                 formControlName="correo"
@@ -49,7 +49,9 @@
               {{ passError }}
             </small>
 
-            <a href="#" class="forgot-password">¿Olvidaste tu contraseña?</a>
+            <a href="#" class="forgot-password" (click)="enviarCodigo($event)"
+              >¿Olvidaste tu contraseña?</a
+            >
 
             <br />
 
