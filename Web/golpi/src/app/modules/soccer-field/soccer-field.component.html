@@ -1,1 +1,30 @@
-<p>soccer-field works!</p>
+<div class="container-agenda">
+  <h1>
+    <h1>Usuario / {{ nombrePestana }}</h1>
+  </h1>
+  <div class="card">
+    <app-card>
+      <div class="container-card">
+        <div class="container-modulos">
+          <ul>
+            <li
+              [class.active-tab]="RegistrarActivo"
+              (click)="activarPestana('registrar')"
+            >
+              <a>Registrar canchas</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="container-pestanas">
+        <!-- Pestaña Cambiar Contraseña -->
+        <div *ngIf="RegistrarActivo" class="container-pestana">
+          <mat-icon matSuffix>warning</mat-icon>
+          <p>Página en construcción</p>
+          <span>Registrar canchas</span>
+        </div>
+      </div>
+    </app-card>
+  </div>
+</div>
