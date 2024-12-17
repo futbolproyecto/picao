@@ -9,6 +9,7 @@ import {
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { Constant } from '../../shared/utils/constant';
+import { AlertsService } from '../../core/service/alerts.service';
 
 @Component({
   selector: 'app-change-password',
@@ -20,6 +21,7 @@ import { Constant } from '../../shared/utils/constant';
 export class ChangePasswordComponent implements OnInit {
   private formBuilder = inject(UntypedFormBuilder);
   public formularioPass: UntypedFormGroup = new UntypedFormGroup({});
+  private alertsService = inject(AlertsService);
 
   public passVisible: boolean = true;
   public passwordError: string = '';
@@ -98,6 +100,54 @@ export class ChangePasswordComponent implements OnInit {
     }
 
     return status;
+  }
+
+  validarPassworNew(): boolean {
+    let status = false;
+    if (this.passwordNew.dirty) {
+      if (this.passwordNew.hasError('required')) {
+        this.passwordNewError = Constant.ERROR_CAMPO_REQUERIDO;
+        status = true;
+      } else if (this.passwordNew.hasError('minlength')) {
+        this.passwordNewError = Constant.ERROR_CAMPO_MINIMO_CONTRASENA;
+        status = true;
+      } else if (this.passwordNew.hasError('maxlength')) {
+        this.passwordNewError = Constant.ERROR_CAMPO_MAXIMO_CONTRASENA;
+        status = true;
+      } else if (this.passwordNew.hasError('hayEspacios')) {
+        status = false;
+      }
+    }
+
+    return status;
+  }
+
+  validarPassworNewConfirmacion(): boolean {
+    let status = false;
+    if (this.passwordConfirm.dirty) {
+      if (this.passwordConfirm.hasError('required')) {
+        this.passwordConfirmError = Constant.ERROR_CAMPO_REQUERIDO;
+        status = true;
+      } else if (this.passwordConfirm.hasError('minlength')) {
+        this.passwordConfirmError = Constant.ERROR_CAMPO_MINIMO_CONTRASENA;
+        status = true;
+      } else if (this.passwordConfirm.hasError('maxlength')) {
+        this.passwordConfirmError = Constant.ERROR_CAMPO_MAXIMO_CONTRASENA;
+        status = true;
+      } else if (this.passwordConfirm.hasError('hayEspacios')) {
+        status = false;
+      }
+    }
+
+    return status;
+  }
+
+  actualizarPassword(): void {
+    if (this.formularioPass.valid) {
+      console.log('Se actualizo la contraseña');
+    } else {
+      this.alertsService.toast('error', Constant.ERROR_FORM_INCOMPLETO);
+    }
   }
 
   passVisibleToogle(): void {

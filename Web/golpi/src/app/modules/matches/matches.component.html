@@ -1,1 +1,30 @@
-<p>matches works!</p>
+<div class="container-agenda">
+  <h1>
+    <h1>Usuario / {{ nombrePestana }}</h1>
+  </h1>
+  <div class="card">
+    <app-card>
+      <div class="container-card">
+        <div class="container-modulos">
+          <ul>
+            <li
+              [class.active-tab]="OrganizarActivo"
+              (click)="activarPestana('organizar')"
+            >
+              <a>Organizar partidos</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="container-pestanas">
+        <!-- Pestaña Cambiar Contraseña -->
+        <div *ngIf="OrganizarActivo" class="container-pestana">
+          <mat-icon matSuffix>warning</mat-icon>
+          <p>Página en construcción</p>
+          <span>Organizar partidos</span>
+        </div>
+      </div>
+    </app-card>
+  </div>
+</div>

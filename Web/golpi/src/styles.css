@@ -24,3 +24,7 @@
 .custom-popup .swal2-text {
   margin-top: 0;
 }
+
+.mdc-text-field--filled {
+  background-color: transparent !important;
+}

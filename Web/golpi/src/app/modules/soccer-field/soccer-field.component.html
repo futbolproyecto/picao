@@ -1,4 +1,4 @@
-<div class="container-agenda">
+<div class="container-establecimiento">
   <h1>
     <h1>Usuario / {{ nombrePestana }}</h1>
   </h1>
@@ -8,8 +8,14 @@
         <div class="container-modulos">
           <ul>
             <li
-              [class.active-tab]="RegistrarActivo"
-              (click)="activarPestana('registrar')"
+              [class.active-tab]="registrarEstablecimientoActivo"
+              (click)="activarPestana('registrarEstablecimiento')"
+            >
+              <a>Registrar establecimiento</a>
+            </li>
+            <li
+              [class.active-tab]="registrarCanchaActivo"
+              (click)="activarPestana('registrarCancha')"
             >
               <a>Registrar canchas</a>
             </li>
@@ -18,11 +24,73 @@
       </div>
 
       <div class="container-pestanas">
-        <!-- Pestaña Cambiar Contraseña -->
-        <div *ngIf="RegistrarActivo" class="container-pestana">
-          <mat-icon matSuffix>warning</mat-icon>
-          <p>Página en construcción</p>
-          <span>Registrar canchas</span>
+        <div *ngIf="registrarEstablecimientoActivo" class="container-pestana">
+          <app-establishment></app-establishment>
+        </div>
+
+        <div *ngIf="registrarCanchaActivo" class="container-pestana">
+          <form [formGroup]="formularioCancha" class="form-content">
+            <div class="form-group">
+              <mat-form-field appearance="outline">
+                <mat-label>No. cancha</mat-label>
+                <input matInput formControlName="numero_cancha" />
+              </mat-form-field>
+              <small class="text-error" *ngIf="validarNumeroCancha()">
+                {{ numeroCanchaError }}
+              </small>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Cant. jugadores</mat-label>
+                <input matInput formControlName="cantidad_jugadores" />
+              </mat-form-field>
+              <small class="text-error" *ngIf="validarCantidadJugadores()">
+                {{ cantidadJugadoresError }}
+              </small>
+            </div>
+
+            <div class="form-group">
+              <mat-form-field appearance="outline">
+                <mat-label>Tipo cancha</mat-label>
+                <mat-select formControlName="Tipo_cancha">
+                  <mat-option value="1">Sala</mat-option>
+                  <mat-option value="2">Profesional</mat-option>
+                  <mat-option value="3">7</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <small class="text-error" *ngIf="validarTipoCancha()">
+                {{ tipoCanchaError }}
+              </small>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Establecimiento</mat-label>
+                <mat-select formControlName="establecimiento">
+                  <mat-option value="1">Maracana</mat-option>
+                  <mat-option value="2">La 70</mat-option>
+                  <mat-option value="3">Manualdiades MBD</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <small class="text-error" *ngIf="validarEstablecimiento()">
+                {{ establecimientoError }}
+              </small>
+            </div>
+
+            <div class="boton">
+              <button mat-raised-button class="btn" type="button">
+                Guardar
+              </button>
+            </div>
+          </form>
+
+          <div class="contaner-tabla">
+            <h1>Listado de canchas</h1>
+            <app-data-table
+              [tableData]="tablaCanchas"
+              [columnHeader]="encabezadosCanchas"
+              [estado]="estado"
+              [edit]="edit"
+            >
+            </app-data-table>
+          </div>
         </div>
       </div>
     </app-card>

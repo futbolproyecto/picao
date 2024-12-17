@@ -1,0 +1,52 @@
+.search-container {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.search-field {
+  width: 300px;
+}
+
+.table-container {
+  overflow: auto;
+  border-radius: 20px;
+  box-shadow: 0px 3px 15px #9b9b9b;
+}
+
+th {
+  background-color: #52ff96 !important;
+  color: #6e3296;
+  font-family: "Montserrat", sans-serif;
+  font-size: 14px;
+  text-align: left;
+}
+
+td {
+  font-family: "Montserrat", sans-serif;
+  font-size: 14px;
+}
+
+.material-icons {
+  font-size: 18px !important;
+  color: #52ff96;
+}
+
+.table-hover {
+  width: 100%;
+}
+
+.columnas.acciones {
+  text-align: center;
+}
+
+.acciones-container {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+button {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
