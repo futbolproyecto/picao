@@ -41,11 +41,20 @@
       <ul>
         <li>
           <a
+            [routerLink]="['/home/dashboard']"
+            routerLinkActive="router-link-active"
+          >
+            <i class="material-icons icono-menu">dashboard</i>
+            <p *ngIf="!menuExpandido">Dashboard</p>
+          </a>
+        </li>
+        <li>
+          <a
             [routerLink]="['/home/soccer-field']"
             routerLinkActive="router-link-active"
           >
             <i class="material-icons icono-menu">sports_soccer</i>
-            <p *ngIf="!menuExpandido">Registrar cancha</p>
+            <p *ngIf="!menuExpandido">Establecimiento</p>
           </a>
         </li>
         <li>
@@ -54,16 +63,7 @@
             routerLinkActive="router-link-active"
           >
             <i class="material-icons icono-menu">event</i>
-            <p *ngIf="!menuExpandido">Administrar agenda</p>
-          </a>
-        </li>
-        <li>
-          <a
-            [routerLink]="['/home/matches']"
-            routerLinkActive="router-link-active"
-          >
-            <i class="material-icons icono-menu">format_list_bulleted_add</i>
-            <p *ngIf="!menuExpandido">Organizar partidos</p>
+            <p *ngIf="!menuExpandido">Agenda</p>
           </a>
         </li>
       </ul>

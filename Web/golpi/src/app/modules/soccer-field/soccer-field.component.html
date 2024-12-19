@@ -1,6 +1,6 @@
 <div class="container-establecimiento">
   <h1>
-    <h1>Usuario / {{ nombrePestana }}</h1>
+    <h1>Establecimiento / {{ nombrePestana }}</h1>
   </h1>
   <div class="card">
     <app-card>
@@ -75,7 +75,7 @@
             </div>
 
             <div class="boton">
-              <button mat-raised-button class="btn" type="button">
+              <button mat-raised-button (click)="registrarCancha()" class="btn" type="button">
                 Guardar
               </button>
             </div>

@@ -12,6 +12,7 @@ import { MatInputModule } from '@angular/material/input';
 import { Constant } from '../../shared/utils/constant';
 import { MatSelectModule } from '@angular/material/select';
 import { DataTableComponent } from '../../shared/components/custom/data-table/data-table.component';
+import { AlertsService } from '../../core/service/alerts.service';
 
 @Component({
   selector: 'app-establishment',
@@ -30,6 +31,7 @@ import { DataTableComponent } from '../../shared/components/custom/data-table/da
 export class EstablishmentComponent {
   private formBuilder = inject(UntypedFormBuilder);
   public formularioEstablecimiento: UntypedFormGroup = new UntypedFormGroup({});
+  private alertsService = inject(AlertsService);
 
   public nombreError: string = '';
   public cantidadCanchasError: string = '';
@@ -172,5 +174,18 @@ export class EstablishmentComponent {
       }
     }
     return status;
+  }
+
+  limpiarFormulario(): void {
+    this.formularioEstablecimiento.reset();
+  }
+
+  registrarEstablecimiento(): void {
+    if (this.formularioEstablecimiento.valid) {
+      console.log('Se guardo los datos');
+      this.limpiarFormulario();
+    } else {
+      this.alertsService.toast('error', Constant.ERROR_FORM_INCOMPLETO);
+    }
   }
 }

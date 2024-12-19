@@ -27,6 +27,8 @@ export class DataTableComponent implements OnChanges {
   @Input() columnHeader: any;
   @Input() edit: boolean = false;
   @Input() estado: boolean = false;
+  @Input() confirm: boolean = false;
+  @Input() finish: boolean = false;
 
   @Output() id: EventEmitter<{ value: number }> = new EventEmitter<{
     value: number;
@@ -61,6 +63,14 @@ export class DataTableComponent implements OnChanges {
   }
 
   editar(id: number) {
+    this.item.emit({ value: id });
+  }
+
+  confirmar(id: number) {
+    this.item.emit({ value: id });
+  }
+
+  finalizar(id: number) {
     this.item.emit({ value: id });
   }
 

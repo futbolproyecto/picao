@@ -41,6 +41,26 @@
                 <i class="material-icons">edit</i>
               </button>
               <button
+                *ngIf="confirm"
+                (click)="confirmar(element)"
+                mat-mini-fab
+                aria-label="Confirmar"
+                type="button"
+                class="mx-1"
+              >
+                <i class="material-icons">check</i>
+              </button>
+              <button
+                *ngIf="finish"
+                (click)="finalizar(element)"
+                mat-mini-fab
+                aria-label="Finalizar"
+                type="button"
+                class="mx-1"
+              >
+                <i class="material-icons">close</i>
+              </button>
+              <button
                 *ngIf="estado"
                 (click)="actualizarEstado(element.id)"
                 mat-mini-fab

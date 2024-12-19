@@ -1,0 +1,76 @@
+<h2 mat-dialog-title>Registra turno</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="formularioTurno" class="form-content">
+    <div class="form-group">
+      <mat-form-field appearance="outline">
+        <mat-label>Fecha</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="fecha" />
+        <mat-datepicker-toggle
+          matIconSuffix
+          [for]="picker"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+      <small class="text-error" *ngIf="validarFecha()">
+        {{ fechaError }}
+      </small>
+    </div>
+
+    <div class="form-group">
+      <mat-form-field appearance="outline">
+        <mat-label>Hora inicial</mat-label>
+        <input matInput type="time" formControlName="horaInicial" />
+      </mat-form-field>
+      <small class="text-error" *ngIf="validarHoraInicial()">
+        {{ horaInicialError }}
+      </small>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Hora final</mat-label>
+        <input matInput type="time" formControlName="horafinal" />
+      </mat-form-field>
+    </div>
+
+    <div class="form-group">
+      <mat-form-field appearance="outline">
+        <mat-label>Cancha</mat-label>
+        <mat-select formControlName="cancha">
+          <mat-option value="1">1</mat-option>
+          <mat-option value="2">2</mat-option>
+          <mat-option value="3">3</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <small class="text-error" *ngIf="validarCancha()">
+        {{ canchaError }}
+      </small>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Cliente</mat-label>
+        <mat-select formControlName="cliente">
+          <mat-option value="1">Andrea Isaza</mat-option>
+          <mat-option value="2">Alejandro Mira</mat-option>
+          <mat-option value="3">Carlos Isaza</mat-option>
+          <mat-option value="4">Briceda Diosa</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <small class="text-error" *ngIf="validarCliente()">
+        {{ clienteError }}
+      </small>
+    </div>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <div class="boton">
+    <button mat-button mat-dialog-close class="btn">Cancelar</button>
+    <button
+      mat-raised-button
+      class="btn"
+      [disabled]="formularioTurno.invalid"
+      (click)="guardarTurno()"
+    >
+      Guardar
+    </button>
+  </div>
+</mat-dialog-actions>

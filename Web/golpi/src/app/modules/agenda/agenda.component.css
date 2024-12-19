@@ -1,3 +1,12 @@
+.form-content {
+  padding: 0 25px;
+}
+
+.form-group {
+  display: flex;
+  gap: 20px;
+}
+
 .container-agenda {
   padding: 15px;
   min-height: calc(100vh - 170px);
@@ -6,6 +15,7 @@
 }
 
 h1 {
+  display: flex;
   font-weight: bold;
   font-size: 20px;
   color: #6e3296;
@@ -82,4 +92,45 @@ span {
 .container-pestana.ng-leave-active,
 .container-actualizar.ng-leave-active {
   opacity: 0;
+}
+
+mat-form-field {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.boton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 10px;
+}
+
+.boton .btn {
+  background-color: #52ff96;
+  font-size: 16px;
+  color: #000000;
+  height: 45px;
+  width: 30%;
+  border-radius: 10px;
+  margin-left: 10px;
+}
+
+.text-error {
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
+  display: block;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.contaner-tabla {
+  padding: 20px;
 }

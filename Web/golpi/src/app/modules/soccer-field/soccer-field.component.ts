@@ -15,6 +15,7 @@ import { DataTableComponent } from '../../shared/components/custom/data-table/da
 import { Constant } from '../../shared/utils/constant';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { AlertsService } from '../../core/service/alerts.service';
 
 @Component({
   selector: 'app-soccer-field',
@@ -36,6 +37,7 @@ import { MatSelectModule } from '@angular/material/select';
 export class SoccerFieldComponent {
   private formBuilder = inject(UntypedFormBuilder);
   public formularioCancha: UntypedFormGroup = new UntypedFormGroup({});
+  private alertsService = inject(AlertsService);
 
   public registrarCanchaActivo: boolean = false;
   public registrarEstablecimientoActivo: boolean = true;
@@ -45,7 +47,7 @@ export class SoccerFieldComponent {
   public cantidadJugadoresError: string = '';
   public tipoCanchaError: string = '';
   public establecimientoError: string = '';
-  
+
   public estado: boolean = true;
   public edit: boolean = true;
 
@@ -158,5 +160,18 @@ export class SoccerFieldComponent {
       this.registrarCanchaActivo = true;
       this.nombrePestana = 'Registrar canchas';
     }
+  }
+
+  registrarCancha(): void {
+    if (this.formularioCancha.valid) {
+      console.log('Se guardo los datos');
+      this.limpiarFormulario();
+    } else {
+      this.alertsService.toast('error', Constant.ERROR_FORM_INCOMPLETO);
+    }
+  }
+
+  limpiarFormulario(): void {
+    this.formularioCancha.reset();
   }
 }

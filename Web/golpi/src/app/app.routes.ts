@@ -6,15 +6,15 @@ import { autenticacionGuard } from './core/guard/autenticacion.guard';
 import { noAutenticacion } from './core/guard/no-autenticacion.guard';
 import { AgendaComponent } from './modules/agenda/agenda.component';
 import { ChangePasswordComponent } from './modules/change-password/change-password.component';
-import { MatchesComponent } from './modules/matches/matches.component';
 import { UpdateDataComponent } from './modules/update-data/update-data.component';
 import { SoccerFieldComponent } from './modules/soccer-field/soccer-field.component';
+import { DashboardComponent } from './modules/dashboard/dashboard.component';
 
 export const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
-    canActivate: [noAutenticacion],
+    // canActivate: [noAutenticacion],
   },
   {
     path: 'contactenos',
@@ -23,32 +23,27 @@ export const routes: Routes = [
   {
     path: 'home',
     component: HomeComponent,
-    canMatch: [autenticacionGuard],
+    // canMatch: [autenticacionGuard],
     children: [
       {
         path: 'agenda',
-        title: 'Crear agenda',
+        title: 'Agenda',
         component: AgendaComponent,
       },
       {
         path: 'soccer-field',
-        title: 'Registrar cancha',
+        title: 'Establecimiento',
         component: SoccerFieldComponent,
       },
       {
-        path: 'change-password',
-        title: 'Cambio contraseña',
-        component: ChangePasswordComponent,
-      },
-      {
-        path: 'matches',
-        title: 'Organizar partidos',
-        component: MatchesComponent,
-      },
-      {
         path: 'update-data',
-        title: 'Actualizar datos',
+        title: 'Usuario',
         component: UpdateDataComponent,
+      },
+      {
+        path: 'dashboard',
+        title: 'Dashboard',
+        component: DashboardComponent,
       },
     ],
   },
