@@ -1,5 +1,5 @@
 import 'package:picao/core/utils/http_service.dart';
-import 'package:picao/modules/user/models/user_model.dart';
+import 'package:picao/modules/user/models/user_register_model.dart';
 import 'package:picao/core/constants/constant_endpoints.dart';
 import 'package:picao/modules/user/models/change_password_model.dart';
 
@@ -53,6 +53,15 @@ class UserRepository {
     try {
       await HttpService(ConstantEndpoints.changePassword)
           .put(changePasswordModel.toJson());
+    } on Exception catch (_) {
+      rethrow;
+    }
+  }
+
+  Future<Map<String, dynamic>> getUserById(int userId) async {
+    try {
+      return await HttpService('${ConstantEndpoints.getUserById}/$userId')
+          .get();
     } on Exception catch (_) {
       rethrow;
     }

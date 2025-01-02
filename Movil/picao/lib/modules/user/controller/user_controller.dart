@@ -7,7 +7,7 @@ import 'package:picao/core/routes/app_pages.dart';
 
 import 'package:picao/data/repositories/user/user_repository.dart';
 import 'package:picao/modules/user/models/change_password_model.dart';
-import 'package:picao/modules/user/models/user_model.dart';
+import 'package:picao/modules/user/models/user_register_model.dart';
 import 'package:picao/modules/widgets/modal_otp_validation.dart';
 import 'package:picao/modules/widgets/ui_alert_message.dart';
 import 'package:picao/modules/widgets/ui_buttoms.dart';

@@ -57,6 +57,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.3.0"
+  dropdown_search:
+    dependency: "direct main"
+    description:
+      name: dropdown_search
+      sha256: "8c96aaf8d0c0d4307804b28da73866e5a0fc94fd8e6942eceab896450aaa4999"
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.0.1"
   fake_async:
     dependency: transitive
     description:
@@ -333,6 +341,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.0"
+  reactive_dropdown_search:
+    dependency: "direct main"
+    description:
+      name: reactive_dropdown_search
+      sha256: e329d1b23bcc364440fecedebab6cfaff8dbd2e068ce01129ff76088cd732961
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.0.5"
   reactive_forms:
     dependency: "direct main"
     description:

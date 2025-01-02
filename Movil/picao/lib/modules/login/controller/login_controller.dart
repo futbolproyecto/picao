@@ -45,6 +45,9 @@ class LoginController extends GetxController {
       SecureStorage()
           .addNewItem(ConstantSecureStorage.tokenSesion, sesionModel.token);
 
+      SecureStorage().addNewItem(
+          ConstantSecureStorage.idUsuer, sesionModel.idUsuer.toString());
+
       Get.back();
       Get.toNamed(AppPages.home);
     } on CustomException catch (e) {

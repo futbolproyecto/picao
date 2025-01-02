@@ -1,18 +1,19 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:picao/core/constants/constants.dart';
+import 'package:picao/core/models/option_model.dart';
+import 'package:picao/modules/user/controller/profile_controller.dart';
 import 'package:picao/modules/widgets/ui_buttoms.dart';
 import 'package:picao/modules/widgets/ui_text.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:picao/modules/widgets/ui_text_field.dart';
-import 'package:picao/modules/user/controller/user_controller.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final UserController userController = Get.find<UserController>();
+    final ProfileController profileController = Get.find<ProfileController>();
 
     return Scaffold(
       appBar: AppBar(
@@ -41,233 +42,183 @@ class ProfilePage extends StatelessWidget {
             ),
             child: ListView.builder(
                 itemCount: 1,
-                controller: userController.scrollController,
                 itemBuilder: (context, index) {
-                  return ReactiveFormBuilder(
-                      form: () => userController.formUserRegistrer,
-                      builder: (
-                        BuildContext context,
-                        FormGroup reactiveFormUserRegistrer,
-                        Widget? child,
-                      ) {
-                        return Column(children: [
-                          const SizedBox(height: 10),
-                          UiText(text: 'Mi perfil').title(),
-                          const SizedBox(height: 20),
-                          UiTextFiel().textField(
-                            formControlName: 'name',
-                            labelText: 'Nombres',
-                            prefixIcon: Icons.person_2_outlined,
-                            colorPrefixIcon: Constants.primaryColor,
-                            validationMessages: {
-                              ValidationMessage.required: (error) =>
-                                  'Campo requerido',
-                            },
-                          ),
-                          const SizedBox(height: 20),
-                          UiTextFiel().textField(
-                            formControlName: 'last_name',
-                            labelText: 'Apellidos',
-                            prefixIcon: Icons.person_2_outlined,
-                            colorPrefixIcon: Constants.primaryColor,
-                            validationMessages: {
-                              ValidationMessage.required: (error) =>
-                                  'Campo requerido',
-                            },
-                          ),
-                          const SizedBox(height: 20),
-                          UiTextFiel().textField(
-                            formControlName: 'email',
-                            labelText: 'Correo',
-                            prefixIcon: Icons.email_outlined,
-                            colorPrefixIcon: Constants.primaryColor,
-                            validationMessages: {
-                              ValidationMessage.required: (error) =>
-                                  'Campo requerido',
-                            },
-                          ),
-                          const SizedBox(height: 20),
-                          UiTextFiel().textField(
-                            formControlName: 'mobile_number',
-                            labelText: 'Celular',
-                            prefixIcon: Icons.phone_android_outlined,
-                            colorPrefixIcon: Constants.primaryColor,
-                            validationMessages: {
-                              ValidationMessage.required: (error) =>
-                                  'Campo requerido',
-                            },
-                          ),
-                          const SizedBox(height: 20),
-                          UiTextFiel().datePickerField(
-                            formControlName: 'date_of_birth',
-                            labelText: 'Fecha nacimiento',
-                            prefixIcon: Icons.date_range_outlined,
-                            colorPrefixIcon: Constants.primaryColor,
-                            firstDate: DateTime(1900),
-                            lastDate: DateTime.now(),
-                            validationMessages: {
-                              ValidationMessage.required: (error) =>
-                                  'Campo requerido',
-                            },
-                          ),
-                          const SizedBox(height: 20),
-                          Obx(
-                            () => UiTextFiel().textField(
-                              formControlName: 'password',
-                              labelText: 'Alias',
-                              prefixIcon: Icons.lock_outline,
-                              colorPrefixIcon: Constants.primaryColor,
-                              obscureText: userController.obscureText.value,
-                              suffixIcon: IconButton(
-                                  onPressed: userController.toggleObscureText,
-                                  icon: Icon(
-                                    userController.obscureText.value
-                                        ? Icons.visibility
-                                        : Icons.visibility_off,
-                                  )),
-                              validationMessages: {
-                                ValidationMessage.required: (error) =>
-                                    'Campo requerido',
-                              },
-                            ),
-                          ),
-                          const SizedBox(height: 20),
-                          Obx(
-                            () => UiTextFiel().textField(
-                              formControlName: 'password_confirmation',
-                              labelText: 'Confirmar clave',
-                              prefixIcon: Icons.lock_outline,
-                              colorPrefixIcon: Constants.primaryColor,
-                              obscureText: userController.obscureText.value,
-                              suffixIcon: IconButton(
-                                  onPressed: userController.toggleObscureText,
-                                  icon: Icon(
-                                    userController.obscureText.value
-                                        ? Icons.visibility
-                                        : Icons.visibility_off,
-                                  )),
-                              validationMessages: {
-                                ValidationMessage.required: (error) =>
-                                    'Campo requerido',
-                                ValidationMessage.mustMatch: (error) =>
-                                    'La contraseña no coincide',
-                              },
-                            ),
-                          ),
-                          const SizedBox(height: 10),
-                          Obx(() => Visibility(
-                              visible:
-                                  userController.showValidationPassword.value,
-                              child: Column(
-                                children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      const Text('Caracteres especiales'),
-                                      userController.hasEspecialCaracter.value
-                                          ? Icon(
-                                              Icons.check_circle_outline,
-                                              color: Constants.secondaryColor,
-                                            )
-                                          : const Icon(
-                                              Icons.error_outline,
-                                              color: Colors.amber,
-                                            )
-                                    ],
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      const Text('6 caracteres'),
-                                      userController.hasMinCaracter.value
-                                          ? Icon(
-                                              Icons.check_circle_outline,
-                                              color: Constants.secondaryColor,
-                                            )
-                                          : const Icon(
-                                              Icons.error_outline,
-                                              color: Colors.amber,
-                                            )
-                                    ],
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      const Text('Mayuscula'),
-                                      userController.hasCapital.value
-                                          ? Icon(
-                                              Icons.check_circle_outline,
-                                              color: Constants.secondaryColor,
-                                            )
-                                          : const Icon(
-                                              Icons.error_outline,
-                                              color: Colors.amber,
-                                            )
-                                    ],
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      const Text('Minuscula'),
-                                      userController.hasLower.value
-                                          ? Icon(
-                                              Icons.check_circle_outline,
-                                              color: Constants.secondaryColor,
-                                            )
-                                          : const Icon(
-                                              Icons.error_outline,
-                                              color: Colors.amber,
-                                            )
-                                    ],
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      const Text('Numeros'),
-                                      userController.hasNumber.value
-                                          ? Icon(
-                                              Icons.check_circle_outline,
-                                              color: Constants.secondaryColor,
-                                            )
-                                          : const Icon(
-                                              Icons.error_outline,
-                                              color: Colors.amber,
-                                            )
-                                    ],
-                                  ),
+                  return Column(
+                    children: [
+                      ReactiveFormBuilder(
+                          form: () => profileController.formUserInfo,
+                          builder: (
+                            BuildContext context,
+                            FormGroup reactiveFormUserRegistrer,
+                            Widget? child,
+                          ) {
+                            return Column(children: [
+                              const SizedBox(height: 10),
+                              UiText(text: 'Mi perfil').title(),
+                              const SizedBox(height: 20),
+                              UiTextFiel().textField(
+                                formControlName: 'name',
+                                labelText: 'Nombres',
+                                prefixIcon: Icons.person_2_outlined,
+                                colorPrefixIcon: Constants.primaryColor,
+                                validationMessages: {
+                                  ValidationMessage.required: (error) =>
+                                      'Campo requerido',
+                                },
+                              ),
+                              const SizedBox(height: 20),
+                              UiTextFiel().textField(
+                                formControlName: 'lastName',
+                                labelText: 'Apellidos',
+                                prefixIcon: Icons.person_2_outlined,
+                                colorPrefixIcon: Constants.primaryColor,
+                                validationMessages: {
+                                  ValidationMessage.required: (error) =>
+                                      'Campo requerido',
+                                },
+                              ),
+                              const SizedBox(height: 20),
+                              UiTextFiel().textField(
+                                formControlName: 'email',
+                                labelText: 'Correo',
+                                prefixIcon: Icons.email_outlined,
+                                colorPrefixIcon: Constants.primaryColor,
+                                validationMessages: {
+                                  ValidationMessage.required: (error) =>
+                                      'Campo requerido',
+                                },
+                              ),
+                              const SizedBox(height: 20),
+                              UiTextFiel().textField(
+                                formControlName: 'mobileNumber',
+                                labelText: 'Celular',
+                                prefixIcon: Icons.phone_android_outlined,
+                                colorPrefixIcon: Constants.primaryColor,
+                                validationMessages: {
+                                  ValidationMessage.required: (error) =>
+                                      'Campo requerido',
+                                },
+                              ),
+                              const SizedBox(height: 20),
+                              UiTextFiel().datePickerField(
+                                formControlName: 'date_of_birth',
+                                labelText: 'Fecha nacimiento',
+                                prefixIcon: Icons.date_range_outlined,
+                                colorPrefixIcon: Constants.primaryColor,
+                                firstDate: DateTime(1900),
+                                lastDate: DateTime.now(),
+                                validationMessages: {
+                                  ValidationMessage.required: (error) =>
+                                      'Campo requerido',
+                                },
+                              ),
+                            ]);
+                          }),
+                      ReactiveFormBuilder(
+                          form: () => profileController.formProfile,
+                          builder: (
+                            BuildContext context,
+                            FormGroup reactiveFormUserRegistrer,
+                            Widget? child,
+                          ) {
+                            return Column(children: [
+                              const SizedBox(height: 20),
+                              UiTextFiel().textField(
+                                formControlName: 'nickname',
+                                labelText: 'Alias',
+                                prefixIcon: Icons.face_outlined,
+                                colorPrefixIcon: Constants.primaryColor,
+                                validationMessages: {
+                                  ValidationMessage.required: (error) =>
+                                      'Campo requerido',
+                                },
+                              ),
+                              const SizedBox(height: 20),
+                              UiTextFiel().textField(
+                                formControlName: 'position_player',
+                                labelText: 'Posicion',
+                                prefixIcon: Icons.flag_outlined,
+                                colorPrefixIcon: Constants.primaryColor,
+                                validationMessages: {
+                                  ValidationMessage.required: (error) =>
+                                      'Campo requerido'
+                                },
+                              ),
+                              const SizedBox(height: 20),
+                              UiTextFiel().textField(
+                                formControlName: 'weight',
+                                labelText: 'Peso (KG)',
+                                prefixIcon: Icons.fitness_center_outlined,
+                                colorPrefixIcon: Constants.primaryColor,
+                                validationMessages: {
+                                  ValidationMessage.required: (error) =>
+                                      'Campo requerido'
+                                },
+                              ),
+                              const SizedBox(height: 20),
+                              UiTextFiel().textField(
+                                formControlName: 'stature',
+                                labelText: 'Estatura (CM)',
+                                prefixIcon: Icons.height_outlined,
+                                colorPrefixIcon: Constants.primaryColor,
+                                validationMessages: {
+                                  ValidationMessage.required: (error) =>
+                                      'Campo requerido',
+                                },
+                              ),
+                              const SizedBox(height: 20),
+                              UiTextFiel().textField(
+                                formControlName: 'dominant_foot',
+                                labelText: 'Pie dominante',
+                                prefixIcon: Icons.directions_run_outlined,
+                                colorPrefixIcon: Constants.primaryColor,
+                                validationMessages: {
+                                  ValidationMessage.required: (error) =>
+                                      'Campo requerido',
+                                },
+                              ),
+                              const SizedBox(height: 20),
+                              UiTextFiel().textField(
+                                formControlName: 'city',
+                                labelText: 'Ciudad',
+                                prefixIcon: Icons.location_city_outlined,
+                                colorPrefixIcon: Constants.primaryColor,
+                                validationMessages: {
+                                  ValidationMessage.required: (error) =>
+                                      'Campo requerido',
+                                },
+                              ),
+                              const SizedBox(height: 20),
+                              UiTextFiel().dropDown(
+                                formControlName: 'zone',
+                                labelText: 'Zona',
+                                prefixIcon: Icons.place_outlined,
+                                colorPrefixIcon: Constants.primaryColor,
+                                items: [
+                                  OptionModel(id: 1, description: 'Prueba')
                                 ],
-                              ))),
-                          Row(
-                            children: [
-                              ReactiveCheckbox(
-                                  formControlName: 'terms_and_conditions'),
-                              const Text('Acepto los '),
-                              UiButtoms(onPressed: () {}, title: 'Terminos')
-                                  .textButtom(Colors.black),
-                              const Text('y'),
-                              UiButtoms(onPressed: () {}, title: 'Condiciones')
-                                  .textButtom(Colors.black),
-                            ],
-                          ),
-                          const SizedBox(height: 20),
-                          UiButtoms(
-                                  onPressed: () {
-                                    reactiveFormUserRegistrer
-                                        .markAllAsTouched();
-                                    if (reactiveFormUserRegistrer.valid) {
-                                      userController.sendOtpMobileNumber();
-                                    }
-                                  },
-                                  title: 'Ingresar')
-                              .primaryButtom(),
-                          const SizedBox(height: 20),
-                        ]);
-                      });
+                                validationMessages: {
+                                  ValidationMessage.required: (error) =>
+                                      'Campo requerido',
+                                },
+                              ),
+                              const SizedBox(height: 20),
+                              UiButtoms(
+                                      onPressed: () {
+                                        reactiveFormUserRegistrer
+                                            .markAllAsTouched();
+                                        if (reactiveFormUserRegistrer.valid) {
+                                          /* userController
+                                              .sendOtpMobileNumber(); */
+                                        }
+                                      },
+                                      title: 'Guardar')
+                                  .primaryButtom(),
+                              const SizedBox(height: 20),
+                            ]);
+                          }),
+                    ],
+                  );
                 }),
           ),
         ),
