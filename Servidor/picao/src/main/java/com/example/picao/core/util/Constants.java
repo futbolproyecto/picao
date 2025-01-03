@@ -19,7 +19,6 @@ public class Constants {
             "/authentication/login",
             "/user/create",
             "/user/change-password",
-            "/user/get-by-id/*",
             "/otp/**"
     };
 }
