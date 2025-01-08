@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:picao/core/constants/constants.dart';
-import 'package:picao/core/models/option_model.dart';
-import 'package:picao/modules/widgets/ui_text.dart';
 import 'package:reactive_forms/reactive_forms.dart';
-import 'package:reactive_dropdown_search/reactive_dropdown_search.dart';
+import 'package:picao/modules/widgets/ui_text.dart';
+import 'package:picao/core/models/option_model.dart';
 import 'package:dropdown_search/dropdown_search.dart';
+import 'package:reactive_dropdown_search/reactive_dropdown_search.dart';
 import 'package:reactive_date_time_picker/reactive_date_time_picker.dart';
 
 class UiTextFiel {
@@ -17,10 +16,12 @@ class UiTextFiel {
     IconButton? suffixIcon,
     Color? colorSuffixIcon,
     bool obscureText = false,
+    TextInputType? textInputType,
   }) {
     return ReactiveTextField(
       formControlName: formControlName,
       validationMessages: validationMessages,
+      keyboardType: textInputType,
       obscureText: obscureText,
       decoration: InputDecoration(
         contentPadding:
@@ -100,7 +101,7 @@ class UiTextFiel {
   }
 
   Widget dropDown({
-    required String formControlName,
+    required ValueNotifier formControl,
     required Map<String, String Function(Object)> validationMessages,
     required String labelText,
     required IconData prefixIcon,
@@ -112,18 +113,16 @@ class UiTextFiel {
   }) {
     return DropdownSearch<OptionModel>(
         items: (_, __) => items,
-        itemAsString: (OptionModel item) => item.description.toString(),
+        itemAsString: (OptionModel item) => item.name.toString(),
+        compareFn: (OptionModel? item, OptionModel? selectedItem) {
+          return item?.id == selectedItem?.id;
+        },
+        onChanged: (OptionModel? value) {
+          // Sincronizar el valor seleccionado con el controlador
+          formControl.value = value?.id;
+        },
         popupProps: PopupProps.modalBottomSheet(
           showSearchBox: true,
-          /* bottomSheetProps: const BottomSheetProps(
-          constraints: BoxConstraints(maxHeight: 300),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(24),
-              topRight: Radius.circular(24),
-            ),
-          ),
-        ), */
           title: Container(
             height: 40,
             decoration: BoxDecoration(

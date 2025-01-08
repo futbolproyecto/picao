@@ -8,6 +8,10 @@ class ConstantEndpoints {
   static String validateOtpEmail = '/otp/validate-email';
   static String changePassword = '/user/change-password';
   static String getUserById = '/user/get-by-id';
+  static String getAllZones = '/zone/get-all';
+  static String getAllPositionPlayer = '/position-player/get-all';
+  static String getAllDominantFoot = '/dominant-foot/get-all';
+  static String createPlayerProfile = '/player-profile/create';
 
   static List<String> get blackLista => [
         ConstantEndpoints.login,

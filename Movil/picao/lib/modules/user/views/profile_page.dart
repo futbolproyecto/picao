@@ -49,7 +49,7 @@ class ProfilePage extends StatelessWidget {
                           form: () => profileController.formUserInfo,
                           builder: (
                             BuildContext context,
-                            FormGroup reactiveFormUserRegistrer,
+                            FormGroup reactiveFormUserInfo,
                             Widget? child,
                           ) {
                             return Column(children: [
@@ -118,7 +118,7 @@ class ProfilePage extends StatelessWidget {
                           form: () => profileController.formProfile,
                           builder: (
                             BuildContext context,
-                            FormGroup reactiveFormUserRegistrer,
+                            FormGroup reactiveFormProfileRegistrer,
                             Widget? child,
                           ) {
                             return Column(children: [
@@ -134,20 +134,24 @@ class ProfilePage extends StatelessWidget {
                                 },
                               ),
                               const SizedBox(height: 20),
-                              UiTextFiel().textField(
-                                formControlName: 'position_player',
+                              UiTextFiel().dropDown(
+                                formControl: profileController
+                                    .valuePositionPlayerSelected.value,
                                 labelText: 'Posicion',
                                 prefixIcon: Icons.flag_outlined,
                                 colorPrefixIcon: Constants.primaryColor,
+                                items:
+                                    profileController.listPositionPlayerOption,
                                 validationMessages: {
                                   ValidationMessage.required: (error) =>
-                                      'Campo requerido'
+                                      'Campo requerido',
                                 },
                               ),
                               const SizedBox(height: 20),
                               UiTextFiel().textField(
                                 formControlName: 'weight',
                                 labelText: 'Peso (KG)',
+                                textInputType: TextInputType.number,
                                 prefixIcon: Icons.fitness_center_outlined,
                                 colorPrefixIcon: Constants.primaryColor,
                                 validationMessages: {
@@ -159,6 +163,7 @@ class ProfilePage extends StatelessWidget {
                               UiTextFiel().textField(
                                 formControlName: 'stature',
                                 labelText: 'Estatura (CM)',
+                                textInputType: TextInputType.number,
                                 prefixIcon: Icons.height_outlined,
                                 colorPrefixIcon: Constants.primaryColor,
                                 validationMessages: {
@@ -167,22 +172,13 @@ class ProfilePage extends StatelessWidget {
                                 },
                               ),
                               const SizedBox(height: 20),
-                              UiTextFiel().textField(
-                                formControlName: 'dominant_foot',
+                              UiTextFiel().dropDown(
+                                formControl: profileController
+                                    .valueDominantFootSelected.value,
                                 labelText: 'Pie dominante',
                                 prefixIcon: Icons.directions_run_outlined,
                                 colorPrefixIcon: Constants.primaryColor,
-                                validationMessages: {
-                                  ValidationMessage.required: (error) =>
-                                      'Campo requerido',
-                                },
-                              ),
-                              const SizedBox(height: 20),
-                              UiTextFiel().textField(
-                                formControlName: 'city',
-                                labelText: 'Ciudad',
-                                prefixIcon: Icons.location_city_outlined,
-                                colorPrefixIcon: Constants.primaryColor,
+                                items: profileController.listDominantFootOption,
                                 validationMessages: {
                                   ValidationMessage.required: (error) =>
                                       'Campo requerido',
@@ -190,13 +186,25 @@ class ProfilePage extends StatelessWidget {
                               ),
                               const SizedBox(height: 20),
                               UiTextFiel().dropDown(
-                                formControlName: 'zone',
+                                formControl:
+                                    profileController.valueCitySelected.value,
+                                labelText: 'Ciudad',
+                                prefixIcon: Icons.location_city_outlined,
+                                colorPrefixIcon: Constants.primaryColor,
+                                items: [OptionModel(id: 4, name: 'Cali')],
+                                validationMessages: {
+                                  ValidationMessage.required: (error) =>
+                                      'Campo requerido',
+                                },
+                              ),
+                              const SizedBox(height: 20),
+                              UiTextFiel().dropDown(
+                                formControl:
+                                    profileController.valueZoneSelected.value,
                                 labelText: 'Zona',
                                 prefixIcon: Icons.place_outlined,
                                 colorPrefixIcon: Constants.primaryColor,
-                                items: [
-                                  OptionModel(id: 1, description: 'Prueba')
-                                ],
+                                items: profileController.listZonesOption,
                                 validationMessages: {
                                   ValidationMessage.required: (error) =>
                                       'Campo requerido',
@@ -205,11 +213,13 @@ class ProfilePage extends StatelessWidget {
                               const SizedBox(height: 20),
                               UiButtoms(
                                       onPressed: () {
-                                        reactiveFormUserRegistrer
+                                        reactiveFormProfileRegistrer
                                             .markAllAsTouched();
-                                        if (reactiveFormUserRegistrer.valid) {
-                                          /* userController
-                                              .sendOtpMobileNumber(); */
+
+                                        if (reactiveFormProfileRegistrer
+                                            .valid) {
+                                          profileController
+                                              .registerPlayerProfile();
                                         }
                                       },
                                       title: 'Guardar')

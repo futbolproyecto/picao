@@ -1,7 +1,11 @@
 import 'package:picao/core/utils/http_service.dart';
-import 'package:picao/modules/user/models/user_register_model.dart';
+import 'package:picao/core/models/option_model.dart';
+import 'package:picao/core/utils/general_model.dart';
+import 'package:picao/modules/user/models/user_model.dart';
 import 'package:picao/core/constants/constant_endpoints.dart';
+import 'package:picao/modules/user/models/user_register_model.dart';
 import 'package:picao/modules/user/models/change_password_model.dart';
+import 'package:picao/modules/user/models/player_profile_register_model.dart';
 
 class UserRepository {
   Future<void> sendOtpMobileNumber(String mobileNumber) async {
@@ -58,10 +62,59 @@ class UserRepository {
     }
   }
 
-  Future<Map<String, dynamic>> getUserById(int userId) async {
+  Future<UserModel> getUserById(int userId) async {
     try {
-      return await HttpService('${ConstantEndpoints.getUserById}/$userId')
-          .get();
+      final response =
+          await HttpService('${ConstantEndpoints.getUserById}/$userId').get();
+      return UserModel.fromJson(GeneralModel().jsonStringifyToMaps(response));
+    } on Exception catch (_) {
+      rethrow;
+    }
+  }
+
+  Future<List<OptionModel>> getAllZones() async {
+    try {
+      final response = await HttpService(ConstantEndpoints.getAllZones).get();
+
+      return (GeneralModel().jsonStringifyToList(response))
+          .map((i) => OptionModel.fromJson(i))
+          .toList();
+    } on Exception catch (_) {
+      rethrow;
+    }
+  }
+
+  Future<List<OptionModel>> getAllPositionPlayer() async {
+    try {
+      final response =
+          await HttpService(ConstantEndpoints.getAllPositionPlayer).get();
+
+      return (GeneralModel().jsonStringifyToList(response))
+          .map((i) => OptionModel.fromJson(i))
+          .toList();
+    } on Exception catch (_) {
+      rethrow;
+    }
+  }
+
+  Future<List<OptionModel>> getAllDominantFoot() async {
+    try {
+      final response =
+          await HttpService(ConstantEndpoints.getAllDominantFoot).get();
+
+      return (GeneralModel().jsonStringifyToList(response))
+          .map((i) => OptionModel.fromJson(i))
+          .toList();
+    } on Exception catch (_) {
+      rethrow;
+    }
+  }
+
+  Future<void> createPlayerProfile(
+      PlayerProfileRegisterModel playerProfileRegisterModel) async {
+    try {
+      await HttpService(ConstantEndpoints.createPlayerProfile)
+          .post(playerProfileRegisterModel.toJson());
     } on Exception catch (_) {
       rethrow;
     }

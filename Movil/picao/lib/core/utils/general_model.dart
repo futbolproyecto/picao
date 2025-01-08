@@ -4,11 +4,12 @@ import 'package:picao/core/exception/custom_exception.dart';
 import 'package:picao/core/exception/models/error_model.dart';
 
 class GeneralModel {
-  final int status;
-  final Object payload;
+  final int? status;
+  final Object? payload;
+
   GeneralModel({
-    required this.status,
-    required this.payload,
+    this.status,
+    this.payload,
   });
 
   factory GeneralModel.fromJson(Map<String, dynamic> json) {
@@ -31,5 +32,13 @@ class GeneralModel {
     }
 
     return jsonDecode(jsonEncode(object).toString());
+  }
+
+  List<dynamic> jsonStringifyToList(Object? object) {
+    if (object == null) {
+       throw CustomException(ErrorModel().uncontrolledError());
+    }
+
+    return json.decode(jsonEncode(object).toString());
   }
 }
