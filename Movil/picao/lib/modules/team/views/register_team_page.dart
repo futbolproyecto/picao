@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:picao/core/constants/constants.dart';
+import 'package:picao/core/models/option_model.dart';
 import 'package:picao/modules/team/controller/team_controller.dart';
 import 'package:picao/modules/widgets/ui_buttoms.dart';
 import 'package:picao/modules/widgets/ui_text.dart';
@@ -86,29 +87,39 @@ class RegisterTeamPage extends StatelessWidget {
                             },
                           ),
                           const SizedBox(height: 20),
-                          UiTextFiel().textField(
-                            formControlName: 'city',
+                          UiTextFiel().dropDown(
+                            formControl: teamController.valueCitySelected.value,
                             labelText: 'Ciudad',
-                            prefixIcon: Icons.location_city,
+                            prefixIcon: Icons.location_city_outlined,
                             colorPrefixIcon: Constants.primaryColor,
+                            items: [OptionModel(id: 4, name: 'Cali')],
                             validationMessages: {
                               ValidationMessage.required: (error) =>
                                   'Campo requerido',
                             },
                           ),
                           const SizedBox(height: 20),
-                          UiTextFiel().textField(
-                            formControlName: 'area',
+                          UiTextFiel().dropDown(
+                            formControl: teamController.valueZoneSelected.value,
                             labelText: 'Zona',
-                            prefixIcon: Icons.location_on_outlined,
+                            prefixIcon: Icons.place_outlined,
                             colorPrefixIcon: Constants.primaryColor,
+                            items: teamController.listZonesOption,
                             validationMessages: {
                               ValidationMessage.required: (error) =>
                                   'Campo requerido',
                             },
                           ),
                           const SizedBox(height: 20),
-                          UiButtoms(onPressed: () {}, title: 'Guardar')
+                          UiButtoms(
+                                  onPressed: () {
+                                    reactiveFormTeamRegistrer
+                                        .markAllAsTouched();
+                                    if (reactiveFormTeamRegistrer.valid) {
+                                      teamController.registerTeam();
+                                    }
+                                  },
+                                  title: 'Guardar')
                               .primaryButtom(),
                           const SizedBox(height: 20),
                         ]);
