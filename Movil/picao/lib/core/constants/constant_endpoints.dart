@@ -8,11 +8,13 @@ class ConstantEndpoints {
   static String validateOtpEmail = '/otp/validate-email';
   static String changePassword = '/user/change-password';
   static String getUserById = '/user/get-by-id';
+  static String getUserByMobileNumber = '/user/get-by-mobile-number';
   static String getAllZones = '/zone/get-all';
   static String getAllPositionPlayer = '/position-player/get-all';
   static String getAllDominantFoot = '/dominant-foot/get-all';
   static String createPlayerProfile = '/player-profile/create';
   static String createTeam = '/team/create';
+  static String getTeamByUserId = '/team/get-by-user-id';
 
   static List<String> get blackLista => [
         ConstantEndpoints.login,

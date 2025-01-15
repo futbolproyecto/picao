@@ -1,18 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:picao/core/constants/constants.dart';
+import 'package:picao/modules/team/controller/team_controller.dart';
 
 class TeamPlayers extends StatelessWidget {
   const TeamPlayers({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final TeamController teamController = Get.find<TeamController>();
     return Column(
       children: [
         const SizedBox(height: 15),
-        Icon(
-          Icons.person_add_alt,
-          size: 40,
-          color: Constants.primaryColor,
+        InkWell(
+          onTap: teamController.openModalSearchUserPhone,
+          child: Icon(
+            Icons.person_add_alt,
+            size: 40,
+            color: Constants.primaryColor,
+          ),
         ),
         Expanded(
             child: ListView.builder(

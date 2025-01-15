@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:picao/core/constants/constants.dart';
 import 'package:picao/core/routes/app_pages.dart';
+import 'package:picao/modules/team/controller/team_controller.dart';
 import 'package:picao/modules/widgets/ui_buttoms.dart';
 
 class TeamPage extends StatelessWidget {
@@ -10,6 +11,7 @@ class TeamPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
+    final TeamController teamController = Get.find<TeamController>();
     return Scaffold(
       body: Column(
         children: [
@@ -35,48 +37,50 @@ class TeamPage extends StatelessWidget {
             ],
           ),
           Expanded(
-            child: ListView.builder(
-                itemCount: 3,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: InkWell(
-                      onTap: () {
-                        Get.toNamed(AppPages.manageTeam);
-                      },
-                      child: Card(
-                        margin: const EdgeInsets.symmetric(vertical: 10),
-                        color: Colors.white,
-                        elevation: 3,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              width: 80,
-                              height: 80,
-                              margin: const EdgeInsets.symmetric(
-                                  vertical: 10, horizontal: 5),
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  border: Border.all(
-                                    color: Constants.secondaryColor,
-                                    width: 3,
-                                  )),
-                              child: ClipOval(
-                                child: Image.asset(
-                                  'assets/img/teamicon.jpg',
-                                  width: 70,
-                                  height: 70,
+            child: Obx(
+              () => ListView.builder(
+                  itemCount: teamController.listTeams.toList().length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: InkWell(
+                        onTap: () {
+                          Get.toNamed(AppPages.manageTeam);
+                        },
+                        child: Card(
+                          margin: const EdgeInsets.symmetric(vertical: 10),
+                          color: Colors.white,
+                          elevation: 3,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                width: 80,
+                                height: 80,
+                                margin: const EdgeInsets.symmetric(
+                                    vertical: 10, horizontal: 5),
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    border: Border.all(
+                                      color: Constants.secondaryColor,
+                                      width: 3,
+                                    )),
+                                child: ClipOval(
+                                  child: Image.asset(
+                                    'assets/img/teamicon.jpg',
+                                    width: 70,
+                                    height: 70,
+                                  ),
                                 ),
                               ),
-                            ),
-                            const Icon(Icons.arrow_forward_ios_outlined)
-                          ],
+                              const Icon(Icons.arrow_forward_ios_outlined)
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  );
-                }),
+                    );
+                  }),
+            ),
           )
         ],
       ),
