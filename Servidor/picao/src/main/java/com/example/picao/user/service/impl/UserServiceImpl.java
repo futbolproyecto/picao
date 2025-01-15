@@ -70,7 +70,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             userEntity.setPassword(passwordEncoder.encode(userEntity.getPassword()));
 
 
-           return MAPPER.toUserResponseDTO(userRepository.save(userEntity));
+            return MAPPER.toUserResponseDTO(userRepository.save(userEntity));
 
 
         } catch (AppException e) {
@@ -112,6 +112,20 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
         } catch (
                 AppException e) {
+            throw new AppException(e.getErrorMessages(), e.getHttpStatus());
+        }
+    }
+
+    @Override
+    public UserResponseDTO getByMobileNumber(String mobileNumber) {
+        try {
+
+            UserEntity userEntity = userRepository.findByMobileNumber(mobileNumber)
+                    .orElseThrow(() -> new AppException(ErrorMessages.USER_NOT_EXIST, HttpStatus.NOT_FOUND));
+
+            return MAPPER.toUserResponseDTO(userEntity);
+
+        } catch (AppException e) {
             throw new AppException(e.getErrorMessages(), e.getHttpStatus());
         }
     }

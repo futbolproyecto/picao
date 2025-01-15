@@ -36,5 +36,12 @@ public class UserController {
         return GenericResponseDTO.genericResponse(userService.getUserById(id));
     }
 
+    @GetMapping(value = "get-by-mobile-number/{mobileNumber}")
+    public ResponseEntity<GenericResponseDTO> getPlayerMobileNumber(
+            @PathVariable String mobileNumber) {
+
+        return GenericResponseDTO.genericResponse(userService.getByMobileNumber(mobileNumber));
+    }
+
 
 }

@@ -1,6 +1,5 @@
-package com.example.picao;
+package com.example.picao.team.entity;
 
-import com.example.picao.team.entity.Team;
 import com.example.picao.user.entity.UserEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -13,6 +12,7 @@ import lombok.Setter;
 public class UsersByTeam {
     @Id
     @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)

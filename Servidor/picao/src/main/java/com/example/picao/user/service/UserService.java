@@ -12,6 +12,7 @@ public interface UserService {
 
     UserResponseDTO getUserById(int id);
 
+    UserResponseDTO getByMobileNumber(String mobileNumber);
 
 
 }

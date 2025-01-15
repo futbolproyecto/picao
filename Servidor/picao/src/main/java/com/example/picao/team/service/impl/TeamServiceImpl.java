@@ -5,9 +5,13 @@ import com.example.picao.city.repository.CityRepository;
 import com.example.picao.core.exception.AppException;
 import com.example.picao.core.util.ErrorMessages;
 import com.example.picao.team.dto.CreateTeamRequestDTO;
+import com.example.picao.team.dto.TeamResponseDTO;
+import com.example.picao.team.dto.UserTeamAddDTO;
 import com.example.picao.team.entity.Team;
+import com.example.picao.team.entity.UsersByTeam;
 import com.example.picao.team.mapper.TeamMapper;
 import com.example.picao.team.repository.TeamRepository;
+import com.example.picao.team.repository.UserByTeamRepository;
 import com.example.picao.team.service.TeamService;
 import com.example.picao.user.repository.UserRepository;
 import com.example.picao.zone.repository.ZoneRepository;
@@ -15,6 +19,8 @@ import lombok.RequiredArgsConstructor;
 import org.mapstruct.factory.Mappers;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @RequiredArgsConstructor()
 @Service
@@ -26,6 +32,7 @@ public class TeamServiceImpl implements TeamService {
     private final ZoneRepository zoneRepository;
     private final CityRepository cityRepository;
     private final TeamRepository teamRepository;
+    private final UserByTeamRepository userByTeamRepository;
 
 
     @Override
@@ -53,6 +60,32 @@ public class TeamServiceImpl implements TeamService {
             throw new AppException(e.getErrorMessages(), e.getHttpStatus());
         }
 
+    }
+
+    @Override
+    public List<Team> getByUserId(int userId) {
+        try {
+
+            return teamRepository.findTeamByUserId(userId)
+                    .orElseThrow(() -> new AppException(ErrorMessages.USER_NOT_EXIST, HttpStatus.NOT_FOUND));
+
+
+        } catch (AppException e) {
+            throw new AppException(e.getErrorMessages(), e.getHttpStatus());
+
+        }
+    }
+
+    @Override
+    public UsersByTeam addUserToTeam(UserTeamAddDTO userTeamAddDTO) {
+        try {
+
+            return userByTeamRepository.save(MAPPER.toUserByTeam(userTeamAddDTO));
+
+        } catch (AppException e) {
+            throw new AppException(e.getErrorMessages(), e.getHttpStatus());
+
+        }
     }
 }
 
