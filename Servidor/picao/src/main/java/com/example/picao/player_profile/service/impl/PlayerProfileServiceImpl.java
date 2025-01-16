@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.mapstruct.factory.Mappers;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @RequiredArgsConstructor()
@@ -31,6 +32,7 @@ public class PlayerProfileServiceImpl implements PlayerProfileService {
     private final PlayerProfileRepository playerProfileRepository;
     private final UserRepository userRepository;
 
+    @Transactional
     @Override
     public PlayerProfile createPlayerProfile(CreatePlayerProfileRequestDTO requestDTO) {
         try {
@@ -61,6 +63,8 @@ public class PlayerProfileServiceImpl implements PlayerProfileService {
             throw new AppException(e.getErrorMessages(), e.getHttpStatus());
         }
     }
+
+
 
 }
 

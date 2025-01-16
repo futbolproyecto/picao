@@ -45,6 +45,7 @@ public class Team {
     @ManyToOne(fetch = FetchType.EAGER)
     @JsonIgnore
     UserEntity user;
+
     @ManyToOne(fetch = FetchType.LAZY)
     UserEntity ownerUser;
 

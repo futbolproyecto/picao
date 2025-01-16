@@ -26,7 +26,7 @@ public class PlayerProfile {
     String nickname;
 
     @Column(length = 5)
-    Double stature;
+    Integer stature;
 
     @Column(length = 3)
     Integer weight;

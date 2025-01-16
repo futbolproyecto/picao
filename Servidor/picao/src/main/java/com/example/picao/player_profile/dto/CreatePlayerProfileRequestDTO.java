@@ -9,8 +9,8 @@ public record CreatePlayerProfileRequestDTO(
         String nickname,
 
         @NotNull
-        @Max(5)
-        Double stature,
+        @Max(250)
+        Integer stature,
 
         @NotNull
         Integer weight,
