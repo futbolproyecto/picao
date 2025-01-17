@@ -17,5 +17,6 @@ public class UserResponseDTO {
     String secondLastName;
     String mobileNumber;
     String email;
+    String username;
     LocalDate dateOfBirth;
 }

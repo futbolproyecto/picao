@@ -40,3 +40,9 @@
 .pendientes {
   background-color: #ffff00;
 }
+
+.full-calendar {
+  max-width: 900px;
+  font-size: 14px;
+  margin: 0 auto;
+}

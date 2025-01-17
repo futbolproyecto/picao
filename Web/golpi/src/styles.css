@@ -10,6 +10,13 @@
   box-sizing: border-box;
 }
 
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
 @font-face {
   font-family: "Montserrat";
   src: url("./assets/fonts/Montserrat-VariableFont_wght.ttf");
@@ -27,4 +34,10 @@
 
 .mdc-text-field--filled {
   background-color: transparent !important;
+}
+
+/* Estilo global para las pestañas activas */
+a.router-link-active {
+  background-color: #e0e0e0;
+  color: #6e3296 !important;
 }

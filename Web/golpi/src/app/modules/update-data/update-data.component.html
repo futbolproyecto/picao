@@ -111,37 +111,23 @@
                   {{ celularError }}
                 </small>
               </div>
-              <mat-form-field appearance="outline">
-                <mat-label>Ciudad</mat-label>
-                <mat-select [(value)]="selected" formControlName="ciudad">
-                  <mat-option value="1">Colombia</mat-option>
-                  <mat-option value="2">Estados unidos</mat-option>
-                  <mat-option value="3">México</mat-option>
-                </mat-select>
-              </mat-form-field>
-              <small class="text-error" *ngIf="validarCiudad()">
-                {{ ciudadError }}
-              </small>
-            </div>
-
-            <div class="form-group">
-              <mat-form-field appearance="outline">
-                <mat-label>Fecha de nacimiento</mat-label>
-                <input
-                  matInput
-                  [matDatepicker]="picker"
-                  formControlName="fecha_nacimiento"
-                />
-                <mat-hint>MM/DD/YYYY</mat-hint>
-                <mat-datepicker-toggle
-                  matIconSuffix
-                  [for]="picker"
-                ></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
-              </mat-form-field>
-              <small class="text-error" *ngIf="validarFechaNacimiento()">
-                {{ fechaNacimientoError }}
-              </small>
+                <mat-form-field appearance="outline">
+                  <mat-label>Fecha de nacimiento</mat-label>
+                  <input
+                    matInput
+                    [matDatepicker]="picker"
+                    formControlName="fecha_nacimiento"
+                  />
+                  <mat-hint>MM/DD/YYYY</mat-hint>
+                  <mat-datepicker-toggle
+                    matIconSuffix
+                    [for]="picker"
+                  ></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+                <small class="text-error" *ngIf="validarFechaNacimiento()">
+                  {{ fechaNacimientoError }}
+                </small>
             </div>
 
             <div class="boton">

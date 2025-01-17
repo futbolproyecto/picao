@@ -20,6 +20,11 @@ import { Constant } from '../../shared/utils/constant';
 import { AlertsService } from '../../core/service/alerts.service';
 import { CardComponent } from '../../shared/components/custom/card/card.component';
 import { ChangePasswordComponent } from '../change-password/change-password.component';
+import { UsuarioResponseDto } from '../../data/schema/userResponseDto';
+import { UserService } from '../../core/service/user.service';
+import { AutenticacionStoreService } from '../../core/store/auth/autenticacion-store.service';
+
+import { map, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-update-data',
@@ -45,6 +50,9 @@ import { ChangePasswordComponent } from '../change-password/change-password.comp
 export class UpdateDataComponent {
   private formBuilder = inject(UntypedFormBuilder);
   private alertsService = inject(AlertsService);
+  public usuario: UsuarioResponseDto = new UsuarioResponseDto();
+  private userService = inject(UserService);
+  private autenticacionStoreService = inject(AutenticacionStoreService);
 
   public selected: string = 'COP';
   public primerNombreError: string = '';
@@ -61,6 +69,7 @@ export class UpdateDataComponent {
   public nombrePestana: string = 'Actualizar datos';
 
   public formularioActualizar: UntypedFormGroup = new UntypedFormGroup({});
+  public modoEdicion: boolean = false;
 
   constructor() {
     this.buildForm();
@@ -314,14 +323,6 @@ export class UpdateDataComponent {
     this.formularioActualizar.reset();
   }
 
-  actualizarDatos(): void {
-    if (this.formularioActualizar.valid) {
-      console.log('Se actualizo los datos');
-    } else {
-      this.alertsService.toast('error', Constant.ERROR_FORM_INCOMPLETO);
-    }
-  }
-
   activarPestana(pestana: string): void {
     if (pestana === 'actualizar') {
       this.actualizarActivo = true;
@@ -333,6 +334,51 @@ export class UpdateDataComponent {
       this.cambiarActivo = true;
       this.nombrePestana = 'Cambiar contraseña';
       this.limpiarFormulario();
+    }
+  }
+
+  ngOnInit(): void {
+    this.cargarDatosUsuario();
+  }
+
+  cargarDatosUsuario(): void {
+    this.autenticacionStoreService
+      .obtenerSesion$()
+      .pipe(
+        map((usuario: UsuarioResponseDto) => usuario?.id ?? 0),
+        switchMap((id: number) => this.userService.getById(id))
+      )
+      .subscribe({
+        next: (response) => {
+          if (response?.payload) {
+            this.usuario = response.payload;
+            this.llenarFormulario();
+          }
+        },
+        error: () => {
+          console.error('Error al cargar los datos del usuario');
+        },
+      });
+  }
+
+  llenarFormulario(): void {
+    this.formularioActualizar.patchValue({
+      primer_nombre: this.usuario.name,
+      segundo_nombre: this.usuario.secondName,
+      primer_apellido: this.usuario.lastName,
+      segundo_apellido: this.usuario.secondLastName,
+      nombre_usuario: this.usuario.username,
+      correo: this.usuario.email,
+      celular: this.usuario.mobileNumber,
+      fecha_nacimiento: this.usuario.dateOfBirth,
+    });
+  }
+
+  actualizarDatos(): void {
+    if (this.formularioActualizar.valid) {
+      console.log('Se actualizo los datos');
+    } else {
+      this.alertsService.toast('error', Constant.ERROR_FORM_INCOMPLETO);
     }
   }
 }

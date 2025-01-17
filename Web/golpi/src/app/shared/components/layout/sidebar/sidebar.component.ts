@@ -1,17 +1,16 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit, signal, Signal } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
-import { AlertsService } from '../../../../core/service/alerts.service';
-import { AuthService } from '../../../../core/service/auth.service';
 import { Observable } from 'rxjs';
 import { UsuarioResponseDto } from '../../../../data/schema/userResponseDto';
 import { AutenticacionStoreService } from '../../../../core/store/auth/autenticacion-store.service';
 import { UserService } from '../../../../core/service/user.service';
-import { catchError, map, switchMap } from 'rxjs/operators'; // Para usar switchMap
+import { map, switchMap } from 'rxjs/operators';
 import { RouterModule } from '@angular/router';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-sidebar',
@@ -23,14 +22,13 @@ import { RouterModule } from '@angular/router';
     MatButtonModule,
     MatListModule,
     RouterModule,
+    MatTooltipModule,
   ],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.css',
 })
 export class SidebarComponent implements OnInit {
   private autenticacionStoreService = inject(AutenticacionStoreService);
-  private alertsService = inject(AlertsService);
-  public authService = inject(AuthService);
   private usuario$: Observable<UsuarioResponseDto> =
     new Observable<UsuarioResponseDto>();
   private userService = inject(UserService);
@@ -52,17 +50,6 @@ export class SidebarComponent implements OnInit {
     this.mostrarSubmodulosUsuario = !this.mostrarSubmodulosUsuario;
   }
 
-  CerrarSesion() {
-    this.alertsService.fireConfirm(
-      'error',
-      'Esta seguro de cerrar sesión?',
-      'Al cerrarla, tendrá que autenticarse de nuevo para realizar alguna operación!',
-      () => {
-        this.authService.cerrarSesion();
-      }
-    );
-  }
-
   consultarUsuario(): void {
     this.usuario$
       .pipe(
@@ -73,6 +60,7 @@ export class SidebarComponent implements OnInit {
       .subscribe({
         next: (response) => {
           if (response?.payload) {
+            console.log(response);
             this.usuario = response.payload;
             this.nombreMostrar = `${this.usuario.name} ${this.usuario.lastName}`;
           }

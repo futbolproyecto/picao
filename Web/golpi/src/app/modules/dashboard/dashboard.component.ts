@@ -7,6 +7,7 @@ import { CardComponent } from '../../shared/components/custom/card/card.componen
 
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
+import esLocale from '@fullcalendar/core/locales/es';
 
 @Component({
   selector: 'app-dashboard',
@@ -23,23 +24,26 @@ export class DashboardComponent {
   calendarOptions: CalendarOptions = {
     plugins: [dayGridPlugin, timeGridPlugin],
     initialView: 'dayGridMonth',
+    locale: esLocale,
+    height: '500px',
+    contentHeight: 'auto',
     events: [
       {
         title: 'Turno 1',
-        start: '2024-12-20T10:00:00',
-        end: '2024-12-20T11:00:00',
+        start: '2025-01-20T10:00:00',
+        end: '2025-01-20T11:00:00',
         color: 'green',
       },
       {
         title: 'Turno 2',
-        start: '2024-12-20T11:00:00',
+        start: '2025-01-20T11:00:00',
         end: '2024-12-20T12:00:00',
         color: 'green',
       },
       {
-        title: 'Turno 1',
-        start: '2024-12-21T14:00:00',
-        end: '2024-12-21T15:00:00',
+        title: 'Turno ',
+        start: '2025-01-21T14:00:00',
+        end: '2025-01-21T15:00:00',
         color: 'orange',
       },
     ],

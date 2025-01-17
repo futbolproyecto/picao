@@ -5,7 +5,6 @@ import { RegistreComponent } from './modules/registre/registre.component';
 import { autenticacionGuard } from './core/guard/autenticacion.guard';
 import { noAutenticacion } from './core/guard/no-autenticacion.guard';
 import { AgendaComponent } from './modules/agenda/agenda.component';
-import { ChangePasswordComponent } from './modules/change-password/change-password.component';
 import { UpdateDataComponent } from './modules/update-data/update-data.component';
 import { SoccerFieldComponent } from './modules/soccer-field/soccer-field.component';
 import { DashboardComponent } from './modules/dashboard/dashboard.component';
@@ -26,6 +25,11 @@ export const routes: Routes = [
     // canMatch: [autenticacionGuard],
     children: [
       {
+        path: 'dashboard',
+        title: 'Dashboard',
+        component: DashboardComponent,
+      },
+      {
         path: 'agenda',
         title: 'Agenda',
         component: AgendaComponent,
@@ -41,9 +45,9 @@ export const routes: Routes = [
         component: UpdateDataComponent,
       },
       {
-        path: 'dashboard',
-        title: 'Dashboard',
-        component: DashboardComponent,
+        path: '',
+        redirectTo: 'dashboard',
+        pathMatch: 'full',
       },
     ],
   },

@@ -28,6 +28,9 @@
             <a
               [routerLink]="['/home/update-data']"
               routerLinkActive="router-link-active"
+              [matTooltip]="'Usuario'"
+              [matTooltipPosition]="'right'"
+              [matTooltipDisabled]="!menuExpandido"
             >
               <i class="material-icons icono-submenu">manage_accounts</i>
               <p *ngIf="!menuExpandido">Usuario</p>
@@ -43,6 +46,10 @@
           <a
             [routerLink]="['/home/dashboard']"
             routerLinkActive="router-link-active"
+            [matTooltip]="'Dashboard'"
+            [matTooltipPosition]="'right'"
+            [matTooltipDisabled]="!menuExpandido"
+            class="menu-item"
           >
             <i class="material-icons icono-menu">dashboard</i>
             <p *ngIf="!menuExpandido">Dashboard</p>
@@ -52,6 +59,9 @@
           <a
             [routerLink]="['/home/soccer-field']"
             routerLinkActive="router-link-active"
+            [matTooltip]="'Establecimiento'"
+            [matTooltipPosition]="'right'"
+            [matTooltipDisabled]="!menuExpandido"
           >
             <i class="material-icons icono-menu">sports_soccer</i>
             <p *ngIf="!menuExpandido">Establecimiento</p>
@@ -61,6 +71,9 @@
           <a
             [routerLink]="['/home/agenda']"
             routerLinkActive="router-link-active"
+            [matTooltip]="'Agenda'"
+            [matTooltipPosition]="'right'"
+            [matTooltipDisabled]="!menuExpandido"
           >
             <i class="material-icons icono-menu">event</i>
             <p *ngIf="!menuExpandido">Agenda</p>
@@ -68,12 +81,5 @@
         </li>
       </ul>
     </div>
-  </div>
-
-  <div class="cerrar">
-    <a (click)="CerrarSesion()">
-      <i class="material-icons iconred icono-menu">logout</i>
-      <p *ngIf="!menuExpandido">CERRAR SESIÓN</p>
-    </a>
   </div>
 </div>
