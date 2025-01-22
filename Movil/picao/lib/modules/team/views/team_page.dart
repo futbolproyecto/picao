@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:picao/core/constants/constants.dart';
 import 'package:picao/core/routes/app_pages.dart';
-import 'package:picao/modules/team/controller/team_controller.dart';
+import 'package:picao/modules/home/controller/home_controller.dart';
 import 'package:picao/modules/widgets/ui_buttoms.dart';
 
 class TeamPage extends StatelessWidget {
@@ -11,7 +11,7 @@ class TeamPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
-    final TeamController teamController = Get.find<TeamController>();
+    final HomeController homeController = Get.find<HomeController>();
     return Scaffold(
       body: Column(
         children: [
@@ -39,7 +39,7 @@ class TeamPage extends StatelessWidget {
           Expanded(
             child: Obx(
               () => ListView.builder(
-                  itemCount: teamController.listTeams.toList().length,
+                  itemCount: homeController.listTeams.toList().length,
                   itemBuilder: (context, index) {
                     return Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 10),

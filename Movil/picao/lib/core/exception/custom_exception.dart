@@ -9,3 +9,11 @@ class CustomException implements Exception {
     return error;
   }
 }
+
+class FetchDataException extends CustomException {
+  FetchDataException(super.error);
+}
+
+class BadRequestException extends CustomException {
+  BadRequestException(super.error);
+}

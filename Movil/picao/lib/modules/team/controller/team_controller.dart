@@ -1,23 +1,21 @@
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:picao/core/constants/constant_secure_storage.dart';
+import 'package:flutter/material.dart';
+import 'package:picao/core/routes/app_pages.dart';
+import 'package:reactive_forms/reactive_forms.dart';
 import 'package:picao/core/constants/constants.dart';
+import 'package:picao/core/models/option_model.dart';
+import 'package:picao/data/service/secure_storage.dart';
 import 'package:picao/core/exception/custom_exception.dart';
 import 'package:picao/core/exception/models/error_model.dart';
-import 'package:picao/core/models/option_model.dart';
-import 'package:picao/core/routes/app_pages.dart';
 import 'package:picao/data/repositories/team/team_repository.dart';
 import 'package:picao/data/repositories/user/user_repository.dart';
-import 'package:picao/data/service/secure_storage.dart';
-import 'package:picao/modules/team/models/team_data_model.dart';
 import 'package:picao/modules/team/models/team_register_model.dart';
 import 'package:picao/modules/team/widgets/modal_search_user_phone_page.dart';
 import 'package:picao/modules/widgets/ui_alert_message.dart';
 import 'package:picao/modules/widgets/ui_buttoms.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
-import 'package:reactive_forms/reactive_forms.dart';
+import 'package:picao/core/constants/constant_secure_storage.dart';
 
 class TeamController extends GetxController {
   final UserRepository userRepository;
@@ -27,14 +25,12 @@ class TeamController extends GetxController {
   @override
   void onReady() async {
     loadData();
-    getTeamsByUserId();
     super.onReady();
   }
 
   var listZonesOption = [OptionModel()].obs;
   var valueZoneSelected = ValueNotifier<int?>(null).obs;
   var valueCitySelected = ValueNotifier<int?>(null).obs;
-  var listTeams = [TeamDataModel()].obs;
 
   var formMobileNumer = FormGroup({
     'mobile_phone': FormControl<String>(
@@ -113,34 +109,6 @@ class TeamController extends GetxController {
             formTeamRegistrer.reset();
             Get.offNamed(AppPages.home);
           });
-    } on CustomException catch (e) {
-      Get.back();
-      UiAlertMessage(Get.context!)
-          .error(message: '${e.error.error}\n${e.error.recommendation}');
-    } on Exception catch (_) {
-      Get.back();
-      UiAlertMessage(Get.context!).error(
-          message:
-              '${ErrorModel().uncontrolledError().error!}\n${ErrorModel().uncontrolledError().recommendation!}');
-    }
-  }
-
-  Future<void> getTeamsByUserId() async {
-    try {
-      QuickAlert.show(
-        context: Get.context!,
-        type: QuickAlertType.loading,
-        title: 'Cargando...',
-        text: 'Consultando equipos',
-        barrierDismissible: false,
-        disableBackBtn: true,
-      );
-
-      final idUsuer = await SecureStorage().read(ConstantSecureStorage.idUsuer);
-
-      listTeams.value =
-          await teamRepository.getTeamByUserId(int.parse(idUsuer!));
-      Get.back();
     } on CustomException catch (e) {
       Get.back();
       UiAlertMessage(Get.context!)

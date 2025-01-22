@@ -44,7 +44,7 @@ class AppPages {
     GetPage(
       name: _Paths.home,
       page: () => const HomePage(),
-      bindings: [HomeBinding(), TeamBinding()],
+      binding: HomeBinding(),
     ),
     GetPage(
       name: _Paths.splash,

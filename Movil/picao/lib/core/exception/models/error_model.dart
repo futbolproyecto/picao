@@ -1,7 +1,7 @@
 import 'dart:io';
 
 class ErrorModel {
-  int? status;
+  dynamic status;
   String? error;
   String? recommendation;
 
@@ -26,5 +26,15 @@ class ErrorModel {
   ErrorModel uncontrolledError() => ErrorModel(
       status: HttpStatus.badRequest,
       error: "Error no controlado",
+      recommendation: "Intenta de nuevo en un momento");
+
+  ErrorModel timeOutError() => ErrorModel(
+      status: HttpStatus.requestTimeout,
+      error: "Se ha excedido el tiempo maximo de espera para la peticion",
+      recommendation: "Intenta de nuevo en un momento");
+
+  ErrorModel socektError() => ErrorModel(
+      status: HttpStatus.networkConnectTimeoutError,
+      error: "Fallas en la conexion a internet",
       recommendation: "Intenta de nuevo en un momento");
 }

@@ -1,7 +1,8 @@
+import 'dart:async';
 import 'dart:io';
 import 'dart:convert';
 
-import 'package:http/http.dart' as http;
+import 'package:http/io_client.dart';
 import 'package:picao/core/utils/general_model.dart';
 import 'package:picao/data/service/secure_storage.dart';
 import 'package:picao/core/exception/custom_exception.dart';
@@ -15,14 +16,20 @@ class HttpService {
 
   Future<Map<String, dynamic>> post(Map<String, dynamic>? body) async {
     try {
-      final response = await http.post(
+      final httpClient = HttpClient()
+        ..idleTimeout = const Duration(seconds: 20)
+        ..connectionTimeout = const Duration(seconds: 20);
+
+      final client = IOClient(httpClient);
+
+      final response = await client.post(
         Uri.parse(ConstantEndpoints.baseUrl + endPoint),
         headers: await getHeaders(),
         body: jsonEncode(body),
       );
 
       if (response.statusCode != HttpStatus.ok) {
-        throw CustomException(
+        throw BadRequestException(
             ErrorModel.fromJson(jsonDecode(utf8.decode(response.bodyBytes))));
       }
 
@@ -30,83 +37,123 @@ class HttpService {
           GeneralModel.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
 
       return generalModel.jsonStringifyToMaps(generalModel.payload);
-    } on CustomException catch (_) {
-      rethrow;
+    } on BadRequestException catch (e) {
+      throw FetchDataException(e.error);
+    } on SocketException {
+      throw FetchDataException(ErrorModel().socektError());
+    } on TimeoutException {
+      throw FetchDataException(ErrorModel().timeOutError());
     } on Exception catch (_) {
-      throw CustomException(ErrorModel().uncontrolledError());
+      throw FetchDataException(ErrorModel().uncontrolledError());
     }
   }
 
   Future<Object?> put(Map<String, dynamic>? body) async {
     try {
-      final response = await http.put(
+      final httpClient = HttpClient()
+        ..idleTimeout = const Duration(seconds: 20)
+        ..connectionTimeout = const Duration(seconds: 20);
+
+      final client = IOClient(httpClient);
+
+      final response = await client.put(
         Uri.parse('${ConstantEndpoints.baseUrl}/$endPoint'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode(body),
       );
 
       if (response.statusCode != HttpStatus.ok) {
-        throw CustomException(
+        throw BadRequestException(
             ErrorModel.fromJson(jsonDecode(utf8.decode(response.bodyBytes))));
       }
 
       return response.body;
-    } on CustomException catch (_) {
-      rethrow;
+    } on BadRequestException catch (e) {
+      throw FetchDataException(e.error);
+    } on SocketException {
+      throw FetchDataException(ErrorModel().socektError());
+    } on TimeoutException {
+      throw FetchDataException(ErrorModel().timeOutError());
     } on Exception catch (_) {
-      throw CustomException(ErrorModel().uncontrolledError());
+      throw FetchDataException(ErrorModel().uncontrolledError());
     }
   }
 
   Future<Object?> postRequesParam(Map<String, String>? parameters) async {
     try {
-      final response = await http.post(
+      final httpClient = HttpClient()
+        ..idleTimeout = const Duration(seconds: 20)
+        ..connectionTimeout = const Duration(seconds: 20);
+
+      final client = IOClient(httpClient);
+
+      final response = await client.post(
         Uri.parse('${ConstantEndpoints.baseUrl}/$endPoint'),
         headers: {'Content-Type': 'application/json'},
       );
 
       if (response.statusCode != HttpStatus.ok) {
-        throw CustomException(
+        throw BadRequestException(
             ErrorModel.fromJson(jsonDecode(utf8.decode(response.bodyBytes))));
       }
 
       return response.body;
-    } on CustomException catch (_) {
-      rethrow;
+    } on BadRequestException catch (e) {
+      throw FetchDataException(e.error);
+    } on SocketException {
+      throw FetchDataException(ErrorModel().socektError());
+    } on TimeoutException {
+      throw FetchDataException(ErrorModel().timeOutError());
     } on Exception catch (_) {
-      throw CustomException(ErrorModel().uncontrolledError());
+      throw FetchDataException(ErrorModel().uncontrolledError());
     }
   }
 
   Future<Object?> putRequesParam(Map<String, String>? parameters) async {
     try {
-      final response = await http.put(
+      final httpClient = HttpClient()
+        ..idleTimeout = const Duration(seconds: 20)
+        ..connectionTimeout = const Duration(seconds: 20);
+
+      final client = IOClient(httpClient);
+
+      final response = await client.put(
         Uri.parse('${ConstantEndpoints.baseUrl}/$endPoint'),
         headers: {'Content-Type': 'application/json'},
       );
 
       if (response.statusCode != HttpStatus.ok) {
-        throw CustomException(
+        throw BadRequestException(
             ErrorModel.fromJson(jsonDecode(utf8.decode(response.bodyBytes))));
       }
 
       return response.body;
-    } on CustomException catch (_) {
-      rethrow;
+    } on BadRequestException catch (e) {
+      throw FetchDataException(e.error);
+    } on SocketException {
+      throw FetchDataException(ErrorModel().socektError());
+    } on TimeoutException {
+      throw FetchDataException(ErrorModel().timeOutError());
     } on Exception catch (_) {
-      throw CustomException(ErrorModel().uncontrolledError());
+      throw FetchDataException(ErrorModel().uncontrolledError());
     }
   }
 
   Future<Object?> get() async {
     try {
-      final response = await http.get(
+      final httpClient = HttpClient()
+        ..idleTimeout = const Duration(seconds: 20)
+        ..connectionTimeout = const Duration(seconds: 20);
+
+      final client = IOClient(httpClient);
+
+      final response = await client.get(
         Uri.parse(ConstantEndpoints.baseUrl + endPoint),
         headers: await getHeaders(),
       );
 
       if (response.statusCode != HttpStatus.ok) {
-        throw CustomException(
+        throw BadRequestException(
             ErrorModel.fromJson(jsonDecode(utf8.decode(response.bodyBytes))));
       }
 
@@ -114,10 +161,14 @@ class HttpService {
           GeneralModel.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
 
       return generalModel.payload;
-    } on CustomException catch (_) {
-      rethrow;
+    } on BadRequestException catch (e) {
+      throw FetchDataException(e.error);
+    } on SocketException {
+      throw FetchDataException(ErrorModel().socektError());
+    } on TimeoutException {
+      throw FetchDataException(ErrorModel().timeOutError());
     } on Exception catch (_) {
-      throw CustomException(ErrorModel().uncontrolledError());
+      throw FetchDataException(ErrorModel().uncontrolledError());
     }
   }
 
