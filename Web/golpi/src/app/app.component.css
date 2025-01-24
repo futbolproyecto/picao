@@ -1,5 +1,5 @@
 p {
-  color: white;
+  color: var(--color-surface-container--lowest);
   font-size: 20px;
   font-weight: bold;
   margin-top: 50px;

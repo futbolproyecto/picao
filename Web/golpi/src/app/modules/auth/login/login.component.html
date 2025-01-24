@@ -41,9 +41,12 @@
                 autocomplete="off"
                 #inputPass
               />
-              <mat-icon matSuffix (click)="passVisibleToogle()">{{
-                passVisible ? "visibility" : "visibility_off"
-              }}</mat-icon>
+              <mat-icon
+                class="custom-icon"
+                matSuffix
+                (click)="passVisibleToogle()"
+                >{{ passVisible ? "visibility" : "visibility_off" }}</mat-icon
+              >
             </mat-form-field>
             <small class="text-error" *ngIf="validarPass()">
               {{ passError }}

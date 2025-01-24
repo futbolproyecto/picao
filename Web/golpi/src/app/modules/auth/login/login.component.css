@@ -2,7 +2,7 @@
   width: 100%;
   min-height: 100vh;
   overflow: hidden;
-  background-color: #e6e6e6;
+  background-color: var(--color-surface-container);
   padding: 2rem;
   display: flex;
   align-items: center;
@@ -15,7 +15,7 @@
   width: 100%;
   max-width: 1060px;
   height: 660px;
-  background-color: #fff;
+  background-color: var(--color-surface-container--lowest);
   border-radius: 3.3rem;
   box-shadow: 0 60px 40px -30px rgba(0, 0, 0, 0.27);
 }
@@ -51,12 +51,16 @@ h1 {
   font-family: "Montserrat";
   font-size: 2.1rem;
   font-weight: bold;
-  color: black;
+  color: var(--color-on-primary-container);
 }
 
 .custom-input {
   width: 95%;
   font-size: 15px;
+}
+
+.custom-icon {
+  color: var(--color-secondary);
 }
 
 .logo {
@@ -80,23 +84,24 @@ h1 {
 }
 
 .boton .btn {
-  background-color: #52ff96;
+  background-color: var(--color-primary-container);
   font-size: 16px;
-  color: #000000;
+  color: var(--color-on-primary-container);
   height: 45px;
   width: 50%;
   border-radius: 10px;
 }
 
 a {
-  color: #52ff96;
+  color: var(--color-primary-container);
   font-weight: bold;
+  cursor: pointer;
 }
 
 .forgot-password {
   font-weight: normal;
   font-size: 15px;
-  color: black;
+  color: var(--color-on-primary-container);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -108,7 +113,7 @@ a {
   width: 50%;
   left: 48%;
   top: 5%;
-  background-color: #6e3296;
+  background-color: var(--color-secondary);
   border-radius: 2rem;
   z-index: 2;
 }

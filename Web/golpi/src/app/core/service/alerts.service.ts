@@ -76,8 +76,8 @@ export class AlertsService {
       showCancelButton: true,
       confirmButtonText: 'Si',
       cancelButtonText: 'No',
-      confirmButtonColor: '#52ff96',
-      cancelButtonColor: '#6e3296',
+      confirmButtonColor: '#725187',
+      cancelButtonColor: '#306a42',
     }).then((result) => {
       if (result.isConfirmed) {
         myCallBack();
@@ -101,8 +101,8 @@ export class AlertsService {
       showCancelButton: true,
       confirmButtonText: 'Validar',
       cancelButtonText: 'Cancelar',
-      confirmButtonColor: '#52ff96',
-      cancelButtonColor: '#6e3296',
+      confirmButtonColor: '#725187',
+      cancelButtonColor: '#306a42',
       preConfirm: (correo) => {
         if (!correo) {
           Swal.showValidationMessage('Debe ingresar un correo electrónico');
@@ -136,8 +136,8 @@ export class AlertsService {
       showCancelButton: true,
       confirmButtonText: 'Verificar',
       cancelButtonText: 'Cancelar',
-      confirmButtonColor: '#52ff96',
-      cancelButtonColor: '#6e3296',
+      confirmButtonColor: '#725187',
+      cancelButtonColor: '#306a42',
       preConfirm: (otp) => {
         if (!otp) {
           Swal.showValidationMessage('Debe ingresar el código');
@@ -169,8 +169,8 @@ export class AlertsService {
       showCancelButton: true,
       confirmButtonText: 'Cambiar contraseña',
       cancelButtonText: 'Cancelar',
-      confirmButtonColor: '#52ff96',
-      cancelButtonColor: '#6e3296',
+      confirmButtonColor: '#725187',
+      cancelButtonColor: '#306a42',
       preConfirm: () => {
         const password = (
           document.getElementById('password') as HTMLInputElement

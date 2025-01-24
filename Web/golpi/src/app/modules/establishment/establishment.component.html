@@ -39,20 +39,24 @@
     <ng-select
       formControlName="departamento"
       placeholder="Departamento*"
+      [items]="departamentoDTO"
+      bindLabel="name"
+      bindValue="id"
       class="lista"
     >
-      <ng-option value="1">Valle del Cauca</ng-option>
-      <ng-option value="2">Cauca</ng-option>
-      <ng-option value="3">Antioquia</ng-option>
     </ng-select>
     <small class="text-error" *ngIf="validarDepartamento()">
       {{ departamentoError }}
     </small>
 
-    <ng-select formControlName="ciudad" placeholder="Ciudad*" class="lista">
-      <ng-option value="1">Colombia</ng-option>
-      <ng-option value="2">Estados Unidos</ng-option>
-      <ng-option value="3">México</ng-option>
+    <ng-select
+      formControlName="ciudad"
+      placeholder="Ciudad*"
+      [items]="cityDTO"
+      bindLabel="name"
+      bindValue="id"
+      class="lista"
+    >
     </ng-select>
     <small class="text-error" *ngIf="validarCiudad()">
       {{ ciudadError }}

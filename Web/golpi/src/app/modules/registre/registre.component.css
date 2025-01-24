@@ -19,13 +19,17 @@ h1 {
   font-family: "Montserrat";
   font-size: 1.5rem;
   font-weight: bold;
-  color: black;
+  color: var(--color-on-primary-container);
   text-align: center;
 }
 
 .custom-input {
   width: 100%;
   font-size: 15px;
+}
+
+.custom-icon {
+  color: var(--color-secondary);
 }
 
 .logo {
@@ -46,17 +50,18 @@ h1 {
 }
 
 .boton .btn {
-  background-color: #52ff96;
+  background-color: var(--color-primary-container);
   font-size: 16px;
-  color: white;
+  color: var(--color-on-primary-container);
   height: 45px;
   width: 50%;
   border-radius: 10px;
 }
 
 a {
-  color: #52ff96;
+  color: var(--color-primary-container);
   font-weight: bold;
+  cursor: pointer;
 }
 
 .container-main.modo-registro .contacto {

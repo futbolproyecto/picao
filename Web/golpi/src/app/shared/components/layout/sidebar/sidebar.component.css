@@ -16,7 +16,7 @@
 .logo p {
   text-decoration: none;
   font-weight: 700;
-  color: #6e3296;
+  color: var(--color-secondary);
   font-size: 1.4rem;
   font-family: "Montserrat";
 }
@@ -27,14 +27,14 @@
 }
 
 .logout {
-  color: red;
+  color: var(--color-error);
 }
 
 /* Estilo enlaces */
 a {
   font-family: "Montserrat";
   font-size: 1rem;
-  color: #000;
+  color: var(--color-shadow);
   text-decoration: none;
   display: flex;
   padding: 10px 15px;
@@ -43,7 +43,7 @@ a {
 }
 
 a:hover {
-  background-color: #e0e0e0;
+  background-color: var(--color-surface-container);
   border-radius: 8px;
 }
 
@@ -77,12 +77,12 @@ ul {
 ul li a {
   display: flex;
   align-items: center;
-  color: #575757;
+  color: var(--color-outline);
   border-radius: 10px;
 }
 
 ul li a:hover {
-  color: #6e3296;
+  color: var(--color-secondary);
 }
 
 ul li a p {

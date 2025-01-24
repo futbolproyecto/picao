@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, DestroyRef, inject } from '@angular/core';
 import {
   AbstractControl,
   FormsModule,
@@ -14,6 +14,11 @@ import { MatSelectModule } from '@angular/material/select';
 import { DataTableComponent } from '../../shared/components/custom/data-table/data-table.component';
 import { AlertsService } from '../../core/service/alerts.service';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { DepartmentService } from '../../core/service/departament.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { DepartamentResponseDto } from '../../data/schema/departamentResponseDTO';
+import { CityService } from '../../core/service/city.service';
+import { CityDto } from '../../data/schema/cityDto';
 
 @Component({
   selector: 'app-establishment',
@@ -32,8 +37,15 @@ import { NgSelectModule } from '@ng-select/ng-select';
 })
 export class EstablishmentComponent {
   private formBuilder = inject(UntypedFormBuilder);
-  public formularioEstablecimiento: UntypedFormGroup = new UntypedFormGroup({});
   private alertsService = inject(AlertsService);
+  private departamentService = inject(DepartmentService);
+  private cityService = inject(CityService);
+  private destroyRef = inject(DestroyRef);
+
+  public formularioEstablecimiento: UntypedFormGroup = new UntypedFormGroup({});
+  public departamentoDTO: Array<DepartamentResponseDto> =
+    new Array<DepartamentResponseDto>();
+  public cityDTO: Array<CityDto> = new Array<CityDto>();
 
   public nombreError: string = '';
   public cantidadCanchasError: string = '';
@@ -74,7 +86,40 @@ export class EstablishmentComponent {
   ];
 
   constructor() {
+    this.mostrarDepartamento();
+    this.mostrarCiudades();
     this.buildForm();
+  }
+
+  mostrarDepartamento(): void {
+    this.departamentService
+      .getAll()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(
+        (res: any) => {
+          this.departamentoDTO = res.payload as DepartamentResponseDto[];
+          console.log(this.departamentoDTO);
+        },
+        (err) => {
+          this.alertsService.fireError(err);
+        }
+      );
+  }
+
+  mostrarCiudades(): void {
+    this.cityService
+      .getAll()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(
+        (res: any) => {
+          this.cityDTO = res.payload as CityDto[];
+          console.log(res);
+          console.log(this.cityDTO);
+        },
+        (err) => {
+          this.alertsService.fireError(err);
+        }
+      );
   }
 
   buildForm(): void {

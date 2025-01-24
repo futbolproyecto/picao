@@ -7,5 +7,5 @@
   padding: 10px;
   text-align: center;
   font-family: "Montserrat";
-  color: #727e8c;
+  color: var(--color-surface-container-highest);
 }
