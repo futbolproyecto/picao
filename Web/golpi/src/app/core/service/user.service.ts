@@ -19,4 +19,8 @@ export class UserService {
   envioCodigo(otpDto: OtpRequestDto) {
     return this.http.put(this.baseUrl + `/user/change-password`, otpDto);
   }
+
+  getAll() {
+    return this.http.get<GenericDto>(this.baseUrl + `/user/get-all`);
+  }
 }

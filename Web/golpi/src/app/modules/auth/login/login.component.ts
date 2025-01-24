@@ -30,6 +30,8 @@ import { AlertsService } from '../../../core/service/alerts.service';
 import { UserService } from '../../../core/service/user.service';
 import { OtpRequestDto } from '../../../data/schema/otpRequestDto';
 import { OtpService } from '../../../core/service/otp.service';
+import { LoadingService } from '../../../core/service/loading.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-login',
@@ -72,6 +74,7 @@ export class LoginComponent {
   public esModoRegistro: boolean = false;
   public formularioLogin: UntypedFormGroup = new UntypedFormGroup({});
   public loginRequestDto: LoginRequestDto = new LoginRequestDto();
+  public loadingService: LoadingService = new LoadingService();
 
   //cadenas para errores
   public correoError: string = '';
@@ -193,7 +196,7 @@ export class LoginComponent {
           .pipe(takeUntilDestroyed(this.destroyRef))
           .subscribe(
             () => {
-              this.validarEmail(correoIngresado); // Si todo va bien, pasa al siguiente modal
+              this.validarEmail(correoIngresado);
             },
             (err) => {
               const errorDto = new MessageExceptionDto({
@@ -202,9 +205,8 @@ export class LoginComponent {
                 recommendation: err.error?.recommendation,
               });
 
-              // Aquí llamamos a fireError con el callback que reabre el modal original
               this.alertsService.fireError2(errorDto, () => {
-                this.enviarCodigo(event); // Vuelve a abrir el mismo modal para ingresar el correo
+                this.enviarCodigo(event);
               });
             }
           );
@@ -229,7 +231,7 @@ export class LoginComponent {
           .pipe(takeUntilDestroyed(this.destroyRef))
           .subscribe(
             () => {
-              this.cambioPassword(correo, otp); // Si todo va bien, pasa al siguiente modal
+              this.cambioPassword(correo, otp);
             },
             (err) => {
               const errorDto = new MessageExceptionDto({
@@ -238,9 +240,8 @@ export class LoginComponent {
                 recommendation: err.error?.recommendation,
               });
 
-              // Llama a fireError con el callback que reabre el modal de validación de código
               this.alertsService.fireError2(errorDto, () => {
-                this.validarEmail(correoIngresado); // Reabre el modal para ingresar el código
+                this.validarEmail(correoIngresado);
               });
             }
           );
@@ -276,9 +277,8 @@ export class LoginComponent {
                 recommendation: err.error?.recommendation,
               });
 
-              // Llama a fireError con el callback que reabre el modal de cambio de contraseña
               this.alertsService.fireError2(errorDto, () => {
-                this.cambioPassword(correo, otp); // Reabre el modal de cambio de contraseña
+                this.cambioPassword(correo, otp);
               });
             }
           );

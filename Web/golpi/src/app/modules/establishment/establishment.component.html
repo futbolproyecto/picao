@@ -1,6 +1,6 @@
 <form [formGroup]="formularioEstablecimiento" class="form-content">
   <div class="form-group">
-    <mat-form-field appearance="outline">
+    <mat-form-field>
       <mat-label>Nombre establecimiento</mat-label>
       <input matInput formControlName="nombre_establecimiento" />
     </mat-form-field>
@@ -8,7 +8,7 @@
       {{ nombreError }}
     </small>
 
-    <mat-form-field appearance="outline">
+    <mat-form-field>
       <mat-label>Cant. canchas</mat-label>
       <input matInput formControlName="cantidad_canchas" />
     </mat-form-field>
@@ -18,7 +18,7 @@
   </div>
 
   <div class="form-group">
-    <mat-form-field appearance="outline">
+    <mat-form-field>
       <mat-label>Dirección</mat-label>
       <input matInput formControlName="direccion" />
     </mat-form-field>
@@ -26,7 +26,7 @@
       {{ direccionError }}
     </small>
 
-    <mat-form-field appearance="outline">
+    <mat-form-field>
       <mat-label>Teléfono</mat-label>
       <input matInput formControlName="telefono" />
     </mat-form-field>
@@ -36,26 +36,24 @@
   </div>
 
   <div class="form-group">
-    <mat-form-field appearance="outline">
-      <mat-label>Departamento</mat-label>
-      <mat-select [(value)]="selectedDepartment" formControlName="departamento">
-        <mat-option value="1">Valle del Cauca</mat-option>
-        <mat-option value="2">Cauca</mat-option>
-        <mat-option value="3">Antioquia</mat-option>
-      </mat-select>
-    </mat-form-field>
+    <ng-select
+      formControlName="departamento"
+      placeholder="Departamento*"
+      class="lista"
+    >
+      <ng-option value="1">Valle del Cauca</ng-option>
+      <ng-option value="2">Cauca</ng-option>
+      <ng-option value="3">Antioquia</ng-option>
+    </ng-select>
     <small class="text-error" *ngIf="validarDepartamento()">
       {{ departamentoError }}
     </small>
 
-    <mat-form-field appearance="outline">
-      <mat-label>Ciudad</mat-label>
-      <mat-select [(value)]="selectedCities" formControlName="ciudad">
-        <mat-option value="1">Colombia</mat-option>
-        <mat-option value="2">Estados Unidos</mat-option>
-        <mat-option value="3">México</mat-option>
-      </mat-select>
-    </mat-form-field>
+    <ng-select formControlName="ciudad" placeholder="Ciudad*" class="lista">
+      <ng-option value="1">Colombia</ng-option>
+      <ng-option value="2">Estados Unidos</ng-option>
+      <ng-option value="3">México</ng-option>
+    </ng-select>
     <small class="text-error" *ngIf="validarCiudad()">
       {{ ciudadError }}
     </small>

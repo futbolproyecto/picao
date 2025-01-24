@@ -28,7 +28,7 @@
         <div *ngIf="actualizarActivo" class="container-actualizar">
           <form [formGroup]="formularioActualizar" class="form-content">
             <div class="form-group">
-              <mat-form-field appearance="outline">
+              <mat-form-field>
                 <mat-label>Primer nombre</mat-label>
                 <input matInput formControlName="primer_nombre" />
               </mat-form-field>
@@ -36,7 +36,7 @@
                 {{ primerNombreError }}
               </small>
 
-              <mat-form-field appearance="outline">
+              <mat-form-field>
                 <mat-label>Segundo nombre</mat-label>
                 <input matInput formControlName="segundo_nombre" />
               </mat-form-field>
@@ -46,7 +46,7 @@
             </div>
 
             <div class="form-group">
-              <mat-form-field appearance="outline">
+              <mat-form-field>
                 <mat-label>Primer apellido</mat-label>
                 <input matInput formControlName="primer_apellido" />
               </mat-form-field>
@@ -54,7 +54,7 @@
                 {{ primerApellidoError }}
               </small>
 
-              <mat-form-field appearance="outline">
+              <mat-form-field>
                 <mat-label>Segundo apellido</mat-label>
                 <input matInput formControlName="segundo_apellido" />
               </mat-form-field>
@@ -64,7 +64,7 @@
             </div>
 
             <div class="form-group">
-              <mat-form-field appearance="outline">
+              <mat-form-field>
                 <mat-label>Nombre usuario</mat-label>
                 <input matInput formControlName="nombre_usuario" />
               </mat-form-field>
@@ -72,7 +72,7 @@
                 {{ nombreUsuarioError }}
               </small>
 
-              <mat-form-field appearance="outline">
+              <mat-form-field>
                 <mat-label>Correo electrónico</mat-label>
                 <input matInput formControlName="correo" />
               </mat-form-field>
@@ -83,22 +83,17 @@
 
             <div class="form-group">
               <div class="container-celular">
-                <mat-form-field
-                  appearance="outline"
+                <ng-select
+                  formControlName="indicador"
                   class="custom-input-indicativo"
+                  [(ngModel)]="selected"
+                  [items]="indicativos"
+                  bindValue="value"
+                  bindLabel="label"
                 >
-                  <mat-select [(value)]="selected">
-                    <mat-option value="COP">+57</mat-option>
-                    <mat-option value="EEUU">+1</mat-option>
-                    <mat-option value="MEX">+52</mat-option>
-                  </mat-select>
-                </mat-form-field>
+                </ng-select>
 
-                <mat-form-field
-                  class="custom-input-celular"
-                  appearance="outline"
-                >
-                  <mat-icon matPrefix class="custom-icon">call</mat-icon>
+                <mat-form-field class="custom-input-celular">
                   <mat-label>Celular</mat-label>
                   <input
                     matInput
@@ -107,27 +102,24 @@
                     autocomplete="off"
                   />
                 </mat-form-field>
-                <small class="text-error" *ngIf="validarCelular()">
-                  {{ celularError }}
-                </small>
               </div>
-                <mat-form-field appearance="outline">
-                  <mat-label>Fecha de nacimiento</mat-label>
-                  <input
-                    matInput
-                    [matDatepicker]="picker"
-                    formControlName="fecha_nacimiento"
-                  />
-                  <mat-hint>MM/DD/YYYY</mat-hint>
-                  <mat-datepicker-toggle
-                    matIconSuffix
-                    [for]="picker"
-                  ></mat-datepicker-toggle>
-                  <mat-datepicker #picker></mat-datepicker>
-                </mat-form-field>
-                <small class="text-error" *ngIf="validarFechaNacimiento()">
-                  {{ fechaNacimientoError }}
-                </small>
+              <mat-form-field>
+                <mat-label>Fecha de nacimiento</mat-label>
+                <input
+                  matInput
+                  [matDatepicker]="picker"
+                  formControlName="fecha_nacimiento"
+                />
+                <mat-hint>MM/DD/YYYY</mat-hint>
+                <mat-datepicker-toggle
+                  matIconSuffix
+                  [for]="picker"
+                ></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+              <small class="text-error" *ngIf="validarFechaNacimiento()">
+                {{ fechaNacimientoError }}
+              </small>
             </div>
 
             <div class="boton">

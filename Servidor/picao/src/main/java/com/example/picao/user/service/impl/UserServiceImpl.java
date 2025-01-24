@@ -23,6 +23,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 
 @RequiredArgsConstructor()
 @Service
@@ -128,6 +130,33 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         } catch (AppException e) {
             throw new AppException(e.getErrorMessages(), e.getHttpStatus());
         }
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<UserResponseDTO> getAll() {
+        try {
+
+            List<UserEntity> usuarios = userRepository.findAll();
+
+            return usuarios.stream().map(
+                    user -> UserResponseDTO.builder()
+                            .id(user.getId())
+                            .name(user.getName())
+                            .secondName(user.getSecondName())
+                            .lastName(user.getLastName())
+                            .secondLastName(user.getSecondLastName())
+                            .mobileNumber(user.getMobileNumber())
+                            .email(user.getEmail())
+                            .username(user.getUsername())
+                            .dateOfBirth(user.getDateOfBirth())
+                            .build()
+            ).toList();
+
+        } catch (AppException e) {
+            throw new AppException(e.getErrorMessages(), e.getHttpStatus());
+        }
+
     }
 }
 

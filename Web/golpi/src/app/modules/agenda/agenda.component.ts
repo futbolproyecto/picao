@@ -1,9 +1,10 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CardComponent } from '../../shared/components/custom/card/card.component';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import {
   AbstractControl,
+  FormControl,
   FormsModule,
   ReactiveFormsModule,
   UntypedFormBuilder,
@@ -19,6 +20,8 @@ import { DataTableComponent } from '../../shared/components/custom/data-table/da
 import { ShiftsComponent } from '../shifts/shifts.component';
 import { MatDialog } from '@angular/material/dialog';
 import { AlertsService } from '../../core/service/alerts.service';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { map, Observable, startWith } from 'rxjs';
 
 @Component({
   selector: 'app-agenda',
@@ -34,11 +37,12 @@ import { AlertsService } from '../../core/service/alerts.service';
     MatDatepickerModule,
     MatNativeDateModule,
     DataTableComponent,
+    NgSelectModule,
   ],
   templateUrl: './agenda.component.html',
   styleUrl: './agenda.component.css',
 })
-export class AgendaComponent {
+export class AgendaComponent implements OnInit {
   private formBuilder = inject(UntypedFormBuilder);
   public formularioAgenda: UntypedFormGroup = new UntypedFormGroup({});
   private alertsService = inject(AlertsService);
@@ -52,6 +56,25 @@ export class AgendaComponent {
   public confirm: boolean = true;
   public finish: boolean = true;
   public edit: boolean = true;
+
+  myControl = new FormControl('');
+  options: string[] = ['One', 'Two', 'Three'];
+  filteredOptions: Observable<string[]> = new Observable<string[]>();
+
+  ngOnInit() {
+    this.filteredOptions = this.myControl.valueChanges.pipe(
+      startWith(''),
+      map((value) => this._filter(value || ''))
+    );
+  }
+
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.options.filter((option) =>
+      option.toLowerCase().includes(filterValue)
+    );
+  }
 
   public encabezadosAgenda = {
     id: 'ID',
@@ -91,7 +114,7 @@ export class AgendaComponent {
 
   buildForm(): void {
     this.formularioAgenda = this.formBuilder.group({
-      establecimiento: ['', [Validators.required]],
+      establecimiento: [null, [Validators.required]],
       fecha_reserva: ['', [Validators.required]],
     });
   }
@@ -135,7 +158,8 @@ export class AgendaComponent {
 
   openDialog(): void {
     this.dialog.open(ShiftsComponent, {
-      width: '500px',
+      width: '800px',
+      height: '60%',
     });
     this.limpiarFormulario();
   }

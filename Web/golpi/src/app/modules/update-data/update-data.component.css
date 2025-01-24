@@ -84,7 +84,7 @@ span {
 }
 
 .form-content {
-  padding: 0 25px;
+  padding: 0 76px;
 }
 
 .form-group {
@@ -142,12 +142,27 @@ form {
   opacity: 0;
 }
 
-/* .container-celular {
+.container-celular {
   width: 100%;
   display: flex;
 }
 
+.custom-input-celular {
+  width: 80%;
+  font-size: 15px;
+  padding-left: 20px;
+}
+
 .custom-input-indicativo {
-  width: 30%;
-  margin: 0 3px 0 0;
-} */
+  width: 24%;
+  font-size: 15px;
+}
+
+.ng-select,
+.ng-select div,
+::ng-deep.ng-select input,
+.ng-select span {
+  margin-top: 5px !important;
+  font-weight: 400 !important;
+  font-size: 17px !important;
+}

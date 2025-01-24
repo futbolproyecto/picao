@@ -21,21 +21,22 @@
         <div *ngIf="AdministrarActivo" class="container-pestana">
           <form [formGroup]="formularioAgenda" class="form-content">
             <div class="form-group">
-              <mat-form-field appearance="outline">
-                <mat-label>Establecimiento</mat-label>
-                <mat-select formControlName="establecimiento">
-                  <mat-option value="1">Maracana</mat-option>
-                  <mat-option value="2">Tiro de esquina</mat-option>
-                  <mat-option value="3">Futbol 7</mat-option>
-                </mat-select>
-              </mat-form-field>
-              <!-- <small class="text-error" *ngIf="validarEstablecimiento()">
+              <ng-select
+                formControlName="establecimiento"
+                placeholder="Establecimiento*"
+                class="lista"
+              >
+                <ng-option value="1">Maracana</ng-option>
+                <ng-option value="2">Tiro de esquina</ng-option>
+                <ng-option value="3">Futbol 7</ng-option>
+              </ng-select>
+              <small class="text-error" *ngIf="validarEstablecimiento()">
                 {{ establecimientoError }}
-              </small> -->
+              </small>
             </div>
 
             <div class="form-group">
-              <mat-form-field appearance="outline">
+              <mat-form-field>
                 <mat-label>Fecha de reserva</mat-label>
                 <input
                   matInput

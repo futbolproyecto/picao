@@ -60,7 +60,6 @@ export class SidebarComponent implements OnInit {
       .subscribe({
         next: (response) => {
           if (response?.payload) {
-            console.log(response);
             this.usuario = response.payload;
             this.nombreMostrar = `${this.usuario.name} ${this.usuario.lastName}`;
           }

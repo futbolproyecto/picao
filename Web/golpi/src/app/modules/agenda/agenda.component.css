@@ -1,12 +1,3 @@
-.form-content {
-  padding: 0 25px;
-}
-
-.form-group {
-  display: flex;
-  gap: 20px;
-}
-
 .container-agenda {
   padding: 15px;
   min-height: calc(100vh - 170px);
@@ -83,15 +74,22 @@ span {
   font-size: 24px;
 }
 
-.container-pestana,
-.container-actualizar {
+.container-pestana {
   transition: opacity 0.3s ease-in-out;
   opacity: 1;
 }
 
-.container-pestana.ng-leave-active,
-.container-actualizar.ng-leave-active {
+.container-pestana.ng-leave-active {
   opacity: 0;
+}
+
+.form-content {
+  padding: 0px 76px;
+}
+
+.form-group {
+  display: flex;
+  gap: 20px;
 }
 
 mat-form-field {
@@ -105,7 +103,6 @@ mat-form-field {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-left: 10px;
 }
 
 .boton .btn {
@@ -113,9 +110,9 @@ mat-form-field {
   font-size: 16px;
   color: #000000;
   height: 45px;
-  width: 30%;
+  width: 20%;
   border-radius: 10px;
-  margin-left: 10px;
+  margin-left: 15px;
 }
 
 .text-error {
@@ -131,6 +128,45 @@ form {
   gap: 15px;
 }
 
+.container-pestana {
+  transition: opacity 0.3s ease-in-out;
+  opacity: 1;
+}
+
+.container-pestana.ng-leave-active {
+  opacity: 0;
+}
+
 .contaner-tabla {
   padding: 20px;
+}
+
+.ng-select,
+.ng-select div,
+::ng-deep.ng-select input,
+.ng-select span {
+  margin-top: 4px !important;
+  font-weight: 400 !important;
+  font-size: 17px !important;
+}
+
+::ng-deep.ng-select .ng-select-container .ng-placeholder {
+  padding-left: 17px !important;
+}
+
+::ng-deep.ng-select .ng-select-container .ng-value-label {
+  font-size: 15px !important;
+  padding-left: 15px !important;
+  padding-bottom: 20px !important;
+}
+
+::ng-deep.ng-select .ng-arrow-wrapper {
+  padding-right: 13px !important;
+}
+
+.lista {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }

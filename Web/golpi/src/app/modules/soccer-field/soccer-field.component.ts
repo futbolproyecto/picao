@@ -16,6 +16,7 @@ import { Constant } from '../../shared/utils/constant';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { AlertsService } from '../../core/service/alerts.service';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @Component({
   selector: 'app-soccer-field',
@@ -30,6 +31,7 @@ import { AlertsService } from '../../core/service/alerts.service';
     ReactiveFormsModule,
     MatSelectModule,
     FormsModule,
+    NgSelectModule,
   ],
   templateUrl: './soccer-field.component.html',
   styleUrl: './soccer-field.component.css',
@@ -85,8 +87,8 @@ export class SoccerFieldComponent {
     this.formularioCancha = this.formBuilder.group({
       numero_cancha: ['', [Validators.required]],
       cantidad_jugadores: ['', [Validators.required]],
-      Tipo_cancha: ['', [Validators.required]],
-      establecimiento: ['', [Validators.required]],
+      Tipo_cancha: [null, [Validators.required]],
+      establecimiento: [null, [Validators.required]],
     });
   }
 

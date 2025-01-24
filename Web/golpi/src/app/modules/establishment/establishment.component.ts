@@ -13,6 +13,7 @@ import { Constant } from '../../shared/utils/constant';
 import { MatSelectModule } from '@angular/material/select';
 import { DataTableComponent } from '../../shared/components/custom/data-table/data-table.component';
 import { AlertsService } from '../../core/service/alerts.service';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @Component({
   selector: 'app-establishment',
@@ -24,6 +25,7 @@ import { AlertsService } from '../../core/service/alerts.service';
     MatSelectModule,
     FormsModule,
     DataTableComponent,
+    NgSelectModule,
   ],
   templateUrl: './establishment.component.html',
   styleUrl: './establishment.component.css',
@@ -81,8 +83,8 @@ export class EstablishmentComponent {
       cantidad_canchas: ['', [Validators.required]],
       direccion: ['', [Validators.required]],
       telefono: ['', [Validators.required]],
-      departamento: ['', [Validators.required]],
-      ciudad: ['', [Validators.required]],
+      departamento: [null, [Validators.required]],
+      ciudad: [null, [Validators.required]],
     });
   }
 

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   AbstractControl,
   FormsModule,
@@ -23,8 +23,8 @@ import { ChangePasswordComponent } from '../change-password/change-password.comp
 import { UsuarioResponseDto } from '../../data/schema/userResponseDto';
 import { UserService } from '../../core/service/user.service';
 import { AutenticacionStoreService } from '../../core/store/auth/autenticacion-store.service';
-
 import { map, switchMap } from 'rxjs/operators';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @Component({
   selector: 'app-update-data',
@@ -42,6 +42,7 @@ import { map, switchMap } from 'rxjs/operators';
     MatNativeDateModule,
     MatSelectModule,
     CardComponent,
+    NgSelectModule,
     ChangePasswordComponent,
   ],
   templateUrl: './update-data.component.html',
@@ -54,7 +55,6 @@ export class UpdateDataComponent {
   private userService = inject(UserService);
   private autenticacionStoreService = inject(AutenticacionStoreService);
 
-  public selected: string = 'COP';
   public primerNombreError: string = '';
   public segundoNombreError: string = '';
   public primerApellidoError: string = '';
@@ -70,6 +70,13 @@ export class UpdateDataComponent {
 
   public formularioActualizar: UntypedFormGroup = new UntypedFormGroup({});
   public modoEdicion: boolean = false;
+  public selected: string = 'COP';
+
+  public indicativos = [
+    { value: 'COP', label: '+57' },
+    { value: 'EEUU', label: '+1' },
+    { value: 'MEX', label: '+52' },
+  ];
 
   constructor() {
     this.buildForm();
@@ -125,6 +132,7 @@ export class UpdateDataComponent {
           Validators.pattern(Constant.PATTERN_CORREO),
         ],
       ],
+      indicador: ['', [Validators.required]],
       celular: [
         '',
         [
@@ -353,6 +361,7 @@ export class UpdateDataComponent {
           if (response?.payload) {
             this.usuario = response.payload;
             this.llenarFormulario();
+            console.log(response);
           }
         },
         error: () => {
@@ -362,6 +371,10 @@ export class UpdateDataComponent {
   }
 
   llenarFormulario(): void {
+    const fechaNacimiento = this.usuario.dateOfBirth
+      ? new Date(this.usuario.dateOfBirth)
+      : null;
+
     this.formularioActualizar.patchValue({
       primer_nombre: this.usuario.name,
       segundo_nombre: this.usuario.secondName,
@@ -370,8 +383,16 @@ export class UpdateDataComponent {
       nombre_usuario: this.usuario.username,
       correo: this.usuario.email,
       celular: this.usuario.mobileNumber,
-      fecha_nacimiento: this.usuario.dateOfBirth,
+      fecha_nacimiento: fechaNacimiento,
     });
+  }
+
+  formatearFecha(fecha: string): string {
+    if (!fecha) {
+      return '';
+    }
+    const fechaObj = new Date(fecha);
+    return fechaObj.toLocaleDateString('en-US');
   }
 
   actualizarDatos(): void {

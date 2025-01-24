@@ -16,6 +16,7 @@ import { ModoAuthService } from '../../core/service/modo-auth.service';
 import { MatSelectModule } from '@angular/material/select';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @Component({
   selector: 'app-registre',
@@ -29,6 +30,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     ReactiveFormsModule,
     MatSelectModule,
     MatFormFieldModule,
+    NgSelectModule,
   ],
   templateUrl: './registre.component.html',
   styleUrls: ['./registre.component.css'],
@@ -56,6 +58,12 @@ export class RegistreComponent {
   public correoError: string = '';
 
   public selected: string = 'COP';
+
+  public indicativos = [
+    { value: 'COP', label: '+57' },
+    { value: 'EEUU', label: '+1' },
+    { value: 'MEX', label: '+52' },
+  ];
 
   constructor() {
     this.buildForm();

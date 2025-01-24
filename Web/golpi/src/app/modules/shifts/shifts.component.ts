@@ -1,20 +1,14 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, Inject, OnInit } from '@angular/core';
+import { Component, inject, Inject, OnInit, DestroyRef } from '@angular/core';
 import {
   AbstractControl,
-  FormBuilder,
-  FormGroup,
   ReactiveFormsModule,
   UntypedFormBuilder,
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import {
-  MAT_DATE_FORMATS,
-  MatNativeDateModule,
-  NativeDateAdapter,
-} from '@angular/material/core';
+import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import {
   MatDialogRef,
@@ -25,20 +19,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { Constant } from '../../shared/utils/constant';
-import { MAT_DATE_LOCALE, DateAdapter } from '@angular/material/core';
 import { AlertsService } from '../../core/service/alerts.service';
-
-export const MY_DATE_FORMATS = {
-  parse: {
-    dateInput: 'l', // Date input format for parsing
-  },
-  display: {
-    dateInput: 'l', // Date input format for displaying
-    monthYearLabel: 'MMM YYYY',
-    dateA11yLabel: 'LL',
-    monthYearA11yLabel: 'MMMM YYYY',
-  },
-};
+import { NgSelectModule } from '@ng-select/ng-select';
+import { UsuarioResponseDto } from '../../data/schema/userResponseDto';
+import { UserService } from '../../core/service/user.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { map, Observable, startWith } from 'rxjs';
 
 @Component({
   selector: 'app-shifts',
@@ -55,17 +41,19 @@ export const MY_DATE_FORMATS = {
     MatDialogModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    NgSelectModule,
   ],
-  providers: [
-    { provide: MAT_DATE_LOCALE, useValue: 'en-US' }, // Locale para las fechas
-    { provide: DateAdapter, useClass: NativeDateAdapter }, // Adaptador de fechas nativo
-    { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS },
-  ],
+  providers: [],
 })
 export class ShiftsComponent implements OnInit {
   private formBuilder = inject(UntypedFormBuilder);
-  public formularioTurno: UntypedFormGroup = new UntypedFormGroup({});
+  private userService = inject(UserService);
   private alertsService = inject(AlertsService);
+
+  public formularioTurno: UntypedFormGroup = new UntypedFormGroup({});
+  public usuario: Array<UsuarioResponseDto> = new Array<UsuarioResponseDto>();
+
+  private destroyRef = inject(DestroyRef);
 
   public fechaError: string = '';
   public horaInicialError: string = '';
@@ -80,6 +68,7 @@ export class ShiftsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.mostrarCliente();
     this.formularioTurno
       .get('horaInicial')
       ?.valueChanges.subscribe((horaInicial) => {
@@ -92,13 +81,28 @@ export class ShiftsComponent implements OnInit {
       });
   }
 
+  mostrarCliente(): void {
+    this.userService
+      .getAll()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(
+        (res: any) => {
+          this.usuario = res.payload as UsuarioResponseDto[];
+          console.log(this.usuario);
+        },
+        (err) => {
+          this.alertsService.fireError(err);
+        }
+      );
+  }
+
   buildForm(): void {
     this.formularioTurno = this.formBuilder.group({
       fecha: ['', [Validators.required]],
       horaInicial: ['', [Validators.required]],
       horafinal: [{ value: '', disabled: true }],
       cancha: ['', [Validators.required]],
-      cliente: ['', [Validators.required]],
+      cliente: [null, [Validators.required]],
     });
   }
 
@@ -180,5 +184,9 @@ export class ShiftsComponent implements OnInit {
   calcularHoraFinal(horaInicial: string): string {
     const [hora, minutos] = horaInicial.split(':').map(Number);
     return `${hora + 1}:${minutos.toString().padStart(2, '0')}`;
+  }
+
+  onClose(): void {
+    this.dialogRef.close();
   }
 }

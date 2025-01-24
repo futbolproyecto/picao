@@ -76,12 +76,21 @@ a {
 .custom-input-celular {
   width: 80%;
   font-size: 15px;
+  padding-left: 20px;
 }
 
 .custom-input-indicativo {
   width: 24%;
   font-size: 15px;
-  margin: 0 3px 0 0;
+}
+
+.ng-select,
+.ng-select div,
+::ng-deep.ng-select input,
+.ng-select span {
+  margin-top: 5px !important;
+  font-weight: 400 !important;
+  font-size: 17px !important;
 }
 
 @media (max-width: 952px) {

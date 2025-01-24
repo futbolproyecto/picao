@@ -174,8 +174,8 @@ public class OtpServiceImpl implements OtpService {
     private void sendEmailOtp(String otp, String email) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(email);
-        message.setSubject("Recuperacion contraseña");
-        message.setText("se le olvido la contraseña papi, tenga su codigo " + otp);
+        message.setSubject("Recuperación contraseña");
+        message.setText("Para restablecer tu contraseña, por favor ingresa el siguiente código de validación. " + otp);
         message.setFrom(email);
 
         mailSender.send(message);

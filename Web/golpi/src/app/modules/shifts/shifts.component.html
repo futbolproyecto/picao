@@ -1,9 +1,21 @@
-<h2 mat-dialog-title>Registra turno</h2>
+<div class="container-titulo">
+  <h2>Registra turno</h2>
+  <span
+    ngClass="d-flex justify-content-end cerrar"
+    (click)="onClose()"
+    (keyup.enter)="onClose()"
+    tabindex="0"
+    role="button"
+    aria-label="Cerrar"
+  >
+    <i class="material-icons">close</i>
+  </span>
+</div>
 
-<mat-dialog-content>
+<mat-dialog-content class="container">
   <form [formGroup]="formularioTurno" class="form-content">
     <div class="form-group">
-      <mat-form-field appearance="outline">
+      <mat-form-field>
         <mat-label>Fecha</mat-label>
         <input matInput [matDatepicker]="picker" formControlName="fecha" />
         <mat-datepicker-toggle
@@ -18,7 +30,7 @@
     </div>
 
     <div class="form-group">
-      <mat-form-field appearance="outline">
+      <mat-form-field>
         <mat-label>Hora inicial</mat-label>
         <input matInput type="time" formControlName="horaInicial" />
       </mat-form-field>
@@ -26,14 +38,14 @@
         {{ horaInicialError }}
       </small>
 
-      <mat-form-field appearance="outline">
+      <mat-form-field>
         <mat-label>Hora final</mat-label>
         <input matInput type="time" formControlName="horafinal" />
       </mat-form-field>
     </div>
 
     <div class="form-group">
-      <mat-form-field appearance="outline">
+      <mat-form-field>
         <mat-label>Cancha</mat-label>
         <mat-select formControlName="cancha">
           <mat-option value="1">1</mat-option>
@@ -44,16 +56,15 @@
       <small class="text-error" *ngIf="validarCancha()">
         {{ canchaError }}
       </small>
-
-      <mat-form-field appearance="outline">
-        <mat-label>Cliente</mat-label>
-        <mat-select formControlName="cliente">
-          <mat-option value="1">Andrea Isaza</mat-option>
-          <mat-option value="2">Alejandro Mira</mat-option>
-          <mat-option value="3">Carlos Isaza</mat-option>
-          <mat-option value="4">Briceda Diosa</mat-option>
-        </mat-select>
-      </mat-form-field>
+      <ng-select
+        formControlName="cliente"
+        placeholder="Cliente*"
+        [items]="usuario"
+        bindLabel="username"
+        bindValue="id"
+        class="lista"
+      >
+      </ng-select>
       <small class="text-error" *ngIf="validarCliente()">
         {{ clienteError }}
       </small>

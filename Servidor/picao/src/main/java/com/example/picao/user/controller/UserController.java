@@ -43,5 +43,9 @@ public class UserController {
         return GenericResponseDTO.genericResponse(userService.getByMobileNumber(mobileNumber));
     }
 
+    @GetMapping(value = "get-all")
+    public ResponseEntity<GenericResponseDTO> getAll() {
+        return GenericResponseDTO.genericResponse(userService.getAll());
+    }
 
 }

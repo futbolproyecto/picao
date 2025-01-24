@@ -14,7 +14,7 @@
       >
     </p>
     <div class="input-form">
-      <mat-form-field class="custom-input" appearance="outline">
+      <mat-form-field class="custom-input">
         <mat-icon matPrefix class="custom-icon">badge</mat-icon>
         <mat-label>Nombre completo</mat-label>
         <input
@@ -29,15 +29,17 @@
       </small>
 
       <div class="container-celular">
-        <mat-form-field appearance="outline" class="custom-input-indicativo">
-          <mat-select [(value)]="selected">
-            <mat-option value="COP">+57</mat-option>
-            <mat-option value="EEUU">+1</mat-option>
-            <mat-option value="MEX">+52</mat-option>
-          </mat-select>
-        </mat-form-field>
+        <ng-select
+          formControlName="indicador"
+          class="custom-input-indicativo"
+          [(ngModel)]="selected"
+          [items]="indicativos"
+          bindValue="value"
+          bindLabel="label"
+        >
+        </ng-select>
 
-        <mat-form-field class="custom-input-celular" appearance="outline">
+        <mat-form-field class="custom-input-celular">
           <mat-icon matPrefix class="custom-icon">call</mat-icon>
           <mat-label>Celular</mat-label>
           <input
@@ -52,7 +54,7 @@
         {{ celularError }}
       </small>
 
-      <mat-form-field class="custom-input" appearance="outline">
+      <mat-form-field class="custom-input">
         <mat-icon matPrefix class="custom-icon">mail</mat-icon>
         <mat-label>Correo electronico</mat-label>
         <input
