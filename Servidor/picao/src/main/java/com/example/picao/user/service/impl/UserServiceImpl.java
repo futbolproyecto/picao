@@ -118,6 +118,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         }
     }
 
+    @Transactional(readOnly = true)
     @Override
     public UserResponseDTO getByMobileNumber(String mobileNumber) {
         try {
@@ -137,21 +138,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public List<UserResponseDTO> getAll() {
         try {
 
-            List<UserEntity> usuarios = userRepository.findAll();
-
-            return usuarios.stream().map(
-                    user -> UserResponseDTO.builder()
-                            .id(user.getId())
-                            .name(user.getName())
-                            .secondName(user.getSecondName())
-                            .lastName(user.getLastName())
-                            .secondLastName(user.getSecondLastName())
-                            .mobileNumber(user.getMobileNumber())
-                            .email(user.getEmail())
-                            .username(user.getUsername())
-                            .dateOfBirth(user.getDateOfBirth())
-                            .build()
-            ).toList();
+            return userRepository.findAll().stream().map(MAPPER::toUserResponseDTO).toList();
 
         } catch (AppException e) {
             throw new AppException(e.getErrorMessages(), e.getHttpStatus());

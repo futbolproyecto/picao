@@ -2,9 +2,6 @@ package com.example.picao.user.entity;
 
 import com.example.picao.player_profile.entity.PlayerProfile;
 import com.example.picao.role.entity.Role;
-import com.example.picao.Status;
-import com.example.picao.team.entity.Team;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -13,7 +10,6 @@ import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Set;
 
 @Getter

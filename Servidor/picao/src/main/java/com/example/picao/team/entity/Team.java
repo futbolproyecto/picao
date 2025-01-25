@@ -43,7 +43,4 @@ public class Team {
                     name = "player_id"), inverseJoinColumns = @JoinColumn(name = "team_id"))
     Set<UserEntity> players;
 
-    public Team(Integer id) {
-        this.id = id;
-    }
 }

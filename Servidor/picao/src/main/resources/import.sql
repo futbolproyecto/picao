@@ -25,3 +25,6 @@ INSERT INTO position_players (id,name) VALUES (1,'Portero'),(2,'Defensa central'
 
 -- crear pie dominante
 INSERT INTO dominant_foot (id,name) VALUES (1,'Derecho'),(2,'Izquierdo'),(3,'Ambidiestro');
+
+-- crear equipos
+INSERT INTO teams (name,zone_id,city_id,owner_user_id) VALUES ('Los cebos de play',3,4,1),('Los recebos de play',3,4,1);
