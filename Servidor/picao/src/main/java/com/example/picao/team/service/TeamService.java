@@ -12,7 +12,8 @@ public interface TeamService {
 
     Team createTeam(CreateTeamRequestDTO requestDTO);
 
-    List<Team> getByUserId(int userId);
+    List<TeamResponseDTO> getByUserId(int userId);
 
     UsersByTeam addUserToTeam(UserTeamAddDTO userTeamAddDTO);
+
 }

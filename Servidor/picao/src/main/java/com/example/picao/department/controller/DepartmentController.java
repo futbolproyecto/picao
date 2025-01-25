@@ -17,7 +17,7 @@ public class DepartmentController {
         return GenericResponseDTO.genericResponse(deparmentService.getAllDepartments());
     }
 
-    @GetMapping(value = "get-id/{id}")
+    @GetMapping(value = "get-by-id/{id}")
     public ResponseEntity<GenericResponseDTO> getDepartmentId(@PathVariable("id") Integer id) {
         return GenericResponseDTO.genericResponse(deparmentService.getDepartmentById(id));
     }

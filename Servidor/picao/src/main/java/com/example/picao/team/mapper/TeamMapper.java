@@ -36,7 +36,6 @@ public interface TeamMapper {
         return new UserEntity(id);
     }
 
-    TeamResponseDTO toTeamResponseDTO(Team team);
 
     @Mapping(source = "teamId", target = "team", qualifiedByName = "mapTeam")
     @Mapping(source = "userId", target = "userEntity", qualifiedByName = "mapUser")

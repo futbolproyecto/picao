@@ -63,14 +63,15 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
-    public List<Team> getByUserId(int userId) {
+    public List<TeamResponseDTO> getByUserId(int userId) {
         try {
 
-            return teamRepository.findTeamByUserId(userId)
+            return teamRepository.findByOwnerUserId(userId)
                     .orElseThrow(() -> new AppException(ErrorMessages.USER_NOT_EXIST, HttpStatus.NOT_FOUND));
 
 
         } catch (AppException e) {
+            e.printStackTrace();
             throw new AppException(e.getErrorMessages(), e.getHttpStatus());
 
         }

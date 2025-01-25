@@ -1,12 +1,24 @@
 package com.example.picao.team.dto;
 
-import com.example.picao.core.util.Constants;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
-public record TeamResponseDTO(
-        @Size(max = 50, message = Constants.ERROR_MESSAGE_SIZE_NAME_TEAM)
-        String name,
-        @JsonProperty("user_id")
-        Integer userId) {
+@Getter
+@Setter
+@AllArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class TeamResponseDTO {
+    Integer id;
+    String name;
+
+    public TeamResponseDTO(Integer id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    @JsonProperty("user_id")
+    Integer userId;
 }
