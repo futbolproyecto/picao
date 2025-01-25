@@ -8,21 +8,18 @@ import com.example.picao.team.dto.CreateTeamRequestDTO;
 import com.example.picao.team.dto.TeamResponseDTO;
 import com.example.picao.team.dto.UserTeamAddDTO;
 import com.example.picao.team.entity.Team;
-import com.example.picao.team.entity.UsersByTeam;
 import com.example.picao.team.mapper.TeamMapper;
 import com.example.picao.team.repository.TeamRepository;
-import com.example.picao.team.repository.UserByTeamRepository;
 import com.example.picao.team.service.TeamService;
 import com.example.picao.user.entity.UserEntity;
 import com.example.picao.user.repository.UserRepository;
 import com.example.picao.zone.repository.ZoneRepository;
 import lombok.RequiredArgsConstructor;
-import org.apache.catalina.User;
-import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -36,7 +33,6 @@ public class TeamServiceImpl implements TeamService {
     private final ZoneRepository zoneRepository;
     private final CityRepository cityRepository;
     private final TeamRepository teamRepository;
-    private final UserByTeamRepository userByTeamRepository;
 
 
     @Override
@@ -90,9 +86,11 @@ public class TeamServiceImpl implements TeamService {
             UserEntity user = userRepository.findById(userTeamAddDTO.userId()).orElseThrow(
                     () -> new AppException(ErrorMessages.GENERIC_NOT_EXIST, HttpStatus.NOT_FOUND));
 
-            team.setPlayers(Set.of(user));
+            Set<UserEntity> players = new HashSet<>(team.getPlayers());
+            players.add(user);
+            team.setPlayers(players);
 
-            return MAPPER.toTeamResponseDTO(teamRepository.save(team));
+            return MAPPER.toTeamResponseDTO(teamRepository.save(teamRepository.save(team)));
 
         } catch (AppException e) {
             throw new AppException(e.getErrorMessages(), e.getHttpStatus());

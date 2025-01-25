@@ -5,12 +5,13 @@ import com.example.picao.team.dto.CreateTeamRequestDTO;
 import com.example.picao.team.dto.TeamResponseDTO;
 import com.example.picao.team.entity.Team;
 import com.example.picao.user.entity.UserEntity;
+import com.example.picao.user.mapper.UserMapper;
 import com.example.picao.zone.entity.Zone;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 
-@Mapper()
+@Mapper(uses = {UserMapper.class})
 public interface TeamMapper {
 
     @Mapping(source = "zoneId", target = "zone", qualifiedByName = "mapZone")
@@ -22,8 +23,6 @@ public interface TeamMapper {
     @Mapping(target = "name", source = "team.name")
     @Mapping(target = "city", source = "team.city")
     @Mapping(target = "zone", source = "team.zone")
-    @Mapping(target = "ownerUser", source = "team.ownerUser")
-    @Mapping(target = "players", source = "team.players")
     TeamResponseDTO toTeamResponseDTO(Team team);
 
     @Named("mapZone")
