@@ -1,0 +1,78 @@
+<div class="formulario-registro" [class.modo-registro]="esModoRegistro">
+  <form [formGroup]="formularioRegistro" class="contacto">
+    <div class="logo">
+      <img src="./assets/img/logo_normal.png" alt="Logo" />
+    </div>
+    <h1>En breve te contactaremos. ¡Déjanos tus datos!</h1>
+    <p>
+      ¿Ya tienes una cuenta?
+      <a
+        routerLink="/iniciar-sesion"
+        class="toggle"
+        (click)="cambioModoInicioRegistro()"
+        >Iniciar sesión</a
+      >
+    </p>
+    <div class="input-form">
+      <mat-form-field class="custom-input">
+        <mat-icon matPrefix class="custom-icon">badge</mat-icon>
+        <mat-label>Nombre completo</mat-label>
+        <input
+          matInput
+          formControlName="nombre"
+          type="text"
+          autocomplete="off"
+        />
+      </mat-form-field>
+      <small class="text-error" *ngIf="validarNombre()">
+        {{ nombreError }}
+      </small>
+
+      <div class="container-celular">
+        <ng-select
+          formControlName="indicador"
+          class="custom-input-indicativo"
+          [(ngModel)]="selected"
+          [items]="indicativos"
+          bindValue="value"
+          bindLabel="label"
+        >
+        </ng-select>
+
+        <mat-form-field class="custom-input-celular">
+          <mat-icon matPrefix class="custom-icon">call</mat-icon>
+          <mat-label>Celular</mat-label>
+          <input
+            matInput
+            formControlName="celular"
+            type="text"
+            autocomplete="off"
+          />
+        </mat-form-field>
+      </div>
+      <small class="text-error" *ngIf="validarCelular()">
+        {{ celularError }}
+      </small>
+
+      <mat-form-field class="custom-input">
+        <mat-icon matPrefix class="custom-icon">mail</mat-icon>
+        <mat-label>Correo electronico</mat-label>
+        <input
+          matInput
+          formControlName="correo"
+          type="text"
+          autocomplete="off"
+        />
+      </mat-form-field>
+      <small class="text-error" *ngIf="validarCorreo()">
+        {{ correoError }}
+      </small>
+
+      <div class="boton">
+        <button mat-raised-button class="btn" (click)="enviar()" type="button">
+          ENVIAR
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

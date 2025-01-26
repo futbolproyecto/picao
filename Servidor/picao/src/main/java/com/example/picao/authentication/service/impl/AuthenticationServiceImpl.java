@@ -8,7 +8,7 @@ import com.example.picao.core.security.jwt.JwtUtils;
 import com.example.picao.core.util.ErrorMessages;
 import com.example.picao.core.util.UsefulMethods;
 import com.example.picao.user.entity.UserEntity;
-import com.example.picao.core.util.mapper.UserMapper;
+import com.example.picao.user.mapper.UserMapper;
 import com.example.picao.user.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -32,8 +32,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public AuthResponseDTO login(LoginRequestDTO loginRequestDTO) {
 
-
-        UserEntity userEntity = userRepository.findByMobileNumber(loginRequestDTO.mobile_number())
+        UserEntity userEntity = userRepository.findByMobileNumberOrEmail(loginRequestDTO.emailOrMobileNumber())
                 .orElseThrow(() -> new AppException(
                         ErrorMessages.AUTHENTICATION_ERROR, HttpStatus.BAD_REQUEST));
 
@@ -57,7 +56,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private String generateToken(UserEntity userEntity) {
 
         Authentication authentication = new UsernamePasswordAuthenticationToken(
-                userEntity.getUsername(), null,
+                userEntity.getEmail(), null,
                 UsefulMethods.getAuthorities(userEntity.getRoles()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);

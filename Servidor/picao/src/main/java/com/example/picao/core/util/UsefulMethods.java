@@ -21,4 +21,8 @@ public class UsefulMethods {
         return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName().name()))
                 .collect(Collectors.toSet());
     }
+
+
+
+
 }

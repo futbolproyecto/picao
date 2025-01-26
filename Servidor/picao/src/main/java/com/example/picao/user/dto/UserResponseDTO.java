@@ -11,11 +11,13 @@ import java.time.LocalDate;
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserResponseDTO {
+    Integer id;
     String name;
     String secondName;
     String lastName;
     String secondLastName;
     String mobileNumber;
     String email;
+    String username;
     LocalDate dateOfBirth;
 }

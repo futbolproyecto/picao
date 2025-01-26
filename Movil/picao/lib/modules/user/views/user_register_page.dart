@@ -1,20 +1,19 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:picao/core/constants/constants.dart';
 import 'package:picao/core/routes/app_pages.dart';
 import 'package:picao/modules/widgets/ui_buttoms.dart';
+import 'package:picao/modules/widgets/ui_text.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:picao/modules/widgets/ui_text_field.dart';
 import 'package:picao/modules/user/controller/user_controller.dart';
 
-class UserRegisterPage extends StatelessWidget {
-  const UserRegisterPage({super.key});
+class RegisterUserPage extends StatelessWidget {
+  const RegisterUserPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     final UserController userController = Get.find<UserController>();
-
-    const Color primaryColor = Color(0xFF04a57e);
-    const Color secondaryColor = Color(0xFF19F489);
 
     return Scaffold(
       body: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
@@ -22,13 +21,8 @@ class UserRegisterPage extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            const Text(
-              '¿Ya tienes una cuenta?',
-              style: TextStyle(
-                color: primaryColor,
-                fontSize: 14,
-              ),
-            ),
+            const SizedBox(height: 50),
+            UiText(text: '¿Ya tienes una cuenta?').phraseBlack(),
             InkWell(
               onTap: () {
                 Get.offNamed(AppPages.login);
@@ -38,7 +32,7 @@ class UserRegisterPage extends StatelessWidget {
                   width: 80,
                   height: 30,
                   decoration: BoxDecoration(
-                      color: secondaryColor.withOpacity(0.5),
+                      color: Constants.primaryColor,
                       borderRadius: const BorderRadius.all(Radius.circular(5))),
                   child: const Center(child: Text('Ingresar'))),
             )
@@ -75,20 +69,13 @@ class UserRegisterPage extends StatelessWidget {
                         Widget? child,
                       ) {
                         return Column(children: [
-                          const Text(
-                            'Registro de informacion',
-                            style: TextStyle(
-                              color: Colors.black87,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
+                          UiText(text: 'Registro de informacion').title(),
                           const SizedBox(height: 20),
                           UiTextFiel().textField(
                             formControlName: 'name',
                             labelText: 'Nombres',
                             prefixIcon: Icons.person_2_outlined,
-                            colorPrefixIcon: primaryColor,
+                            colorPrefixIcon: Constants.primaryColor,
                             validationMessages: {
                               ValidationMessage.required: (error) =>
                                   'Campo requerido',
@@ -99,7 +86,7 @@ class UserRegisterPage extends StatelessWidget {
                             formControlName: 'last_name',
                             labelText: 'Apellidos',
                             prefixIcon: Icons.person_2_outlined,
-                            colorPrefixIcon: primaryColor,
+                            colorPrefixIcon: Constants.primaryColor,
                             validationMessages: {
                               ValidationMessage.required: (error) =>
                                   'Campo requerido',
@@ -110,7 +97,7 @@ class UserRegisterPage extends StatelessWidget {
                             formControlName: 'email',
                             labelText: 'Correo',
                             prefixIcon: Icons.email_outlined,
-                            colorPrefixIcon: primaryColor,
+                            colorPrefixIcon: Constants.primaryColor,
                             validationMessages: {
                               ValidationMessage.required: (error) =>
                                   'Campo requerido',
@@ -121,7 +108,7 @@ class UserRegisterPage extends StatelessWidget {
                             formControlName: 'mobile_number',
                             labelText: 'Celular',
                             prefixIcon: Icons.phone_android_outlined,
-                            colorPrefixIcon: primaryColor,
+                            colorPrefixIcon: Constants.primaryColor,
                             validationMessages: {
                               ValidationMessage.required: (error) =>
                                   'Campo requerido',
@@ -132,7 +119,7 @@ class UserRegisterPage extends StatelessWidget {
                             formControlName: 'date_of_birth',
                             labelText: 'Fecha nacimiento',
                             prefixIcon: Icons.date_range_outlined,
-                            colorPrefixIcon: primaryColor,
+                            colorPrefixIcon: Constants.primaryColor,
                             firstDate: DateTime(1900),
                             lastDate: DateTime.now(),
                             validationMessages: {
@@ -146,7 +133,7 @@ class UserRegisterPage extends StatelessWidget {
                               formControlName: 'password',
                               labelText: 'Clave',
                               prefixIcon: Icons.lock_outline,
-                              colorPrefixIcon: primaryColor,
+                              colorPrefixIcon: Constants.primaryColor,
                               obscureText: userController.obscureText.value,
                               suffixIcon: IconButton(
                                   onPressed: userController.toggleObscureText,
@@ -167,7 +154,7 @@ class UserRegisterPage extends StatelessWidget {
                               formControlName: 'password_confirmation',
                               labelText: 'Confirmar clave',
                               prefixIcon: Icons.lock_outline,
-                              colorPrefixIcon: primaryColor,
+                              colorPrefixIcon: Constants.primaryColor,
                               obscureText: userController.obscureText.value,
                               suffixIcon: IconButton(
                                   onPressed: userController.toggleObscureText,
@@ -196,9 +183,9 @@ class UserRegisterPage extends StatelessWidget {
                                     children: [
                                       const Text('Caracteres especiales'),
                                       userController.hasEspecialCaracter.value
-                                          ? const Icon(
+                                          ? Icon(
                                               Icons.check_circle_outline,
-                                              color: secondaryColor,
+                                              color: Constants.secondaryColor,
                                             )
                                           : const Icon(
                                               Icons.error_outline,
@@ -212,9 +199,9 @@ class UserRegisterPage extends StatelessWidget {
                                     children: [
                                       const Text('6 caracteres'),
                                       userController.hasMinCaracter.value
-                                          ? const Icon(
+                                          ? Icon(
                                               Icons.check_circle_outline,
-                                              color: secondaryColor,
+                                              color: Constants.secondaryColor,
                                             )
                                           : const Icon(
                                               Icons.error_outline,
@@ -228,9 +215,9 @@ class UserRegisterPage extends StatelessWidget {
                                     children: [
                                       const Text('Mayuscula'),
                                       userController.hasCapital.value
-                                          ? const Icon(
+                                          ? Icon(
                                               Icons.check_circle_outline,
-                                              color: secondaryColor,
+                                              color: Constants.secondaryColor,
                                             )
                                           : const Icon(
                                               Icons.error_outline,
@@ -244,9 +231,9 @@ class UserRegisterPage extends StatelessWidget {
                                     children: [
                                       const Text('Minuscula'),
                                       userController.hasLower.value
-                                          ? const Icon(
+                                          ? Icon(
                                               Icons.check_circle_outline,
-                                              color: secondaryColor,
+                                              color: Constants.secondaryColor,
                                             )
                                           : const Icon(
                                               Icons.error_outline,
@@ -260,9 +247,9 @@ class UserRegisterPage extends StatelessWidget {
                                     children: [
                                       const Text('Numeros'),
                                       userController.hasNumber.value
-                                          ? const Icon(
+                                          ? Icon(
                                               Icons.check_circle_outline,
-                                              color: secondaryColor,
+                                              color: Constants.secondaryColor,
                                             )
                                           : const Icon(
                                               Icons.error_outline,
@@ -290,7 +277,7 @@ class UserRegisterPage extends StatelessWidget {
                                     reactiveFormUserRegistrer
                                         .markAllAsTouched();
                                     if (reactiveFormUserRegistrer.valid) {
-                                      userController.sendOtp();
+                                      userController.sendOtpMobileNumber();
                                     }
                                   },
                                   title: 'Ingresar')

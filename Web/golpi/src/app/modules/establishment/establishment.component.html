@@ -1,0 +1,87 @@
+<form [formGroup]="formularioEstablecimiento" class="form-content">
+  <div class="form-group">
+    <mat-form-field>
+      <mat-label>Nombre establecimiento</mat-label>
+      <input matInput formControlName="nombre_establecimiento" />
+    </mat-form-field>
+    <small class="text-error" *ngIf="validarNombre()">
+      {{ nombreError }}
+    </small>
+
+    <mat-form-field>
+      <mat-label>Cant. canchas</mat-label>
+      <input matInput formControlName="cantidad_canchas" />
+    </mat-form-field>
+    <small class="text-error" *ngIf="validarCantidadCancha()">
+      {{ cantidadCanchasError }}
+    </small>
+  </div>
+
+  <div class="form-group">
+    <mat-form-field>
+      <mat-label>Dirección</mat-label>
+      <input matInput formControlName="direccion" />
+    </mat-form-field>
+    <small class="text-error" *ngIf="validarDireccion()">
+      {{ direccionError }}
+    </small>
+
+    <mat-form-field>
+      <mat-label>Teléfono</mat-label>
+      <input matInput formControlName="telefono" />
+    </mat-form-field>
+    <small class="text-error" *ngIf="validarTelefono()">
+      {{ telefonoError }}
+    </small>
+  </div>
+
+  <div class="form-group">
+    <ng-select
+      formControlName="departamento"
+      placeholder="Departamento*"
+      [items]="departamentoDTO"
+      bindLabel="name"
+      bindValue="id"
+      class="lista"
+    >
+    </ng-select>
+    <small class="text-error" *ngIf="validarDepartamento()">
+      {{ departamentoError }}
+    </small>
+
+    <ng-select
+      formControlName="ciudad"
+      placeholder="Ciudad*"
+      [items]="cityDTO"
+      bindLabel="name"
+      bindValue="id"
+      class="lista"
+    >
+    </ng-select>
+    <small class="text-error" *ngIf="validarCiudad()">
+      {{ ciudadError }}
+    </small>
+  </div>
+
+  <div class="boton">
+    <button
+      mat-raised-button
+      (click)="registrarEstablecimiento()"
+      class="btn"
+      type="button"
+    >
+      Guardar
+    </button>
+  </div>
+</form>
+
+<div class="contaner-tabla">
+  <h1>Listado de establecimientos</h1>
+  <app-data-table
+    [tableData]="tablaEstablecimientos"
+    [columnHeader]="encabezadosEstablecimientos"
+    [estado]="estado"
+    [edit]="edit"
+  >
+  </app-data-table>
+</div>

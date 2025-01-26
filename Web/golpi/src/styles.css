@@ -1,0 +1,100 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import "@angular/material/prebuilt-themes/indigo-pink.css";
+@import "@ng-select/ng-select/themes/material.theme.css";
+
+*,
+*::before,
+*::after {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+@font-face {
+  font-family: "Montserrat";
+  src: url("./assets/fonts/Montserrat-VariableFont_wght.ttf");
+}
+
+/* Estilo global para la alerta */
+.custom-popup .swal2-title {
+  margin-bottom: 5px;
+  padding: 0em 1.6em 0.3em;
+}
+
+.custom-popup .swal2-text {
+  margin-top: 0;
+}
+
+.mdc-text-field--filled {
+  background-color: transparent !important;
+}
+
+/* Estilo global para las pestañas activas */
+a.router-link-active {
+  background-color: var(--color-surface-container-high);
+  color: var(--color-secondary) !important;
+}
+
+.ng-select.ng-select-multiple
+  .ng-select-container
+  .ng-value-container
+  .ng-value {
+  background-color: #00a6ce !important;
+}
+
+:root {
+  /* Colores primarios */
+  --color-primary: #306a42;
+  --color-primary-container: #b3f1bf;
+  --color-on-primary-container: #15512c;
+
+  /* Colores secundarios */
+  --color-secondary: #725187;
+  --color-secondary-container: #f4daff;
+  --color-on-secondary-container: #59396e;
+
+  /* Colores terciarios */
+  --color-tertiary: #006874;
+  --color-tertiary-container: #9eeffd;
+  --color-on-tertiary-container: #004f58;
+
+  /* Colores de error */
+  --color-error: #ba1a1a;
+  --color-error-container: #ffdad6;
+  --color-on-error-container: #93000a;
+
+  /* Colores de fondo (surface) */
+  --color-surface-dim: #d7dbd4;
+  --color-surface: #f6fbf3;
+  --color-surface-bright: #f6fbf3;
+  --color-surface-container--lowest: #ffffff;
+  --color-surface-container-low: #f0f5ed;
+  --color-surface-container: #ebefe7;
+  --color-surface-container-high: #e5eae2;
+  --color-surface-container-highest: #dfe4dc;
+
+  /* Colores de texto (on-surface) */
+  --color-on-surface: #181d18;
+  --color-on-surface-variant: #414941;
+
+  /* Colores de contorno */
+  --color-outline: #717971;
+  --color-outline-variant: #c1c9bf;
+
+  /* Colores invertidos */
+  --color-inverse-surface: #2d322d;
+  --color-inverse-on-surface: #eef2ea;
+  --color-inverse-primary: #98d5a4;
+
+  /* Otros colores */
+  --color-scrim: #000000;
+  --color-shadow: #000000;
+}

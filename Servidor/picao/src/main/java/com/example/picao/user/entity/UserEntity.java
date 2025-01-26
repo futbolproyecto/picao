@@ -1,11 +1,11 @@
 package com.example.picao.user.entity;
 
-import com.example.picao.City;
+import com.example.picao.player_profile.entity.PlayerProfile;
 import com.example.picao.role.entity.Role;
-import com.example.picao.Status;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 
@@ -17,6 +17,7 @@ import java.util.Set;
 @Entity
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "users")
+@NoArgsConstructor()
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,10 +47,6 @@ public class UserEntity {
     @Column(length = 80, unique = true, nullable = false)
     String email;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "city_id")
-    City city;
-
     @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
             CascadeType.REFRESH})
     @JoinTable(name = "user_roles",
@@ -57,11 +54,12 @@ public class UserEntity {
                     name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     Set<Role> roles;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "status_id")
-    Status status;
-
     LocalDate dateOfBirth;
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    PlayerProfile playerProfile;
 
+    public UserEntity(Integer id) {
+        this.id = id;
+    }
 }

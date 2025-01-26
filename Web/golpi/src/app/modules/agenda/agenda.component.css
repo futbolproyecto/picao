@@ -1,0 +1,172 @@
+.container-agenda {
+  padding: 15px;
+  min-height: calc(100vh - 170px);
+  display: flex;
+  flex-flow: column;
+}
+
+h1 {
+  display: flex;
+  font-weight: bold;
+  font-size: 20px;
+  color: var(--color-secondary);
+  font-family: "Montserrat";
+}
+
+.card {
+  width: 100%;
+  padding-bottom: 30px;
+  background: var(--color-surface-container--lowest);
+  box-shadow: 0px 3px 15px var(--color-outline-variant);
+  border-radius: 10px;
+}
+
+.container-card {
+  padding: 10px;
+}
+
+.container-modulos {
+  display: flex;
+  flex-flow: row;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+ul {
+  display: flex;
+  flex-flow: row;
+  justify-content: flex-start;
+  padding: 10px;
+}
+
+li {
+  list-style: none;
+  cursor: pointer;
+  text-decoration: none;
+  border-bottom: 2px solid var(--color-primary);
+  padding: 10px 30px 10px 30px;
+  font-family: Roboto, sans-serif;
+  font-size: 18px;
+  color: var(--color-outline-variant);
+}
+
+li:hover {
+  border-bottom: 2px solid var(--color-secondary);
+  color: var(--color-secondary);
+}
+
+.active-tab {
+  border-bottom: 2px solid var(--color-secondary);
+  color: var(--color-secondary);
+}
+
+.container-pestana {
+  text-align: center;
+  color: var(--color-secondary);
+}
+
+p {
+  font-size: 20px;
+}
+
+span {
+  font-weight: bold;
+  font-size: 24px;
+}
+
+.container-pestana {
+  transition: opacity 0.3s ease-in-out;
+  opacity: 1;
+}
+
+.container-pestana.ng-leave-active {
+  opacity: 0;
+}
+
+.form-content {
+  padding: 0px 76px;
+}
+
+.form-group {
+  display: flex;
+  gap: 20px;
+}
+
+mat-form-field {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.boton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.boton .btn {
+  background-color: var(--color-primary);
+  font-size: 16px;
+  color: var(--color-primary-container);
+  height: 45px;
+  width: 20%;
+  border-radius: 10px;
+  margin-left: 15px;
+}
+
+.text-error {
+  color: var(--color-error);
+  font-size: 12px;
+  margin-top: 5px;
+  display: block;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.container-pestana {
+  transition: opacity 0.3s ease-in-out;
+  opacity: 1;
+}
+
+.container-pestana.ng-leave-active {
+  opacity: 0;
+}
+
+.contaner-tabla {
+  padding: 20px;
+}
+
+.ng-select,
+.ng-select div,
+::ng-deep.ng-select input,
+.ng-select span {
+  margin-top: 4px !important;
+  font-weight: 400 !important;
+  font-size: 17px !important;
+}
+
+::ng-deep.ng-select .ng-select-container .ng-placeholder {
+  padding-left: 17px !important;
+}
+
+::ng-deep.ng-select .ng-select-container .ng-value-label {
+  font-size: 15px !important;
+  padding-left: 15px !important;
+  padding-bottom: 20px !important;
+}
+
+::ng-deep.ng-select .ng-arrow-wrapper {
+  padding-right: 13px !important;
+}
+
+.lista {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}

@@ -19,7 +19,7 @@ import java.util.concurrent.atomic.AtomicReference;
 public class ControllerAdvice {
 
     @ExceptionHandler(value = AppException.class)
-    public ResponseEntity<GenericResponseErrorDTO> requestException(AppException ex) {
+    public ResponseEntity<GenericResponseErrorDTO> appException(AppException ex) {
         return GenericResponseErrorDTO.genericResponseError(
                 ex.getErrorMessages(), HttpStatus.BAD_REQUEST);
     }
@@ -42,7 +42,6 @@ public class ControllerAdvice {
         return GenericResponseErrorDTO.genericResponseError(
                 ErrorMessages.UNHANDLED_ERROR, HttpStatus.BAD_REQUEST);
     }
-
 
 
 }

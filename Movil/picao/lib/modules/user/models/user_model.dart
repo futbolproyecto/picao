@@ -1,41 +1,35 @@
-import 'package:picao/core/utils/utility.dart';
-
-class UserRegisterModel {
+class UserModel {
   final String name;
   final String lastName;
   final String email;
-  final String password;
   final String mobileNumber;
-  final DateTime dateOfBirth;
+  //final DateTime dateOfBirth;
 
-  UserRegisterModel({
+  UserModel({
     required this.name,
     required this.lastName,
     required this.email,
-    required this.password,
     required this.mobileNumber,
-    required this.dateOfBirth,
+    //required this.dateOfBirth,
   });
 
-  factory UserRegisterModel.fromJson(Map<String, dynamic> json) {
-    return UserRegisterModel(
+  factory UserModel.fromJson(Map<String, dynamic> json) {
+    return UserModel(
       name: json['name'],
-      lastName: json['last_name'],
+      lastName: json['lastName'],
       email: json['email'],
-      password: json['password'],
-      mobileNumber: json['mobile_number'],
-      dateOfBirth: json['date_of_birth'],
+      mobileNumber: json['mobileNumber'],
+      //dateOfBirth: json['date_of_birth'],
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
       'name': name,
-      'last_name': lastName,
+      'lastName': lastName,
       'email': email,
-      'password': password,
-      'mobile_number': mobileNumber,
-      'date_of_birth': Utility().formatDate(dateOfBirth),
+      'mobileNumber': mobileNumber,
+      //'date_of_birth': Utility().formatDate(dateOfBirth),
     };
   }
 }

@@ -1,0 +1,110 @@
+.container-sidemenu {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 10px;
+  width: 260px;
+}
+
+.logo-img {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px;
+}
+
+.logo p {
+  text-decoration: none;
+  font-weight: 700;
+  color: var(--color-secondary);
+  font-size: 1.4rem;
+  font-family: "Montserrat";
+}
+
+.logo-img img {
+  width: 60px;
+  margin-bottom: 10px;
+}
+
+.logout {
+  color: var(--color-error);
+}
+
+/* Estilo enlaces */
+a {
+  font-family: "Montserrat";
+  font-size: 1rem;
+  color: var(--color-shadow);
+  text-decoration: none;
+  display: flex;
+  padding: 10px 15px;
+  transition: background-color 0.3s ease;
+  white-space: nowrap;
+}
+
+a:hover {
+  background-color: var(--color-surface-container);
+  border-radius: 8px;
+}
+
+/* Estilo textos */
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.user {
+  font-family: "Montserrat";
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+.nombre {
+  padding-left: 5px;
+  display: flex;
+}
+
+.user span {
+  margin-bottom: 20px;
+  padding: 0 11px;
+}
+
+.submenu ul a {
+  padding-left: 25px;
+}
+
+ul li a {
+  display: flex;
+  align-items: center;
+  color: var(--color-outline);
+  border-radius: 10px;
+}
+
+ul li a:hover {
+  color: var(--color-secondary);
+}
+
+ul li a p {
+  margin: 10px;
+}
+
+/* Menu lateral */
+.expandido {
+  width: 100px;
+}
+
+.expandido .logo-img img {
+  padding-bottom: 10px;
+  width: 45px;
+}
+
+.expandido .icono-menu {
+  margin-left: 8px;
+  font-size: 30px;
+}
+
+.expandido .icono-submenu {
+  margin-left: 3px;
+  font-size: 25px;
+}

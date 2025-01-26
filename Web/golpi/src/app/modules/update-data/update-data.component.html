@@ -1,0 +1,145 @@
+<div class="container-matches">
+  <h1>
+    <h1>Usuario / {{ nombrePestana }}</h1>
+  </h1>
+  <div class="card">
+    <app-card>
+      <div class="container-card">
+        <div class="container-modulos">
+          <ul>
+            <li
+              [class.active-tab]="actualizarActivo"
+              (click)="activarPestana('actualizar')"
+            >
+              <a>Actualizar datos</a>
+            </li>
+            <li
+              [class.active-tab]="cambiarActivo"
+              (click)="activarPestana('cambiar')"
+            >
+              <a>Cambiar contraseña</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="container-pestanas">
+        <!-- Pestaña Actualizar -->
+        <div *ngIf="actualizarActivo" class="container-actualizar">
+          <form [formGroup]="formularioActualizar" class="form-content">
+            <div class="form-group">
+              <mat-form-field>
+                <mat-label>Primer nombre</mat-label>
+                <input matInput formControlName="primer_nombre" />
+              </mat-form-field>
+              <small class="text-error" *ngIf="validarPrimerNombre()">
+                {{ primerNombreError }}
+              </small>
+
+              <mat-form-field>
+                <mat-label>Segundo nombre</mat-label>
+                <input matInput formControlName="segundo_nombre" />
+              </mat-form-field>
+              <small class="text-error" *ngIf="validarSegundoNombre()">
+                {{ segundoNombreError }}
+              </small>
+            </div>
+
+            <div class="form-group">
+              <mat-form-field>
+                <mat-label>Primer apellido</mat-label>
+                <input matInput formControlName="primer_apellido" />
+              </mat-form-field>
+              <small class="text-error" *ngIf="validarPrimerApellido()">
+                {{ primerApellidoError }}
+              </small>
+
+              <mat-form-field>
+                <mat-label>Segundo apellido</mat-label>
+                <input matInput formControlName="segundo_apellido" />
+              </mat-form-field>
+              <small class="text-error" *ngIf="validarSegundoApellido()">
+                {{ segundoApellidoError }}
+              </small>
+            </div>
+
+            <div class="form-group">
+              <mat-form-field>
+                <mat-label>Nombre usuario</mat-label>
+                <input matInput formControlName="nombre_usuario" />
+              </mat-form-field>
+              <small class="text-error" *ngIf="validarNombreUsuario()">
+                {{ nombreUsuarioError }}
+              </small>
+
+              <mat-form-field>
+                <mat-label>Correo electrónico</mat-label>
+                <input matInput formControlName="correo" />
+              </mat-form-field>
+              <small class="text-error" *ngIf="validarCorreo()">
+                {{ correoError }}
+              </small>
+            </div>
+
+            <div class="form-group">
+              <div class="container-celular">
+                <ng-select
+                  formControlName="indicador"
+                  class="custom-input-indicativo"
+                  [(ngModel)]="selected"
+                  [items]="indicativos"
+                  bindValue="value"
+                  bindLabel="label"
+                >
+                </ng-select>
+
+                <mat-form-field class="custom-input-celular">
+                  <mat-label>Celular</mat-label>
+                  <input
+                    matInput
+                    formControlName="celular"
+                    type="text"
+                    autocomplete="off"
+                  />
+                </mat-form-field>
+              </div>
+              <mat-form-field>
+                <mat-label>Fecha de nacimiento</mat-label>
+                <input
+                  matInput
+                  [matDatepicker]="picker"
+                  formControlName="fecha_nacimiento"
+                />
+                <mat-hint>MM/DD/YYYY</mat-hint>
+                <mat-datepicker-toggle
+                  matIconSuffix
+                  [for]="picker"
+                ></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+              <small class="text-error" *ngIf="validarFechaNacimiento()">
+                {{ fechaNacimientoError }}
+              </small>
+            </div>
+
+            <div class="boton">
+              <button
+                mat-raised-button
+                class="btn"
+                type="button"
+                (click)="actualizarDatos()"
+              >
+                Guardar
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Pestaña Cambiar Contraseña -->
+        <div *ngIf="cambiarActivo" class="container-pestana">
+          <app-change-password></app-change-password>
+        </div>
+      </div>
+    </app-card>
+  </div>
+</div>

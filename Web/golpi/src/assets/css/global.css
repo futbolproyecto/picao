@@ -1,0 +1,15 @@
+.text-error {
+  font-size: 9px;
+  color: var(--color-error);
+  padding: 0 2px;
+  margin: 0px;
+}
+
+.text-error h6 {
+  font-size: 12px;
+  color: var(--color-error);
+}
+
+.text-error li {
+  font-size: 11px;
+}
