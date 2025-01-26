@@ -6,7 +6,6 @@ jwt:
     key: 76397924423F4528482B4D6251655468576D5A7134743777217A25432A46294A
 
 spring:
-
   datasource:
     url: ${DATABASE_URL}
     username: ${DATABASE_USERNAME}
@@ -24,9 +23,21 @@ spring:
         format_sql: true
   application:
     name: golpi
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: futboleroproyecto@gmail.com
+    password: cuutxtrejzpfrrxw
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+      mail.smtp.ssl.trust: smtp.gmail.com
+
 logging:
   level:
     org.springframework.web: DEBUG
+
 twilio:
   accountSid: AC4e390862fc25a97f9e5842d2a817463f
   authToken: af1cc89d7e8a359ee6b1d93eac1fab21
