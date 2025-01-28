@@ -4,6 +4,7 @@ import 'package:picao/core/constants/constants.dart';
 import 'package:picao/core/routes/app_pages.dart';
 import 'package:picao/modules/home/controller/home_controller.dart';
 import 'package:picao/modules/widgets/ui_buttoms.dart';
+import 'package:picao/modules/widgets/ui_text.dart';
 
 class TeamPage extends StatelessWidget {
   const TeamPage({super.key});
@@ -73,6 +74,11 @@ class TeamPage extends StatelessWidget {
                                   ),
                                 ),
                               ),
+                              UiText(
+                                      text: homeController
+                                              .listTeams[index].name ??
+                                          '')
+                                  .paragraphBlack(),
                               const Icon(Icons.arrow_forward_ios_outlined)
                             ],
                           ),

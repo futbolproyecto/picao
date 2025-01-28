@@ -3,7 +3,6 @@ import 'dart:io';
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:http/io_client.dart';
 import 'package:picao/core/utils/general_model.dart';
 import 'package:picao/data/service/secure_storage.dart';
 import 'package:picao/core/exception/custom_exception.dart';
@@ -17,19 +16,13 @@ class HttpService {
 
   Future<Map<String, dynamic>> post(Map<String, dynamic>? body) async {
     try {
-      final httpClient = HttpClient()
-        ..idleTimeout = const Duration(seconds: 20)
-        ..connectionTimeout = const Duration(seconds: 20);
-
-      final client = IOClient(httpClient);
-
-      final response = await client.post(
-        Uri.parse(ConstantEndpoints.baseUrl + endPoint),
-        headers: await getHeaders(),
-        body: jsonEncode(body),
-      );
-
-      print(response.body);
+      final response = await http
+          .post(
+            Uri.http(ConstantEndpoints.baseUrl, endPoint),
+            headers: await getHeaders(),
+            body: jsonEncode(body),
+          )
+          .timeout(const Duration(seconds: 20));
 
       if (response.statusCode != HttpStatus.ok) {
         throw BadRequestException(
@@ -53,17 +46,11 @@ class HttpService {
 
   Future<Object?> put(Map<String, dynamic>? body) async {
     try {
-      final httpClient = HttpClient()
-        ..idleTimeout = const Duration(seconds: 20)
-        ..connectionTimeout = const Duration(seconds: 20);
-
-      final client = IOClient(httpClient);
-
-      final response = await client.put(
-        Uri.parse('${ConstantEndpoints.baseUrl}/$endPoint'),
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode(body),
-      );
+      final response = await http
+          .put(Uri.http(ConstantEndpoints.baseUrl, endPoint),
+              headers: {'Content-Type': 'application/json'},
+              body: jsonEncode(body))
+          .timeout(const Duration(seconds: 20));
 
       if (response.statusCode != HttpStatus.ok) {
         throw BadRequestException(
@@ -132,16 +119,12 @@ class HttpService {
 
   Future<Object?> get() async {
     try {
-      final httpClient = HttpClient()
-        ..idleTimeout = const Duration(seconds: 20)
-        ..connectionTimeout = const Duration(seconds: 20);
-
-      final client = IOClient(httpClient);
-
-      final response = await client.get(
-        Uri.parse(ConstantEndpoints.baseUrl + endPoint),
-        headers: await getHeaders(),
-      );
+      final response = await http
+          .get(
+            Uri.http(ConstantEndpoints.baseUrl, endPoint),
+            headers: await getHeaders(),
+          )
+          .timeout(const Duration(seconds: 20));
 
       if (response.statusCode != HttpStatus.ok) {
         throw BadRequestException(
