@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:convert';
 
+import 'package:http/http.dart' as http;
 import 'package:http/io_client.dart';
 import 'package:picao/core/utils/general_model.dart';
 import 'package:picao/data/service/secure_storage.dart';
@@ -27,6 +28,8 @@ class HttpService {
         headers: await getHeaders(),
         body: jsonEncode(body),
       );
+
+      print(response.body);
 
       if (response.statusCode != HttpStatus.ok) {
         throw BadRequestException(
@@ -81,16 +84,10 @@ class HttpService {
 
   Future<Object?> postRequesParam(Map<String, String>? parameters) async {
     try {
-      final httpClient = HttpClient()
-        ..idleTimeout = const Duration(seconds: 20)
-        ..connectionTimeout = const Duration(seconds: 20);
-
-      final client = IOClient(httpClient);
-
-      final response = await client.post(
-        Uri.parse('${ConstantEndpoints.baseUrl}/$endPoint'),
+      final response = await http.post(
+        Uri.http(ConstantEndpoints.baseUrl, endPoint, parameters),
         headers: {'Content-Type': 'application/json'},
-      );
+      ).timeout(const Duration(seconds: 20));
 
       if (response.statusCode != HttpStatus.ok) {
         throw BadRequestException(
@@ -111,16 +108,10 @@ class HttpService {
 
   Future<Object?> putRequesParam(Map<String, String>? parameters) async {
     try {
-      final httpClient = HttpClient()
-        ..idleTimeout = const Duration(seconds: 20)
-        ..connectionTimeout = const Duration(seconds: 20);
-
-      final client = IOClient(httpClient);
-
-      final response = await client.put(
-        Uri.parse('${ConstantEndpoints.baseUrl}/$endPoint'),
+      final response = await http.post(
+        Uri.http(ConstantEndpoints.baseUrl, endPoint, parameters),
         headers: {'Content-Type': 'application/json'},
-      );
+      ).timeout(const Duration(seconds: 20));
 
       if (response.statusCode != HttpStatus.ok) {
         throw BadRequestException(
@@ -181,7 +172,7 @@ class HttpService {
     listaCabeceras.putIfAbsent(
         HttpHeaders.connectionHeader, () => 'Keep-Alive');
 
-    if (!ConstantEndpoints.blackLista.contains(endPoint)) {
+    if (!ConstantEndpoints.blackList.contains(endPoint)) {
       final String? token =
           await SecureStorage().read(ConstantSecureStorage.tokenSesion);
 
