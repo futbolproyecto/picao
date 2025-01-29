@@ -27,11 +27,8 @@
               "node_modules/ngx-spinner/animations/ball-spin-clockwise-fade-rotating.css"
             ],
             "scripts": ["./node_modules/bootstrap/dist/js/bootstrap.js"],
-            "server": "src/main.server.ts",
-            "prerender": false,
-            "ssr": {
-              "entry": "server.ts"
-            }
+            "baseHref": "",
+            "deployUrl": ""
           },
           "configurations": {
             "production": {
@@ -47,7 +44,9 @@
                   "maximumError": "10kb"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "sourceMap": false,
+              "optimization": true
             },
             "development": {
               "optimization": false,
