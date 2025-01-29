@@ -1,5 +1,4 @@
 export const environment = {
-  production: false,
-  // BaseUrl: 'http://localhost:8092',
+  production: true,
   BaseUrl: 'http://golpipruebas.up.railway.app/',
 };
