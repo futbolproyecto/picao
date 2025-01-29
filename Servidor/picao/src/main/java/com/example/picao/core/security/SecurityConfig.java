@@ -1,5 +1,6 @@
 package com.example.picao.core.security;
 
+import com.example.picao.core.config.LoggingFilter;
 import com.example.picao.core.security.jwt.JwtTokenValidator;
 import com.example.picao.core.util.Constants;
 import com.example.picao.user.repository.UserRepository;
@@ -33,6 +34,7 @@ public class SecurityConfig {
     private final JwtUtils jwtUtils;
     private final HandlerExceptionResolver handlerExceptionResolver;
     private final UserRepository userRepository;
+    private final LoggingFilter loggingFilter;
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
@@ -43,6 +45,7 @@ public class SecurityConfig {
                     http.requestMatchers(Constants.UNSAFE_ROUTES).permitAll();
                     http.anyRequest().authenticated();
                 })
+                .addFilterBefore(loggingFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(new JwtTokenValidator(jwtUtils, handlerExceptionResolver, userRepository),
                         UsernamePasswordAuthenticationFilter.class)
                 .addFilter(corsFilter())

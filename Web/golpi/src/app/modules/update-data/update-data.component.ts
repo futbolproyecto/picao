@@ -23,7 +23,7 @@ import { ChangePasswordComponent } from '../change-password/change-password.comp
 import { UsuarioResponseDto } from '../../data/schema/userResponseDto';
 import { UserService } from '../../core/service/user.service';
 import { AutenticacionStoreService } from '../../core/store/auth/autenticacion-store.service';
-import { map, switchMap } from 'rxjs/operators';
+import { filter, map, switchMap } from 'rxjs/operators';
 import { NgSelectModule } from '@ng-select/ng-select';
 
 @Component({
@@ -354,6 +354,7 @@ export class UpdateDataComponent {
       .obtenerSesion$()
       .pipe(
         map((usuario: UsuarioResponseDto) => usuario?.id ?? 0),
+        filter((id: number) => id !== 0),
         switchMap((id: number) => this.userService.getById(id))
       )
       .subscribe({

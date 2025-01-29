@@ -172,12 +172,12 @@ export class AlertsService {
       confirmButtonColor: '#725187',
       cancelButtonColor: '#306a42',
       preConfirm: () => {
-        const password = (
-          document.getElementById('password') as HTMLInputElement
-        ).value;
+        const popup = Swal.getPopup(); 
+        const password = (popup?.querySelector('#password') as HTMLInputElement)
+          ?.value;
         const confirmPassword = (
-          document.getElementById('confirmPassword') as HTMLInputElement
-        ).value;
+          popup?.querySelector('#confirmPassword') as HTMLInputElement
+        )?.value;
 
         if (!password || !confirmPassword) {
           Swal.showValidationMessage(
