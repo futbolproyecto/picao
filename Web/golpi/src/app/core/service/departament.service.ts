@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../environments/enviroment';
+import { environment } from '../../../environments/environment';
 import { GenericDto } from '../models/generic-dto';
 
 @Injectable({
