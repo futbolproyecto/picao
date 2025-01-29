@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 import { UsuarioResponseDto } from '../../../../data/schema/userResponseDto';
 import { AutenticacionStoreService } from '../../../../core/store/auth/autenticacion-store.service';
 import { UserService } from '../../../../core/service/user.service';
-import { map, switchMap } from 'rxjs/operators';
+import { filter, map, switchMap } from 'rxjs/operators';
 import { RouterModule } from '@angular/router';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
@@ -54,7 +54,7 @@ export class SidebarComponent implements OnInit {
     this.usuario$
       .pipe(
         map((usuario: UsuarioResponseDto) => usuario?.id ?? 0),
-
+        filter((id: number) => id !== 0),
         switchMap((id: number) => this.userService.getById(id))
       )
       .subscribe({

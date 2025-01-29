@@ -1,23 +1,23 @@
+/* Contenedor principal */
 .container-matches {
   padding: 15px;
   min-height: calc(100vh - 170px);
   display: flex;
-  flex-flow: column;
+  flex-direction: column;
 }
 
+/* Título */
 h1 {
-  display: flex;
-  font-weight: bold;
-  font-size: 20px;
+  font: bold 20px "Montserrat";
   color: var(--color-secondary);
-  font-family: "Montserrat";
 }
 
+/* Tarjetas */
 .card {
   width: 100%;
   padding-bottom: 30px;
   background: var(--color-surface-container--lowest);
-  box-shadow: 0px 3px 15px var(--color-outline-variant);
+  box-shadow: 0 3px 15px var(--color-outline-variant);
   border-radius: 10px;
 }
 
@@ -25,18 +25,15 @@ h1 {
   padding: 10px;
 }
 
-.container-modulos {
-  display: flex;
-  flex-flow: row;
-  justify-content: flex-start;
-  width: 100%;
-}
-
+/* Módulos y listas */
+.container-modulos,
 ul {
   display: flex;
-  flex-flow: row;
+  flex-direction: row;
   justify-content: flex-start;
+  width: 100%;
   padding: 10px;
+  margin: 0;
 }
 
 li {
@@ -44,27 +41,31 @@ li {
   cursor: pointer;
   text-decoration: none;
   border-bottom: 2px solid var(--color-primary);
-  padding: 10px 30px 10px 30px;
-  font-family: Roboto, sans-serif;
-  font-size: 18px;
+  padding: 10px 30px;
+  font: 18px Roboto, sans-serif;
   color: var(--color-outline-variant);
 }
 
-li:hover {
-  border-bottom: 2px solid var(--color-secondary);
-  color: var(--color-secondary);
-}
-
+li:hover,
 .active-tab {
-  border-bottom: 2px solid var(--color-secondary);
+  border-color: var(--color-secondary);
   color: var(--color-secondary);
 }
 
-.container-pestana {
+/* Transiciones */
+.container-pestana,
+.container-actualizar {
   text-align: center;
   color: var(--color-secondary);
+  transition: opacity 0.3s ease-in-out;
 }
 
+.container-pestana.ng-leave-active,
+.container-actualizar.ng-leave-active {
+  opacity: 0;
+}
+
+/* Texto */
 p {
   font-size: 20px;
 }
@@ -74,15 +75,7 @@ span {
   font-size: 24px;
 }
 
-.container-pestana {
-  transition: opacity 0.3s ease-in-out;
-  opacity: 1;
-}
-
-.container-pestana.ng-leave-active {
-  opacity: 0;
-}
-
+/* Formulario */
 .form-content {
   padding: 0 76px;
 }
@@ -99,70 +92,84 @@ mat-form-field {
   align-items: flex-start;
 }
 
+/* Botón */
 .boton {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: 30px;
+  padding-bottom: 2rem;
 }
 
 .boton .btn {
-  background-color: var(--color-primary);
+  background-color: var(--color-primary-container);
   font-size: 16px;
-  color: var(--color-primary-container);
+  color: var(--color-on-primary-container);
   height: 45px;
-  width: 30%;
+  width: 50%;
   border-radius: 10px;
 }
 
+/* Error */
 .text-error {
   color: var(--color-error);
   font-size: 12px;
   margin-top: 5px;
-  display: block;
 }
 
+/* Formulario en columna */
 form {
   display: flex;
   flex-direction: column;
   gap: 15px;
 }
 
+/* Tabla */
 .contaner-tabla {
   padding: 20px;
 }
 
-.container-pestana,
-.container-actualizar {
-  transition: opacity 0.3s ease-in-out;
-  opacity: 1;
-}
-
-.container-pestana.ng-leave-active,
-.container-actualizar.ng-leave-active {
-  opacity: 0;
-}
-
+/* Celular */
 .container-celular {
   width: 100%;
   display: flex;
 }
 
+.custom-input-celular,
+.custom-input-indicativo {
+  font-size: 15px;
+}
+
 .custom-input-celular {
   width: 80%;
-  font-size: 15px;
   padding-left: 20px;
 }
 
 .custom-input-indicativo {
   width: 24%;
-  font-size: 15px;
 }
 
+/* Estilos para .ng-select */
 .ng-select,
 .ng-select div,
 ::ng-deep.ng-select input,
-.ng-select span {
-  margin-top: 5px !important;
-  font-weight: 400 !important;
-  font-size: 17px !important;
+.ng-select span,
+::ng-deep.ng-select .ng-select-container .ng-value-label,
+::ng-deep.ng-select .ng-arrow-wrapper {
+  font-size: 17px;
+  font-weight: 400;
+}
+
+::ng-deep.ng-select .ng-select-container .ng-placeholder {
+  padding-left: 17px;
+}
+
+::ng-deep.ng-select .ng-select-container .ng-value-label {
+  font-size: 15px;
+  padding-left: 15px;
+  padding-bottom: 20px;
+}
+
+::ng-deep.ng-select .ng-arrow-wrapper {
+  padding-right: 13px;
 }
