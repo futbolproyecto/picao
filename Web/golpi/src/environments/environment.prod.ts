@@ -1,5 +1,5 @@
 export const environment = {
-  production: false,
+  production: true,
   // BaseUrl: 'http://localhost:8092',
   BaseUrl: 'https://golpipruebas.up.railway.app/',
   UnprotectedEndpoints: ['authentication/login'],
