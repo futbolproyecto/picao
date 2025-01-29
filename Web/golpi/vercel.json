@@ -1,19 +1,14 @@
 {
-  "version": 2,
   "builds": [
     {
-      "src": "dist/golpi/browser/index.html",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "dist/golpi/browser/**/*",
-      "use": "@vercel/static"
+      "src": "angular.json",
+      "use": "@vercel/angular"
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "/dist/golpi/browser/$1"
+      "dest": "/dist/golpi/index.html"
     }
   ]
 }
