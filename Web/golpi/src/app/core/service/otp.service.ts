@@ -12,7 +12,7 @@ export class OtpService {
 
   envioEmail(email: OtpRequestDto) {
     const params = new HttpParams().set('email', email.email || '');
-    return this.http.post(this.baseUrl + '/otp/send-email', null, { params });
+    return this.http.post(this.baseUrl + 'otp/send-email', null, { params });
   }
 
   validarEmail(otp: OtpRequestDto) {
@@ -20,7 +20,7 @@ export class OtpService {
       .set('email', otp.email || '')
       .set('otp', otp.otp || '');
 
-    return this.http.post(this.baseUrl + '/otp/validate-email', null, {
+    return this.http.post(this.baseUrl + 'otp/validate-email', null, {
       params,
     });
   }

@@ -132,7 +132,7 @@ export class UpdateDataComponent {
           Validators.pattern(Constant.PATTERN_CORREO),
         ],
       ],
-      indicador: ['', [Validators.required]],
+      indicador: [this.selected, [Validators.required]],
       celular: [
         '',
         [
@@ -336,7 +336,7 @@ export class UpdateDataComponent {
       this.actualizarActivo = true;
       this.cambiarActivo = false;
       this.nombrePestana = 'Actualizar datos';
-      this.limpiarFormulario();
+      this.cargarDatosUsuario();
     } else if (pestana === 'cambiar') {
       this.actualizarActivo = false;
       this.cambiarActivo = true;
@@ -362,7 +362,6 @@ export class UpdateDataComponent {
           if (response?.payload) {
             this.usuario = response.payload;
             this.llenarFormulario();
-            console.log(response);
           }
         },
         error: () => {
