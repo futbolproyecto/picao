@@ -2,7 +2,7 @@
   "version": 2,
   "builds": [
     {
-      "src": "dist/golpi/**/*",
+      "src": "dist/golpi/browser/**/*",
       "use": "@vercel/static"
     }
   ],
