@@ -29,7 +29,9 @@ h1 {
   padding: 10px;
 }
 
-.container-modulos, ul, .lista {
+.container-modulos,
+ul,
+.lista {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -44,7 +46,7 @@ li {
   padding: 10px 30px;
   font: 18px Roboto, sans-serif;
   color: var(--color-outline-variant);
-  border-bottom: 2px solid var(--color-primary);
+  border-bottom: 2px solid var(--color-surface-dim);
 }
 
 li:hover,

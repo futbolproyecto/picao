@@ -13,14 +13,14 @@ export class UserService {
   baseUrl: string = environment.BaseUrl;
 
   getById(id: number): Observable<GenericDto> {
-    return this.http.get<GenericDto>(this.baseUrl + `/user/get-by-id/${id}`);
+    return this.http.get<GenericDto>(this.baseUrl + `user/get-by-id/${id}`);
   }
 
   envioCodigo(otpDto: OtpRequestDto) {
-    return this.http.put(this.baseUrl + `/user/change-password`, otpDto);
+    return this.http.put(this.baseUrl + `user/change-password`, otpDto);
   }
 
   getAll() {
-    return this.http.get<GenericDto>(this.baseUrl + `/user/get-all`);
+    return this.http.get<GenericDto>(this.baseUrl + `user/get-all`);
   }
 }

@@ -11,6 +11,6 @@ export class CityService {
   baseUrl: string = environment.BaseUrl;
 
   getAll() {
-    return this.http.get<GenericDto>(this.baseUrl + `/city/get-all`);
+    return this.http.get<GenericDto>(this.baseUrl + `city/get-all`);
   }
 }

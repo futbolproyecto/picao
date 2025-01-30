@@ -98,7 +98,6 @@ export class EstablishmentComponent {
       .subscribe(
         (res: any) => {
           this.departamentoDTO = res.payload as DepartamentResponseDto[];
-          console.log(this.departamentoDTO);
         },
         (err) => {
           this.alertsService.fireError(err);
@@ -113,8 +112,6 @@ export class EstablishmentComponent {
       .subscribe(
         (res: any) => {
           this.cityDTO = res.payload as CityDto[];
-          console.log(res);
-          console.log(this.cityDTO);
         },
         (err) => {
           this.alertsService.fireError(err);

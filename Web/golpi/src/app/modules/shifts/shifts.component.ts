@@ -88,7 +88,6 @@ export class ShiftsComponent implements OnInit {
       .subscribe(
         (res: any) => {
           this.usuario = res.payload as UsuarioResponseDto[];
-          console.log(this.usuario);
         },
         (err) => {
           this.alertsService.fireError(err);

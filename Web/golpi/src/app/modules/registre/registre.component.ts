@@ -82,7 +82,7 @@ export class RegistreComponent {
           Validators.maxLength(Constant.CAMPO_MAXIMO_50),
         ],
       ],
-      indicador: ['', [Validators.required]],
+      indicador: [this.selected, [Validators.required]],
       celular: [
         '',
         [
