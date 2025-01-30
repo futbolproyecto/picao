@@ -8,6 +8,10 @@
   ],
   "routes": [
     {
+      "src": "/browser/(.*)",
+      "dest": "/browser/index.html"
+    },
+    {
       "src": "/(.*)",
       "dest": "/browser/index.html"
     }
