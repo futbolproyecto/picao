@@ -3,6 +3,7 @@ import 'package:golpi/core/utils/http_service.dart';
 import 'package:golpi/core/constants/constant_endpoints.dart';
 import 'package:golpi/modules/team/models/team_data_model.dart';
 import 'package:golpi/modules/team/models/team_register_model.dart';
+import 'package:golpi/modules/team/models/user_team_model.dart';
 import 'package:golpi/modules/user/models/user_model.dart';
 
 class TeamRepository {
@@ -35,6 +36,15 @@ class TeamRepository {
               '${ConstantEndpoints.getUserByMobileNumber}/$mobileNumer')
           .get();
       return UserModel.fromJson(GeneralModel().jsonStringifyToMaps(response));
+    } on Exception catch (_) {
+      rethrow;
+    }
+  }
+
+  Future<void> addUserTeam(UserTeamModel userTeamModel) async {
+    try {
+      await HttpService(ConstantEndpoints.addUserTeam)
+          .post(userTeamModel.toJson());
     } on Exception catch (_) {
       rethrow;
     }

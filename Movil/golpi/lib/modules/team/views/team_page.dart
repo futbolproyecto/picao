@@ -1,8 +1,9 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:flutter/material.dart';
 import 'package:golpi/core/constants/constants.dart';
 import 'package:golpi/core/routes/app_pages.dart';
 import 'package:golpi/modules/home/controller/home_controller.dart';
+import 'package:golpi/modules/team/controller/team_controller.dart';
 import 'package:golpi/modules/widgets/ui_buttoms.dart';
 import 'package:golpi/modules/widgets/ui_text.dart';
 
@@ -13,6 +14,8 @@ class TeamPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
     final HomeController homeController = Get.find<HomeController>();
+    final TeamController teamController = Get.find<TeamController>();
+
     return Scaffold(
       body: Column(
         children: [
@@ -46,6 +49,8 @@ class TeamPage extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 10),
                       child: InkWell(
                         onTap: () {
+                          teamController.teamId.value =
+                              homeController.listTeams[index].id ?? 0;
                           Get.toNamed(AppPages.manageTeam);
                         },
                         child: Card(

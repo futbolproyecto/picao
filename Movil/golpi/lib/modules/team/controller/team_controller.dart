@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:golpi/core/routes/app_pages.dart';
+import 'package:golpi/modules/team/models/user_team_model.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:golpi/core/constants/constants.dart';
 import 'package:golpi/core/models/option_model.dart';
@@ -31,6 +32,7 @@ class TeamController extends GetxController {
   var listZonesOption = [OptionModel()].obs;
   var valueZoneSelected = ValueNotifier<int?>(null).obs;
   var valueCitySelected = ValueNotifier<int?>(null).obs;
+  var teamId = 0.obs;
 
   var formMobileNumer = FormGroup({
     'mobile_phone': FormControl<String>(
@@ -150,7 +152,7 @@ class TeamController extends GetxController {
                         formMobileNumer.markAllAsTouched();
                       }
                     },
-                    title: 'Validar')
+                    title: 'Buscar')
                 .textButtom(Constants.primaryColor),
             UiButtoms(
                     onPressed: () {
@@ -195,9 +197,9 @@ class TeamController extends GetxController {
             UiButtoms(
                     onPressed: () async {
                       Get.back();
-                      //await getUserByMobileNumber();
+                      addUserTeam('${response.name} ${response.lastName}');
                     },
-                    title: 'Agregar')
+                    title: 'Agregar jugador')
                 .textButtom(Constants.primaryColor),
             UiButtoms(
                     onPressed: () {
@@ -206,6 +208,43 @@ class TeamController extends GetxController {
                     title: 'Cancelar')
                 .textButtom(Colors.black),
           ]);
+    } on CustomException catch (e) {
+      Get.back();
+      UiAlertMessage(Get.context!)
+          .error(message: '${e.error.error}\n${e.error.recommendation}');
+    } on Exception catch (_) {
+      Get.back();
+      UiAlertMessage(Get.context!).error(
+          message:
+              '${ErrorModel().uncontrolledError().error!}\n${ErrorModel().uncontrolledError().recommendation!}');
+    }
+  }
+
+  Future<void> addUserTeam(String playerName) async {
+    try {
+      QuickAlert.show(
+        context: Get.context!,
+        type: QuickAlertType.loading,
+        title: 'Cargando...',
+        text: 'Agregando jugador',
+        barrierDismissible: false,
+        disableBackBtn: true,
+      );
+
+      final idUsuer = await SecureStorage().read(ConstantSecureStorage.idUsuer);
+      await teamRepository.addUserTeam(UserTeamModel(
+        teamId: teamId.value,
+        userId: int.parse(idUsuer!),
+      ));
+
+      Get.back();
+
+      UiAlertMessage(Get.context!).success(
+          actionButtom: () {
+            Get.back();
+          },
+          message:
+              '${playerName.toUpperCase()} ha sido agregado exitosamente al equipo');
     } on CustomException catch (e) {
       Get.back();
       UiAlertMessage(Get.context!)
