@@ -17,6 +17,7 @@ import 'package:golpi/modules/widgets/ui_buttoms.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:golpi/core/constants/constant_secure_storage.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class TeamController extends GetxController {
   final UserRepository userRepository;
@@ -210,8 +211,27 @@ class TeamController extends GetxController {
           ]);
     } on CustomException catch (e) {
       Get.back();
-      UiAlertMessage(Get.context!)
-          .error(message: '${e.error.error}\n${e.error.recommendation}');
+      if (e.error.code == 'E5') {
+        UiAlertMessage(Get.context!)
+            .alert(message: e.error.error ?? '', actions: [
+          UiButtoms(
+                  onPressed: () async {
+                    Get.back();
+                    openWhatsApp(formMobileNumer.control('mobile_phone').value);
+                  },
+                  title: 'Invitar jugador')
+              .textButtom(Constants.primaryColor),
+          UiButtoms(
+                  onPressed: () {
+                    Get.back();
+                  },
+                  title: 'Cerrar')
+              .textButtom(Colors.black),
+        ]);
+      } else {
+        UiAlertMessage(Get.context!)
+            .error(message: '${e.error.error}\n${e.error.recommendation}');
+      }
     } on Exception catch (_) {
       Get.back();
       UiAlertMessage(Get.context!).error(
@@ -254,6 +274,17 @@ class TeamController extends GetxController {
       UiAlertMessage(Get.context!).error(
           message:
               '${ErrorModel().uncontrolledError().error!}\n${ErrorModel().uncontrolledError().recommendation!}');
+    }
+  }
+
+  void openWhatsApp(String phoneNumber) async {
+    final String message = Uri.encodeComponent(
+        "Hola, quiero invitarte a que descargues Golpi, una app para organizar partidos de fútbol. Descarga aquí: https://golpi.com");
+
+    final String whatsappUrl = "https://wa.me/$phoneNumber?text=$message";
+
+    if (!await launchUrl(Uri.parse(whatsappUrl))) {
+      throw Exception('Could not launch $whatsappUrl');
     }
   }
 }

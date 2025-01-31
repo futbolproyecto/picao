@@ -92,7 +92,11 @@ class UiAlertMessage {
         });
   }
 
-  alert({VoidCallback? accion, required String message}) {
+  alert({
+    VoidCallback? accion,
+    required String message,
+    List<Widget>? actions,
+  }) {
     FocusManager.instance.primaryFocus!.unfocus();
     showDialog(
         context: context,
@@ -120,18 +124,19 @@ class UiAlertMessage {
                 child: Text(message, textAlign: TextAlign.center),
               ),
             ),
-            actions: [
-              TextButton(
-                style: TextButton.styleFrom(
-                  textStyle: Theme.of(context).textTheme.labelLarge,
-                ),
-                child:
-                    const Text('Cerrar', style: TextStyle(color: Colors.black)),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
+            actions: actions ??
+                [
+                  TextButton(
+                    style: TextButton.styleFrom(
+                      textStyle: Theme.of(context).textTheme.labelLarge,
+                    ),
+                    child: const Text('Cerrar',
+                        style: TextStyle(color: Colors.black)),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
           );
         });
   }
