@@ -13,7 +13,7 @@ export const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
-    // canActivate: [noAutenticacion],
+    canActivate: [noAutenticacion],
   },
   {
     path: 'contactenos',
@@ -22,7 +22,7 @@ export const routes: Routes = [
   {
     path: 'home',
     component: HomeComponent,
-    // canMatch: [autenticacionGuard],
+    canMatch: [autenticacionGuard],
     children: [
       {
         path: 'dashboard',

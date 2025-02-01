@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, HostListener, inject, OnInit } from '@angular/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 import { UsuarioResponseDto } from '../../../../data/schema/userResponseDto';
 import { AutenticacionStoreService } from '../../../../core/store/auth/autenticacion-store.service';
 import { UserService } from '../../../../core/service/user.service';
-import { map, switchMap } from 'rxjs/operators';
+import { filter, map, switchMap } from 'rxjs/operators';
 import { RouterModule } from '@angular/router';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
@@ -37,6 +37,8 @@ export class SidebarComponent implements OnInit {
   public mostrarSubmodulosUsuario: boolean = false;
   public nombreMostrar: string = '';
   public menuExpandido: boolean = false;
+  public menuMobile: boolean = false;
+  public menuAbierto = false;
 
   constructor() {
     this.usuario$ = this.autenticacionStoreService.obtenerSesion$();
@@ -44,6 +46,16 @@ export class SidebarComponent implements OnInit {
 
   ngOnInit() {
     this.consultarUsuario();
+    this.checkIfMobile();
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: Event) {
+    this.checkIfMobile();
+  }
+
+  private checkIfMobile(): void {
+    this.menuMobile = window.innerWidth <= 768;
   }
 
   toggleSubmodulosUsuario(): void {
@@ -54,7 +66,7 @@ export class SidebarComponent implements OnInit {
     this.usuario$
       .pipe(
         map((usuario: UsuarioResponseDto) => usuario?.id ?? 0),
-
+        filter((id: number) => id !== 0),
         switchMap((id: number) => this.userService.getById(id))
       )
       .subscribe({
@@ -65,5 +77,15 @@ export class SidebarComponent implements OnInit {
           }
         },
       });
+  }
+
+  toggleMenuMobile(): void {
+    this.menuMobile = !this.menuMobile;
+  }
+
+  closeMenuMobile(): void {
+    if (window.innerWidth <= 768) {
+      this.menuMobile = false;
+    }
   }
 }

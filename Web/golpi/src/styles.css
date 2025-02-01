@@ -13,9 +13,8 @@
 
 html,
 body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
+  overflow-x: hidden;
+  width: 100%;
 }
 
 @font-face {

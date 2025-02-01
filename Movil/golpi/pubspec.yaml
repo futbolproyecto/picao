@@ -1,0 +1,60 @@
+name: golpi
+description: "A new Flutter project."
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: ^3.5.4
+
+dependency_overrides:
+  win32: ^5.8.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  get: ^4.6.6
+  reactive_forms: ^17.0.1
+  reactive_date_time_picker: ^4.0.0
+  reactive_dropdown_search: ^5.0.5
+  dropdown_search: ^6.0.1
+  http: ^1.2.2
+  intl: ^0.19.0
+  quickalert: ^1.1.0
+  responsive_framework: ^0.2.0
+  contained_tab_bar_view: ^0.8.0
+  flutter_secure_storage: ^9.2.2
+  url_launcher: ^6.3.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+  flutter_launcher_icons: ^0.14.3
+
+flutter_icons:
+  adaptive_icon_background: "assets/img/golpilogo.png"
+  android: "launcher_icon"
+  image_path: "assets/img/golpilogo.png"
+  ios: true
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/img/
+    - assets/fonts/
+
+  fonts:
+    - family: Montserrat
+      fonts:
+        - asset: assets/fonts/Montserrat-Regular.ttf
+        - asset: assets/fonts/Montserrat-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Montserrat-Italic.ttf
+          style: italic
+    - family: Helvetica
+      fonts:
+        - asset: assets/fonts/Helvetica-Regular.ttf
+        - asset: assets/fonts/Helvetica-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Helvetica-Italic.ttf
+          style: italic

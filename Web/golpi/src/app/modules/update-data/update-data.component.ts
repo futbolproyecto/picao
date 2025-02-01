@@ -23,7 +23,7 @@ import { ChangePasswordComponent } from '../change-password/change-password.comp
 import { UsuarioResponseDto } from '../../data/schema/userResponseDto';
 import { UserService } from '../../core/service/user.service';
 import { AutenticacionStoreService } from '../../core/store/auth/autenticacion-store.service';
-import { map, switchMap } from 'rxjs/operators';
+import { filter, map, switchMap } from 'rxjs/operators';
 import { NgSelectModule } from '@ng-select/ng-select';
 
 @Component({
@@ -132,7 +132,7 @@ export class UpdateDataComponent {
           Validators.pattern(Constant.PATTERN_CORREO),
         ],
       ],
-      indicador: ['', [Validators.required]],
+      indicador: [this.selected, [Validators.required]],
       celular: [
         '',
         [
@@ -336,7 +336,7 @@ export class UpdateDataComponent {
       this.actualizarActivo = true;
       this.cambiarActivo = false;
       this.nombrePestana = 'Actualizar datos';
-      this.limpiarFormulario();
+      this.cargarDatosUsuario();
     } else if (pestana === 'cambiar') {
       this.actualizarActivo = false;
       this.cambiarActivo = true;
@@ -354,6 +354,7 @@ export class UpdateDataComponent {
       .obtenerSesion$()
       .pipe(
         map((usuario: UsuarioResponseDto) => usuario?.id ?? 0),
+        filter((id: number) => id !== 0),
         switchMap((id: number) => this.userService.getById(id))
       )
       .subscribe({
@@ -361,7 +362,6 @@ export class UpdateDataComponent {
           if (response?.payload) {
             this.usuario = response.payload;
             this.llenarFormulario();
-            console.log(response);
           }
         },
         error: () => {
