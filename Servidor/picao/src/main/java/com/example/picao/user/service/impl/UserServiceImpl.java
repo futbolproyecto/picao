@@ -124,9 +124,16 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         try {
 
             UserEntity userEntity = userRepository.findByMobileNumber(mobileNumber)
-                    .orElseThrow(() -> new AppException(ErrorMessages.USER_NOT_EXIST, HttpStatus.NOT_FOUND));
+                    .orElseThrow(() -> new AppException(ErrorMessages.PHONE_NUMBER_NOT_EXIST, HttpStatus.NOT_FOUND));
 
-            return MAPPER.toUserResponseDTO(userEntity);
+            UserResponseDTO userResponseDTO = MAPPER.toUserResponseDTO(userEntity);
+
+            if (userEntity.getPlayerProfile() == null) {
+                throw new AppException(ErrorMessages.USER_WITHOUT_PROFILE, HttpStatus.NOT_FOUND);
+            }
+            userResponseDTO.setNickName(userEntity.getPlayerProfile().getNickname());
+
+            return userResponseDTO;
 
         } catch (AppException e) {
             throw new AppException(e.getErrorMessages(), e.getHttpStatus());

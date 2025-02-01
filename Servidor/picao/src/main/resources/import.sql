@@ -28,3 +28,6 @@ INSERT INTO dominant_foot (id,name) VALUES (1,'Derecho'),(2,'Izquierdo'),(3,'Amb
 
 -- crear equipos
 INSERT INTO teams (name,zone_id,city_id,owner_user_id) VALUES ('Los cebos de play',3,4,1),('Los recebos de play',3,4,1);
+
+-- crear perfil de jugador
+INSERT INTO players_profile (city_id,dominant_foot_id, position_player_id,stature,user_id,weight,zone_id,nickname) VALUES (1,1,1,170,1,80,1,'golpiMaster');

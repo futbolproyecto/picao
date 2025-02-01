@@ -20,4 +20,5 @@ public class UserResponseDTO {
     String email;
     String username;
     LocalDate dateOfBirth;
+    String nickName;
 }
