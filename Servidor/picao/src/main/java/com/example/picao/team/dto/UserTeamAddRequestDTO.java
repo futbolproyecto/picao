@@ -3,7 +3,7 @@ package com.example.picao.team.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.*;
 
-public record UserTeamAddDTO(
+public record UserTeamAddRequestDTO(
         @NotNull
         @JsonProperty("team_id")
         Integer teamId,
