@@ -103,6 +103,17 @@ class ModalSearchUserPhonePage {
                         text: userModel.mobileNumber,
                       ).paragraphBlack(),
                     ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      UiText(
+                        text: 'Alias: ',
+                      ).paragraphSemiBold(),
+                      UiText(
+                        text: userModel.nickName ?? '',
+                      ).paragraphBlack(),
+                    ],
                   )
                 ],
               ),

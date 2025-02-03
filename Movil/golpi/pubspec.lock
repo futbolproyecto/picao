@@ -421,14 +421,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.0"
-  reactive_dropdown_search:
-    dependency: "direct main"
-    description:
-      name: reactive_dropdown_search
-      sha256: e329d1b23bcc364440fecedebab6cfaff8dbd2e068ce01129ff76088cd732961
-      url: "https://pub.dev"
-    source: hosted
-    version: "5.0.5"
   reactive_forms:
     dependency: "direct main"
     description:

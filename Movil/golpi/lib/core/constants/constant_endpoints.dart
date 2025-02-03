@@ -5,7 +5,7 @@ class ConstantEndpoints {
   static String createUser = '/user/create';
   static String sendOtpMobileNumber = '/otp/send-mobilenumber';
   static String sendOtpEmail = '/otp/send-email';
-  static String validateOtp = '/otp/validate';
+  static String validateOtp = '/otp/validate-mobilenumber';
   static String validateOtpEmail = '/otp/validate-email';
   static String changePassword = '/user/change-password';
   static String getUserById = '/user/get-by-id';

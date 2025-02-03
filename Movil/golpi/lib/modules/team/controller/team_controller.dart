@@ -136,7 +136,7 @@ class TeamController extends GetxController {
         barrierDismissible: false,
         disableBackBtn: true,
       );
-//1234567890
+
       Get.back();
       UiAlertMessage(Get.context!).custom(
           child: ModalSearchUserPhonePage().modalUserPhone(
@@ -211,7 +211,7 @@ class TeamController extends GetxController {
           ]);
     } on CustomException catch (e) {
       Get.back();
-      if (e.error.code == 'E5') {
+      if (e.error.code == 'E9') {
         UiAlertMessage(Get.context!)
             .alert(message: e.error.error ?? '', actions: [
           UiButtoms(

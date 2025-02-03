@@ -4,6 +4,7 @@ class UserModel {
   final String email;
   final String mobileNumber;
   //final DateTime dateOfBirth;
+  final String? nickName;
 
   UserModel({
     required this.name,
@@ -11,6 +12,7 @@ class UserModel {
     required this.email,
     required this.mobileNumber,
     //required this.dateOfBirth,
+    this.nickName,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
@@ -19,7 +21,8 @@ class UserModel {
       lastName: json['lastName'],
       email: json['email'],
       mobileNumber: json['mobileNumber'],
-      //dateOfBirth: json['date_of_birth'],
+      //dateOfBirth: json['dateOfBirth'],
+      nickName: json['nickName'],
     );
   }
 
@@ -30,6 +33,7 @@ class UserModel {
       'email': email,
       'mobileNumber': mobileNumber,
       //'date_of_birth': Utility().formatDate(dateOfBirth),
+      'nickName': nickName,
     };
   }
 }

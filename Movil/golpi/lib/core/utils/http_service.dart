@@ -95,7 +95,7 @@ class HttpService {
 
   Future<Object?> putRequesParam(Map<String, String>? parameters) async {
     try {
-      final response = await http.post(
+      final response = await http.put(
         Uri.http(ConstantEndpoints.baseUrl, endPoint, parameters),
         headers: {'Content-Type': 'application/json'},
       ).timeout(const Duration(seconds: 20));
