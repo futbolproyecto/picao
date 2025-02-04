@@ -26,7 +26,7 @@ class TeamController extends GetxController {
 
   @override
   void onReady() async {
-    loadData();
+    //loadData();
     super.onReady();
   }
 

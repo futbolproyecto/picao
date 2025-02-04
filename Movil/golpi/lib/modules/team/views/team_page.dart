@@ -47,52 +47,63 @@ class TeamPage extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: InkWell(
-                        onTap: () {
-                          teamController.teamId.value =
-                              homeController.listTeams[index].id ?? 0;
-                          Get.toNamed(AppPages.manageTeam);
-                        },
-                        child: Card(
-                          margin: const EdgeInsets.symmetric(vertical: 10),
-                          color: Colors.white,
-                          elevation: 3,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Container(
-                                width: 80,
-                                height: 80,
-                                margin: const EdgeInsets.symmetric(
-                                    vertical: 10, horizontal: 5),
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    border: Border.all(
-                                      color: Constants.secondaryColor,
-                                      width: 3,
-                                    )),
-                                child: ClipOval(
-                                  child: Image.asset(
-                                    'assets/img/teamicon.jpg',
-                                    width: 70,
-                                    height: 70,
-                                  ),
-                                ),
+                      child: Card(
+                        elevation: 3,
+                        child: ListTile(
+                          leading: Container(
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                border: Border.all(
+                                  color: Constants.secondaryColor,
+                                  width: 3,
+                                )),
+                            child: ClipOval(
+                              child: Image.asset(
+                                'assets/img/teamicon.jpg',
+                                width: 70,
+                                height: 70,
+                                fit: BoxFit.scaleDown,
                               ),
-                              UiText(
-                                      text: homeController
-                                              .listTeams[index].name ??
-                                          '')
-                                  .paragraphBlack(),
-                              const Icon(Icons.arrow_forward_ios_outlined)
+                            ),
+                          ),
+                          title: UiText(
+                                  text: homeController.listTeams[index].name ??
+                                      '')
+                              .title(),
+                          subtitle: Column(
+                            children: [
+                              _buildInfoRow('Posición:',
+                                  '${homeController.listTeams[index].positionPlayer}'),
+                              _buildInfoRow('Cantidad jugadores:',
+                                  '${homeController.listTeams[index].numberOfPlayers}'),
                             ],
                           ),
+                          trailing: const Icon(Icons.arrow_forward_ios_outlined,
+                              color: Colors.grey),
+                          onTap: () {
+                            teamController.teamId.value =
+                                homeController.listTeams[index].id ?? 0;
+                            Get.toNamed(AppPages.manageTeam);
+                          },
                         ),
                       ),
                     );
                   }),
             ),
           )
+        ],
+      ),
+    );
+  }
+
+  Widget _buildInfoRow(String label, String value) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 2),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(label, style: const TextStyle(fontWeight: FontWeight.w600)),
+          Text(value, style: const TextStyle(fontWeight: FontWeight.bold)),
         ],
       ),
     );

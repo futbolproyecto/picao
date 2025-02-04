@@ -15,7 +15,7 @@ class ConstantEndpoints {
   static String getAllDominantFoot = '/dominant-foot/get-all';
   static String createPlayerProfile = '/player-profile/create';
   static String createTeam = '/team/create';
-  static String getTeamByUserId = '/team/get-by-user-id';
+  static String getTeamByUserId = '/team/get-teams-by-user-id';
   static String addUserTeam = '/team/add-user-team';
 
   static List<String> get blackList => [
