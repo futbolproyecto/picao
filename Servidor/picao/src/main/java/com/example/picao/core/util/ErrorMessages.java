@@ -54,7 +54,10 @@ public enum ErrorMessages {
             "E16"),
     USER_WITHOUT_PROFILE("El usuario aun no a registrado el perfil.",
             "Por favor, complete la informacion de su perfil",
-            "E17");
+            "E17"),
+    USER_OWNER("No puedes salir del equipo porque eres el Administrador.",
+            "Asigna otro Adminsitrador antes de salir",
+            "E18");
     private final String message;
     private final String recommendation;
     private final String code;

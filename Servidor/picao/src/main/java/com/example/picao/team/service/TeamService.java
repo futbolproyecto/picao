@@ -19,4 +19,6 @@ public interface TeamService {
 
     TeamResponseDTO getTeamByUserId(int userId, int teamId);
 
+    String leaveTheTeam(int userdId, int teamId);
+
 }

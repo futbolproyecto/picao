@@ -43,4 +43,10 @@ public class TeamController {
         return GenericResponseDTO.genericResponse(teamService.getTeamByUserId(userId, teamId));
     }
 
+    @DeleteMapping(value = "leave-the-team/{userId}/{teamId}")
+    public ResponseEntity<GenericResponseDTO> leaveTheTeam(@PathVariable int userId, @PathVariable int teamId) {
+        return GenericResponseDTO.genericResponse(teamService.leaveTheTeam(userId, teamId));
+    }
+
+
 }

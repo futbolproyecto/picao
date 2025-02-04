@@ -20,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 import org.mapstruct.factory.Mappers;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.List;
@@ -37,7 +38,7 @@ public class TeamServiceImpl implements TeamService {
     private final CityRepository cityRepository;
     private final TeamRepository teamRepository;
 
-
+    @Transactional()
     @Override
     public Team createTeam(CreateTeamRequestDTO requestDTO) {
 
@@ -65,6 +66,7 @@ public class TeamServiceImpl implements TeamService {
 
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<TeamResponseDTO> getByOwnerUserId(int userId) {
         try {
@@ -79,6 +81,7 @@ public class TeamServiceImpl implements TeamService {
         }
     }
 
+    @Transactional()
     @Override
     public TeamResponseDTO addUserToTeam(UserTeamAddRequestDTO userTeamAddRequestDTO) {
         try {
@@ -104,6 +107,7 @@ public class TeamServiceImpl implements TeamService {
     /**
      * metodo para buscar los equipos al cual esta asigando un jugador
      */
+    @Transactional(readOnly = true)
     @Override
     public List<TeamResponseDTO> getTeamsByUserId(int userId) {
         try {
@@ -126,7 +130,7 @@ public class TeamServiceImpl implements TeamService {
     /***
      * metodo para obtener
      * */
-
+    @Transactional(readOnly = true)
     @Override
     public TeamResponseDTO getTeamByUserId(int userId, int teamId) {
         try {
@@ -143,6 +147,23 @@ public class TeamServiceImpl implements TeamService {
                                             .build())
                             .collect(Collectors.toSet())).build();
 
+
+        } catch (AppException e) {
+            throw new AppException(e.getErrorMessages(), e.getHttpStatus());
+
+        }
+    }
+
+    @Transactional()
+    @Override
+    public String leaveTheTeam(int userdId, int teamId) {
+        try {
+            if (teamRepository.existsByOwnerUserIdAndId(userdId, teamId)) {
+                throw new AppException(ErrorMessages.USER_OWNER, HttpStatus.BAD_REQUEST);
+            }
+
+            teamRepository.leaveTheTeam(userdId, teamId);
+            return "Has salido exitosamente del equipo: " + teamId;
 
         } catch (AppException e) {
             throw new AppException(e.getErrorMessages(), e.getHttpStatus());

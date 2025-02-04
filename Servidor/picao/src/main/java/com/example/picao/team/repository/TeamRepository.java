@@ -4,6 +4,7 @@ import com.example.picao.team.dto.TeamResponseDTO;
 import com.example.picao.team.entity.Team;
 import jakarta.persistence.Tuple;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
@@ -51,5 +52,13 @@ public interface TeamRepository extends JpaRepository<Team, Integer> {
             """, nativeQuery = true)
     List<Tuple> findTeamsByUserId(int userId, int teamId);
 
+    @Modifying
+    @Query(value = """
+            DELETE FROM team_players tp WHERE tp.team_id = :teamId and tp.player_id = :userId
+            """, nativeQuery = true)
+    void leaveTheTeam(int userId, int teamId);
+
+    @Query
+    Boolean existsByOwnerUserIdAndId(int userId, int teamId);
 
 }
