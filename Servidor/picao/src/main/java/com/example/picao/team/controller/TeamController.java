@@ -33,14 +33,14 @@ public class TeamController {
         return GenericResponseDTO.genericResponse(teamService.addUserToTeam(userTeamAddRequestDTO));
     }
 
-    @GetMapping(value = "get-by-user-id/{userId}")
-    public ResponseEntity<GenericResponseDTO> getByUserId(@PathVariable int userId) {
-        return GenericResponseDTO.genericResponse(teamService.getByUserId(userId));
-    }
-
     @GetMapping(value = "get-teams-by-user-id/{userId}")
     public ResponseEntity<GenericResponseDTO> getTeamsByUserId(@PathVariable int userId) {
         return GenericResponseDTO.genericResponse(teamService.getTeamsByUserId(userId));
+    }
+
+    @GetMapping(value = "get-team-by-user-id/{userId}/{teamId}")
+    public ResponseEntity<GenericResponseDTO> getTeamsByUserId(@PathVariable int userId, @PathVariable int teamId) {
+        return GenericResponseDTO.genericResponse(teamService.getTeamByUserId(userId, teamId));
     }
 
 }

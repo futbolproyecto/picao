@@ -11,6 +11,7 @@ import com.example.picao.team.entity.Team;
 import com.example.picao.team.mapper.TeamMapper;
 import com.example.picao.team.repository.TeamRepository;
 import com.example.picao.team.service.TeamService;
+import com.example.picao.user.dto.UserResponseDTO;
 import com.example.picao.user.entity.UserEntity;
 import com.example.picao.user.repository.UserRepository;
 import com.example.picao.zone.repository.ZoneRepository;
@@ -20,10 +21,10 @@ import org.mapstruct.factory.Mappers;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor()
 @Service
@@ -104,7 +105,7 @@ public class TeamServiceImpl implements TeamService {
      * metodo para buscar los equipos al cual esta asigando un jugador
      */
     @Override
-    public List<TeamResponseDTO> getByUserId(int userId) {
+    public List<TeamResponseDTO> getTeamsByUserId(int userId) {
         try {
 
             return teamRepository.findByUserId(userId).stream().map(respuesta ->
@@ -115,22 +116,33 @@ public class TeamServiceImpl implements TeamService {
                             .positionPlayer(respuesta.get("position_player").toString())
                             .build()
             ).toList();
-            
+
         } catch (AppException e) {
             throw new AppException(e.getErrorMessages(), e.getHttpStatus());
 
         }
     }
 
+    /***
+     * metodo para obtener
+     * */
+
     @Override
-    public List<TeamResponseDTO> getTeamsByUserId(int userId) {
+    public TeamResponseDTO getTeamByUserId(int userId, int teamId) {
         try {
 
-            List<Tuple> teamsUser = teamRepository.findTeamsByUserId(userId);
+            List<Tuple> teamsUser = teamRepository.findTeamsByUserId(userId, teamId);
 
-            System.out.println(teamsUser);
+            return TeamResponseDTO.builder()
+                    .id(Integer.parseInt(teamsUser.get(0).get("team_id").toString()))
+                    .name(teamsUser.get(0).get("team_name").toString())
+                    .players(teamsUser.stream().map(
+                                    player -> UserResponseDTO.builder()
+                                            .nickName(player.get("nick_name").toString())
+                                            .positionPlayer(player.get("position_player").toString())
+                                            .build())
+                            .collect(Collectors.toSet())).build();
 
-            return new ArrayList<>();
 
         } catch (AppException e) {
             throw new AppException(e.getErrorMessages(), e.getHttpStatus());

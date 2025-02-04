@@ -33,7 +33,7 @@ INSERT INTO teams (name,zone_id,city_id,owner_user_id) VALUES ('Los cebos de pla
 
 -- crear perfil de jugador
 INSERT INTO players_profile (city_id,dominant_foot_id, position_player_id,stature,user_id,weight,zone_id,nickname) VALUES (1,1,1,170,1,80,1,'golpiMaster');
-INSERT INTO players_profile (city_id,dominant_foot_id, position_player_id,stature,user_id,weight,zone_id,nickname) VALUES (1,1,1,170,2,80,1,'oliverAtom');
+INSERT INTO players_profile (city_id,dominant_foot_id, position_player_id,stature,user_id,weight,zone_id,nickname) VALUES (1,1,3,170,2,80,1,'oliverAtom');
 
 -- asignar jugador a equipos
 INSERT INTO team_players (player_id, team_id) VALUES (1,1),(1,2),(2,2);

@@ -27,19 +27,10 @@ public class TeamResponseDTO {
     Integer numberOfPlayers;
     @JsonProperty("position_player")
     String positionPlayer;
-    UserResponseDTO player;
-
 
     public TeamResponseDTO(Integer id, String name) {
         this.id = id;
         this.name = name;
     }
-
-    public TeamResponseDTO(Integer id, String name, Set<UserResponseDTO> players) {
-        this.id = id;
-        this.name = name;
-        this.players = players;
-    }
-
 
 }

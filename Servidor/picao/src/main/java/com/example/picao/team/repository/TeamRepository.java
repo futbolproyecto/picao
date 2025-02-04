@@ -36,15 +36,20 @@ public interface TeamRepository extends JpaRepository<Team, Integer> {
             """, nativeQuery = true)
     List<Tuple> findByUserId(int userId);
 
-    @Query(value = "SELECT t.id AS team_id, t.name AS team_name, ps.name AS position, pp.nickname AS nickname " +
-            "FROM teams t " +
-            "JOIN team_players tp ON t.id = tp.team_id " +
-            "JOIN users p ON tp.player_id = p.id " +
-            "JOIN players_profile pp ON p.id = pp.user_id " +
-            "JOIN position_players ps ON pp.position_player_id = ps.id " +
-            "WHERE p.id = :userId ORDER BY t.name ASC",
-            nativeQuery = true)
-    List<Tuple> findTeamsByUserId(int userId);
+    @Query(value = """
+            SELECT t.id AS team_id,
+                   t.name AS team_name,
+                   u.name AS nick_name,
+                   pos.name AS position_player
+            FROM teams t
+            JOIN team_players tp ON tp.team_id = t.id
+            JOIN users u ON u.id = tp.player_id
+            JOIN players_profile pp ON u.id = pp.user_id
+            JOIN position_players pos ON pos.id = pp.position_player_id
+            WHERE tp.team_id IN (SELECT team_id FROM team_players WHERE player_id = :userId AND team_id = :teamId)
+            ORDER BY t.name, u.name
+            """, nativeQuery = true)
+    List<Tuple> findTeamsByUserId(int userId, int teamId);
 
 
 }
