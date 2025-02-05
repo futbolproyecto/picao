@@ -51,25 +51,29 @@ class TeamPage extends StatelessWidget {
                         elevation: 3,
                         child: ListTile(
                           leading: Container(
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                border: Border.all(
-                                  color: Constants.secondaryColor,
-                                  width: 3,
-                                )),
-                            child: ClipOval(
-                              child: Image.asset(
-                                'assets/img/teamicon.jpg',
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                    color: Constants.secondaryColor,
+                                    width: 3,
+                                  )),
+                              child: Container(
                                 width: 70,
                                 height: 70,
-                                fit: BoxFit.scaleDown,
-                              ),
-                            ),
-                          ),
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    border: Border.all(
+                                      color: Constants.secondaryColor,
+                                      width: 3,
+                                    )),
+                                child: ClipOval(
+                                  child: Image.asset('assets/img/teamicon.jpg'),
+                                ),
+                              )),
                           title: UiText(
                                   text: homeController.listTeams[index].name ??
                                       '')
-                              .title(),
+                              .phraseSemiBold(),
                           subtitle: Column(
                             children: [
                               _buildInfoRow('Posición:',
@@ -83,6 +87,8 @@ class TeamPage extends StatelessWidget {
                           onTap: () {
                             teamController.teamId.value =
                                 homeController.listTeams[index].id ?? 0;
+                            teamController.getTeamsByUserId(
+                                homeController.listTeams[index].id ?? 0);
                             Get.toNamed(AppPages.manageTeam);
                           },
                         ),
@@ -102,8 +108,8 @@ class TeamPage extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label, style: const TextStyle(fontWeight: FontWeight.w600)),
-          Text(value, style: const TextStyle(fontWeight: FontWeight.bold)),
+          UiText(text: label).paragraphSemiBold(),
+          UiText(text: value).phraseBlack()
         ],
       ),
     );

@@ -14,6 +14,7 @@ class RegisterTeamPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final TeamController teamController = Get.find<TeamController>();
+    teamController.loadDataTeam();
 
     return Scaffold(
       appBar: AppBar(
