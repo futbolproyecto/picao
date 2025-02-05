@@ -18,22 +18,22 @@ class UserModel {
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
       name: json['name'],
-      lastName: json['lastName'],
+      lastName: json['last_name'],
       email: json['email'],
-      mobileNumber: json['mobileNumber'],
+      mobileNumber: json['mobile_number'],
       //dateOfBirth: json['dateOfBirth'],
-      nickName: json['nickName'],
+      nickName: json['username'],
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
       'name': name,
-      'lastName': lastName,
+      'last_name': lastName,
       'email': email,
-      'mobileNumber': mobileNumber,
+      'mobile_number': mobileNumber,
       //'date_of_birth': Utility().formatDate(dateOfBirth),
-      'nickName': nickName,
+      'username': nickName,
     };
   }
 }

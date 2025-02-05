@@ -2,6 +2,7 @@ import 'package:golpi/core/utils/general_model.dart';
 import 'package:golpi/core/utils/http_service.dart';
 import 'package:golpi/core/constants/constant_endpoints.dart';
 import 'package:golpi/modules/team/models/team_data_model.dart';
+import 'package:golpi/modules/team/models/team_model.dart';
 import 'package:golpi/modules/team/models/team_register_model.dart';
 import 'package:golpi/modules/team/models/user_team_model.dart';
 import 'package:golpi/modules/user/models/user_model.dart';
@@ -19,7 +20,7 @@ class TeamRepository {
   Future<List<TeamDataModel>> getTeamByUserId(int idUsuer) async {
     try {
       final response =
-          await HttpService('${ConstantEndpoints.getTeamByUserId}/$idUsuer')
+          await HttpService('${ConstantEndpoints.getTeamsByUserId}/$idUsuer')
               .get();
 
       return (GeneralModel().jsonStringifyToList(response))
@@ -45,6 +46,18 @@ class TeamRepository {
     try {
       await HttpService(ConstantEndpoints.addUserTeam)
           .post(userTeamModel.toJson());
+    } on Exception catch (_) {
+      rethrow;
+    }
+  }
+
+  Future<TeamModel> getTeamsByUserId(int userId, int teamId) async {
+    try {
+      final response = await HttpService(
+              '${ConstantEndpoints.getTeamByUserId}/$userId/$teamId')
+          .get();
+
+      return TeamModel.fromJson(GeneralModel().jsonStringifyToMaps(response));
     } on Exception catch (_) {
       rethrow;
     }
