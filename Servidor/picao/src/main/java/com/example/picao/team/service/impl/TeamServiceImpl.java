@@ -22,6 +22,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -40,7 +41,7 @@ public class TeamServiceImpl implements TeamService {
 
     @Transactional()
     @Override
-    public Team createTeam(CreateTeamRequestDTO requestDTO) {
+    public TeamResponseDTO createTeam(CreateTeamRequestDTO requestDTO) {
 
         try {
 
@@ -55,10 +56,14 @@ public class TeamServiceImpl implements TeamService {
             zoneRepository.findById(requestDTO.zoneId()).orElseThrow(
                     () -> new AppException(ErrorMessages.GENERIC_NOT_EXIST, HttpStatus.NOT_FOUND));
 
-            userRepository.findById(requestDTO.userId()).orElseThrow(
+            UserEntity user = userRepository.findById(requestDTO.userId()).orElseThrow(
                     () -> new AppException(ErrorMessages.GENERIC_NOT_EXIST, HttpStatus.NOT_FOUND));
+            Team team = MAPPER.toTeam(requestDTO);
 
-            return teamRepository.save(MAPPER.toTeam(requestDTO));
+            team.setPlayers(new HashSet<>(Collections.singleton(user)));
+
+            return MAPPER.toTeamResponseDTO(teamRepository.save(team));
+
 
         } catch (AppException e) {
             throw new AppException(e.getErrorMessages(), e.getHttpStatus());

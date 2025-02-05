@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface TeamService {
 
-    Team createTeam(CreateTeamRequestDTO requestDTO);
+    TeamResponseDTO createTeam(CreateTeamRequestDTO requestDTO);
 
     List<TeamResponseDTO> getByOwnerUserId(int userId);
 
