@@ -40,7 +40,9 @@ public interface TeamRepository extends JpaRepository<Team, Integer> {
     @Query(value = """
             SELECT t.id AS team_id,
                    t.name AS team_name,
-                   u.name AS nick_name,
+                   pp.nickname AS nick_name,
+                   u.name as user_name,
+                   u.last_name,
                    pos.name AS position_player
             FROM teams t
             JOIN team_players tp ON tp.team_id = t.id

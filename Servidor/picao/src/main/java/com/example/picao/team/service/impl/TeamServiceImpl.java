@@ -133,7 +133,7 @@ public class TeamServiceImpl implements TeamService {
     }
 
     /***
-     * metodo para obtener
+     * metodo para obtener el equipo al cual hago parte y la lista de jugadores
      * */
     @Transactional(readOnly = true)
     @Override
@@ -147,6 +147,8 @@ public class TeamServiceImpl implements TeamService {
                     .name(teamsUser.get(0).get("team_name").toString())
                     .players(teamsUser.stream().map(
                                     player -> UserResponseDTO.builder()
+                                            .name(player.get("user_name").toString())
+                                            .lastName(player.get("last_name").toString())
                                             .nickName(player.get("nick_name").toString())
                                             .positionPlayer(player.get("position_player").toString())
                                             .build())

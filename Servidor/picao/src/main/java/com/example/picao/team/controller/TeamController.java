@@ -38,13 +38,15 @@ public class TeamController {
         return GenericResponseDTO.genericResponse(teamService.getTeamsByUserId(userId));
     }
 
-    @GetMapping(value = "get-team-by-user-id/{userId}/{teamId}")
-    public ResponseEntity<GenericResponseDTO> getTeamsByUserId(@PathVariable int userId, @PathVariable int teamId) {
+    @GetMapping(value = "get-team-by-user-id")
+    public ResponseEntity<GenericResponseDTO> getTeamsByUserId(
+            @RequestParam("user-id") int userId, @RequestParam("team-id") int teamId) {
         return GenericResponseDTO.genericResponse(teamService.getTeamByUserId(userId, teamId));
     }
 
-    @DeleteMapping(value = "leave-the-team/{userId}/{teamId}")
-    public ResponseEntity<GenericResponseDTO> leaveTheTeam(@PathVariable int userId, @PathVariable int teamId) {
+    @DeleteMapping(value = "leave-the-team")
+    public ResponseEntity<GenericResponseDTO> leaveTheTeam(
+            @RequestParam("user-id") int userId, @RequestParam("team-id") int teamId) {
         return GenericResponseDTO.genericResponse(teamService.leaveTheTeam(userId, teamId));
     }
 
