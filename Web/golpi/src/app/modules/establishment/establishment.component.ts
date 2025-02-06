@@ -229,6 +229,7 @@ export class EstablishmentComponent {
       console.log('Se guardo los datos');
       this.limpiarFormulario();
     } else {
+      this.formularioEstablecimiento.markAllAsTouched();
       this.alertsService.toast('error', Constant.ERROR_FORM_INCOMPLETO);
     }
   }

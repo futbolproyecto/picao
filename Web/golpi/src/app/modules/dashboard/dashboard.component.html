@@ -1,28 +1,25 @@
 <div class="dashboard-container">
-  <div class="summary-cards">
-    <mat-card class="summary-card reservados">
-      <mat-card-title>Total Turnos Reservados</mat-card-title>
-      <mat-card-content>{{ totalTurnos }}</mat-card-content>
-    </mat-card>
-    <mat-card class="summary-card pendientes">
-      <mat-card-title>Turnos Pendientes</mat-card-title>
-      <mat-card-content>{{ turnosPendientes }}</mat-card-content>
-    </mat-card>
-    <mat-card class="summary-card confirmados">
-      <mat-card-title>Turnos Confirmados</mat-card-title>
-      <mat-card-content>{{ turnosConfirmados }}</mat-card-content>
-    </mat-card>
-  </div>
-
   <div class="card">
     <app-card>
+      <div class="summary-cards">
+        <mat-card class="summary-card reservados">
+          <p>Turnos reservados</p>
+          <mat-card-content>{{ totalTurnos }}</mat-card-content>
+        </mat-card>
+        <mat-card class="summary-card pendientes">
+          <p>Turnos pendientes</p>
+          <mat-card-content>{{ turnosPendientes }}</mat-card-content>
+        </mat-card>
+        <mat-card class="summary-card confirmados">
+          <p>Turnos confirmados</p>
+          <mat-card-content>{{ turnosConfirmados }}</mat-card-content>
+        </mat-card>
+      </div>
       <div class="container-card">
-        <div class="calendar-section">
-          <full-calendar
-            class="full-calendar"
-            [options]="calendarOptions"
-          ></full-calendar>
-        </div>
+        <mat-card class="demo-inline-calendar-card">
+          <mat-calendar [(selected)]="selected"></mat-calendar>
+        </mat-card>
+        <p>Selected date: {{ selected() }}</p>
       </div>
     </app-card>
   </div>

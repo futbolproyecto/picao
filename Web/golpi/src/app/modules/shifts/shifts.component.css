@@ -83,5 +83,11 @@ h2 {
 }
 
 .container::-webkit-scrollbar-thumb {
-  background-color: var(--color-secondary);
+  background-color: var(--color-primary);
+}
+
+@media (max-width: 952px) {
+  .form-content {
+    padding: 0;
+  }
 }

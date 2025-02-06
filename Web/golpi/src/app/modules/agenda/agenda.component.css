@@ -1,7 +1,7 @@
 /* Contenedor principal */
 .container-agenda {
-  padding: 15px;
-  min-height: calc(100vh - 170px);
+  padding: 16px;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
@@ -47,7 +47,7 @@ li {
   text-decoration: none;
   border-bottom: 2px solid var(--color-primary);
   padding: 10px 30px;
-  font-family: Roboto, sans-serif;
+  font-family: "Montserrat";
   font-size: 18px;
   color: var(--color-outline-variant);
 }
@@ -103,14 +103,6 @@ mat-form-field {
   margin-left: 15px;
 }
 
-/* Errores */
-.text-error {
-  color: var(--color-error);
-  font-size: 12px;
-  margin-top: 5px;
-  display: block;
-}
-
 form {
   display: flex;
   flex-direction: column;
@@ -152,4 +144,63 @@ form {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+}
+
+/* Reglas de medios */
+@media (max-width: 952px) {
+  .container-agenda {
+    padding: 10px;
+  }
+
+  .card {
+    padding: 0;
+  }
+
+  .container-card {
+    padding: 0;
+  }
+
+  .form-content {
+    padding: 0px 30px;
+  }
+
+  .form-group {
+    display: contents;
+  }
+
+  li {
+    padding: 10px 6px;
+    font-size: 12px;
+    font-weight: bold;
+  }
+
+  h1 {
+    padding-top: 10px;
+    font: bold 15px "Montserrat";
+  }
+
+  .contaner-tabla {
+    width: 100vw;
+    overflow-x: auto;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+
+  .table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  .boton .btn {
+    width: 70%;
+  }
+
+  .boton {
+    margin: 0;
+    padding-bottom: 10px;
+  }
+
+  h2 {
+    display: flex;
+  }
 }

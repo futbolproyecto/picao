@@ -171,6 +171,7 @@ export class AgendaComponent implements OnInit {
       console.log('Formulario enviado con éxito');
       this.limpiarFormulario();
     } else {
+      this.formularioAgenda.markAllAsTouched();
       this.alertsService.toast('error', Constant.ERROR_FORM_INCOMPLETO);
     }
   }

@@ -1,16 +1,5 @@
 .search-container {
   display: flex;
-  justify-content: flex-end;
-}
-
-.search-field {
-  width: 300px;
-}
-
-.table-container {
-  overflow: auto;
-  border-radius: 20px;
-  box-shadow: 0px 3px 15px var(--color-outline-variant);
 }
 
 th {
@@ -49,4 +38,9 @@ button {
   border: none;
   background-color: transparent;
   cursor: pointer;
+}
+
+td,
+th {
+  white-space: nowrap;
 }

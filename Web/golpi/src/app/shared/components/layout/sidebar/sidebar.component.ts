@@ -55,7 +55,9 @@ export class SidebarComponent implements OnInit {
   }
 
   private checkIfMobile(): void {
-    this.menuMobile = window.innerWidth <= 768;
+    if (window.innerWidth <= 768) {
+      this.menuMobile = false;
+    }
   }
 
   toggleSubmodulosUsuario(): void {

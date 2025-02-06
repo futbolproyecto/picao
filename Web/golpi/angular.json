@@ -24,7 +24,7 @@
               "@angular/material/prebuilt-themes/purple-green.css",
               "src/assets/css/global.css",
               "src/styles.css",
-              "node_modules/ngx-spinner/animations/ball-spin-clockwise-fade-rotating.css"
+              "node_modules/ngx-spinner/animations/square-jelly-box.css"
             ],
             "scripts": ["./node_modules/bootstrap/dist/js/bootstrap.js"],
             "baseHref": "/",
@@ -91,7 +91,7 @@
               "@angular/material/prebuilt-themes/purple-green.css",
               "src/assets/css/global.css",
               "src/styles.css",
-              "node_modules/ngx-spinner/animations/ball-spin-clockwise-fade-rotating.css"
+              "node_modules/ngx-spinner/animations/square-jelly-box.css"
             ],
             "scripts": ["node_modules/bootstrap-notify/bootstrap-notify.js"]
           }

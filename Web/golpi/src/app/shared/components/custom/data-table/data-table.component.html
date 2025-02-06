@@ -1,17 +1,11 @@
 <div class="search-container">
-  <mat-form-field class="search-field no-bg">
-    <mat-label>Buscar</mat-label>
-    <input matInput (keyup)="filtrarBusqueda($event)" />
+  <mat-form-field>
+    <input matInput (keyup)="filtrarBusqueda($event)" placeholder="Buscar" />
   </mat-form-field>
 </div>
 
 <div class="table-container">
-  <table
-    mat-table
-    [dataSource]="dataSource"
-    matSort
-    class="table-hover mat-elevation-z8"
-  >
+  <table mat-table [dataSource]="dataSource" matSort class="table-hover">
     <ng-container
       [matColumnDef]="tableData"
       *ngFor="let tableData of objectKeys(columnHeader)"

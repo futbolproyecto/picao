@@ -71,15 +71,17 @@
           </form>
 
           <div class="contaner-tabla">
-            <h1>Listado de turnos</h1>
-            <app-data-table
-              [tableData]="tablaAgenda"
-              [columnHeader]="encabezadosAgenda"
-              [confirm]="confirm"
-              [finish]="finish"
-              [edit]="edit"
-            >
-            </app-data-table>
+            <h2>Listado de turnos</h2>
+            <div class="table-wrapper">
+              <app-data-table
+                [tableData]="tablaAgenda"
+                [columnHeader]="encabezadosAgenda"
+                [confirm]="confirm"
+                [finish]="finish"
+                [edit]="edit"
+              >
+              </app-data-table>
+            </div>
           </div>
         </div>
       </div>
