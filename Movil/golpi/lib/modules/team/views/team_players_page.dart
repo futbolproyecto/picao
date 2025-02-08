@@ -46,7 +46,10 @@ class TeamPlayers extends StatelessWidget {
                                 child: Image.asset('assets/img/usericon.png'),
                               ),
                             ),
-                            title: UiText(text: 'Jose Celestino Mutis').phraseSemiBold(),
+                            title: UiText(
+                                    text:
+                                        '${teamController.teamModel.value?.players?[index].name} ${teamController.teamModel.value?.players?[index].lastName}')
+                                .phraseSemiBold(),
                             subtitle: Column(
                               children: [
                                 _buildInfoRow('Alias:',
