@@ -17,9 +17,12 @@
       </div>
       <div class="container-card">
         <mat-card class="demo-inline-calendar-card">
-          <mat-calendar [(selected)]="selected"></mat-calendar>
+          <mat-calendar
+            [(selected)]="selected"
+            (selectedChange)="openDialog()"
+          ></mat-calendar>
         </mat-card>
-        <p>Selected date: {{ selected() }}</p>
+        <p>Fecha seleccionada: {{ selected | date : "dd/MM/yyyy" }}</p>
       </div>
     </app-card>
   </div>

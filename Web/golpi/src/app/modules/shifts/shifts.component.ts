@@ -24,7 +24,6 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { UsuarioResponseDto } from '../../data/schema/userResponseDto';
 import { UserService } from '../../core/service/user.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { map, Observable, startWith } from 'rxjs';
 
 @Component({
   selector: 'app-shifts',
