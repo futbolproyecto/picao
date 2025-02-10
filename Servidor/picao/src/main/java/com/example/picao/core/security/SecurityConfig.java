@@ -19,11 +19,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
 import com.example.picao.core.security.jwt.JwtUtils;
+import java.util.List;
 
 @Configuration
 @EnableMethodSecurity
@@ -39,6 +40,7 @@ public class SecurityConfig {
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(http -> {
@@ -48,17 +50,19 @@ public class SecurityConfig {
                 .addFilterBefore(loggingFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(new JwtTokenValidator(jwtUtils, handlerExceptionResolver, userRepository),
                         UsernamePasswordAuthenticationFilter.class)
-                .addFilter(corsFilter())
                 .build();
     }
 
     @Bean
-    public CorsFilter corsFilter() {
+    public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
-        corsConfiguration.addAllowedOrigin("http://localhost:4200");
-        corsConfiguration.addAllowedOrigin("https://golpi-ruddy.vercel.app");
-        corsConfiguration.addAllowedMethod("*");
-        corsConfiguration.addAllowedHeader("*");
+        corsConfiguration.setAllowedOrigins(List
+                .of(
+                "http://localhost:4200",
+                "https://golpi-ruddy.vercel.app"
+        ));
+        corsConfiguration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        corsConfiguration.setAllowedHeaders(List.of("*"));
         corsConfiguration.setAllowCredentials(true);
         corsConfiguration.addExposedHeader(HttpHeaders.CONTENT_DISPOSITION);
         corsConfiguration.addExposedHeader(HttpHeaders.CONTENT_TYPE);
@@ -66,7 +70,7 @@ public class SecurityConfig {
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", corsConfiguration);
-        return new CorsFilter(source);
+        return source;
     }
     
     @Bean
