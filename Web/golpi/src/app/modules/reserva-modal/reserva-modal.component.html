@@ -1,0 +1,10 @@
+<h2 mat-dialog-title>Detalles de la Reserva</h2>
+<mat-dialog-content>
+  <p><strong>Fecha:</strong> {{ data.fecha | date: 'fullDate' }}</p>
+  <p><strong>Nombre:</strong> {{ data.nombre }}</p>
+  <p><strong>Hora:</strong> {{ data.hora }}</p>
+  <p><strong>Estado:</strong> {{ data.estado }}</p>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>Cerrar</button>
+</mat-dialog-actions>
