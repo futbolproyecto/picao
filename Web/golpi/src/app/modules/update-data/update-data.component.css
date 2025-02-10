@@ -1,7 +1,7 @@
 /* Contenedor principal */
 .container-matches {
-  padding: 15px;
-  min-height: calc(100vh - 170px);
+  padding: 16px;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
@@ -12,13 +12,14 @@ h1 {
   color: var(--color-secondary);
 }
 
-/* Tarjetas */
+/* Tarjeta */
 .card {
   width: 100%;
-  padding-bottom: 30px;
-  background: var(--color-surface-container--lowest);
+  height: 100%;
   box-shadow: 0 3px 15px var(--color-outline-variant);
   border-radius: 10px;
+  display: flex;
+  flex-direction: column;
 }
 
 .container-card {
@@ -42,7 +43,8 @@ li {
   text-decoration: none;
   border-bottom: 2px solid var(--color-surface-dim);
   padding: 10px 30px;
-  font: 18px Roboto, sans-serif;
+  font-family: "Montserrat";
+  font-size: 18px;
   color: var(--color-outline-variant);
 }
 
@@ -55,7 +57,6 @@ li:hover,
 /* Transiciones */
 .container-pestana,
 .container-actualizar {
-  text-align: center;
   color: var(--color-secondary);
   transition: opacity 0.3s ease-in-out;
 }
@@ -108,13 +109,6 @@ mat-form-field {
   height: 45px;
   width: 50%;
   border-radius: 10px;
-}
-
-/* Error */
-.text-error {
-  color: var(--color-error);
-  font-size: 12px;
-  margin-top: 5px;
 }
 
 /* Formulario en columna */
@@ -173,4 +167,47 @@ form {
 
 ::ng-deep.ng-select .ng-arrow-wrapper {
   padding-right: 13px;
+}
+
+/* Reglas de medios */
+@media (max-width: 952px) {
+  .container-matches {
+    padding: 10px;
+  }
+
+  .card {
+    padding: 0;
+  }
+
+  .container-card {
+    padding: 0;
+  }
+
+  .form-content {
+    padding: 0px 30px;
+  }
+
+  .form-group {
+    display: contents;
+  }
+
+  li {
+    padding: 10px 15px;
+    font-size: 12px;
+    font-weight: bold;
+  }
+
+  h1 {
+    padding-top: 10px;
+    font: bold 15px "Montserrat";
+  }
+
+  .custom-input-celular {
+    width: 70%;
+    padding-left: 20px;
+  }
+
+  .custom-input-indicativo {
+    width: 30%;
+  }
 }

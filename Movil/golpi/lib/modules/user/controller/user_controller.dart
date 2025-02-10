@@ -26,6 +26,12 @@ class UserController extends GetxController {
     super.onInit();
   }
 
+  @override
+  void onClose() {
+    scrollController.dispose();
+    super.onClose();
+  }
+
   var isLoading = false.obs;
   var user = Rxn<UserRegisterModel>();
   var obscureText = true.obs;
@@ -116,9 +122,7 @@ class UserController extends GetxController {
           actions: [
             UiButtoms(
                     onPressed: () async {
-                      Get.back();
                       await validateOtp();
-                      registerUser();
                     },
                     title: 'Validar')
                 .textButtom(Constants.primaryColor),
@@ -192,7 +196,6 @@ class UserController extends GetxController {
 
   Future<void> validateOtp() async {
     try {
-      formOtpConfirmation.markAllAsTouched();
       if (formOtpConfirmation.valid) {
         QuickAlert.show(
           context: Get.context!,
@@ -209,6 +212,9 @@ class UserController extends GetxController {
 
         Get.back();
         formOtpConfirmation.reset();
+        registerUser();
+      } else {
+        formOtpConfirmation.markAllAsTouched();
       }
     } on CustomException catch (e) {
       Get.back();
@@ -262,6 +268,7 @@ class UserController extends GetxController {
 
   Future<void> registerUser() async {
     try {
+      Get.back();
       QuickAlert.show(
         context: Get.context!,
         type: QuickAlertType.loading,

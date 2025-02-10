@@ -2,23 +2,27 @@ import 'dart:io';
 
 class ErrorModel {
   dynamic status;
+  String? code;
   String? error;
   String? recommendation;
 
   ErrorModel({
     this.status,
+    this.code,
     this.error,
     this.recommendation,
   });
 
   factory ErrorModel.fromJson(Map<String, dynamic> json) => ErrorModel(
         status: json["status"],
+        code: json["code"],
         error: json["error"],
         recommendation: json["recommendation"],
       );
 
   Map<String, dynamic> toJson() => {
         "status": status,
+        "code": code,
         "error": error,
         "recommendation": recommendation,
       };

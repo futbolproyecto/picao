@@ -399,6 +399,7 @@ export class UpdateDataComponent {
     if (this.formularioActualizar.valid) {
       console.log('Se actualizo los datos');
     } else {
+      this.formularioActualizar.markAllAsTouched();
       this.alertsService.toast('error', Constant.ERROR_FORM_INCOMPLETO);
     }
   }

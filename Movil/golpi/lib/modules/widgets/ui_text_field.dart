@@ -3,7 +3,6 @@ import 'package:reactive_forms/reactive_forms.dart';
 import 'package:golpi/modules/widgets/ui_text.dart';
 import 'package:golpi/core/models/option_model.dart';
 import 'package:dropdown_search/dropdown_search.dart';
-import 'package:reactive_dropdown_search/reactive_dropdown_search.dart';
 import 'package:reactive_date_time_picker/reactive_date_time_picker.dart';
 
 class UiTextFiel {

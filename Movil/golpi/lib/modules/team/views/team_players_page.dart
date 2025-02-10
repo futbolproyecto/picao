@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:golpi/core/constants/constants.dart';
 import 'package:golpi/modules/team/controller/team_controller.dart';
+import 'package:golpi/modules/widgets/ui_text.dart';
 
 class TeamPlayers extends StatelessWidget {
   const TeamPlayers({super.key});
@@ -9,6 +10,7 @@ class TeamPlayers extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final TeamController teamController = Get.find<TeamController>();
+
     return Column(
       children: [
         const SizedBox(height: 15),
@@ -20,59 +22,60 @@ class TeamPlayers extends StatelessWidget {
             color: Constants.primaryColor,
           ),
         ),
-        Expanded(
-            child: ListView.builder(
-                itemCount: 1,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: Card(
-                      margin: const EdgeInsets.symmetric(vertical: 10),
-                      color: Colors.white,
-                      elevation: 3,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            width: 50,
-                            height: 50,
-                            margin: const EdgeInsets.symmetric(
-                                vertical: 10, horizontal: 5),
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                border: Border.all(
-                                  color: Constants.secondaryColor,
-                                  width: 3,
-                                )),
-                            child: ClipOval(
-                              child: Image.asset('assets/img/usericon.png'),
+        Obx(
+          () => teamController.isLoading.value
+              ? Center(child: LinearProgressIndicator())
+              : Expanded(
+                  child: ListView.builder(
+                      itemCount:
+                          teamController.teamModel.value?.players?.length,
+                      itemBuilder: (context, index) {
+                        return Card(
+                          elevation: 3,
+                          child: ListTile(
+                            leading: Container(
+                              width: 80,
+                              height: 80,
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                    color: Constants.secondaryColor,
+                                    width: 3,
+                                  )),
+                              child: ClipOval(
+                                child: Image.asset('assets/img/usericon.png'),
+                              ),
+                            ),
+                            title: UiText(
+                                    text:
+                                        '${teamController.teamModel.value?.players?[index].name} ${teamController.teamModel.value?.players?[index].lastName}')
+                                .phraseSemiBold(),
+                            subtitle: Column(
+                              children: [
+                                _buildInfoRow('Alias:',
+                                    '${teamController.teamModel.value?.players?[index].nickName}'),
+                                _buildInfoRow('Rol:',
+                                    '${teamController.teamModel.value?.players?[index].positionPlayer}'),
+                              ],
                             ),
                           ),
-                          const Column(
-                            children: [
-                              Row(
-                                children: [
-                                  Text('Miguel Antonio Jimenez'),
-                                  SizedBox(width: 15),
-                                  Text('Posicion: Jugador')
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  Text('Estado: Activo'),
-                                  SizedBox(width: 15),
-                                  Text('Celular: 3178523598')
-                                ],
-                              )
-                            ],
-                          ),
-                          const Icon(Icons.arrow_forward_ios_outlined)
-                        ],
-                      ),
-                    ),
-                  );
-                }))
+                        );
+                      })),
+        )
       ],
+    );
+  }
+
+  Widget _buildInfoRow(String label, String value) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 1),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          UiText(text: label).paragraphSemiBold(),
+          UiText(text: value).phraseBlack()
+        ],
+      ),
     );
   }
 }

@@ -89,14 +89,16 @@
           </form>
 
           <div class="contaner-tabla">
-            <h1>Listado de canchas</h1>
-            <app-data-table
-              [tableData]="tablaCanchas"
-              [columnHeader]="encabezadosCanchas"
-              [estado]="estado"
-              [edit]="edit"
-            >
-            </app-data-table>
+            <h2>Listado de canchas</h2>
+            <div class="table-wrapper">
+              <app-data-table
+                [tableData]="tablaCanchas"
+                [columnHeader]="encabezadosCanchas"
+                [estado]="estado"
+                [edit]="edit"
+              >
+              </app-data-table>
+            </div>
           </div>
         </div>
       </div>

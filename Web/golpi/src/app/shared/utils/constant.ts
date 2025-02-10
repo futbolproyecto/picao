@@ -41,4 +41,5 @@ export class Constant {
   static ERROR_CAMPO_SOLO_NUMEROS = 'Solo se permiten números';
   static ERROR_CAMPO_SOLO_NUMEROS_LETRAS = 'Solo se permiten números y letras';
   static ERROR_CAMPO_EMAIL_INVALIDO = 'El email es inválido';
+  static ERROR_CAMPO_CONTRASENA_NO_CONCIDEN = 'Las contraseñas no conciden.';
 }

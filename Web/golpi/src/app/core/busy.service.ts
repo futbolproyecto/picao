@@ -11,7 +11,7 @@ export class BusyService {
 
   busy() {
     this.spinnerService.show(undefined, {
-      type: 'ball-spin-clockwise-fade-rotating',
+      type: 'square-jelly-box',
       bdColor: 'rgba(0, 0, 0, 0.8)',
       color: '#52ff96',
       size: 'large',

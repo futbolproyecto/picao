@@ -5,10 +5,7 @@ import com.example.picao.user.dto.UserResponseDTO;
 import com.example.picao.zone.entity.Zone;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Set;
 
@@ -17,6 +14,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@Builder
 public class TeamResponseDTO {
     Integer id;
     String name;
@@ -25,11 +23,14 @@ public class TeamResponseDTO {
     @JsonProperty("owner_user")
     UserResponseDTO ownerUser;
     Set<UserResponseDTO> players;
+    @JsonProperty("number_of_players")
+    Integer numberOfPlayers;
+    @JsonProperty("position_player")
+    String positionPlayer;
 
     public TeamResponseDTO(Integer id, String name) {
         this.id = id;
         this.name = name;
     }
-
 
 }

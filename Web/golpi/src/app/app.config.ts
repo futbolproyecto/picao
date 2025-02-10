@@ -21,7 +21,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withInterceptors([loadingInterceptor])),
     importProvidersFrom(
       [BrowserAnimationsModule],
-      NgxSpinnerModule.forRoot({ type: 'ball-spin-clockwise-fade-rotating' })
+      NgxSpinnerModule.forRoot({ type: 'square-jelly-box' })
     ),
     provideStore(),
     provideAnimationsAsync(),

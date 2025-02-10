@@ -49,7 +49,10 @@ class LoginController extends GetxController {
           ConstantSecureStorage.idUsuer, sesionModel.idUsuer.toString());
 
       Get.back();
+      Get.deleteAll();
       Get.toNamed(AppPages.home);
+
+      formLogin.reset();
     } on CustomException catch (e) {
       Get.back();
       UiAlertMessage(Get.context!)
