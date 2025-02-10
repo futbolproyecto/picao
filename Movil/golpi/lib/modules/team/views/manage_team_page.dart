@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:golpi/core/constants/constants.dart';
+import 'package:golpi/modules/home/controller/home_controller.dart';
 import 'package:golpi/modules/widgets/ui_text.dart';
 import 'package:golpi/modules/team/views/team_players_page.dart';
 import 'package:golpi/modules/team/controller/team_controller.dart';
@@ -12,6 +13,7 @@ class ManageTeamPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
     final TeamController teamController = Get.find<TeamController>();
+    final HomeController homeController = Get.find<HomeController>();
 
     return Scaffold(
       appBar: AppBar(
@@ -82,28 +84,33 @@ class ManageTeamPage extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Container(
-                            width: 60,
-                            height: 70,
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: Colors.grey.shade300,
-                                width: 2.0,
+                          InkWell(
+                            onTap: () {
+                              teamController.modalLeaveTeam(homeController);
+                            },
+                            child: Container(
+                              width: 60,
+                              height: 70,
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Colors.grey.shade300,
+                                  width: 2.0,
+                                ),
+                                borderRadius: BorderRadius.circular(10),
                               ),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(10),
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Icon(
-                                    Icons.exit_to_app_outlined,
-                                    color: Colors.red,
-                                  ),
-                                  UiText(text: 'Salir').paragraphBlack()
-                                ],
+                              child: Padding(
+                                padding: const EdgeInsets.all(10),
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Icon(
+                                      Icons.exit_to_app_outlined,
+                                      color: Colors.red,
+                                    ),
+                                    UiText(text: 'Salir').paragraphBlack()
+                                  ],
+                                ),
                               ),
                             ),
                           ),

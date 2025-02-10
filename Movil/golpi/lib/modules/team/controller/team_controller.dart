@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:golpi/core/routes/app_pages.dart';
+import 'package:golpi/modules/home/controller/home_controller.dart';
 import 'package:golpi/modules/team/models/team_model.dart';
 import 'package:golpi/modules/team/models/user_team_model.dart';
 import 'package:reactive_forms/reactive_forms.dart';
@@ -187,7 +188,8 @@ class TeamController extends GetxController {
             UiButtoms(
                     onPressed: () async {
                       Get.back();
-                      addUserTeam('${response.name} ${response.lastName}');
+                      addUserTeam(
+                          response.id, '${response.name} ${response.lastName}');
                     },
                     title: 'Agregar jugador')
                 .textButtom(Constants.primaryColor),
@@ -229,7 +231,7 @@ class TeamController extends GetxController {
     }
   }
 
-  Future<void> addUserTeam(String playerName) async {
+  Future<void> addUserTeam(int userId, String playerName) async {
     try {
       QuickAlert.show(
         context: Get.context!,
@@ -240,10 +242,9 @@ class TeamController extends GetxController {
         disableBackBtn: true,
       );
 
-      final idUsuer = await SecureStorage().read(ConstantSecureStorage.idUsuer);
       await teamRepository.addUserTeam(UserTeamModel(
         teamId: teamId.value,
-        userId: int.parse(idUsuer!),
+        userId: userId,
       ));
 
       Get.back();
@@ -254,6 +255,8 @@ class TeamController extends GetxController {
           },
           message:
               '${playerName.toUpperCase()} ha sido agregado exitosamente al equipo');
+
+      getTeamsByUserId(teamId.value);
     } on CustomException catch (e) {
       Get.back();
       UiAlertMessage(Get.context!)
@@ -292,6 +295,76 @@ class TeamController extends GetxController {
     } on Exception catch (_) {
       isLoading.value = false;
       errorModel.value = ErrorModel().uncontrolledError();
+    }
+  }
+
+  Future<void> modalLeaveTeam(HomeController homeController) async {
+    try {
+      UiAlertMessage(Get.context!).alert(
+          message:
+              '¿Esta seguro que desea salir del equipo ${teamModel.value!.name!.toUpperCase()}? Perderás acceso a sus actividades y notificaciones. ',
+          actions: [
+            UiButtoms(
+                    onPressed: () {
+                      Get.back();
+                      leaveTeam(homeController);
+                    },
+                    title: 'Salir')
+                .textButtom(Constants.primaryColor),
+            UiButtoms(
+                    onPressed: () {
+                      Get.back();
+                    },
+                    title: 'Cerrar')
+                .textButtom(Colors.black),
+          ]);
+    } on CustomException catch (e) {
+      Get.back();
+      UiAlertMessage(Get.context!)
+          .error(message: '${e.error.error}\n${e.error.recommendation}');
+    } on Exception catch (_) {
+      Get.back();
+      UiAlertMessage(Get.context!).error(
+          message:
+              '${ErrorModel().uncontrolledError().error!}\n${ErrorModel().uncontrolledError().recommendation!}');
+    }
+  }
+
+  Future<void> leaveTeam(HomeController homeController) async {
+    try {
+      QuickAlert.show(
+        context: Get.context!,
+        type: QuickAlertType.loading,
+        title: 'Cargando...',
+        text: 'Saliendo del equipo',
+        barrierDismissible: false,
+        disableBackBtn: true,
+      );
+
+      final idUsuer = await SecureStorage().read(ConstantSecureStorage.idUsuer);
+      await teamRepository.leaveTeam(
+        int.parse(idUsuer!),
+        teamId.value,
+      );
+
+      Get.back();
+      UiAlertMessage(Get.context!).success(
+          actionButtom: () {
+            homeController.indexTabBarView.value = 1;
+            Get.toNamed(AppPages.home);
+            homeController.getTeamsByUserId();
+          },
+          message:
+              'Has salido exitosamente del equipo ${teamModel.value!.name!.toUpperCase()}');
+    } on CustomException catch (e) {
+      Get.back();
+      UiAlertMessage(Get.context!)
+          .error(message: '${e.error.error}\n${e.error.recommendation}');
+    } on Exception catch (_) {
+      Get.back();
+      UiAlertMessage(Get.context!).error(
+          message:
+              '${ErrorModel().uncontrolledError().error!}\n${ErrorModel().uncontrolledError().recommendation!}');
     }
   }
 }

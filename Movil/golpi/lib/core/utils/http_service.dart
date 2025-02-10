@@ -175,6 +175,35 @@ class HttpService {
     }
   }
 
+  Future<Object?> deleteRequesParam(Map<String, String>? parameters) async {
+    try {
+      final response = await http
+          .delete(
+            Uri.http(ConstantEndpoints.baseUrl, endPoint, parameters),
+            headers: await getHeaders(),
+          )
+          .timeout(const Duration(seconds: 20));
+
+      if (response.statusCode != HttpStatus.ok) {
+        throw BadRequestException(
+            ErrorModel.fromJson(jsonDecode(utf8.decode(response.bodyBytes))));
+      }
+
+      final generalModel =
+          GeneralModel.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
+
+      return generalModel.payload;
+    } on BadRequestException catch (e) {
+      throw FetchDataException(e.error);
+    } on SocketException {
+      throw FetchDataException(ErrorModel().socektError());
+    } on TimeoutException {
+      throw FetchDataException(ErrorModel().timeOutError());
+    } on Exception catch (_) {
+      throw FetchDataException(ErrorModel().uncontrolledError());
+    }
+  }
+
   Future<Map<String, String>> getHeaders() async {
     final Map<String, String> listaCabeceras = <String, String>{};
 

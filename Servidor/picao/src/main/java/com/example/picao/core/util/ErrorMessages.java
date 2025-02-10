@@ -57,7 +57,10 @@ public enum ErrorMessages {
             "E17"),
     USER_OWNER("No puedes salir del equipo porque eres el Administrador.",
             "Asigna otro Adminsitrador antes de salir",
-            "E18");
+            "E18"),
+    USER_WITHOUT_TEAM("Aún no estás registrado en ningún equipo.",
+            "Crea o únete a un equipo para comenzar",
+            "E19");
     private final String message;
     private final String recommendation;
     private final String code;

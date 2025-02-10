@@ -61,4 +61,13 @@ class TeamRepository {
       rethrow;
     }
   }
+
+  Future<void> leaveTeam(int userId, int teamId) async {
+    try {
+      await HttpService(ConstantEndpoints.leaveTeam)
+          .deleteRequesParam({"user-id": "$userId", "team-id": "$teamId"});
+    } on Exception catch (_) {
+      rethrow;
+    }
+  }
 }
