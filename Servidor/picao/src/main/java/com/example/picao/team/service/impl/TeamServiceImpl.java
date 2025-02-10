@@ -116,8 +116,13 @@ public class TeamServiceImpl implements TeamService {
     @Override
     public List<TeamResponseDTO> getTeamsByUserId(int userId) {
         try {
+            List<Tuple> teams = teamRepository.findByUserId(userId);
 
-            return teamRepository.findByUserId(userId).stream().map(respuesta ->
+            if (teams.isEmpty()) {
+                throw new AppException(ErrorMessages.USER_WITHOUT_TEAM, HttpStatus.NOT_FOUND);
+            }
+
+            return teams.stream().map(respuesta ->
                     TeamResponseDTO.builder()
                             .id(Integer.parseInt(respuesta.get("id").toString()))
                             .name(respuesta.get("name").toString())

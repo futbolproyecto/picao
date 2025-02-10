@@ -53,11 +53,19 @@ class TeamRepository {
 
   Future<TeamModel> getTeamsByUserId(int userId, int teamId) async {
     try {
-      final response = await HttpService(
-              '${ConstantEndpoints.getTeamByUserId}/$userId/$teamId')
-          .get();
+      final response = await HttpService(ConstantEndpoints.getTeamByUserId)
+          .getRequesParam({"user-id": "$userId", "team-id": "$teamId"});
 
       return TeamModel.fromJson(GeneralModel().jsonStringifyToMaps(response));
+    } on Exception catch (_) {
+      rethrow;
+    }
+  }
+
+  Future<void> leaveTeam(int userId, int teamId) async {
+    try {
+      await HttpService(ConstantEndpoints.leaveTeam)
+          .deleteRequesParam({"user-id": "$userId", "team-id": "$teamId"});
     } on Exception catch (_) {
       rethrow;
     }
