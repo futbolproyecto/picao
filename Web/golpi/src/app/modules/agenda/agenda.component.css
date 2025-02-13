@@ -15,8 +15,7 @@ h1 {
 }
 
 /* Estilo de tarjetas */
-.card {
-  width: 100%;
+.card-agenda {
   padding-bottom: 30px;
   background: var(--color-surface-container--lowest);
   box-shadow: 0 3px 15px var(--color-outline-variant);
@@ -110,7 +109,7 @@ form {
 }
 
 /* Tabla */
-.contaner-tabla {
+.container-tabla {
   padding: 20px;
 }
 
@@ -147,13 +146,9 @@ form {
 }
 
 /* Reglas de medios */
-@media (max-width: 952px) {
+@media (max-width: 1124px) {
   .container-agenda {
     padding: 10px;
-  }
-
-  .card {
-    padding: 0;
   }
 
   .container-card {
@@ -179,10 +174,10 @@ form {
     font: bold 15px "Montserrat";
   }
 
-  .contaner-tabla {
-    width: 100vw;
+  .container-tabla {
+    width: 98vw;
     overflow-x: auto;
-    padding: 20px;
+    padding: 10px;
     box-sizing: border-box;
   }
 
@@ -202,5 +197,11 @@ form {
 
   h2 {
     display: flex;
+  }
+}
+
+@media (max-width: 698px) {
+  .container-tabla {
+    width: 95vw;
   }
 }

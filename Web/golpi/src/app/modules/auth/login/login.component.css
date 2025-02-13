@@ -161,7 +161,7 @@ app-registre {
 }
 
 /* Reglas de medios */
-@media (max-width: 952px) {
+@media (max-width: 1124px) {
   .container-box {
     height: auto;
     max-width: 550px;

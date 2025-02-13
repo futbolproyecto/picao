@@ -12,10 +12,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MatCardModule } from '@angular/material/card';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
-import { MatSelectModule } from '@angular/material/select';
 import { Constant } from '../../shared/utils/constant';
 import { AlertsService } from '../../core/service/alerts.service';
 import { CardComponent } from '../../shared/components/custom/card/card.component';
@@ -37,10 +35,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
     FormsModule,
     ReactiveFormsModule,
     MatFormFieldModule,
-    MatCardModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatSelectModule,
     CardComponent,
     NgSelectModule,
     ChangePasswordComponent,
@@ -329,6 +325,7 @@ export class UpdateDataComponent {
 
   limpiarFormulario(): void {
     this.formularioActualizar.reset();
+    this.formularioActualizar.patchValue({ indicador: this.selected });
   }
 
   activarPestana(pestana: string): void {

@@ -1,0 +1,11 @@
+.confirmado {
+  color: green;
+}
+
+.pendiente {
+  color: yellow;
+}
+
+.reservado {
+  color: orange;
+}

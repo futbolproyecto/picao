@@ -44,3 +44,17 @@ td,
 th {
   white-space: nowrap;
 }
+
+.table-container {
+  box-shadow: 0 3px 15px var(--color-outline-variant);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+@media (max-width: 1124px) {
+  .table-container {
+    box-shadow: none;
+    border: 2px solid var(--color-outline-variant);
+    overflow: scroll;
+  }
+}

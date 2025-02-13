@@ -17,7 +17,6 @@ import {
 } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
 import { Constant } from '../../shared/utils/constant';
 import { AlertsService } from '../../core/service/alerts.service';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -35,7 +34,6 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
-    MatSelectModule,
     MatButtonModule,
     MatDialogModule,
     MatDatepickerModule,
@@ -58,6 +56,7 @@ export class ShiftsComponent implements OnInit {
   public horaInicialError: string = '';
   public canchaError: string = '';
   public clienteError: string = '';
+  public establecimientoError: string = '';
 
   constructor(
     private dialogRef: MatDialogRef<ShiftsComponent>,
@@ -99,6 +98,7 @@ export class ShiftsComponent implements OnInit {
       fecha: ['', [Validators.required]],
       horaInicial: ['', [Validators.required]],
       horafinal: [{ value: '', disabled: true }],
+      establecimiento: ['', [Validators.required]],
       cancha: ['', [Validators.required]],
       cliente: [null, [Validators.required]],
     });
@@ -114,6 +114,10 @@ export class ShiftsComponent implements OnInit {
 
   get cancha(): AbstractControl {
     return this.formularioTurno.get('cancha')!;
+  }
+
+  get establecimiento(): AbstractControl {
+    return this.formularioTurno.get('establecimiento')!;
   }
 
   get cliente(): AbstractControl {
@@ -147,6 +151,17 @@ export class ShiftsComponent implements OnInit {
     if (this.cancha.touched) {
       if (this.cancha.hasError('required')) {
         this.canchaError = Constant.ERROR_CAMPO_REQUERIDO;
+        status = true;
+      }
+    }
+    return status;
+  }
+
+  validarEstablecimiento(): boolean {
+    let status = false;
+    if (this.establecimiento.touched) {
+      if (this.establecimiento.hasError('required')) {
+        this.establecimientoError = Constant.ERROR_CAMPO_REQUERIDO;
         status = true;
       }
     }

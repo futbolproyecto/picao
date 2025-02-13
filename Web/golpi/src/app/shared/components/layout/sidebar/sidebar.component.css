@@ -130,7 +130,7 @@ ul li a p {
   transform: translateX(200px);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1124px) {
   .hamburguer-menu {
     display: block;
   }

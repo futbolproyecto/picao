@@ -14,7 +14,6 @@ import {
 import { DataTableComponent } from '../../shared/components/custom/data-table/data-table.component';
 import { Constant } from '../../shared/utils/constant';
 import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
 import { AlertsService } from '../../core/service/alerts.service';
 import { NgSelectModule } from '@ng-select/ng-select';
 
@@ -29,7 +28,6 @@ import { NgSelectModule } from '@ng-select/ng-select';
     DataTableComponent,
     MatInputModule,
     ReactiveFormsModule,
-    MatSelectModule,
     FormsModule,
     NgSelectModule,
   ],
@@ -45,7 +43,7 @@ export class SoccerFieldComponent {
   public registrarEstablecimientoActivo: boolean = true;
   public nombrePestana: string = 'Registrar establecimiento';
 
-  public numeroCanchaError: string = '';
+  public descripcionCanchaError: string = '';
   public cantidadJugadoresError: string = '';
   public tipoCanchaError: string = '';
   public establecimientoError: string = '';
@@ -55,7 +53,7 @@ export class SoccerFieldComponent {
 
   public encabezadosCanchas = {
     id: 'ID',
-    numero_cancha: 'No. cancha',
+    descripcion_cancha: 'Descripción cancha',
     cantidad_jugadores: 'Cant. jugadores',
     Tipo_cancha: 'Tipo cancha',
     establecimiento: 'Establecimiento',
@@ -65,14 +63,14 @@ export class SoccerFieldComponent {
   tablaCanchas = [
     {
       id: '1',
-      numero_cancha: '5',
+      descripcion_cancha: '5',
       cantidad_jugadores: '8',
       Tipo_cancha: 'Profesional',
       establecimiento: 'Maracana',
     },
     {
       id: '2',
-      numero_cancha: '3',
+      descripcion_cancha: '3',
       cantidad_jugadores: '12',
       Tipo_cancha: 'Sala',
       establecimiento: 'Maracana',
@@ -85,15 +83,15 @@ export class SoccerFieldComponent {
 
   buildForm(): void {
     this.formularioCancha = this.formBuilder.group({
-      numero_cancha: ['', [Validators.required]],
+      descripcion_cancha: ['', [Validators.required]],
       cantidad_jugadores: ['', [Validators.required]],
       Tipo_cancha: [null, [Validators.required]],
       establecimiento: [null, [Validators.required]],
     });
   }
 
-  get numero_cancha(): AbstractControl {
-    return this.formularioCancha.get('numero_cancha')!;
+  get descripcion_cancha(): AbstractControl {
+    return this.formularioCancha.get('descripcion_cancha')!;
   }
 
   get cantidad_jugadores(): AbstractControl {
@@ -108,11 +106,11 @@ export class SoccerFieldComponent {
     return this.formularioCancha.get('establecimiento')!;
   }
 
-  validarNumeroCancha(): boolean {
+  validarDescripcionCancha(): boolean {
     let status = false;
-    if (this.numero_cancha.touched) {
-      if (this.numero_cancha.hasError('required')) {
-        this.numeroCanchaError = Constant.ERROR_CAMPO_REQUERIDO;
+    if (this.descripcion_cancha.touched) {
+      if (this.descripcion_cancha.hasError('required')) {
+        this.descripcionCanchaError = Constant.ERROR_CAMPO_REQUERIDO;
         status = true;
       }
     }

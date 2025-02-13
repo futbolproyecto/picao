@@ -10,7 +10,6 @@ import {
 } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { Constant } from '../../shared/utils/constant';
-import { MatSelectModule } from '@angular/material/select';
 import { DataTableComponent } from '../../shared/components/custom/data-table/data-table.component';
 import { AlertsService } from '../../core/service/alerts.service';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -27,7 +26,6 @@ import { CityDto } from '../../data/schema/cityDto';
     CommonModule,
     MatInputModule,
     ReactiveFormsModule,
-    MatSelectModule,
     FormsModule,
     DataTableComponent,
     NgSelectModule,
