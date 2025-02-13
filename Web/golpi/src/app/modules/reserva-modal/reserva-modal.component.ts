@@ -1,5 +1,9 @@
 import { Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogModule,
+  MatDialogRef,
+} from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -10,5 +14,12 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./reserva-modal.component.css'],
 })
 export class ReservaModalComponent {
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any) {}
+  constructor(
+    public dialogRef: MatDialogRef<ReservaModalComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any
+  ) {}
+
+  close() {
+    this.dialogRef.close();
+  }
 }

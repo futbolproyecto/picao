@@ -13,7 +13,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { Constant } from '../../shared/utils/constant';
 import { ModoAuthService } from '../../core/service/modo-auth.service';
-import { MatSelectModule } from '@angular/material/select';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -28,7 +27,6 @@ import { NgSelectModule } from '@ng-select/ng-select';
     MatButtonModule,
     FormsModule,
     ReactiveFormsModule,
-    MatSelectModule,
     MatFormFieldModule,
     NgSelectModule,
   ],
@@ -192,6 +190,7 @@ export class RegistreComponent {
 
   limpiarFormulario(): void {
     this.formularioRegistro.reset();
+    this.formularioRegistro.patchValue({ indicador: this.selected });
   }
 
   enviar(): void {

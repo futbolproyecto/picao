@@ -44,6 +44,7 @@
               [matTooltip]="'Usuario'"
               [matTooltipPosition]="'right'"
               [matTooltipDisabled]="!menuExpandido"
+              (click)="closeMenuMobile()"
             >
               <i class="material-icons icono-submenu">manage_accounts</i>
               <p *ngIf="!menuExpandido">Usuario</p>

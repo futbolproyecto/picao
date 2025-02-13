@@ -2,7 +2,7 @@
   <h1>
     <h1>Establecimiento / {{ nombrePestana }}</h1>
   </h1>
-  <div class="card">
+  <div class="card-soccer">
     <app-card>
       <div class="container-card">
         <div class="container-modulos">
@@ -32,11 +32,11 @@
           <form [formGroup]="formularioCancha" class="form-content">
             <div class="form-group">
               <mat-form-field>
-                <mat-label>No. cancha</mat-label>
-                <input matInput formControlName="numero_cancha" />
+                <mat-label>Descripción cancha</mat-label>
+                <input matInput formControlName="descripcion_cancha" />
               </mat-form-field>
-              <small class="text-error" *ngIf="validarNumeroCancha()">
-                {{ numeroCanchaError }}
+              <small class="text-error" *ngIf="validarDescripcionCancha()">
+                {{ descripcionCanchaError }}
               </small>
 
               <mat-form-field>
@@ -88,7 +88,7 @@
             </div>
           </form>
 
-          <div class="contaner-tabla">
+          <div class="container-tabla">
             <h2>Listado de canchas</h2>
             <div class="table-wrapper">
               <app-data-table

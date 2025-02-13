@@ -32,34 +32,37 @@ export class DashboardComponent {
   // Simulación de reservas
   public reservas = [
     {
-      fecha: new Date('2025-02-10'),
+      fecha: new Date(2025, 1, 10),
       nombre: 'Juan Pérez',
       hora: '10:00 AM',
       estado: 'Confirmado',
     },
     {
-      fecha: new Date(2025, 2, 15),
+      fecha: new Date(2025, 1, 10),
       nombre: 'María López',
       hora: '2:30 PM',
       estado: 'Pendiente',
     },
     {
-      fecha: new Date('11-02-2025'),
+      fecha: new Date(2025, 1, 14),
       nombre: 'Carlos Gómez',
       hora: '4:00 PM',
       estado: 'Reservado',
     },
   ];
 
-  openDialog() {
-    if (!this.selected) return;
+  onDateSelected(date: Date | null) {
+    if (date) {
+      const dayReservations = this.reservas.filter(
+        (res) => res.fecha.toDateString() === date.toDateString()
+      );
 
-    const reserva = this.reservas.find(
-      (r) => r.fecha.toDateString() === this.selected!.toDateString()
-    );
-
-    if (reserva) {
-      this.dialog.open(ReservaModalComponent, { data: reserva });
+      if (dayReservations.length > 0) {
+        this.dialog.open(ReservaModalComponent, {
+          data: { date, reservas: dayReservations },
+          width: '400px',
+        });
+      }
     }
   }
 }

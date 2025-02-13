@@ -19,7 +19,7 @@
         <mat-card class="demo-inline-calendar-card">
           <mat-calendar
             [(selected)]="selected"
-            (selectedChange)="openDialog()"
+            (selectedChange)="onDateSelected($event)"
           ></mat-calendar>
         </mat-card>
         <p>Fecha seleccionada: {{ selected | date : "dd/MM/yyyy" }}</p>

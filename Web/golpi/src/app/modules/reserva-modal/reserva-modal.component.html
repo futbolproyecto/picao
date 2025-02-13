@@ -1,10 +1,17 @@
-<h2 mat-dialog-title>Detalles de la Reserva</h2>
+<h2 mat-dialog-title>Reservas para {{ data.fecha | date : "fullDate" }}</h2>
+
 <mat-dialog-content>
-  <p><strong>Fecha:</strong> {{ data.fecha | date: 'fullDate' }}</p>
-  <p><strong>Nombre:</strong> {{ data.nombre }}</p>
-  <p><strong>Hora:</strong> {{ data.hora }}</p>
-  <p><strong>Estado:</strong> {{ data.estado }}</p>
+  <div *ngFor="let res of data.reservas" class="reservation-item">
+    <p><strong>Nombre:</strong> {{ res.nombre }}</p>
+    <p><strong>Hora:</strong> {{ res.hora }}</p>
+    <p>
+      <strong>Estado: </strong>
+      <span [ngClass]="res.estado | lowercase">{{ res.estado }}</span>
+    </p>
+    <hr *ngIf="!res.last" />
+  </div>
 </mat-dialog-content>
+
 <mat-dialog-actions>
-  <button mat-button mat-dialog-close>Cerrar</button>
+  <button mat-button (click)="close()">Cerrar</button>
 </mat-dialog-actions>

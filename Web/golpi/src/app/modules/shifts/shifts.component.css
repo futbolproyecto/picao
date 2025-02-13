@@ -86,7 +86,7 @@ h2 {
   background-color: var(--color-primary);
 }
 
-@media (max-width: 952px) {
+@media (max-width: 1124px) {
   .form-content {
     padding: 0;
   }

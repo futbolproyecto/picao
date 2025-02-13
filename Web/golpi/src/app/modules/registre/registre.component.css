@@ -99,7 +99,7 @@ a {
   font-size: 17px !important;
 }
 
-@media (max-width: 952px) {
+@media (max-width: 1124px) {
   .custom-input {
     width: 100%;
     font-size: 15px;

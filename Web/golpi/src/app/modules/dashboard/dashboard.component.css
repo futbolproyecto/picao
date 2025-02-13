@@ -59,7 +59,7 @@ p {
   padding-top: 5px;
 }
 
-@media (max-width: 952px) {
+@media (max-width: 1124px) {
   p {
     font-size: 10px;
   }

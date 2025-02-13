@@ -37,7 +37,7 @@ form {
   gap: 15px;
 }
 
-.contaner-tabla {
+.container-tabla {
   padding: 20px;
 }
 
@@ -80,7 +80,7 @@ h1 {
 }
 
 /* Reglas de medios */
-@media (max-width: 952px) {
+@media (max-width: 1124px) {
   .container-establecimiento {
     padding: 10px;
   }
@@ -111,10 +111,10 @@ h1 {
     font: bold 15px "Montserrat";
   }
 
-  .contaner-tabla {
-    width: 100vw;
+  .container-tabla {
+    width: 98vw;
     overflow-x: auto;
-    padding: 20px;
+    padding: 10px;
     box-sizing: border-box;
   }
 
@@ -125,5 +125,11 @@ h1 {
 
   h2 {
     display: flex;
+  }
+}
+
+@media (max-width: 698px) {
+  .container-tabla {
+    width: 95vw;
   }
 }
