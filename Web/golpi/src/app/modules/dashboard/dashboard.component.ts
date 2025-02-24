@@ -1,11 +1,18 @@
+// Core
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { MatCardModule } from '@angular/material/card';
+
+// Librerias
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { ReservaModalComponent } from '../reserva-modal/reserva-modal.component';
+
+// Compartidos
+import { MatCardModule } from '@angular/material/card';
 import { CardComponent } from '../../shared/components/custom/card/card.component';
+
+// Componentes
+import { ReservaModalComponent } from '../reserva-modal/reserva-modal.component';
 
 @Component({
   selector: 'app-dashboard',

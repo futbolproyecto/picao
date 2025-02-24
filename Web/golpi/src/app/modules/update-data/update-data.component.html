@@ -85,11 +85,11 @@
               <div class="container-celular">
                 <ng-select
                   formControlName="indicador"
+                  [items]="countryDTO"
+                  bindLabel="cellPrefix"
+                  bindValue="id"
                   class="custom-input-indicativo"
                   [(ngModel)]="selected"
-                  [items]="indicativos"
-                  bindValue="value"
-                  bindLabel="label"
                 >
                 </ng-select>
 

@@ -1,3 +1,4 @@
+// Core
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import {
@@ -8,10 +9,16 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
+
+// Librerias
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { Constant } from '../../shared/utils/constant';
+
+// Servicios
 import { AlertsService } from '../../core/service/alerts.service';
+
+// Comparitdos
+import { Constant } from '../../shared/utils/constant';
 import { ValidatorsCustom } from '../../shared/utils/validators';
 
 @Component({

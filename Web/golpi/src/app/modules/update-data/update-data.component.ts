@@ -1,5 +1,5 @@
-import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+// Core
+import { Component, DestroyRef, inject } from '@angular/core';
 import {
   AbstractControl,
   FormsModule,
@@ -8,21 +8,36 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { filter, map, switchMap } from 'rxjs/operators';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
+// Servicios
+import { CountryService } from '../../core/service/country.service';
+import { UserService } from '../../core/service/user.service';
+import { AlertsService } from '../../core/service/alerts.service';
+import { AutenticacionStoreService } from '../../core/store/auth/autenticacion-store.service';
+
+// Librerias
+import { MatNativeDateModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
-import { Constant } from '../../shared/utils/constant';
-import { AlertsService } from '../../core/service/alerts.service';
-import { CardComponent } from '../../shared/components/custom/card/card.component';
-import { ChangePasswordComponent } from '../change-password/change-password.component';
-import { UsuarioResponseDto } from '../../data/schema/userResponseDto';
-import { UserService } from '../../core/service/user.service';
-import { AutenticacionStoreService } from '../../core/store/auth/autenticacion-store.service';
-import { filter, map, switchMap } from 'rxjs/operators';
 import { NgSelectModule } from '@ng-select/ng-select';
+
+// Compartidos
+import { Constant } from '../../shared/utils/constant';
+import { MessageExceptionDto } from '../../data/schema/MessageExceptionDto';
+import { CardComponent } from '../../shared/components/custom/card/card.component';
+
+// Componentes
+import { ChangePasswordComponent } from '../change-password/change-password.component';
+
+//Dto
+import { UsuarioResponseDto } from '../../data/schema/userResponseDto';
+import { CountryDto } from '../../data/schema/countryDto';
 
 @Component({
   selector: 'app-update-data',
@@ -50,7 +65,11 @@ export class UpdateDataComponent {
   public usuario: UsuarioResponseDto = new UsuarioResponseDto();
   private userService = inject(UserService);
   private autenticacionStoreService = inject(AutenticacionStoreService);
+  private destroyRef = inject(DestroyRef);
+  private countryService = inject(CountryService);
+  public countryDTO: Array<CountryDto> = new Array<CountryDto>();
 
+  public usuarioId: number = 0;
   public primerNombreError: string = '';
   public segundoNombreError: string = '';
   public primerApellidoError: string = '';
@@ -66,16 +85,15 @@ export class UpdateDataComponent {
 
   public formularioActualizar: UntypedFormGroup = new UntypedFormGroup({});
   public modoEdicion: boolean = false;
-  public selected: string = 'COP';
-
-  public indicativos = [
-    { value: 'COP', label: '+57' },
-    { value: 'EEUU', label: '+1' },
-    { value: 'MEX', label: '+52' },
-  ];
+  public selected: number = 1;
 
   constructor() {
     this.buildForm();
+  }
+
+  ngOnInit(): void {
+    this.cargarDatosUsuario();
+    this.mostrarIndicativos();
   }
 
   buildForm(): void {
@@ -128,7 +146,12 @@ export class UpdateDataComponent {
           Validators.pattern(Constant.PATTERN_CORREO),
         ],
       ],
-      indicador: [this.selected, [Validators.required]],
+      indicador: [
+        '',
+        [
+          //     Validators.required
+        ],
+      ],
       celular: [
         '',
         [
@@ -138,7 +161,6 @@ export class UpdateDataComponent {
           Validators.pattern(Constant.PATTERN_NUMEROS),
         ],
       ],
-      ciudad: ['', [Validators.required]],
       fecha_nacimiento: ['', [Validators.required]],
     });
   }
@@ -167,12 +189,12 @@ export class UpdateDataComponent {
     return this.formularioActualizar.get('correo')!;
   }
 
-  get celular(): AbstractControl {
-    return this.formularioActualizar.get('celular')!;
+  get indicativo(): AbstractControl {
+    return this.formularioActualizar.get('indicativo')!;
   }
 
-  get ciudad(): AbstractControl {
-    return this.formularioActualizar.get('ciudad')!;
+  get celular(): AbstractControl {
+    return this.formularioActualizar.get('celular')!;
   }
 
   get fecha_nacimiento(): AbstractControl {
@@ -301,17 +323,6 @@ export class UpdateDataComponent {
     return status;
   }
 
-  validarCiudad(): boolean {
-    let status = false;
-    if (this.ciudad.touched) {
-      if (this.ciudad.hasError('required')) {
-        this.ciudadError = Constant.ERROR_CAMPO_REQUERIDO;
-        status = true;
-      }
-    }
-    return status;
-  }
-
   validarFechaNacimiento(): boolean {
     let status = false;
     if (this.fecha_nacimiento.touched) {
@@ -323,9 +334,18 @@ export class UpdateDataComponent {
     return status;
   }
 
-  limpiarFormulario(): void {
-    this.formularioActualizar.reset();
-    this.formularioActualizar.patchValue({ indicador: this.selected });
+  mostrarIndicativos(): void {
+    this.countryService
+      .getAll()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(
+        (res: any) => {
+          this.countryDTO = res.payload as CountryDto[];
+        },
+        (err) => {
+          this.alertsService.fireError(err);
+        }
+      );
   }
 
   activarPestana(pestana: string): void {
@@ -338,12 +358,7 @@ export class UpdateDataComponent {
       this.actualizarActivo = false;
       this.cambiarActivo = true;
       this.nombrePestana = 'Cambiar contraseña';
-      this.limpiarFormulario();
     }
-  }
-
-  ngOnInit(): void {
-    this.cargarDatosUsuario();
   }
 
   cargarDatosUsuario(): void {
@@ -356,32 +371,46 @@ export class UpdateDataComponent {
       )
       .subscribe({
         next: (response) => {
+          console.log(response);
           if (response?.payload) {
             this.usuario = response.payload;
+            this.usuarioId = this.usuario.id ?? 0;
             this.llenarFormulario();
           }
         },
-        error: () => {
-          console.error('Error al cargar los datos del usuario');
+        error: (err) => {
+          const errorDto = new MessageExceptionDto({
+            status: err.error?.status,
+            error: err.error?.error,
+            recommendation: err.error?.recommendation,
+          });
+          this.alertsService.fireError(errorDto);
         },
       });
   }
 
   llenarFormulario(): void {
-    const fechaNacimiento = this.usuario.dateOfBirth
-      ? new Date(this.usuario.dateOfBirth)
-      : null;
+    if (this.usuario?.date_of_birth) {
+      const [year, month, day] = this.usuario.date_of_birth
+        .split('-')
+        .map(Number);
+      const fechaNacimiento = new Date(year, month - 1, day);
 
-    this.formularioActualizar.patchValue({
-      primer_nombre: this.usuario.name,
-      segundo_nombre: this.usuario.secondName,
-      primer_apellido: this.usuario.lastName,
-      segundo_apellido: this.usuario.secondLastName,
-      nombre_usuario: this.usuario.username,
-      correo: this.usuario.email,
-      celular: this.usuario.mobileNumber,
-      fecha_nacimiento: fechaNacimiento,
-    });
+      this.formularioActualizar.patchValue({
+        primer_nombre: this.usuario.name,
+        segundo_nombre: this.usuario.second_name,
+        primer_apellido: this.usuario.last_name,
+        segundo_apellido: this.usuario.second_last_name,
+        nombre_usuario: this.usuario.username,
+        correo: this.usuario.email,
+        celular: this.usuario.mobile_number,
+        fecha_nacimiento: fechaNacimiento,
+      });
+    } else {
+      this.formularioActualizar.patchValue({
+        fecha_nacimiento: null,
+      });
+    }
   }
 
   formatearFecha(fecha: string): string {
@@ -394,7 +423,48 @@ export class UpdateDataComponent {
 
   actualizarDatos(): void {
     if (this.formularioActualizar.valid) {
-      console.log('Se actualizo los datos');
+      const selectedCountry = this.countryDTO.find(
+        (country) => country.id === this.selected
+      );
+
+      const cellPrefix = selectedCountry ? selectedCountry.cellPrefix : '';
+
+      this.usuario = {
+        id: this.usuarioId,
+        name: this.primer_nombre.value,
+        second_name: this.segundo_nombre.value,
+        last_name: this.primer_apellido.value,
+        second_last_name: this.segundo_apellido.value,
+        mobile_number: `${cellPrefix}${this.celular.value}`,
+        email: this.correo.value,
+        username: this.nombre_usuario.value,
+        date_of_birth: this.fecha_nacimiento.value
+          ? new Date(this.fecha_nacimiento.value).toISOString().split('T')[0]
+          : undefined,
+      };
+
+      this.userService
+        .update(this.usuario)
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe(
+          () => {
+            this.cargarDatosUsuario();
+            this.alertsService.toast(
+              'success',
+              'Usuario actualizado exitosamente.'
+            );
+          },
+          (err) => {
+            console.log(err);
+            const errorDto = new MessageExceptionDto({
+              status: err.error?.status,
+              error: err.error?.error,
+              recommendation: err.error?.recommendation,
+            });
+            console.log(errorDto);
+            this.alertsService.fireError(errorDto);
+          }
+        );
     } else {
       this.formularioActualizar.markAllAsTouched();
       this.alertsService.toast('error', Constant.ERROR_FORM_INCOMPLETO);

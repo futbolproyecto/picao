@@ -1,10 +1,13 @@
+// Core
 import { Component, Inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
+// Librerias
 import {
   MAT_DIALOG_DATA,
   MatDialogModule,
   MatDialogRef,
 } from '@angular/material/dialog';
-import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-reserva-modal',

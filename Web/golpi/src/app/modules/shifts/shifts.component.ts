@@ -1,3 +1,4 @@
+// Core
 import { CommonModule } from '@angular/common';
 import { Component, inject, Inject, OnInit, DestroyRef } from '@angular/core';
 import {
@@ -7,6 +8,13 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
+// Servicios
+import { AlertsService } from '../../core/service/alerts.service';
+import { UserService } from '../../core/service/user.service';
+
+// Librerias
 import { MatButtonModule } from '@angular/material/button';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -17,12 +25,13 @@ import {
 } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { Constant } from '../../shared/utils/constant';
-import { AlertsService } from '../../core/service/alerts.service';
 import { NgSelectModule } from '@ng-select/ng-select';
+
+// Compartidos
+import { Constant } from '../../shared/utils/constant';
+
+// Dto
 import { UsuarioResponseDto } from '../../data/schema/userResponseDto';
-import { UserService } from '../../core/service/user.service';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-shifts',
