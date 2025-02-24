@@ -18,4 +18,6 @@ public interface UserMapper {
     UserEntity toUser(CreateUserRequestDTO createUserRequestDTO);
 
     UserResponseDTO toUserResponseDTO(UserEntity userEntity);
+
+    UserEntity toUserFromResponseDTO(UserResponseDTO userResponseDTO);
 }

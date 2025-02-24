@@ -18,4 +18,6 @@ public interface UserService {
 
     List<UserResponseDTO> getAll();
 
+    UserResponseDTO updateData(UserResponseDTO userResponseDTO);
+
 }

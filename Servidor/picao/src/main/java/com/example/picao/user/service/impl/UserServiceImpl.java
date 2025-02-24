@@ -152,6 +152,34 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         }
 
     }
+
+    @Transactional
+    public UserResponseDTO updateData(UserResponseDTO userResponseDTO) {
+        UserEntity userEntity = userRepository.findById(userResponseDTO.getId()).orElseThrow(
+                () -> new AppException(ErrorMessages.USER_NOT_EXIST, HttpStatus.NOT_FOUND));
+
+        if (!userEntity.getMobileNumber().equals(userResponseDTO.getMobileNumber())) {
+            userRepository.findByMobileNumber(userResponseDTO.getMobileNumber()).ifPresent(
+                    user -> {
+                        throw new AppException(ErrorMessages.DUPLICATE_PHONE_NUMBER, HttpStatus.BAD_REQUEST);
+                    });
+        }
+
+        if (!userEntity.getEmail().equals(userResponseDTO.getEmail())) {
+            userRepository.findByEmail(userResponseDTO.getEmail()).ifPresent(
+                    user -> {
+                        throw new AppException(ErrorMessages.DUPLICATE_EMAIL, HttpStatus.BAD_REQUEST);
+                    });
+        }
+
+        UserEntity userModified = UserMapper.USER.toUserFromResponseDTO(userResponseDTO);
+        userModified.setPassword(userEntity.getPassword());
+
+        UserEntity savedUser = userRepository.save(userModified);
+
+        return UserMapper.USER.toUserResponseDTO(savedUser);
+    }
+
 }
 
 
