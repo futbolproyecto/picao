@@ -2,6 +2,7 @@ package com.example.picao.user.service;
 
 import com.example.picao.user.dto.ChangePasswordRequestDTO;
 import com.example.picao.user.dto.CreateUserRequestDTO;
+import com.example.picao.user.dto.SetPasswordRequestDTO;
 import com.example.picao.user.dto.UserResponseDTO;
 
 import java.util.List;
@@ -19,5 +20,7 @@ public interface UserService {
     List<UserResponseDTO> getAll();
 
     UserResponseDTO updateData(UserResponseDTO userResponseDTO);
+
+    int setPassword(SetPasswordRequestDTO setPasswordRequestDTO);
 
 }

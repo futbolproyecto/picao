@@ -2,7 +2,7 @@
 import { inject, Injectable } from '@angular/core';
 
 // Import libraries
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 //Store
@@ -44,5 +44,11 @@ export class AutenticacionStoreService {
 
   public obtenerSesion$(): Observable<AuthRequestDto> {
     return this.store.select(fromAutenticacionSelectors.selectSesion);
+  }
+
+  public obtenerId$(): Observable<number> {
+    return this.store.select(fromAutenticacionSelectors.selectId).pipe(
+      map((id) => id ?? 0)
+    );
   }
 }

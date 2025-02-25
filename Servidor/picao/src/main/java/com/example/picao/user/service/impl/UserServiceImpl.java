@@ -3,6 +3,8 @@ package com.example.picao.user.service.impl;
 import com.example.picao.core.exception.AppException;
 import com.example.picao.core.util.ErrorMessages;
 import com.example.picao.core.util.UsefulMethods;
+import com.example.picao.team.entity.Team;
+import com.example.picao.user.dto.SetPasswordRequestDTO;
 import com.example.picao.user.mapper.UserMapper;
 import com.example.picao.otp.repository.OtpRepository;
 import com.example.picao.user.dto.ChangePasswordRequestDTO;
@@ -106,7 +108,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public UserResponseDTO getUserById(int id) {
         try {
-
             UserEntity userEntity = userRepository.findById(id).orElseThrow(
                     () -> new AppException(ErrorMessages.USER_NOT_EXIST, HttpStatus.NOT_FOUND));
 
@@ -174,12 +175,31 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
         UserEntity userModified = UserMapper.USER.toUserFromResponseDTO(userResponseDTO);
         userModified.setPassword(userEntity.getPassword());
-
         UserEntity savedUser = userRepository.save(userModified);
 
         return UserMapper.USER.toUserResponseDTO(savedUser);
     }
 
+    @Transactional
+    @Override
+    public int setPassword(SetPasswordRequestDTO setPasswordRequestDTO) {
+        try {
+            UserEntity user = userRepository.findById(setPasswordRequestDTO.idUser()).orElseThrow(
+                    () -> new AppException(ErrorMessages.USER_NOT_EXIST, HttpStatus.NOT_FOUND));
+
+            if (!passwordEncoder.matches(setPasswordRequestDTO.oldPassword(), user.getPassword())) {
+                throw new AppException(ErrorMessages.INVALID_OLD_PASSWORD, HttpStatus.NOT_FOUND);
+            }
+
+            user.setPassword(passwordEncoder.encode(setPasswordRequestDTO.newPassword()));
+            userRepository.save(user);
+            return 0;
+
+        } catch (
+                AppException e) {
+            throw new AppException(e.getErrorMessages(), e.getHttpStatus());
+        }
+    }
 }
 
 

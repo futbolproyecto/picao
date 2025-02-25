@@ -14,3 +14,8 @@ export const selectSesion = createSelector(
   selectAutenticacion,
   (state) => state.sesion
 );
+
+export const selectId = createSelector(
+  selectAutenticacion,
+  (state) => state.sesion.id
+);

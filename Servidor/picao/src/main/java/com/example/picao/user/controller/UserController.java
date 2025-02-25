@@ -3,6 +3,7 @@ package com.example.picao.user.controller;
 import com.example.picao.core.util.dto.GenericResponseDTO;
 import com.example.picao.user.dto.ChangePasswordRequestDTO;
 import com.example.picao.user.dto.CreateUserRequestDTO;
+import com.example.picao.user.dto.SetPasswordRequestDTO;
 import com.example.picao.user.dto.UserResponseDTO;
 import com.example.picao.user.service.UserService;
 import jakarta.validation.Valid;
@@ -33,7 +34,6 @@ public class UserController {
     @GetMapping(value = "get-by-id/{id}")
     public ResponseEntity<GenericResponseDTO> getById(
             @PathVariable Integer id) {
-
         return GenericResponseDTO.genericResponse(userService.getUserById(id));
     }
 
@@ -53,4 +53,11 @@ public class UserController {
     public ResponseEntity<GenericResponseDTO> updateData(@RequestBody @Valid UserResponseDTO userResponseDTO) {
         return GenericResponseDTO.genericResponse(userService.updateData(userResponseDTO));
     }
+
+    @PutMapping(value = "set-password")
+    public ResponseEntity<GenericResponseDTO> setPassword(
+            @RequestBody @Valid SetPasswordRequestDTO setPasswordRequestDTO) {
+        return GenericResponseDTO.genericResponse(userService.setPassword(setPasswordRequestDTO));
+    }
+
 }

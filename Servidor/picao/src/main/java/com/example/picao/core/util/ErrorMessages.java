@@ -60,7 +60,10 @@ public enum ErrorMessages {
             "E18"),
     USER_WITHOUT_TEAM("Aún no estás registrado en ningún equipo.",
             "Crea o únete a un equipo para comenzar",
-            "E19");
+            "E19"),
+    INVALID_OLD_PASSWORD("La contraseña actual no concuerda",
+                                     "Verifique la informacion ingresada",
+                                     "E20");
     private final String message;
     private final String recommendation;
     private final String code;
