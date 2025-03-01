@@ -3,13 +3,9 @@ package com.example.picao.user.service.impl;
 import com.example.picao.core.exception.AppException;
 import com.example.picao.core.util.ErrorMessages;
 import com.example.picao.core.util.UsefulMethods;
-import com.example.picao.team.entity.Team;
-import com.example.picao.user.dto.SetPasswordRequestDTO;
+import com.example.picao.user.dto.*;
 import com.example.picao.user.mapper.UserMapper;
 import com.example.picao.otp.repository.OtpRepository;
-import com.example.picao.user.dto.ChangePasswordRequestDTO;
-import com.example.picao.user.dto.CreateUserRequestDTO;
-import com.example.picao.user.dto.UserResponseDTO;
 import com.example.picao.user.entity.UserEntity;
 import com.example.picao.user.repository.UserRepository;
 import com.example.picao.user.service.UserService;
@@ -155,29 +151,29 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Transactional
-    public UserResponseDTO updateData(UserResponseDTO userResponseDTO) {
-        UserEntity userEntity = userRepository.findById(userResponseDTO.getId()).orElseThrow(
+    @Override
+    public UserResponseDTO update(UpdateUserRequestDTO requestDTO) {
+        UserEntity userEntity = userRepository.findById(requestDTO.id()).orElseThrow(
                 () -> new AppException(ErrorMessages.USER_NOT_EXIST, HttpStatus.NOT_FOUND));
 
-        if (!userEntity.getMobileNumber().equals(userResponseDTO.getMobileNumber())) {
-            userRepository.findByMobileNumber(userResponseDTO.getMobileNumber()).ifPresent(
+        if (!userEntity.getMobileNumber().equals(requestDTO.mobileNumber())) {
+            userRepository.findByMobileNumber(requestDTO.mobileNumber()).ifPresent(
                     user -> {
                         throw new AppException(ErrorMessages.DUPLICATE_PHONE_NUMBER, HttpStatus.BAD_REQUEST);
                     });
         }
 
-        if (!userEntity.getEmail().equals(userResponseDTO.getEmail())) {
-            userRepository.findByEmail(userResponseDTO.getEmail()).ifPresent(
+        if (!userEntity.getEmail().equals(requestDTO.email())) {
+            userRepository.findByEmail(requestDTO.email()).ifPresent(
                     user -> {
                         throw new AppException(ErrorMessages.DUPLICATE_EMAIL, HttpStatus.BAD_REQUEST);
                     });
         }
 
-        UserEntity userModified = UserMapper.USER.toUserFromResponseDTO(userResponseDTO);
+        UserEntity userModified = UserMapper.USER.toUserFromUpdateUserRequestDTO(requestDTO);
         userModified.setPassword(userEntity.getPassword());
-        UserEntity savedUser = userRepository.save(userModified);
 
-        return UserMapper.USER.toUserResponseDTO(savedUser);
+        return UserMapper.USER.toUserResponseDTO(userRepository.save(userModified));
     }
 
     @Transactional

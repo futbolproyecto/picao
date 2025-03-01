@@ -3,6 +3,7 @@ package com.example.picao.user.mapper;
 import com.example.picao.authentication.dto.AuthResponseDTO;
 import com.example.picao.role.mapper.RoleMapper;
 import com.example.picao.user.dto.CreateUserRequestDTO;
+import com.example.picao.user.dto.UpdateUserRequestDTO;
 import com.example.picao.user.dto.UserResponseDTO;
 import com.example.picao.user.entity.UserEntity;
 import org.mapstruct.Mapper;
@@ -19,5 +20,5 @@ public interface UserMapper {
 
     UserResponseDTO toUserResponseDTO(UserEntity userEntity);
 
-    UserEntity toUserFromResponseDTO(UserResponseDTO userResponseDTO);
+    UserEntity toUserFromUpdateUserRequestDTO(UpdateUserRequestDTO requestDTO);
 }
