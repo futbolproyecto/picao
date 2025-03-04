@@ -1,6 +1,7 @@
 package com.example.picao.user.mapper;
 
 import com.example.picao.authentication.dto.AuthResponseDTO;
+import com.example.picao.player_profile.mapper.PlayerProfileMapper;
 import com.example.picao.role.mapper.RoleMapper;
 import com.example.picao.user.dto.CreateUserRequestDTO;
 import com.example.picao.user.dto.UpdateUserRequestDTO;
@@ -9,7 +10,7 @@ import com.example.picao.user.entity.UserEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
-@Mapper(uses = {RoleMapper.class})
+@Mapper(uses = {RoleMapper.class, PlayerProfileMapper.class})
 public interface UserMapper {
 
     UserMapper USER = Mappers.getMapper(UserMapper.class);

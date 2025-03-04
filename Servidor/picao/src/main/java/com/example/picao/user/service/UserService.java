@@ -10,7 +10,7 @@ public interface UserService {
 
     int changePassword(ChangePasswordRequestDTO changePasswordRequestDTO);
 
-    UserResponseDTO getUserById(int id);
+    UserResponseDTO getById(int id);
 
     UserResponseDTO getByMobileNumber(String mobileNumber);
 

@@ -102,7 +102,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Transactional(readOnly = true)
     @Override
-    public UserResponseDTO getUserById(int id) {
+    public UserResponseDTO getById(int id) {
         try {
             UserEntity userEntity = userRepository.findById(id).orElseThrow(
                     () -> new AppException(ErrorMessages.USER_NOT_EXIST, HttpStatus.NOT_FOUND));
@@ -153,27 +153,32 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Transactional
     @Override
     public UserResponseDTO update(UpdateUserRequestDTO requestDTO) {
-        UserEntity userEntity = userRepository.findById(requestDTO.id()).orElseThrow(
-                () -> new AppException(ErrorMessages.USER_NOT_EXIST, HttpStatus.NOT_FOUND));
+        try {
+            UserEntity userEntity = userRepository.findById(requestDTO.id()).orElseThrow(
+                    () -> new AppException(ErrorMessages.USER_NOT_EXIST, HttpStatus.NOT_FOUND));
 
-        if (!userEntity.getMobileNumber().equals(requestDTO.mobileNumber())) {
-            userRepository.findByMobileNumber(requestDTO.mobileNumber()).ifPresent(
-                    user -> {
-                        throw new AppException(ErrorMessages.DUPLICATE_PHONE_NUMBER, HttpStatus.BAD_REQUEST);
-                    });
+            if (!userEntity.getMobileNumber().equals(requestDTO.mobileNumber())) {
+                userRepository.findByMobileNumber(requestDTO.mobileNumber()).ifPresent(
+                        user -> {
+                            throw new AppException(ErrorMessages.DUPLICATE_PHONE_NUMBER, HttpStatus.BAD_REQUEST);
+                        });
+            }
+
+            if (!userEntity.getEmail().equals(requestDTO.email())) {
+                userRepository.findByEmail(requestDTO.email()).ifPresent(
+                        user -> {
+                            throw new AppException(ErrorMessages.DUPLICATE_EMAIL, HttpStatus.BAD_REQUEST);
+                        });
+            }
+
+            UserEntity userModified = UserMapper.USER.toUserFromUpdateUserRequestDTO(requestDTO);
+            userModified.setPassword(userEntity.getPassword());
+
+            return UserMapper.USER.toUserResponseDTO(userRepository.save(userModified));
+        } catch (AppException e) {
+            throw new AppException(e.getErrorMessages(), e.getHttpStatus());
         }
 
-        if (!userEntity.getEmail().equals(requestDTO.email())) {
-            userRepository.findByEmail(requestDTO.email()).ifPresent(
-                    user -> {
-                        throw new AppException(ErrorMessages.DUPLICATE_EMAIL, HttpStatus.BAD_REQUEST);
-                    });
-        }
-
-        UserEntity userModified = UserMapper.USER.toUserFromUpdateUserRequestDTO(requestDTO);
-        userModified.setPassword(userEntity.getPassword());
-
-        return UserMapper.USER.toUserResponseDTO(userRepository.save(userModified));
     }
 
     @Transactional

@@ -31,7 +31,7 @@ public class UserController {
     @GetMapping(value = "get-by-id/{id}")
     public ResponseEntity<GenericResponseDTO> getById(
             @PathVariable Integer id) {
-        return GenericResponseDTO.genericResponse(userService.getUserById(id));
+        return GenericResponseDTO.genericResponse(userService.getById(id));
     }
 
     @GetMapping(value = "get-by-mobile-number/{mobileNumber}")
