@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:golpi/modules/widgets/ui_text.dart';
 import 'package:golpi/core/models/option_model.dart';
@@ -64,6 +65,9 @@ class UiTextFiel {
     bool obscureText = false,
   }) {
     return ReactiveDateTimePicker(
+      valueAccessor: DateTimeValueAccessor(
+        dateTimeFormat: DateFormat('yyyy-MM-dd'),
+      ),
       formControlName: formControlName,
       firstDate: firstDate,
       lastDate: lastDate,

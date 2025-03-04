@@ -63,6 +63,8 @@ class RegisterTeamPage extends StatelessWidget {
                             validationMessages: {
                               ValidationMessage.required: (error) =>
                                   'Campo requerido',
+                              ValidationMessage.maxLength: (error) =>
+                                  'Maximo 50 caracteres',
                             },
                           ),
                           const SizedBox(height: 20),
@@ -74,6 +76,8 @@ class RegisterTeamPage extends StatelessWidget {
                             validationMessages: {
                               ValidationMessage.required: (error) =>
                                   'Campo requerido',
+                              ValidationMessage.maxLength: (error) =>
+                                  'Maximo 50 caracteres',
                             },
                           ),
                           const SizedBox(height: 20),
@@ -85,6 +89,8 @@ class RegisterTeamPage extends StatelessWidget {
                             validationMessages: {
                               ValidationMessage.required: (error) =>
                                   'Campo requerido',
+                              ValidationMessage.maxLength: (error) =>
+                                  'Maximo 50 caracteres',
                             },
                           ),
                           const SizedBox(height: 20),

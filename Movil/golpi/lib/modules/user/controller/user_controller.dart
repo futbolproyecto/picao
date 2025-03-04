@@ -44,6 +44,7 @@ class UserController extends GetxController {
   var scrollController = ScrollController();
   var isValidateEmail = true.obs;
   var isEmailValidated = false.obs;
+  var termsAndConditionsError = Rx<String?>(null);
 
   var formUserRegistrer = FormGroup({
     'name': FormControl<String>(

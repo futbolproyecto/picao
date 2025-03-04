@@ -92,6 +92,8 @@ class RecoverPasswordPage extends StatelessWidget {
                                         validationMessages: {
                                           ValidationMessage.required: (error) =>
                                               'Campo requerido',
+                                          ValidationMessage.email: (error) =>
+                                              'Formato de correo incorrecto',
                                         },
                                       ),
                                       const SizedBox(height: 20),
@@ -142,6 +144,9 @@ class RecoverPasswordPage extends StatelessWidget {
                                           validationMessages: {
                                             ValidationMessage.required:
                                                 (error) => 'Campo requerido',
+                                            ValidationMessage.maxLength:
+                                                (error) =>
+                                                    'Maximo 50 caracteres',
                                           },
                                         ),
                                       ),
@@ -170,6 +175,9 @@ class RecoverPasswordPage extends StatelessWidget {
                                             ValidationMessage.mustMatch:
                                                 (error) =>
                                                     'La contraseña no coincide',
+                                            ValidationMessage.maxLength:
+                                                (error) =>
+                                                    'Maximo 50 caracteres',
                                           },
                                         ),
                                       ),
@@ -284,7 +292,8 @@ class RecoverPasswordPage extends StatelessWidget {
                                                     .markAllAsTouched();
                                                 if (reactiveFormChangePassword
                                                     .valid) {
-                                                  userController.changePassword();
+                                                  userController
+                                                      .changePassword();
                                                 }
                                               },
                                               title: 'Validar')
