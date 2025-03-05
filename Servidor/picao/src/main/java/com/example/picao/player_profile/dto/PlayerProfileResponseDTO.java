@@ -18,16 +18,16 @@ public class PlayerProfileResponseDTO {
 
     Integer weight;
 
-    @JsonProperty("position_player_name")
-    String positionPlayerName;
+    @JsonProperty("position_player_id")
+    Integer positionPlayerId;
 
-    @JsonProperty("dominant_foot_name")
-    String dominantFootName;
+    @JsonProperty("dominant_foot_id")
+    Integer dominantFootId;
 
-    @JsonProperty("zone_name")
-    String zoneName;
+    @JsonProperty("zone_id")
+    Integer zoneId;
 
-    @JsonProperty("city_name")
-    String cityName;
+    @JsonProperty("city_id")
+    Integer cityId;
 
 }

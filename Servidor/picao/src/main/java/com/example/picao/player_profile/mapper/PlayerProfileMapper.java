@@ -23,10 +23,10 @@ public interface PlayerProfileMapper {
     @Mapping(source = "userId", target = "user", qualifiedByName = "mapUser")
     PlayerProfile toPlayerProfile(CreateUpdatePlayerProfileRequestDTO requestDTO);
 
-    @Mapping(source = "positionPlayer.name", target = "positionPlayerName")
-    @Mapping(source = "dominantFoot.name", target = "dominantFootName")
-    @Mapping(source = "zone.name", target = "zoneName")
-    @Mapping(source = "city.name", target = "cityName")
+    @Mapping(source = "positionPlayer.id", target = "positionPlayerId")
+    @Mapping(source = "dominantFoot.id", target = "dominantFootId")
+    @Mapping(source = "zone.id", target = "zoneId")
+    @Mapping(source = "city.id", target = "cityId")
     PlayerProfileResponseDTO toPlayerProfileResponseDTO(PlayerProfile playerProfile);
 
     @Named("mapPositionPlayer")

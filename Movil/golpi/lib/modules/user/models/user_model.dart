@@ -1,20 +1,24 @@
+import 'package:golpi/modules/user/models/player_profile_model.dart';
+
 class UserModel {
-  final int id;
-  final String name;
-  final String lastName;
-  final String email;
-  final String mobileNumber;
-  //final DateTime dateOfBirth;
+  final int? id;
+  final String? name;
+  final String? lastName;
+  final String? email;
+  final String? mobileNumber;
+  final DateTime? dateOfBirth;
   final String? nickName;
+  final PlayerProfileModel? playerProfile;
 
   UserModel({
-    required this.id,
-    required this.name,
-    required this.lastName,
-    required this.email,
-    required this.mobileNumber,
-    //required this.dateOfBirth,
+    this.id,
+    this.name,
+    this.lastName,
+    this.email,
+    this.mobileNumber,
+    this.dateOfBirth,
     this.nickName,
+    this.playerProfile,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
@@ -24,8 +28,11 @@ class UserModel {
       lastName: json['last_name'],
       email: json['email'],
       mobileNumber: json['mobile_number'],
-      //dateOfBirth: json['dateOfBirth'],
+      dateOfBirth: DateTime.parse(json['date_of_birth']),
       nickName: json['nick_name'],
+      playerProfile: json['player_profile'] != null
+          ? PlayerProfileModel.fromJson(json['player_profile'])
+          : null,
     );
   }
 
@@ -36,8 +43,9 @@ class UserModel {
       'last_name': lastName,
       'email': email,
       'mobile_number': mobileNumber,
-      //'date_of_birth': Utility().formatDate(dateOfBirth),
+      'date_of_birth': dateOfBirth,
       'nick_name': nickName,
+      'player_profile': playerProfile,
     };
   }
 }

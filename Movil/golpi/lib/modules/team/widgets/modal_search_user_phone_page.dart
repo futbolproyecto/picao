@@ -89,7 +89,7 @@ class ModalSearchUserPhonePage {
                         text: 'Email: ',
                       ).paragraphSemiBold(),
                       UiText(
-                        text: userModel.email,
+                        text: userModel.email ?? '',
                       ).paragraphBlack(),
                     ],
                   ),
@@ -100,7 +100,7 @@ class ModalSearchUserPhonePage {
                         text: 'Celular: ',
                       ).paragraphSemiBold(),
                       UiText(
-                        text: userModel.mobileNumber,
+                        text: userModel.mobileNumber ?? '',
                       ).paragraphBlack(),
                     ],
                   ),

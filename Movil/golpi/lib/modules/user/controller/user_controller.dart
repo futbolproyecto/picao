@@ -323,7 +323,7 @@ class UserController extends GetxController {
 
       Get.back();
       UiAlertMessage(Get.context!).success(
-          message: 'La clave se actualizo correctamente',
+          message: 'La clave se actualizó correctamente',
           barrierDismissible: false,
           actionButtom: () {
             formEmailRecoveryPassword.reset();
