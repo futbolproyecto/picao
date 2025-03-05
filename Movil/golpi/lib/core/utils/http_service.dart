@@ -48,7 +48,7 @@ class HttpService {
     try {
       final response = await http
           .put(Uri.http(ConstantEndpoints.baseUrl, endPoint),
-              headers: {'Content-Type': 'application/json'},
+              headers: await getHeaders(),
               body: jsonEncode(body))
           .timeout(const Duration(seconds: 20));
 

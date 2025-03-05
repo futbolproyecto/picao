@@ -1,6 +1,5 @@
+// Core
 import { Component, inject, OnInit } from '@angular/core';
-import { CardComponent } from '../../shared/components/custom/card/card.component';
-import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import {
   AbstractControl,
@@ -11,16 +10,26 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
+import { map, Observable, startWith } from 'rxjs';
+
+// Librerias
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
-import { Constant } from '../../shared/utils/constant';
-import { DataTableComponent } from '../../shared/components/custom/data-table/data-table.component';
-import { ShiftsComponent } from '../shifts/shifts.component';
-import { MatDialog } from '@angular/material/dialog';
-import { AlertsService } from '../../core/service/alerts.service';
+import { MatIconModule } from '@angular/material/icon';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { map, Observable, startWith } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+
+// Servicios
+import { AlertsService } from '../../core/service/alerts.service';
+
+// Compatidos
+import { Constant } from '../../shared/utils/constant';
+import { CardComponent } from '../../shared/components/custom/card/card.component';
+import { DataTableComponent } from '../../shared/components/custom/data-table/data-table.component';
+
+// Componentes
+import { ShiftsComponent } from '../shifts/shifts.component';
 
 @Component({
   selector: 'app-agenda',

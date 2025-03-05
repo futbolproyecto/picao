@@ -1,5 +1,8 @@
+// Core
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+
+// Librerias
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({

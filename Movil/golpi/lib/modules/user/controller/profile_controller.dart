@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:flutter/widgets.dart';
+import 'package:golpi/modules/user/models/user_model.dart';
 import 'package:quickalert/quickalert.dart';
 import 'package:golpi/core/routes/app_pages.dart';
 import 'package:reactive_forms/reactive_forms.dart';
@@ -26,15 +26,13 @@ class ProfileController extends GetxController {
   var listZonesOption = [OptionModel()].obs;
   var listPositionPlayerOption = [OptionModel()].obs;
   var listDominantFootOption = [OptionModel()].obs;
-  var valueZoneSelected = ValueNotifier<int?>(null).obs;
-  var valuePositionPlayerSelected = ValueNotifier<int?>(null).obs;
-  var valueDominantFootSelected = ValueNotifier<int?>(null).obs;
-  var valueCitySelected = ValueNotifier<int?>(null).obs;
+  var listCitiesOption = [OptionModel()].obs;
+  var userModel = UserModel().obs;
 
   var formUserInfo = FormGroup({
     'name': FormControl<String>(validators: []),
-    'lastName': FormControl<String>(validators: []),
-    'mobileNumber': FormControl<String>(validators: []),
+    'last_name': FormControl<String>(validators: []),
+    'mobile_number': FormControl<String>(validators: []),
     'email': FormControl<String>(validators: []),
     'date_of_birth': FormControl<DateTime>(validators: []),
   });
@@ -42,10 +40,16 @@ class ProfileController extends GetxController {
   var formProfile = FormGroup({
     'nickname': FormControl<String>(
         validators: [Validators.required, Validators.maxLength(50)]),
-    'stature': FormControl<double>(
+    'stature': FormControl<int>(
         validators: [Validators.required, Validators.maxLength(50)]),
     'weight': FormControl<int>(
         validators: [Validators.required, Validators.maxLength(50)]),
+    'position_player':
+        FormControl<OptionModel>(validators: [Validators.required]),
+    'dominant_foot':
+        FormControl<OptionModel>(validators: [Validators.required]),
+    'zone': FormControl<OptionModel>(validators: [Validators.required]),
+    'city': FormControl<OptionModel>(validators: [Validators.required]),
   });
 
   Future<void> loadData() async {
@@ -58,17 +62,37 @@ class ProfileController extends GetxController {
         barrierDismissible: false,
         disableBackBtn: true,
       );
+      listPositionPlayerOption.value =
+          await userRepository.getAllPositionPlayer();
+      listDominantFootOption.value = await userRepository.getAllDominantFoot();
+      listZonesOption.value = await userRepository.getAllZones();
+      listCitiesOption.value = await userRepository.getAllCities();
 
       final idUsuer = await SecureStorage().read(ConstantSecureStorage.idUsuer);
-      final userModel = await userRepository.getUserById(int.parse(idUsuer!));
+      userModel.value = await userRepository.getUserById(int.parse(idUsuer!));
 
       formUserInfo.value = userModel.toJson();
       formUserInfo.markAsDisabled();
 
-      listZonesOption.value = await userRepository.getAllZones();
-      listPositionPlayerOption.value =
-          await userRepository.getAllPositionPlayer();
-      listDominantFootOption.value = await userRepository.getAllDominantFoot();
+      if (userModel.value.playerProfile != null) {
+        formProfile.value = userModel.value.playerProfile?.toJson();
+
+        formProfile.control('position_player').value =
+            listPositionPlayerOption.firstWhere((item) =>
+                item.id == userModel.value.playerProfile?.positionPlayerId);
+
+        formProfile.control('dominant_foot').value =
+            listDominantFootOption.firstWhere((item) =>
+                item.id == userModel.value.playerProfile?.positionPlayerId);
+
+        formProfile.control('zone').value = listZonesOption.firstWhere((item) =>
+            item.id == userModel.value.playerProfile?.positionPlayerId);
+
+        formProfile.control('city').value = listCitiesOption.firstWhere(
+            (item) =>
+                item.id == userModel.value.playerProfile?.positionPlayerId);
+      }
+
       Get.back();
     } on CustomException catch (e) {
       Get.back();
@@ -82,7 +106,7 @@ class ProfileController extends GetxController {
     }
   }
 
-  Future<void> registerPlayerProfile() async {
+  Future<void> savePlayerProfile() async {
     try {
       QuickAlert.show(
         context: Get.context!,
@@ -95,23 +119,30 @@ class ProfileController extends GetxController {
 
       final idUsuer = await SecureStorage().read(ConstantSecureStorage.idUsuer);
 
-      await userRepository.createPlayerProfile(PlayerProfileRegisterModel(
+      final playerProfileRegisterModel = PlayerProfileRegisterModel(
           nickname: formProfile.control('nickname').value,
           stature: formProfile.control('stature').value,
           weight: formProfile.control('weight').value,
-          positionPlayerId: valuePositionPlayerSelected.value.value!,
-          dominantFootId: valueDominantFootSelected.value.value!,
-          zoneId: valueZoneSelected.value.value!,
-          cityId: valueCitySelected.value.value!,
-          userId: int.parse(idUsuer!)));
+          positionPlayerId: formProfile.control('position_player').value.id,
+          dominantFootId: formProfile.control('dominant_foot').value.id,
+          zoneId: formProfile.control('zone').value.id,
+          cityId: formProfile.control('city').value.id,
+          userId: int.parse(idUsuer!));
+
+      if (userModel.value.playerProfile == null) {
+        await userRepository.createPlayerProfile(playerProfileRegisterModel);
+      } else {
+        await userRepository.updatePlayerProfile(playerProfileRegisterModel);
+      }
 
       Get.back();
       UiAlertMessage(Get.context!).success(
-          message: 'La informacion se registro de manera exitosa',
+          message: 'La información se guardo de manera exitosa',
           barrierDismissible: false,
           actionButtom: () {
             formProfile.reset();
-            Get.offNamed(AppPages.home);
+            Get.delete<ProfileController>();
+            Get.toNamed(AppPages.home);
           });
     } on CustomException catch (e) {
       Get.back();

@@ -44,6 +44,7 @@ class UserController extends GetxController {
   var scrollController = ScrollController();
   var isValidateEmail = true.obs;
   var isEmailValidated = false.obs;
+  var termsAndConditionsError = Rx<String?>(null);
 
   var formUserRegistrer = FormGroup({
     'name': FormControl<String>(
@@ -322,7 +323,7 @@ class UserController extends GetxController {
 
       Get.back();
       UiAlertMessage(Get.context!).success(
-          message: 'La clave se actualizo correctamente',
+          message: 'La clave se actualizó correctamente',
           barrierDismissible: false,
           actionButtom: () {
             formEmailRecoveryPassword.reset();

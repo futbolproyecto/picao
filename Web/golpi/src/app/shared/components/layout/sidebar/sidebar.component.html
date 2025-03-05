@@ -24,11 +24,11 @@
     <div class="user" (click)="toggleSubmodulosUsuario()">
       <div class="nombre">
         <span *ngIf="!menuExpandido">
-          {{ usuario.name | titlecase }} {{ usuario.lastName | titlecase }}
+          {{ usuario.name | titlecase }} {{ usuario.last_name | titlecase }}
         </span>
         <span *ngIf="menuExpandido">
           {{ usuario.name | titlecase | slice : 0 : 1
-          }}{{ usuario.lastName | titlecase | slice : 0 : 1 }}
+          }}{{ usuario.last_name | titlecase | slice : 0 : 1 }}
         </span>
         <mat-icon>{{
           mostrarSubmodulosUsuario ? "expand_less" : "expand_more"

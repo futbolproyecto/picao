@@ -10,7 +10,7 @@ import { provideState, provideStore } from '@ngrx/store';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { autenticacionReducer } from './core/store/auth/autenticacion.reducer';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
-import { loadingInterceptor } from './core/interpectors/loading.interceptor';
+import { loadingInterceptor } from './core/interceptors/loading.interceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxSpinnerModule } from 'ngx-spinner';
 

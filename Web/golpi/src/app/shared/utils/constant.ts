@@ -18,7 +18,7 @@ export class Constant {
     /^[a-z0-9+_-]+(?:\.[a-z0-9+_-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/;
   static PATTERN_LETRAS_NUMEROS = /^[A-Za-z0-9]+$/;
   static PATTERN_CONTRASENA =
-    /^(?=\D*\d)(?=[^a-z]*[a-z])(?=[^A-Z]*[A-Z]).{8,30}$/;
+    /^(?=\D*\d)(?=[^a-z]*[a-z])(?=[^A-Z]*[A-Z])(?=[^!"#$%'()*+,\-./:;<=>?@\[\]\\^_`{|}~]*[!"#$%'()*+,\-./:;<=>?@\[\]\\^_`{|}~]).{8,30}$/;
 
   //  Form field errors
   static ERROR_CAMPO_REQUERIDO = 'Campo requerido';
@@ -41,5 +41,6 @@ export class Constant {
   static ERROR_CAMPO_SOLO_NUMEROS = 'Solo se permiten números';
   static ERROR_CAMPO_SOLO_NUMEROS_LETRAS = 'Solo se permiten números y letras';
   static ERROR_CAMPO_EMAIL_INVALIDO = 'El email es inválido';
-  static ERROR_CAMPO_CONTRASENA_NO_CONCIDEN = 'Las contraseñas no conciden.';
+  static ERROR_CAMPO_CONTRASENA_NO_CONCIDEN =
+    'La contraseña nueva y la confirmación de contraseña no coinciden.';
 }

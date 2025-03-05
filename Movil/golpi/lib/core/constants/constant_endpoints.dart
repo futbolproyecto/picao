@@ -1,5 +1,5 @@
 class ConstantEndpoints {
-  static String baseUrl = '192.168.0.27:8092';
+  static String baseUrl = '192.168.137.1:8092';
   //static String baseUrl = 'golpipruebas.up.railway.app';
   static String login = '/authentication/login';
   static String createUser = '/user/create';
@@ -14,11 +14,13 @@ class ConstantEndpoints {
   static String getAllPositionPlayer = '/position-player/get-all';
   static String getAllDominantFoot = '/dominant-foot/get-all';
   static String createPlayerProfile = '/player-profile/create';
+  static String updatePlayerProfile = '/player-profile/update';
   static String createTeam = '/team/create';
   static String getTeamsByUserId = '/team/get-teams-by-user-id';
   static String addUserTeam = '/team/add-user-team';
   static String getTeamByUserId = '/team/get-team-by-user-id';
   static String leaveTeam = '/team/leave-the-team';
+  static String getAllCities = '/city/get-all';
 
   static List<String> get blackList => [
         ConstantEndpoints.login,

@@ -8,4 +8,8 @@ import java.util.Optional;
 public interface PlayerProfileRepository extends JpaRepository<PlayerProfile, Integer> {
 
     Optional<PlayerProfile> findByNickname(String nickname);
+
+    Optional<PlayerProfile> findByUserId(Integer userId);
+
+
 }

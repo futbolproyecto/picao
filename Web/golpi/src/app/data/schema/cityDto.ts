@@ -1,3 +1,4 @@
+// Dto
 import { DepartamentResponseDto } from './departamentResponseDTO';
 
 export class CityDto {

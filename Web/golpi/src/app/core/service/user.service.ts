@@ -4,6 +4,8 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { GenericDto } from '../models/generic-dto';
 import { OtpRequestDto } from '../../data/schema/otpRequestDto';
+import { UsuarioResponseDto } from '../../data/schema/userResponseDto';
+import { SetPasswordDto } from '../../data/schema/setPasswordDto';
 
 @Injectable({
   providedIn: 'root',
@@ -22,5 +24,13 @@ export class UserService {
 
   getAll() {
     return this.http.get<GenericDto>(this.baseUrl + `user/get-all`);
+  }
+
+  update(user: UsuarioResponseDto) {
+    return this.http.post(this.baseUrl + 'user/update', user);
+  }
+
+  setPassword(setPasswordDto: SetPasswordDto) {
+    return this.http.put(this.baseUrl + 'user/set-password', setPasswordDto);
   }
 }

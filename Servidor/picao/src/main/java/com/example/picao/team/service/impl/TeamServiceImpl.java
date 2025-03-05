@@ -170,7 +170,7 @@ public class TeamServiceImpl implements TeamService {
     @Override
     public String leaveTheTeam(int userdId, int teamId) {
         try {
-            if (teamRepository.existsByOwnerUserIdAndId(userdId, teamId)) {
+            if (Boolean.TRUE.equals(teamRepository.existsByOwnerUserIdAndId(userdId, teamId))) {
                 throw new AppException(ErrorMessages.USER_OWNER, HttpStatus.BAD_REQUEST);
             }
 

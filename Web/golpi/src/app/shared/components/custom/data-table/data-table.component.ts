@@ -1,12 +1,15 @@
+// Core
 import { Component, Input, OnChanges, Output, ViewChild } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { EventEmitter } from '@angular/core';
+
+// Librerias
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
 import { MatSort, MatSortModule } from '@angular/material/sort';
-import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatTableDataSource } from '@angular/material/table';
-import { EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-data-table',

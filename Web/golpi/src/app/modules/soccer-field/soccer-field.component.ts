@@ -1,8 +1,6 @@
+// Core
 import { Component, inject } from '@angular/core';
-import { CardComponent } from '../../shared/components/custom/card/card.component';
 import { CommonModule } from '@angular/common';
-import { MatIconModule } from '@angular/material/icon';
-import { EstablishmentComponent } from '../establishment/establishment.component';
 import {
   AbstractControl,
   FormsModule,
@@ -11,11 +9,22 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
+
+// Servicios
+import { AlertsService } from '../../core/service/alerts.service';
+
+// Librerias
+import { MatInputModule } from '@angular/material/input';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { MatIconModule } from '@angular/material/icon';
+
+// Compartidos
+import { CardComponent } from '../../shared/components/custom/card/card.component';
 import { DataTableComponent } from '../../shared/components/custom/data-table/data-table.component';
 import { Constant } from '../../shared/utils/constant';
-import { MatInputModule } from '@angular/material/input';
-import { AlertsService } from '../../core/service/alerts.service';
-import { NgSelectModule } from '@ng-select/ng-select';
+
+// Componentes
+import { EstablishmentComponent } from '../establishment/establishment.component';
 
 @Component({
   selector: 'app-soccer-field',

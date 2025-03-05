@@ -27,8 +27,7 @@ class TeamController extends GetxController {
   TeamController({required this.userRepository, required this.teamRepository});
 
   var listZonesOption = [OptionModel()].obs;
-  var valueZoneSelected = ValueNotifier<int?>(null).obs;
-  var valueCitySelected = ValueNotifier<int?>(null).obs;
+  var listCitiesOption = [OptionModel()].obs;
   var teamId = 0.obs;
   var isLoading = false.obs;
   var teamModel = Rx<TeamModel?>(null);
@@ -48,6 +47,8 @@ class TeamController extends GetxController {
         validators: [Validators.required, Validators.maxLength(50)]),
     'contact_number': FormControl<String>(
         validators: [Validators.required, Validators.maxLength(50)]),
+    'city': FormControl<OptionModel>(validators: [Validators.required]),
+    'zone': FormControl<OptionModel>(validators: [Validators.required]),
   });
 
   Future<void> loadDataTeam() async {
@@ -64,6 +65,7 @@ class TeamController extends GetxController {
       formTeamRegistrer.control('representative_name').markAsDisabled();
       formTeamRegistrer.control('contact_number').markAsDisabled();
       listZonesOption.value = await userRepository.getAllZones();
+      listCitiesOption.value = await userRepository.getAllCities();
 
       isLoading.value = false;
     } on CustomException catch (e) {
@@ -90,8 +92,8 @@ class TeamController extends GetxController {
 
       await teamRepository.createTeam(TeamRegisterModel(
         name: formTeamRegistrer.control('team_name').value,
-        zoneId: valueZoneSelected.value.value!,
-        cityId: valueCitySelected.value.value!,
+        zoneId: formTeamRegistrer.control('zone').value.id,
+        cityId: formTeamRegistrer.control('zone').value.id,
         userId: int.parse(idUsuer!),
       ));
       Get.back();
@@ -188,8 +190,8 @@ class TeamController extends GetxController {
             UiButtoms(
                     onPressed: () async {
                       Get.back();
-                      addUserTeam(
-                          response.id, '${response.name} ${response.lastName}');
+                      addUserTeam(response.id!,
+                          '${response.name} ${response.lastName}');
                     },
                     title: 'Agregar jugador')
                 .textButtom(Constants.primaryColor),

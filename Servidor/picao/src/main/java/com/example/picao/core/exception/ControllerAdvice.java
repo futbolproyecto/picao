@@ -2,6 +2,7 @@ package com.example.picao.core.exception;
 
 import com.example.picao.core.util.ErrorMessages;
 import com.example.picao.core.util.dto.GenericResponseErrorDTO;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 @RestControllerAdvice
 @Order(Ordered.HIGHEST_PRECEDENCE)
+@Log4j2
 public class ControllerAdvice {
 
     @ExceptionHandler(value = AppException.class)
@@ -38,7 +40,8 @@ public class ControllerAdvice {
     }
 
     @ExceptionHandler(value = RuntimeException.class)
-    public ResponseEntity<GenericResponseErrorDTO> exception() {
+    public ResponseEntity<GenericResponseErrorDTO> exception(RuntimeException e) {
+        log.error(e.getMessage());
         return GenericResponseErrorDTO.genericResponseError(
                 ErrorMessages.UNHANDLED_ERROR, HttpStatus.BAD_REQUEST);
     }

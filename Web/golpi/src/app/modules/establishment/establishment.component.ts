@@ -1,3 +1,4 @@
+// Core
 import { CommonModule } from '@angular/common';
 import { Component, DestroyRef, inject } from '@angular/core';
 import {
@@ -8,15 +9,23 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
+// Librerias
 import { MatInputModule } from '@angular/material/input';
+import { NgSelectModule } from '@ng-select/ng-select';
+
+// Servicios
+import { AlertsService } from '../../core/service/alerts.service';
+import { DepartmentService } from '../../core/service/departament.service';
+import { CityService } from '../../core/service/city.service';
+
+// Compartidos
 import { Constant } from '../../shared/utils/constant';
 import { DataTableComponent } from '../../shared/components/custom/data-table/data-table.component';
-import { AlertsService } from '../../core/service/alerts.service';
-import { NgSelectModule } from '@ng-select/ng-select';
-import { DepartmentService } from '../../core/service/departament.service';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
+// Dto
 import { DepartamentResponseDto } from '../../data/schema/departamentResponseDTO';
-import { CityService } from '../../core/service/city.service';
 import { CityDto } from '../../data/schema/cityDto';
 
 @Component({

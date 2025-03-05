@@ -110,11 +110,34 @@ class UserRepository {
     }
   }
 
+  Future<List<OptionModel>> getAllCities() async {
+    try {
+      final response =
+          await HttpService(ConstantEndpoints.getAllCities).get();
+
+      return (GeneralModel().jsonStringifyToList(response))
+          .map((i) => OptionModel.fromJson(i))
+          .toList();
+    } on Exception catch (_) {
+      rethrow;
+    }
+  }
+
   Future<void> createPlayerProfile(
       PlayerProfileRegisterModel playerProfileRegisterModel) async {
     try {
       await HttpService(ConstantEndpoints.createPlayerProfile)
           .post(playerProfileRegisterModel.toJson());
+    } on Exception catch (_) {
+      rethrow;
+    }
+  }
+
+  Future<void> updatePlayerProfile(
+      PlayerProfileRegisterModel playerProfileRegisterModel) async {
+    try {
+      await HttpService(ConstantEndpoints.updatePlayerProfile)
+          .put(playerProfileRegisterModel.toJson());
     } on Exception catch (_) {
       rethrow;
     }

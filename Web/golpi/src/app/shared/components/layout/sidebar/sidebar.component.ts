@@ -1,16 +1,23 @@
+// Core
 import { CommonModule } from '@angular/common';
 import { Component, HostListener, inject, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { filter, map, switchMap } from 'rxjs/operators';
+import { RouterModule } from '@angular/router';
+
+// Servicios
+import { AutenticacionStoreService } from '../../../../core/store/auth/autenticacion-store.service';
+import { UserService } from '../../../../core/service/user.service';
+
+// Librerias
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
-import { Observable } from 'rxjs';
-import { UsuarioResponseDto } from '../../../../data/schema/userResponseDto';
-import { AutenticacionStoreService } from '../../../../core/store/auth/autenticacion-store.service';
-import { UserService } from '../../../../core/service/user.service';
-import { filter, map, switchMap } from 'rxjs/operators';
-import { RouterModule } from '@angular/router';
 import { MatTooltipModule } from '@angular/material/tooltip';
+
+// Dto
+import { UsuarioResponseDto } from '../../../../data/schema/userResponseDto';
 
 @Component({
   selector: 'app-sidebar',
@@ -75,7 +82,7 @@ export class SidebarComponent implements OnInit {
         next: (response) => {
           if (response?.payload) {
             this.usuario = response.payload;
-            this.nombreMostrar = `${this.usuario.name} ${this.usuario.lastName}`;
+            this.nombreMostrar = `${this.usuario.name} ${this.usuario.last_name}`;
           }
         },
       });

@@ -1,7 +1,5 @@
+// Core
 import { Component, DestroyRef, inject } from '@angular/core';
-import { MatInputModule } from '@angular/material/input';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
 import {
   AbstractControl,
   FormsModule,
@@ -11,27 +9,39 @@ import {
   Validators,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Constant } from '../../../shared/utils/constant';
-import { RegistreComponent } from '../../registre/registre.component';
-import { ModoAuthService } from '../../../core/service/modo-auth.service';
-import { CarouselComponent } from '../../../shared/components/layout/carousel/carousel.component';
 import { Router } from '@angular/router';
-import { trigger, transition, style, animate } from '@angular/animations';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { LoginRequestDto } from '../../../data/schema/loginRequestDto';
-import { AuthService } from '../../../core/service/auth.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Subscription } from 'rxjs';
+import { trigger, transition, style, animate } from '@angular/animations';
+
+// Librerias
+import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+
+// Compartidos
+import { Constant } from '../../../shared/utils/constant';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { GenericDto } from '../../../core/models/generic-dto';
-import { AuthRequestDto } from '../../../data/schema/authRequestDto';
-import { AutenticacionStoreService } from '../../../core/store/auth/autenticacion-store.service';
 import { MessageExceptionDto } from '../../../data/schema/MessageExceptionDto';
+
+// Servicios
+import { ModoAuthService } from '../../../core/service/modo-auth.service';
+import { AuthService } from '../../../core/service/auth.service';
 import { AlertsService } from '../../../core/service/alerts.service';
 import { UserService } from '../../../core/service/user.service';
 import { OtpRequestDto } from '../../../data/schema/otpRequestDto';
 import { OtpService } from '../../../core/service/otp.service';
 import { LoadingService } from '../../../core/service/loading.service';
-import { NgxSpinnerService } from 'ngx-spinner';
+import { AutenticacionStoreService } from '../../../core/store/auth/autenticacion-store.service';
+
+// Componentes
+import { CarouselComponent } from '../../../shared/components/layout/carousel/carousel.component';
+import { RegistreComponent } from '../../registre/registre.component';
+
+// Dto
+import { LoginRequestDto } from '../../../data/schema/loginRequestDto';
+import { AuthRequestDto } from '../../../data/schema/authRequestDto';
 
 @Component({
   selector: 'app-login',

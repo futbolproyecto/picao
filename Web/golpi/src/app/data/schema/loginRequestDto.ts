@@ -1,3 +1,4 @@
+// Dto
 import { GenericDto } from '../../core/models/generic-dto';
 
 export class LoginRequestDto extends GenericDto {

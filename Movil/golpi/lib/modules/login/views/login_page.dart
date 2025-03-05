@@ -87,6 +87,8 @@ class LoginPage extends StatelessWidget {
                         validationMessages: {
                           ValidationMessage.required: (error) =>
                               'Campo requerido',
+                          ValidationMessage.maxLength: (error) =>
+                              'Maximo 50 caracteres',
                         },
                       ),
                       const SizedBox(height: 20),
@@ -107,6 +109,8 @@ class LoginPage extends StatelessWidget {
                           validationMessages: {
                             ValidationMessage.required: (error) =>
                                 'Campo requerido',
+                            ValidationMessage.maxLength: (error) =>
+                                'Maximo 50 caracteres',
                           },
                         ),
                       ),
