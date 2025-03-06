@@ -24,7 +24,6 @@ public class City {
     String name;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonBackReference
     Department department;
 
     public City(Integer id) {
