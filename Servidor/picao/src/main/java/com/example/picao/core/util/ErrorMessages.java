@@ -62,8 +62,11 @@ public enum ErrorMessages {
             "Crea o únete a un equipo para comenzar",
             "E19"),
     INVALID_OLD_PASSWORD("La contraseña actual no concuerda",
-                                     "Verifique la informacion ingresada",
-                                     "E20");
+            "Verifique la informacion ingresada",
+            "E20"),
+    DUPLICATE_ESTABLISHMENT_NAME("El nombre del establecimiento ya se encuentra creado",
+            "Verifique la informacion ingresada",
+            "E21");
     private final String message;
     private final String recommendation;
     private final String code;
