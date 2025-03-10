@@ -74,7 +74,6 @@ export class UpdateDataComponent {
   public segundoNombreError: string = '';
   public primerApellidoError: string = '';
   public segundoApellidoError: string = '';
-  public nombreUsuarioError: string = '';
   public correoError: string = '';
   public celularError: string = '';
   public ciudadError: string = '';
@@ -128,15 +127,6 @@ export class UpdateDataComponent {
           Validators.maxLength(Constant.CAMPO_MAXIMO_50),
         ],
       ],
-      nombre_usuario: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(Constant.CAMPO_MINIMO_4),
-          Validators.maxLength(Constant.CAMPO_MAXIMO_50),
-          Validators.pattern(Constant.PATTERN_LETRAS_NUMEROS),
-        ],
-      ],
       correo: [
         '',
         [
@@ -179,10 +169,6 @@ export class UpdateDataComponent {
 
   get segundo_apellido(): AbstractControl {
     return this.formularioActualizar.get('segundo_apellido')!;
-  }
-
-  get nombre_usuario(): AbstractControl {
-    return this.formularioActualizar.get('nombre_usuario')!;
   }
 
   get correo(): AbstractControl {
@@ -257,26 +243,6 @@ export class UpdateDataComponent {
         status = true;
       } else if (this.segundo_apellido.hasError('maxlength')) {
         this.segundoApellidoError = Constant.ERROR_CAMPO_MAXIMO_50;
-        status = true;
-      }
-    }
-    return status;
-  }
-
-  validarNombreUsuario(): boolean {
-    let status = false;
-    if (this.nombre_usuario.touched) {
-      if (this.nombre_usuario.hasError('required')) {
-        this.nombreUsuarioError = Constant.ERROR_CAMPO_REQUERIDO;
-        status = true;
-      } else if (this.nombre_usuario.hasError('minlength')) {
-        this.nombreUsuarioError = Constant.ERROR_CAMPO_MINIMO_4;
-        status = true;
-      } else if (this.nombre_usuario.hasError('maxlength')) {
-        this.nombreUsuarioError = Constant.ERROR_CAMPO_MAXIMO_50;
-        status = true;
-      } else if (this.nombre_usuario.hasError('pattern')) {
-        this.nombreUsuarioError = Constant.ERROR_CAMPO_SOLO_NUMEROS_LETRAS;
         status = true;
       }
     }
@@ -401,7 +367,6 @@ export class UpdateDataComponent {
         segundo_nombre: this.usuario.second_name,
         primer_apellido: this.usuario.last_name,
         segundo_apellido: this.usuario.second_last_name,
-        nombre_usuario: this.usuario.username,
         correo: this.usuario.email,
         celular: this.usuario.mobile_number,
         fecha_nacimiento: fechaNacimiento,
@@ -435,9 +400,9 @@ export class UpdateDataComponent {
         second_name: this.segundo_nombre.value,
         last_name: this.primer_apellido.value,
         second_last_name: this.segundo_apellido.value,
-        mobile_number: `${cellPrefix}${this.celular.value}`,
+        // mobile_number: `${cellPrefix}${this.celular.value}`,
+        mobile_number: this.celular.value,
         email: this.correo.value,
-        username: this.nombre_usuario.value,
         date_of_birth: this.fecha_nacimiento.value
           ? new Date(this.fecha_nacimiento.value).toISOString().split('T')[0]
           : undefined,

@@ -48,6 +48,7 @@
       <ng-select
         formControlName="establecimiento"
         placeholder="Establecimiento*"
+        class="lista"
       >
         <ng-option value="1">Maracana</ng-option>
         <ng-option value="2">Tiro de esquina</ng-option>
@@ -56,7 +57,7 @@
       <small class="text-error" *ngIf="validarEstablecimiento()">
         {{ establecimientoError }}
       </small>
-      <ng-select formControlName="cancha" placeholder="Cancha*">
+      <ng-select formControlName="cancha" placeholder="Cancha*" class="lista">
         <ng-option value="1">1</ng-option>
         <ng-option value="2">2</ng-option>
         <ng-option value="3">3</ng-option>

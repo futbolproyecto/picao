@@ -16,7 +16,14 @@ import { UserService } from '../../core/service/user.service';
 
 // Librerias
 import { MatButtonModule } from '@angular/material/button';
-import { MatNativeDateModule } from '@angular/material/core';
+import {
+  DateAdapter,
+  MAT_DATE_FORMATS,
+  MAT_DATE_LOCALE,
+  MatNativeDateModule,
+  NativeDateAdapter,
+} from '@angular/material/core';
+
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import {
   MatDialogRef,
@@ -32,6 +39,18 @@ import { Constant } from '../../shared/utils/constant';
 
 // Dto
 import { UsuarioResponseDto } from '../../data/schema/userResponseDto';
+
+export const MY_DATE_FORMATS = {
+  parse: {
+    dateInput: 'DD/MM/YYYY',
+  },
+  display: {
+    dateInput: 'DD/MM/YYYY',
+    monthYearLabel: 'MMMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
+  },
+};
 
 @Component({
   selector: 'app-shifts',
@@ -49,7 +68,11 @@ import { UsuarioResponseDto } from '../../data/schema/userResponseDto';
     MatNativeDateModule,
     NgSelectModule,
   ],
-  providers: [],
+  providers: [
+    { provide: DateAdapter, useClass: NativeDateAdapter },
+    { provide: MAT_DATE_LOCALE, useValue: 'es-ES' },
+    { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS },
+  ],
 })
 export class ShiftsComponent implements OnInit {
   private formBuilder = inject(UntypedFormBuilder);
