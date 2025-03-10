@@ -1,6 +1,6 @@
 // Core
 import { CommonModule } from '@angular/common';
-import { Component, DestroyRef, inject } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import {
   AbstractControl,
   FormsModule,
@@ -10,6 +10,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { filter, map, switchMap } from 'rxjs';
 
 // Librerias
 import { MatInputModule } from '@angular/material/input';
@@ -17,16 +18,19 @@ import { NgSelectModule } from '@ng-select/ng-select';
 
 // Servicios
 import { AlertsService } from '../../core/service/alerts.service';
-import { DepartmentService } from '../../core/service/departament.service';
 import { CityService } from '../../core/service/city.service';
+import { EstablishmentService } from '../../core/service/establishment.service';
+import { AutenticacionStoreService } from '../../core/store/auth/autenticacion-store.service';
 
 // Compartidos
 import { Constant } from '../../shared/utils/constant';
 import { DataTableComponent } from '../../shared/components/custom/data-table/data-table.component';
 
 // Dto
-import { DepartamentResponseDto } from '../../data/schema/departamentResponseDTO';
 import { CityDto } from '../../data/schema/cityDto';
+import { EstablishmentRequestDto } from '../../data/schema/establishmentRequestDto';
+import { MessageExceptionDto } from '../../data/schema/MessageExceptionDto';
+import { UsuarioResponseDto } from '../../data/schema/userResponseDto';
 
 @Component({
   selector: 'app-establishment',
@@ -45,71 +49,40 @@ import { CityDto } from '../../data/schema/cityDto';
 export class EstablishmentComponent {
   private formBuilder = inject(UntypedFormBuilder);
   private alertsService = inject(AlertsService);
-  private departamentService = inject(DepartmentService);
   private cityService = inject(CityService);
+  private establishmentService = inject(EstablishmentService);
+  private autenticacionStoreService = inject(AutenticacionStoreService);
   private destroyRef = inject(DestroyRef);
 
+  public establecimientoDto: EstablishmentRequestDto =
+    new EstablishmentRequestDto();
   public formularioEstablecimiento: UntypedFormGroup = new UntypedFormGroup({});
-  public departamentoDTO: Array<DepartamentResponseDto> =
-    new Array<DepartamentResponseDto>();
   public cityDTO: Array<CityDto> = new Array<CityDto>();
 
   public nombreError: string = '';
-  public cantidadCanchasError: string = '';
   public direccionError: string = '';
   public telefonoError: string = '';
-  public departamentoError: string = '';
   public ciudadError: string = '';
   public selectedCities: number = 1;
   public selectedDepartment: number = 1;
 
+  public tablaEstablecimientos: Array<EstablishmentRequestDto> =
+    new Array<EstablishmentRequestDto>();
   public estado: boolean = true;
   public edit: boolean = true;
 
   public encabezadosEstablecimientos = {
-    id: 'ID',
-    nombre_establecimiento: 'Nombre establecimiento',
-    cantidad_canchas: 'Cant. canchas',
-    direccion: 'Dirección',
-    telefono: 'Teléfono',
+    name: 'Nombre establecimiento',
+    address: 'Dirección',
+    mobileNumber: 'Teléfono',
+    cityName: 'Ciudad',
     acciones: 'Acciones',
   };
 
-  tablaEstablecimientos = [
-    {
-      id: '1',
-      nombre_establecimiento: 'ManualidadesMBD',
-      cantidad_canchas: '5',
-      direccion: 'Cra 46a # 12 - 30',
-      telefono: 3148688564,
-    },
-    {
-      id: '2',
-      nombre_establecimiento: 'Maracana',
-      cantidad_canchas: '7',
-      direccion: 'Cra 83c # 17 - 52',
-      telefono: 3215877695,
-    },
-  ];
-
   constructor() {
-    this.mostrarDepartamento();
+    this.cargarEstablecimientosUsuario();
     this.mostrarCiudades();
     this.buildForm();
-  }
-
-  mostrarDepartamento(): void {
-    this.departamentService
-      .getAll()
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(
-        (res: any) => {
-          this.departamentoDTO = res.payload as DepartamentResponseDto[];
-        },
-        (err) => {
-          this.alertsService.fireError(err);
-        }
-      );
   }
 
   mostrarCiudades(): void {
@@ -126,13 +99,41 @@ export class EstablishmentComponent {
       );
   }
 
+  cargarEstablecimientosUsuario(): void {
+    this.autenticacionStoreService
+      .obtenerSesion$()
+      .pipe(
+        map((usuario: UsuarioResponseDto) => usuario?.id ?? 0),
+        filter((id: number) => id !== 0),
+        switchMap((id: number) =>
+          this.establishmentService.establecimientoPorUsuario(id)
+        )
+      )
+      .subscribe({
+        next: (response) => {
+          if (response?.payload) {
+            this.tablaEstablecimientos = response.payload.map((est: any) => ({
+              ...est,
+              cityName: est.city?.name ?? 'Sin ciudad',
+            }));
+          }
+        },
+        error: (err) => {
+          const errorDto = new MessageExceptionDto({
+            status: err.error?.status,
+            error: err.error?.error,
+            recommendation: err.error?.recommendation,
+          });
+          this.alertsService.fireError(errorDto);
+        },
+      });
+  }
+
   buildForm(): void {
     this.formularioEstablecimiento = this.formBuilder.group({
       nombre_establecimiento: ['', [Validators.required]],
-      cantidad_canchas: ['', [Validators.required]],
       direccion: ['', [Validators.required]],
       telefono: ['', [Validators.required]],
-      departamento: [null, [Validators.required]],
       ciudad: [null, [Validators.required]],
     });
   }
@@ -141,20 +142,12 @@ export class EstablishmentComponent {
     return this.formularioEstablecimiento.get('nombre_establecimiento')!;
   }
 
-  get cantidad_canchas(): AbstractControl {
-    return this.formularioEstablecimiento.get('cantidad_canchas')!;
-  }
-
   get direccion(): AbstractControl {
     return this.formularioEstablecimiento.get('direccion')!;
   }
 
   get telefono(): AbstractControl {
     return this.formularioEstablecimiento.get('telefono')!;
-  }
-
-  get departamento(): AbstractControl {
-    return this.formularioEstablecimiento.get('departamento')!;
   }
 
   get ciudad(): AbstractControl {
@@ -166,17 +159,6 @@ export class EstablishmentComponent {
     if (this.nombre_establecimiento.touched) {
       if (this.nombre_establecimiento.hasError('required')) {
         this.nombreError = Constant.ERROR_CAMPO_REQUERIDO;
-        status = true;
-      }
-    }
-    return status;
-  }
-
-  validarCantidadCancha(): boolean {
-    let status = false;
-    if (this.cantidad_canchas.touched) {
-      if (this.cantidad_canchas.hasError('required')) {
-        this.cantidadCanchasError = Constant.ERROR_CAMPO_REQUERIDO;
         status = true;
       }
     }
@@ -205,17 +187,6 @@ export class EstablishmentComponent {
     return status;
   }
 
-  validarDepartamento(): boolean {
-    let status = false;
-    if (this.departamento.touched) {
-      if (this.departamento.hasError('required')) {
-        this.departamentoError = Constant.ERROR_CAMPO_REQUERIDO;
-        status = true;
-      }
-    }
-    return status;
-  }
-
   validarCiudad(): boolean {
     let status = false;
     if (this.ciudad.touched) {
@@ -233,8 +204,33 @@ export class EstablishmentComponent {
 
   registrarEstablecimiento(): void {
     if (this.formularioEstablecimiento.valid) {
-      console.log('Se guardo los datos');
-      this.limpiarFormulario();
+      this.establecimientoDto = {
+        name: this.nombre_establecimiento.value,
+        address: this.direccion.value,
+        mobile_number: this.telefono.value,
+        city_id: this.ciudad.value,
+      };
+
+      this.establishmentService
+        .crearEstablecimiento(this.establecimientoDto)
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe(
+          () => {
+            this.alertsService.toast(
+              'success',
+              'Establecimiento registrado exitosamente.'
+            );
+            this.limpiarFormulario();
+          },
+          (err) => {
+            const errorDto = new MessageExceptionDto({
+              status: err.error?.status,
+              error: err.error?.error,
+              recommendation: err.error?.recommendation,
+            });
+            this.alertsService.fireError(errorDto);
+          }
+        );
     } else {
       this.formularioEstablecimiento.markAllAsTouched();
       this.alertsService.toast('error', Constant.ERROR_FORM_INCOMPLETO);

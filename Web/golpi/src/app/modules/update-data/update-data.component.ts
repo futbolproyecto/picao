@@ -371,7 +371,6 @@ export class UpdateDataComponent {
       )
       .subscribe({
         next: (response) => {
-          console.log(response);
           if (response?.payload) {
             this.usuario = response.payload;
             this.usuarioId = this.usuario.id ?? 0;
@@ -455,13 +454,11 @@ export class UpdateDataComponent {
             );
           },
           (err) => {
-            console.log(err);
             const errorDto = new MessageExceptionDto({
               status: err.error?.status,
               error: err.error?.error,
               recommendation: err.error?.recommendation,
             });
-            console.log(errorDto);
             this.alertsService.fireError(errorDto);
           }
         );
