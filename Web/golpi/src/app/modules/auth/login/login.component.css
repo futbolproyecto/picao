@@ -111,6 +111,30 @@ a {
   align-items: center;
 }
 
+/*Seleccionar establecimiento */
+.seleccion-establecimiento {
+  max-width: 400px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  top: 45%;
+}
+
+.formulario-establecimiento {
+  display: contents;
+}
+
+.btn-regresar {
+  color: var(--color-surface-container--lowest);
+  background-color: var(--color-primary-container);
+}
+
+.regresar {
+  display: flex;
+  gap: 20px;
+}
+
 /* Carrusel */
 .carousel {
   position: absolute;
