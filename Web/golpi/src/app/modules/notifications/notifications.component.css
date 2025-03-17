@@ -1,142 +1,82 @@
-.container-establecimiento {
+/* Contenedor principal */
+.container-solicitudes {
   padding: 16px;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
 
+/* Estilos para encabezados */
 h1 {
-  font: bold 20px "Montserrat";
+  font-weight: bold;
+  font-size: 20px;
   color: var(--color-secondary);
+  font-family: "Montserrat";
 }
 
-.card-soccer {
+/* Estilo de tarjetas */
+.card-solicitudes {
   padding-bottom: 30px;
   background: var(--color-surface-container--lowest);
   box-shadow: 0 3px 15px var(--color-outline-variant);
   border-radius: 10px;
 }
 
+/* Contenedores internos */
 .container-card {
   padding: 10px;
 }
 
 .container-modulos,
-ul,
-.lista {
+ul {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   width: 100%;
+}
+
+ul {
   padding: 10px;
 }
 
+/* Estilos para los elementos de lista */
 li {
   list-style: none;
   cursor: pointer;
   text-decoration: none;
+  border-bottom: 2px solid var(--color-primary);
   padding: 10px 30px;
   font-family: "Montserrat";
   font-size: 18px;
   color: var(--color-outline-variant);
-  border-bottom: 2px solid var(--color-surface-dim);
 }
 
 li:hover,
 .active-tab {
-  border-bottom-color: var(--color-secondary);
+  border-bottom: 2px solid var(--color-secondary);
   color: var(--color-secondary);
 }
 
+/* Pestaña */
 .container-pestana {
   text-align: center;
   color: var(--color-secondary);
   transition: opacity 0.3s ease-in-out;
+  opacity: 1;
 }
 
 .container-pestana.ng-leave-active {
   opacity: 0;
 }
 
-p {
-  font-size: 20px;
-}
-
-span {
-  font-weight: bold;
-  font-size: 24px;
-}
-
-.form-content {
-  padding: 0 76px;
-}
-
-.form-group {
-  display: flex;
-  gap: 20px;
-}
-
-mat-form-field {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
-
-.boton {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 30px;
-  padding-bottom: 2rem;
-}
-
-.boton .btn {
-  background-color: var(--color-primary);
-  font: 16px var(--color-on-primary-container);
-  height: 45px;
-  width: 50%;
-  border-radius: 10px;
-}
-
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
+/* Tabla */
 .container-tabla {
   padding: 20px;
 }
 
-/* Estilos para .ng-select */
-.ng-select,
-.ng-select div,
-::ng-deep.ng-select input,
-.ng-select span,
-::ng-deep.ng-select .ng-select-container .ng-value-label,
-::ng-deep.ng-select .ng-arrow-wrapper {
-  font-size: 17px;
-  font-weight: 400;
-}
-
-::ng-deep.ng-select .ng-select-container .ng-placeholder {
-  padding-left: 17px;
-}
-
-::ng-deep.ng-select .ng-select-container .ng-value-label {
-  font-size: 15px;
-  padding-left: 15px;
-  padding-bottom: 20px;
-}
-
-::ng-deep.ng-select .ng-arrow-wrapper {
-  padding-right: 13px;
-}
-
 /* Reglas de medios */
 @media (max-width: 1124px) {
-  .container-establecimiento {
+  .container-solicitudes {
     padding: 10px;
   }
 

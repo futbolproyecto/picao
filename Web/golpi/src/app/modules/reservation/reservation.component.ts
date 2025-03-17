@@ -32,7 +32,7 @@ import { DataTableComponent } from '../../shared/components/custom/data-table/da
 import { ShiftsComponent } from '../shifts/shifts.component';
 
 @Component({
-  selector: 'app-agenda',
+  selector: 'app-reservacion',
   standalone: true,
   imports: [
     CardComponent,
@@ -46,18 +46,19 @@ import { ShiftsComponent } from '../shifts/shifts.component';
     DataTableComponent,
     NgSelectModule,
   ],
-  templateUrl: './agenda.component.html',
-  styleUrl: './agenda.component.css',
+  templateUrl: './reservation.component.html',
+  styleUrl: './reservation.component.css',
 })
-export class AgendaComponent implements OnInit {
+export class ReservationComponent implements OnInit {
   private formBuilder = inject(UntypedFormBuilder);
-  public formularioAgenda: UntypedFormGroup = new UntypedFormGroup({});
+  public formularioReservacion: UntypedFormGroup = new UntypedFormGroup({});
   private alertsService = inject(AlertsService);
 
   public AdministrarActivo: boolean = true;
-  public nombrePestana: string = 'Administrar turno';
+  public nombrePestana: string = 'Administrar reservaciones';
   public establecimientoError: string = '';
   public fechaReservaError: string = '';
+  public horaInicialError: string = '';
   public submitted = false;
 
   public confirm: boolean = true;
@@ -65,25 +66,21 @@ export class AgendaComponent implements OnInit {
   public edit: boolean = true;
 
   myControl = new FormControl('');
-  options: string[] = ['One', 'Two', 'Three'];
-  filteredOptions: Observable<string[]> = new Observable<string[]>();
 
   ngOnInit() {
-    this.filteredOptions = this.myControl.valueChanges.pipe(
-      startWith(''),
-      map((value) => this._filter(value || ''))
-    );
+    this.formularioReservacion
+      .get('hora_inicial')
+      ?.valueChanges.subscribe((hora_inicial) => {
+        if (hora_inicial) {
+          const hora_final = this.calcularHoraFinal(hora_inicial);
+          this.formularioReservacion.patchValue({
+            hora_final: hora_final,
+          });
+        }
+      });
   }
 
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-
-    return this.options.filter((option) =>
-      option.toLowerCase().includes(filterValue)
-    );
-  }
-
-  public encabezadosAgenda = {
+  public encabezadosReservacion = {
     id: 'ID',
     fecha: 'fecha',
     hora_inicio: 'Hora inicio',
@@ -94,7 +91,7 @@ export class AgendaComponent implements OnInit {
     acciones: 'Acciones',
   };
 
-  tablaAgenda = [
+  tablaReservacion = [
     {
       id: '1',
       fecha: '2024-12-19',
@@ -120,23 +117,35 @@ export class AgendaComponent implements OnInit {
   }
 
   buildForm(): void {
-    this.formularioAgenda = this.formBuilder.group({
-      establecimiento: [null, [Validators.required]],
+    this.formularioReservacion = this.formBuilder.group({
+      cancha: [null, [Validators.required]],
+      cliente: [],
+      hora_inicial: ['', [Validators.required]],
+      hora_final: [{ value: '', disabled: true }],
       fecha_reserva: ['', [Validators.required]],
+      tipo_cancha: [],
     });
   }
 
   get establecimiento(): AbstractControl {
-    return this.formularioAgenda.get('establecimiento')!;
+    return this.formularioReservacion.get('establecimiento')!;
   }
 
   get fecha_reserva(): AbstractControl {
-    return this.formularioAgenda.get('fecha_reserva')!;
+    return this.formularioReservacion.get('fecha_reserva')!;
+  }
+
+  get hora_inicial(): AbstractControl {
+    return this.formularioReservacion.get('hora_inicial')!;
+  }
+
+  get tipo_cancha(): AbstractControl {
+    return this.formularioReservacion.get('tipo_cancha')!;
   }
 
   activarPestana(pestana: string): void {
     if (pestana === 'administrar') {
-      this.nombrePestana = 'Administrar turno';
+      this.nombrePestana = 'Administrar reservaciones';
       this.AdministrarActivo = true;
     }
   }
@@ -159,8 +168,19 @@ export class AgendaComponent implements OnInit {
     return status;
   }
 
+  validarHoraInicial(): boolean {
+    let status = false;
+    if (this.hora_inicial.touched) {
+      if (this.hora_inicial.hasError('required')) {
+        this.horaInicialError = Constant.ERROR_CAMPO_REQUERIDO;
+        status = true;
+      }
+    }
+    return status;
+  }
+
   limpiarFormulario(): void {
-    this.formularioAgenda.reset();
+    this.formularioReservacion.reset();
   }
 
   openDialog(): void {
@@ -171,15 +191,18 @@ export class AgendaComponent implements OnInit {
     this.limpiarFormulario();
   }
 
-  onSubmit(): void {
-    this.submitted = true;
-
-    if (this.formularioAgenda.valid) {
+  RegistrarTurno(): void {
+    if (this.formularioReservacion.valid) {
       console.log('Formulario enviado con éxito');
       this.limpiarFormulario();
     } else {
-      this.formularioAgenda.markAllAsTouched();
+      this.formularioReservacion.markAllAsTouched();
       this.alertsService.toast('error', Constant.ERROR_FORM_INCOMPLETO);
     }
+  }
+
+  calcularHoraFinal(horaInicial: string): string {
+    const [hora, minutos] = horaInicial.split(':').map(Number);
+    return `${hora + 1}:${minutos.toString().padStart(2, '0')}`;
   }
 }

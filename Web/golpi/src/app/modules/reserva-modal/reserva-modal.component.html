@@ -1,17 +1,22 @@
-<h2 mat-dialog-title>Reservas para {{ data.fecha | date : "fullDate" }}</h2>
-
+<div class="container-titulo">
+  <h2 mat-dialog-title>Detalles de la Reserva</h2>
+</div>
 <mat-dialog-content>
-  <div *ngFor="let res of data.reservas" class="reservation-item">
-    <p><strong>Nombre:</strong> {{ res.nombre }}</p>
-    <p><strong>Hora:</strong> {{ res.hora }}</p>
-    <p>
-      <strong>Estado: </strong>
-      <span [ngClass]="res.estado | lowercase">{{ res.estado }}</span>
-    </p>
-    <hr *ngIf="!res.last" />
-  </div>
+  <p><strong>Cancha:</strong> {{ data.cancha }}</p>
+  <p><strong>Tipo:</strong> {{ data.tipo }}</p>
+  <p><strong>Cliente:</strong> {{ data.cliente }}</p>
+  <p><strong>Estado:</strong> {{ data.estado }}</p>
+  <p><strong>Hora:</strong> {{ data.hora }}</p>
 </mat-dialog-content>
-
-<mat-dialog-actions>
-  <button mat-button (click)="close()">Cerrar</button>
+<mat-dialog-actions align="end">
+  <div class="boton">
+    <button mat-button (click)="close()" class="btn">Cerrar</button>
+    <button
+      mat-button
+      class="btn"
+      *ngIf="data.estado == 'Pendiente' || data.estado == 'Separada'"
+    >
+      Confirmar
+    </button>
+  </div>
 </mat-dialog-actions>

@@ -1,5 +1,7 @@
 .dashboard-container {
-  margin-left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   padding: 20px;
   z-index: 1;
 }
@@ -17,54 +19,60 @@
 }
 
 .calendar-section {
+  display: flex;
+  justify-content: center;
+  width: 100%;
   margin-top: 20px;
 }
-
 .card {
   width: 100%;
   padding-bottom: 30px;
-  background: var(--color-surface-container--lowest);
+  /* background: var(--color-surface-container--lowest); */
   box-shadow: 0 3px 15px var(--color-outline-variant);
   border-radius: 10px;
 }
 
-.container-card {
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.reservados {
-  background-color: #ff9800;
+.separados {
+  background-color: #5bc0de;
 }
 
 .confirmados {
-  background-color: #4caf50;
+  background-color: #5cb85c;
 }
 
-.pendientes {
-  background-color: #ffff00;
+.finalizados {
+  background-color: #f0ad4e;
 }
 
-.demo-inline-calendar-card {
+.sin_confirmar {
+  background-color: #d9534f;
+}
+
+/* Contenedor del calendario */
+.container-card {
   width: 90%;
+  max-width: 1200px;
+  padding: 20px;
+  text-align: center;
 }
 
-.mat-calendar {
-  z-index: auto;
+.fullcalendar {
+  width: 100%;
 }
 
-p {
-  padding-top: 5px;
+.fc-event {
+  border-radius: 5px;
+  padding: 5px;
+  font-weight: bold;
+  opacity: 0.9;
 }
 
-@media (max-width: 1124px) {
-  p {
-    font-size: 10px;
-  }
+.fc-event:hover {
+  opacity: 1;
+}
 
-  .summary-card {
-    width: 30%;
-  }
+.fc-toolbar-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
 }

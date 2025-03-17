@@ -1,8 +1,14 @@
 <nav>
-  <div class="cerrar">
-    <a tabindex="0" (keyup.enter)="CerrarSesion()" (click)="CerrarSesion()">
-      <i class="material-icons iconred icono-menu">logout</i>
-      <p>CERRAR SESIÓN</p>
+  <div class="notificaciones">
+    <a
+      mat-icon-button
+      [routerLink]="['/home/notification']"
+      routerLinkActive="router-link-active"
+    >
+      <i class="material-icons iconred icono-menu">notifications</i>
+      <!-- <span class="contador" *ngIf="cantidadSolicitudes > 0">
+        {{ cantidadSolicitudes }}
+      </span> -->
     </a>
   </div>
 </nav>

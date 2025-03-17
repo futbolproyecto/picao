@@ -37,3 +37,6 @@ INSERT INTO players_profile (city_id,dominant_foot_id, position_player_id,statur
 
 -- asignar jugador a equipos
 INSERT INTO team_players (player_id, team_id) VALUES (1,1),(1,2),(2,2);
+
+-- asignar un establecimiento
+INSERT INTO establishments (city_id, department_id, owner_user_id, id, mobile_number, name, address) VALUES (150, 76, 1, 'fa679ef7-697d-4345-a5fc-04e88e69437b', 3148688564, 'GolpiGroup', 'Cra 83c');
