@@ -221,6 +221,7 @@ export class EstablishmentComponent {
               'Establecimiento registrado exitosamente.'
             );
             this.limpiarFormulario();
+            this.cargarEstablecimientosUsuario();
           },
           (err) => {
             const errorDto = new MessageExceptionDto({

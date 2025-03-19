@@ -88,7 +88,7 @@ h1 {
 }
 
 .boton .btn {
-  background-color: var(--color-primary-container);
+  background-color: var(--color-primary);
   font-size: 16px;
   color: var(--color-on-primary-container);
   height: 45px;
@@ -98,7 +98,7 @@ h1 {
 
 /* Enlace */
 a {
-  color: var(--color-primary-container);
+  color: var(--color-primary);
   font-weight: bold;
   cursor: pointer;
 }
@@ -126,7 +126,7 @@ a {
 }
 
 .btn-regresar {
-  color: var(--color-surface-container--lowest);
+  color: var(--color-on-primary-container);
   background-color: var(--color-primary-container);
 }
 
