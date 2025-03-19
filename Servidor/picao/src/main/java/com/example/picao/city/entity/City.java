@@ -1,7 +1,6 @@
 package com.example.picao.city.entity;
 
 import com.example.picao.department.entity.Department;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -24,7 +23,6 @@ public class City {
     String name;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonBackReference
     Department department;
 
     public City(Integer id) {

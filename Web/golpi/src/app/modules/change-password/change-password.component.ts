@@ -224,7 +224,6 @@ export class ChangePasswordComponent implements OnInit {
             this.limpiarFormulario();
           },
           (err) => {
-            console.log(err);
             const errorDto = new MessageExceptionDto({
               status: err.error?.status,
               error: err.error?.error,

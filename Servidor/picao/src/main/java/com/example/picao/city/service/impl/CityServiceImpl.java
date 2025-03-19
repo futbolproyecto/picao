@@ -1,6 +1,6 @@
 package com.example.picao.city.service.impl;
 
-import com.example.picao.city.entity.City;
+import com.example.picao.city.dto.CityResponseDTO;
 import com.example.picao.city.repository.CityRepository;
 import com.example.picao.city.service.CityService;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +17,7 @@ public class CityServiceImpl implements CityService {
 
     @Transactional(readOnly = true)
     @Override
-    public List<City> getCities() {
-        return cityRepository.findAll();
+    public List<CityResponseDTO> getAllCities() {
+        return cityRepository.findCities();
     }
 }

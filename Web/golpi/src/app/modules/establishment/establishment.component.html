@@ -9,44 +9,21 @@
     </small>
 
     <mat-form-field>
-      <mat-label>Cant. canchas</mat-label>
-      <input matInput formControlName="cantidad_canchas" />
-    </mat-form-field>
-    <small class="text-error" *ngIf="validarCantidadCancha()">
-      {{ cantidadCanchasError }}
-    </small>
-  </div>
-
-  <div class="form-group">
-    <mat-form-field>
       <mat-label>Dirección</mat-label>
       <input matInput formControlName="direccion" />
     </mat-form-field>
     <small class="text-error" *ngIf="validarDireccion()">
       {{ direccionError }}
     </small>
+  </div>
 
+  <div class="form-group">
     <mat-form-field>
       <mat-label>Teléfono</mat-label>
       <input matInput formControlName="telefono" />
     </mat-form-field>
     <small class="text-error" *ngIf="validarTelefono()">
       {{ telefonoError }}
-    </small>
-  </div>
-
-  <div class="form-group">
-    <ng-select
-      formControlName="departamento"
-      placeholder="Departamento*"
-      [items]="departamentoDTO"
-      bindLabel="name"
-      bindValue="id"
-      class="lista"
-    >
-    </ng-select>
-    <small class="text-error" *ngIf="validarDepartamento()">
-      {{ departamentoError }}
     </small>
 
     <ng-select
