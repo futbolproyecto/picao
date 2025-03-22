@@ -1,5 +1,6 @@
 package com.example.picao;
 
+import com.example.picao.field.entity.Field;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,7 +18,7 @@ public class FieldHour {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "field_id")
-    private com.example.picao.Field field;
+    private Field field;
 
     @Column(name = "start_time")
     private LocalTime startTime;

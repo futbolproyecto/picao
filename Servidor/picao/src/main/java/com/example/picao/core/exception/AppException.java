@@ -8,13 +8,12 @@ import org.springframework.http.HttpStatus;
 public class AppException extends RuntimeException {
     private final ErrorMessages errorMessages;
     private final HttpStatus httpStatus;
+    private final transient Object[] args;
 
-
-
-    public AppException(ErrorMessages errorMessages, HttpStatus httpStatus) {
-        super(errorMessages.getMessage());
+    public AppException(ErrorMessages errorMessages, HttpStatus httpStatus, Object... args) {
+        super(String.format(errorMessages.getFormattedMessage(args)));
         this.errorMessages = errorMessages;
         this.httpStatus = httpStatus;
-
+        this.args = args; // Guardamos los argumentos
     }
 }

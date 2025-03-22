@@ -3,6 +3,8 @@ package com.example.picao.core.util;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import java.util.MissingFormatArgumentException;
+
 @Getter
 @AllArgsConstructor
 public enum ErrorMessages {
@@ -46,7 +48,7 @@ public enum ErrorMessages {
     DUPLICATE_NIKCNAME("El alias ingresado ya existe",
             "Por favor, elige otro alias e inténtalo nuevamente",
             "E14"),
-    GENERIC_NOT_EXIST("Informacion ingresada no existe en base de datos.",
+    GENERIC_NOT_EXIST("%s no existe en base de datos.",
             "Verifique la informacion ingresada",
             "E15"),
     DUPLICATE_TEAM_NAME("El nombre del equipo ya está registrado.",
@@ -66,9 +68,20 @@ public enum ErrorMessages {
             "E20"),
     DUPLICATE_ESTABLISHMENT_NAME("El nombre del establecimiento ya se encuentra creado",
             "Verifique la informacion ingresada",
-            "E21");
+            "E21"),
+    GENERIC_DUPLICATE("%s ya está registrado.",
+            "Por favor, elige otra opcion e intenta nuevamente",
+            "E22");
     private final String message;
     private final String recommendation;
     private final String code;
+
+    public String getFormattedMessage(Object... args) {
+        try {
+            return String.format(message, args);
+        } catch (MissingFormatArgumentException e) {
+            return message; // Devuelve el mensaje sin formato si falta algún argumento
+        }
+    }
 
 }
