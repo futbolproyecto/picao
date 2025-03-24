@@ -1,11 +1,16 @@
 package com.example.picao.player_profile.service;
 
-import com.example.picao.player_profile.dto.CreatePlayerProfileRequestDTO;
-import com.example.picao.player_profile.entity.PlayerProfile;
+import com.example.picao.player_profile.dto.CreateUpdatePlayerProfileRequestDTO;
+import com.example.picao.player_profile.dto.PlayerProfileResponseDTO;
 
 public interface PlayerProfileService {
 
-    PlayerProfile createPlayerProfile(CreatePlayerProfileRequestDTO requestDTO);
+    PlayerProfileResponseDTO createPlayerProfile(CreateUpdatePlayerProfileRequestDTO requestDTO);
+
+    PlayerProfileResponseDTO update(CreateUpdatePlayerProfileRequestDTO requestDTO);
+
+
+
 
 
 

@@ -1,3 +1,4 @@
+/* Contenedor principal */
 .container-main {
   width: 100%;
   min-height: 100vh;
@@ -5,11 +6,12 @@
   background-color: var(--color-surface-container);
   padding: 2rem;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   font-family: "Montserrat";
 }
 
+/* Contenedor de la caja y login */
 .container-box {
   position: relative;
   width: 100%;
@@ -22,20 +24,20 @@
 
 .container-login {
   position: absolute;
-  width: calc(100% - 4.1rem);
-  height: calc(100% - 4.1rem);
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  width: calc(100% - 4.1rem);
+  height: calc(100% - 4.1rem);
 }
 
+/* Formulario y estructura interna */
 .formulario {
   position: absolute;
-  height: 100%;
   width: 50%;
   top: 6%;
   left: 0;
-  transition: 0.9s ease-in-out;
+  transition: left 0.9s ease-in-out;
   z-index: 1;
 }
 
@@ -47,13 +49,13 @@ form {
   justify-content: space-around;
 }
 
+/* Estilos del título */
 h1 {
-  font-family: "Montserrat";
-  font-size: 2.1rem;
-  font-weight: bold;
+  font: bold 2.1rem "Montserrat";
   color: var(--color-on-primary-container);
 }
 
+/* Estilos de los elementos de formulario */
 .custom-input {
   width: 95%;
   font-size: 15px;
@@ -63,6 +65,7 @@ h1 {
   color: var(--color-secondary);
 }
 
+/* Logo */
 .logo {
   display: flex;
   align-items: center;
@@ -75,6 +78,7 @@ h1 {
   margin: 0.1rem;
 }
 
+/* Botón */
 .boton {
   display: flex;
   justify-content: center;
@@ -84,7 +88,7 @@ h1 {
 }
 
 .boton .btn {
-  background-color: var(--color-primary-container);
+  background-color: var(--color-primary);
   font-size: 16px;
   color: var(--color-on-primary-container);
   height: 45px;
@@ -92,14 +96,14 @@ h1 {
   border-radius: 10px;
 }
 
+/* Enlace */
 a {
-  color: var(--color-primary-container);
+  color: var(--color-primary);
   font-weight: bold;
   cursor: pointer;
 }
 
 .forgot-password {
-  font-weight: normal;
   font-size: 15px;
   color: var(--color-on-primary-container);
   display: flex;
@@ -107,6 +111,31 @@ a {
   align-items: center;
 }
 
+/*Seleccionar establecimiento */
+.seleccion-establecimiento {
+  max-width: 400px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  top: 45%;
+}
+
+.formulario-establecimiento {
+  display: contents;
+}
+
+.btn-regresar {
+  color: var(--color-on-primary-container);
+  background-color: var(--color-primary-container);
+}
+
+.regresar {
+  display: flex;
+  gap: 20px;
+}
+
+/* Carrusel */
 .carousel {
   position: absolute;
   height: 90%;
@@ -116,35 +145,22 @@ a {
   background-color: var(--color-secondary);
   border-radius: 2rem;
   z-index: 2;
+  transition: left 0.8s ease-in-out;
 }
 
-.contactenos {
-  opacity: 0;
-  pointer-events: none;
-}
-
+/* Contactenos y transiciones */
+.contactenos,
 .container-main.modo-registro .inicio-sesion {
   opacity: 0;
   transition: opacity 0.02s 0.4s;
   pointer-events: none;
 }
 
-.container-main.modo-registro .contactenos {
-  opacity: 1;
-  transition: opacity 0.02s 0.4s;
-  pointer-events: all;
-}
-
+.container-main.modo-registro .contactenos,
 .container-main:not(.modo-registro) .inicio-sesion {
   opacity: 1;
-  transition: opacity 0.02s 0.4s;
   pointer-events: all;
-}
-
-.container-main:not(.modo-registro) .contactenos {
-  opacity: 0;
   transition: opacity 0.02s 0.4s;
-  pointer-events: none;
 }
 
 .container-main.modo-registro .formulario {
@@ -152,22 +168,36 @@ a {
 }
 
 .container-main.modo-registro .carousel {
-  left: 0%;
+  left: 0;
 }
 
-.container-main .carousel {
-  transition: left 0.8s ease-in-out;
-}
-
+/* Formulario de entrada */
 .input-form {
   margin-top: 10px;
 }
 
-@media (max-width: 952px) {
+app-registre {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+/* Reglas de medios */
+@media (max-width: 1124px) {
   .container-box {
     height: auto;
     max-width: 550px;
     overflow: hidden;
+  }
+
+  .container-login,
+  .formulario,
+  .carousel {
+    position: static;
+    width: 100%;
+    height: auto;
   }
 
   .container-login {
@@ -178,21 +208,46 @@ a {
     padding: 2rem;
   }
 
-  .formulario {
-    position: revert;
-    width: 100%;
-    height: auto;
+  .carousel {
+    display: none;
   }
 
-  .carousel {
-    position: revert;
-    width: 100%;
-    height: auto;
+  .boton .btn {
+    width: 70%;
+  }
+
+  .logo img {
+    width: 85px;
+  }
+
+  h1 {
+    padding-top: 10px;
+    font: bold 20px "Montserrat";
+  }
+
+  p {
+    font-size: 12px;
+  }
+
+  .forgot-password {
+    font-size: 11px;
+  }
+
+  .input-form {
+    margin: 0;
+  }
+
+  .boton {
+    margin: 0;
+    padding-bottom: 10px;
   }
 
   form {
-    max-width: revert;
-    padding: 1.5rem 2.5rem;
+    max-width: 100%;
     transition: transform 0.8s ease-in-out, opacity 0.45s linear;
+  }
+
+  .container-main.modo-registro .formulario {
+    left: 0;
   }
 }

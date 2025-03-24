@@ -4,16 +4,17 @@ import { HomeComponent } from './modules/home/home.component';
 import { RegistreComponent } from './modules/registre/registre.component';
 import { autenticacionGuard } from './core/guard/autenticacion.guard';
 import { noAutenticacion } from './core/guard/no-autenticacion.guard';
-import { AgendaComponent } from './modules/agenda/agenda.component';
 import { UpdateDataComponent } from './modules/update-data/update-data.component';
 import { SoccerFieldComponent } from './modules/soccer-field/soccer-field.component';
 import { DashboardComponent } from './modules/dashboard/dashboard.component';
+import { ReservationComponent } from './modules/reservation/reservation.component';
+import { NotificationsComponent } from './modules/notifications/notifications.component';
 
 export const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
-    // canActivate: [noAutenticacion],
+    canActivate: [noAutenticacion],
   },
   {
     path: 'contactenos',
@@ -22,7 +23,7 @@ export const routes: Routes = [
   {
     path: 'home',
     component: HomeComponent,
-    // canMatch: [autenticacionGuard],
+    canMatch: [autenticacionGuard],
     children: [
       {
         path: 'dashboard',
@@ -30,9 +31,9 @@ export const routes: Routes = [
         component: DashboardComponent,
       },
       {
-        path: 'agenda',
-        title: 'Agenda',
-        component: AgendaComponent,
+        path: 'reservacion',
+        title: 'Reservación',
+        component: ReservationComponent,
       },
       {
         path: 'soccer-field',
@@ -43,6 +44,11 @@ export const routes: Routes = [
         path: 'update-data',
         title: 'Usuario',
         component: UpdateDataComponent,
+      },
+      {
+        path: 'notification',
+        title: 'Notificaciones',
+        component: NotificationsComponent,
       },
       {
         path: '',

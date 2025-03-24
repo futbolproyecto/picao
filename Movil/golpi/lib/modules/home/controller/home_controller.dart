@@ -15,7 +15,7 @@ class HomeController extends GetxController {
   final TeamRepository teamRepository;
   HomeController(this.teamRepository);
 
-  var indexTabBarView = 0.obs;
+  RxInt indexTabBarView = 0.obs;
   var floatingActionButton = FloatingActionButton(onPressed: () {}).obs;
   var listTeams = <TeamDataModel>[].obs;
 
@@ -70,10 +70,12 @@ class HomeController extends GetxController {
           await teamRepository.getTeamByUserId(int.parse(idUsuer!));
       Get.back();
     } on CustomException catch (e) {
+      listTeams.value = [];
       Get.back();
       UiAlertMessage(Get.context!)
           .error(message: '${e.error.error}\n${e.error.recommendation}');
     } on Exception catch (_) {
+      listTeams.value = [];
       Get.back();
       UiAlertMessage(Get.context!).error(
           message:
@@ -83,6 +85,6 @@ class HomeController extends GetxController {
 
   void closeSesion() async {
     await SecureStorage().deleteAll();
-    Get.toNamed(AppPages.login);
+    Get.offAndToNamed(AppPages.login);
   }
 }

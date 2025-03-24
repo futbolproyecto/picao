@@ -1,8 +1,9 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:flutter/material.dart';
 import 'package:golpi/core/constants/constants.dart';
 import 'package:golpi/core/routes/app_pages.dart';
 import 'package:golpi/modules/home/controller/home_controller.dart';
+import 'package:golpi/modules/team/controller/team_controller.dart';
 import 'package:golpi/modules/widgets/ui_buttoms.dart';
 import 'package:golpi/modules/widgets/ui_text.dart';
 
@@ -13,6 +14,8 @@ class TeamPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
     final HomeController homeController = Get.find<HomeController>();
+    final TeamController teamController = Get.find<TeamController>();
+
     return Scaffold(
       body: Column(
         children: [
@@ -44,22 +47,19 @@ class TeamPage extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: InkWell(
-                        onTap: () {
-                          Get.toNamed(AppPages.manageTeam);
-                        },
-                        child: Card(
-                          margin: const EdgeInsets.symmetric(vertical: 10),
-                          color: Colors.white,
-                          elevation: 3,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Container(
-                                width: 80,
-                                height: 80,
-                                margin: const EdgeInsets.symmetric(
-                                    vertical: 10, horizontal: 5),
+                      child: Card(
+                        elevation: 3,
+                        child: ListTile(
+                          leading: Container(
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                    color: Constants.secondaryColor,
+                                    width: 3,
+                                  )),
+                              child: Container(
+                                width: 70,
+                                height: 70,
                                 decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     border: Border.all(
@@ -67,27 +67,49 @@ class TeamPage extends StatelessWidget {
                                       width: 3,
                                     )),
                                 child: ClipOval(
-                                  child: Image.asset(
-                                    'assets/img/teamicon.jpg',
-                                    width: 70,
-                                    height: 70,
-                                  ),
+                                  child: Image.asset('assets/img/teamicon.jpg'),
                                 ),
-                              ),
-                              UiText(
-                                      text: homeController
-                                              .listTeams[index].name ??
-                                          '')
-                                  .paragraphBlack(),
-                              const Icon(Icons.arrow_forward_ios_outlined)
+                              )),
+                          title: UiText(
+                                  text: homeController.listTeams[index].name ??
+                                      '')
+                              .phraseSemiBold(),
+                          subtitle: Column(
+                            children: [
+                              _buildInfoRow('Posición:',
+                                  '${homeController.listTeams[index].positionPlayer}'),
+                              _buildInfoRow('Cantidad jugadores:',
+                                  '${homeController.listTeams[index].numberOfPlayers}'),
                             ],
                           ),
+                          trailing: const Icon(Icons.arrow_forward_ios_outlined,
+                              color: Colors.grey),
+                          onTap: () {
+                            teamController.teamId.value =
+                                homeController.listTeams[index].id ?? 0;
+                            teamController.getTeamsByUserId(
+                                homeController.listTeams[index].id ?? 0);
+                            Get.toNamed(AppPages.manageTeam);
+                          },
                         ),
                       ),
                     );
                   }),
             ),
           )
+        ],
+      ),
+    );
+  }
+
+  Widget _buildInfoRow(String label, String value) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 2),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          UiText(text: label).paragraphSemiBold(),
+          UiText(text: value).phraseBlack()
         ],
       ),
     );

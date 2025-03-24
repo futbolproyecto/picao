@@ -1,5 +1,5 @@
 <div class="container-titulo">
-  <h2>Registra turno</h2>
+  <h2>Registrar cliente</h2>
   <span
     ngClass="d-flex justify-content-end cerrar"
     (click)="onClose()"
@@ -12,76 +12,6 @@
   </span>
 </div>
 
-<mat-dialog-content class="container">
-  <form [formGroup]="formularioTurno" class="form-content">
-    <div class="form-group">
-      <mat-form-field>
-        <mat-label>Fecha</mat-label>
-        <input matInput [matDatepicker]="picker" formControlName="fecha" />
-        <mat-datepicker-toggle
-          matIconSuffix
-          [for]="picker"
-        ></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-      </mat-form-field>
-      <small class="text-error" *ngIf="validarFecha()">
-        {{ fechaError }}
-      </small>
-    </div>
-
-    <div class="form-group">
-      <mat-form-field>
-        <mat-label>Hora inicial</mat-label>
-        <input matInput type="time" formControlName="horaInicial" />
-      </mat-form-field>
-      <small class="text-error" *ngIf="validarHoraInicial()">
-        {{ horaInicialError }}
-      </small>
-
-      <mat-form-field>
-        <mat-label>Hora final</mat-label>
-        <input matInput type="time" formControlName="horafinal" />
-      </mat-form-field>
-    </div>
-
-    <div class="form-group">
-      <mat-form-field>
-        <mat-label>Cancha</mat-label>
-        <mat-select formControlName="cancha">
-          <mat-option value="1">1</mat-option>
-          <mat-option value="2">2</mat-option>
-          <mat-option value="3">3</mat-option>
-        </mat-select>
-      </mat-form-field>
-      <small class="text-error" *ngIf="validarCancha()">
-        {{ canchaError }}
-      </small>
-      <ng-select
-        formControlName="cliente"
-        placeholder="Cliente*"
-        [items]="usuario"
-        bindLabel="username"
-        bindValue="id"
-        class="lista"
-      >
-      </ng-select>
-      <small class="text-error" *ngIf="validarCliente()">
-        {{ clienteError }}
-      </small>
-    </div>
-  </form>
-</mat-dialog-content>
-
-<mat-dialog-actions align="end">
-  <div class="boton">
-    <button mat-button mat-dialog-close class="btn">Cancelar</button>
-    <button
-      mat-raised-button
-      class="btn"
-      [disabled]="formularioTurno.invalid"
-      (click)="guardarTurno()"
-    >
-      Guardar
-    </button>
-  </div>
-</mat-dialog-actions>
+<mat-dialog-content class="container"
+  ><h1>EN CONSTRUCCIÓN</h1></mat-dialog-content
+>

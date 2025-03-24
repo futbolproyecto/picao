@@ -1,22 +1,35 @@
-<div class="container-sidemenu" [ngClass]="menuExpandido ? 'expandido' : ''">
+<button
+  class="hamburguer-menu"
+  [ngClass]="{ 'hamburguer-menu-right': menuMobile }"
+  (click)="toggleMenuMobile()"
+>
+  <mat-icon>{{ menuMobile ? "close" : "menu" }}</mat-icon>
+</button>
+
+<div
+  class="container-sidemenu"
+  [ngClass]="{ expandido: menuExpandido, 'mobile-menu': menuMobile }"
+>
   <div class="logo">
-    <div class="logo-img" (click)="menuExpandido = !menuExpandido">
+    <div
+      class="logo-img"
+      (click)="!menuMobile ? (menuExpandido = !menuExpandido) : null"
+    >
       <img src="./assets/img/logo_normal.png" alt="Logo" />
-      <p *ngIf="!menuExpandido" href="">OLPI</p>
+      <p *ngIf="!menuExpandido">OLPI</p>
     </div>
   </div>
 
   <div class="sidebar-wrapper">
     <div class="user" (click)="toggleSubmodulosUsuario()">
       <div class="nombre">
-        <span *ngIf="!menuExpandido"
-          >{{ usuario.name | titlecase }}
-          {{ usuario.lastName | titlecase }}</span
-        >
-        <span *ngIf="menuExpandido"
-          >{{ usuario.name | titlecase | slice : 0 : 1
-          }}{{ usuario.lastName | titlecase | slice : 0 : 1 }}</span
-        >
+        <span *ngIf="!menuExpandido">
+          {{ usuario.name | titlecase }} {{ usuario.last_name | titlecase }}
+        </span>
+        <span *ngIf="menuExpandido">
+          {{ usuario.name | titlecase | slice : 0 : 1
+          }}{{ usuario.last_name | titlecase | slice : 0 : 1 }}
+        </span>
         <mat-icon>{{
           mostrarSubmodulosUsuario ? "expand_less" : "expand_more"
         }}</mat-icon>
@@ -31,6 +44,7 @@
               [matTooltip]="'Usuario'"
               [matTooltipPosition]="'right'"
               [matTooltipDisabled]="!menuExpandido"
+              (click)="closeMenuMobile()"
             >
               <i class="material-icons icono-submenu">manage_accounts</i>
               <p *ngIf="!menuExpandido">Usuario</p>
@@ -50,6 +64,7 @@
             [matTooltipPosition]="'right'"
             [matTooltipDisabled]="!menuExpandido"
             class="menu-item"
+            (click)="closeMenuMobile()"
           >
             <i class="material-icons icono-menu">dashboard</i>
             <p *ngIf="!menuExpandido">Dashboard</p>
@@ -62,6 +77,7 @@
             [matTooltip]="'Establecimiento'"
             [matTooltipPosition]="'right'"
             [matTooltipDisabled]="!menuExpandido"
+            (click)="closeMenuMobile()"
           >
             <i class="material-icons icono-menu">sports_soccer</i>
             <p *ngIf="!menuExpandido">Establecimiento</p>
@@ -69,17 +85,25 @@
         </li>
         <li>
           <a
-            [routerLink]="['/home/agenda']"
+            [routerLink]="['/home/reservacion']"
             routerLinkActive="router-link-active"
-            [matTooltip]="'Agenda'"
+            [matTooltip]="'Reservación'"
             [matTooltipPosition]="'right'"
             [matTooltipDisabled]="!menuExpandido"
+            (click)="closeMenuMobile()"
           >
             <i class="material-icons icono-menu">event</i>
-            <p *ngIf="!menuExpandido">Agenda</p>
+            <p *ngIf="!menuExpandido">Reservación</p>
           </a>
         </li>
       </ul>
     </div>
+  </div>
+
+  <div class="cerrar">
+    <a (click)="CerrarSesion()">
+      <i class="material-icons iconred icono-menu">logout</i>
+      <p *ngIf="!menuExpandido">CERRAR SESIÓN</p>
+    </a>
   </div>
 </div>

@@ -1,6 +1,6 @@
 class PlayerProfileRegisterModel {
   final String nickname;
-  final double stature;
+  final int stature;
   final int weight;
   final int positionPlayerId;
   final int dominantFootId;

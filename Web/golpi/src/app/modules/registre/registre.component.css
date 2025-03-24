@@ -1,7 +1,7 @@
 .formulario-registro {
   position: absolute;
   top: 0;
-  left: 5%;
+  left: 6%;
   display: grid;
   transition: 0.8s ease-in-out;
   z-index: 1;
@@ -24,7 +24,7 @@ h1 {
 }
 
 .custom-input {
-  width: 100%;
+  width: 95%;
   font-size: 15px;
 }
 
@@ -50,7 +50,7 @@ h1 {
 }
 
 .boton .btn {
-  background-color: var(--color-primary-container);
+  background-color: var(--color-primary);
   font-size: 16px;
   color: var(--color-on-primary-container);
   height: 45px;
@@ -59,7 +59,7 @@ h1 {
 }
 
 a {
-  color: var(--color-primary-container);
+  color: var(--color-primary);
   font-weight: bold;
   cursor: pointer;
 }
@@ -67,11 +67,12 @@ a {
 .container-main.modo-registro .contacto {
   opacity: 1;
   pointer-events: all;
+  transition: opacity 0.02s 0.4s;
 }
 
-.container-main.modo-registro .formulario {
+/* .container-main.modo-registro .formulario {
   left: 55%;
-}
+} */
 
 .container-celular {
   width: 100%;
@@ -98,18 +99,45 @@ a {
   font-size: 17px !important;
 }
 
-@media (max-width: 952px) {
+@media (max-width: 1124px) {
+  .custom-input {
+    width: 100%;
+    font-size: 15px;
+  }
+
   .formulario-registro {
-    position: absolute;
-    top: 2.8%;
-    left: 0;
-    display: grid;
-    transition: 0.8s ease-in-out;
-    z-index: 1;
+    left: 0%;
+    display: flex;
+  }
+
+  .custom-input-celular {
+    width: 70%;
+  }
+
+  .custom-input-indicativo {
+    width: 30%;
   }
 
   form {
-    max-width: revert;
-    padding: 1.5rem 2.5rem;
+    padding-top: 14px;
+    max-width: 80%;
+    transition: transform 0.8s ease-in-out, opacity 0.45s linear;
+  }
+
+  .logo img {
+    width: 85px;
+  }
+
+  h1 {
+    padding-top: 10px;
+    font: bold 15px "Montserrat";
+  }
+
+  p {
+    font-size: 12px;
+  }
+
+  .boton .btn {
+    width: 70%;
   }
 }

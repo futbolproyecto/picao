@@ -64,6 +64,7 @@ class LoginPage extends StatelessWidget {
             ],
           ),
           child: ListView.builder(
+            controller: ScrollController(),
             itemCount: 1,
             itemBuilder: (context, index) {
               return ReactiveFormBuilder(
@@ -80,12 +81,14 @@ class LoginPage extends StatelessWidget {
                       const SizedBox(height: 20),
                       UiTextFiel().textField(
                         formControlName: 'email_or_mobile_number',
-                        labelText: 'Correo',
+                        labelText: 'Correo o celular',
                         prefixIcon: Icons.email_outlined,
                         colorPrefixIcon: Constants.primaryColor,
                         validationMessages: {
                           ValidationMessage.required: (error) =>
                               'Campo requerido',
+                          ValidationMessage.maxLength: (error) =>
+                              'Maximo 50 caracteres',
                         },
                       ),
                       const SizedBox(height: 20),
@@ -106,6 +109,8 @@ class LoginPage extends StatelessWidget {
                           validationMessages: {
                             ValidationMessage.required: (error) =>
                                 'Campo requerido',
+                            ValidationMessage.maxLength: (error) =>
+                                'Maximo 50 caracteres',
                           },
                         ),
                       ),

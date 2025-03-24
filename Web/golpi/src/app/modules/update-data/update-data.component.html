@@ -2,7 +2,7 @@
   <h1>
     <h1>Usuario / {{ nombrePestana }}</h1>
   </h1>
-  <div class="card">
+  <div class="card-update">
     <app-card>
       <div class="container-card">
         <div class="container-modulos">
@@ -65,31 +65,21 @@
 
             <div class="form-group">
               <mat-form-field>
-                <mat-label>Nombre usuario</mat-label>
-                <input matInput formControlName="nombre_usuario" />
-              </mat-form-field>
-              <small class="text-error" *ngIf="validarNombreUsuario()">
-                {{ nombreUsuarioError }}
-              </small>
-
-              <mat-form-field>
                 <mat-label>Correo electrónico</mat-label>
                 <input matInput formControlName="correo" />
               </mat-form-field>
               <small class="text-error" *ngIf="validarCorreo()">
                 {{ correoError }}
               </small>
-            </div>
 
-            <div class="form-group">
               <div class="container-celular">
                 <ng-select
                   formControlName="indicador"
+                  [items]="countryDTO"
+                  bindLabel="cellPrefix"
+                  bindValue="id"
                   class="custom-input-indicativo"
                   [(ngModel)]="selected"
-                  [items]="indicativos"
-                  bindValue="value"
-                  bindLabel="label"
                 >
                 </ng-select>
 
@@ -103,6 +93,9 @@
                   />
                 </mat-form-field>
               </div>
+            </div>
+
+            <div class="form-group">
               <mat-form-field>
                 <mat-label>Fecha de nacimiento</mat-label>
                 <input

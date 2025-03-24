@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { LoginRequestDto } from '../../data/schema/loginRequestDto';
-import { environment } from '../../../environments/enviroment';
+import { environment } from '../../../environments/environment';
 import { AuthRequestDto } from '../../data/schema/authRequestDto';
 import { ConstantesEndpoints } from '../utils/models/constantes-endpoints';
 import { AutenticacionStoreService } from '../store/auth/autenticacion-store.service';

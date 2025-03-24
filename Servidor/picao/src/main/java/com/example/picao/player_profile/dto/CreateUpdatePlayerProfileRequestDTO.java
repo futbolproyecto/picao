@@ -3,7 +3,7 @@ package com.example.picao.player_profile.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.*;
 
-public record CreatePlayerProfileRequestDTO(
+public record CreateUpdatePlayerProfileRequestDTO(
         @NotBlank
         @Size(max = 20)
         String nickname,

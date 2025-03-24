@@ -168,6 +168,7 @@ class HomePage extends StatelessWidget {
               Container(color: Colors.blue)
             ],
             onChange: (index) => homeController.changeIndexTabBarView(index),
+            initialIndex: homeController.indexTabBarView.value,
           ),
         ),
         floatingActionButton: Padding(

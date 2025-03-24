@@ -10,7 +10,7 @@ public class Constants {
     public static final String ERROR_MESSAGE_PHONE_NUMBER_SIZE = "debe tener minimo 10 caracteres";
     public static final String ERROR_MESSAGE_PASSWORD = "debe tener al menos 6 caracteres, una letra mayúscula, una letra minúscula, un número y un carácter especial.";
     public static final String PASSWORD_PATTERN = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&.\\-_])[A-Za-z\\d@$!%*?&.\\-_]{6,}$";
-    public static final String ERROR_MESSAGE_SIZE_NAME_TEAM = "debe tener maximo 50 caracteres";
+    public static final String ERROR_MESSAGE_SIZE = "debe tener maximo 50 caracteres";
 
     /**
      * rutas sin seguridad

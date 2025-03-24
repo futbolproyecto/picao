@@ -24,30 +24,29 @@
               "@angular/material/prebuilt-themes/purple-green.css",
               "src/assets/css/global.css",
               "src/styles.css",
-              "node_modules/ngx-spinner/animations/ball-spin-clockwise-fade-rotating.css"
+              "node_modules/ngx-spinner/animations/square-jelly-box.css"
             ],
             "scripts": ["./node_modules/bootstrap/dist/js/bootstrap.js"],
-            "server": "src/main.server.ts",
-            "prerender": true,
-            "ssr": {
-              "entry": "server.ts"
-            }
+            "baseHref": "/",
+            "deployUrl": ""
           },
           "configurations": {
             "production": {
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumWarning": "2mb",
+                  "maximumError": "3mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "5kb",
+                  "maximumError": "10kb"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "sourceMap": false,
+              "optimization": true
             },
             "development": {
               "optimization": false,
@@ -56,7 +55,7 @@
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.development.ts"
+                  "with": "src/environments/environment.prod.ts"
                 }
               ]
             }
@@ -92,7 +91,7 @@
               "@angular/material/prebuilt-themes/purple-green.css",
               "src/assets/css/global.css",
               "src/styles.css",
-              "node_modules/ngx-spinner/animations/ball-spin-clockwise-fade-rotating.css"
+              "node_modules/ngx-spinner/animations/square-jelly-box.css"
             ],
             "scripts": ["node_modules/bootstrap-notify/bootstrap-notify.js"]
           }

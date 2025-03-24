@@ -60,7 +60,8 @@ class UiButtoms {
 
   Widget textButtom(Color color) {
     return TextButton(
-      child: Text(title, style: TextStyle(color: color)),
+      child: Text(title,
+          style: TextStyle(color: color, decoration: TextDecoration.underline)),
       onPressed: () => onPressed(),
     );
   }

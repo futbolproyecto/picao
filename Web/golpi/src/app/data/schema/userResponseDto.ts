@@ -1,15 +1,16 @@
+// Dto
 import { GenericDto } from '../../core/models/generic-dto';
 
 export class UsuarioResponseDto extends GenericDto {
   id?: number;
   name?: string;
-  secondName?: string;
-  lastName?: string;
-  secondLastName?: string;
-  mobileNumber?: string;
+  second_name?: string;
+  last_name?: string;
+  second_last_name?: string;
+  mobile_number?: string;
   email?: string;
   username?: string;
-  dateOfBirth?: string;
+  date_of_birth?: string | undefined;
 
   constructor(init?: Partial<UsuarioResponseDto>) {
     super();

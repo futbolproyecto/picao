@@ -1,0 +1,225 @@
+/* Contenedor principal */
+.container-agenda {
+  padding: 16px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Estilos para encabezados */
+h1 {
+  font-weight: bold;
+  font-size: 20px;
+  color: var(--color-secondary);
+  font-family: "Montserrat";
+}
+
+/* Estilo de tarjetas */
+.card-agenda {
+  padding-bottom: 30px;
+  background: var(--color-surface-container--lowest);
+  box-shadow: 0 3px 15px var(--color-outline-variant);
+  border-radius: 10px;
+}
+
+/* Contenedores internos */
+.container-card {
+  padding: 10px;
+}
+
+.container-modulos,
+ul {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+ul {
+  padding: 10px;
+}
+
+/* Estilos para los elementos de lista */
+li {
+  list-style: none;
+  cursor: pointer;
+  text-decoration: none;
+  border-bottom: 2px solid var(--color-primary);
+  padding: 10px 30px;
+  font-family: "Montserrat";
+  font-size: 18px;
+  color: var(--color-outline-variant);
+}
+
+li:hover,
+.active-tab {
+  border-bottom: 2px solid var(--color-secondary);
+  color: var(--color-secondary);
+}
+
+/* Pestaña */
+.container-pestana {
+  text-align: center;
+  color: var(--color-secondary);
+  transition: opacity 0.3s ease-in-out;
+  opacity: 1;
+}
+
+.container-pestana.ng-leave-active {
+  opacity: 0;
+}
+
+/* Formulario */
+.form-content {
+  padding: 0 76px;
+}
+
+.form-group {
+  display: flex;
+  gap: 20px;
+}
+
+mat-form-field {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.boton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.boton .btn {
+  background-color: var(--color-primary);
+  font-size: 16px;
+  color: var(--color-on-primary-container);
+  height: 45px;
+  width: 50%;
+  border-radius: 10px;
+  margin-left: 15px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Tabla */
+.container-tabla {
+  padding: 20px;
+}
+
+/* Select */
+.ng-select,
+.ng-select div,
+.ng-select input,
+.ng-select span {
+  margin-top: 4px !important;
+  font-weight: 400 !important;
+  font-size: 17px !important;
+}
+
+.ng-select .ng-select-container .ng-placeholder {
+  padding-left: 17px !important;
+}
+
+.ng-select .ng-select-container .ng-value-label {
+  font-size: 15px !important;
+  padding-left: 15px !important;
+  padding-bottom: 20px !important;
+}
+
+.ng-select .ng-arrow-wrapper {
+  padding-right: 13px !important;
+}
+
+/* Lista */
+.lista {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.btn-adicionar {
+  background-color: var(--color-primary-container);
+  color: var(--color-on-primary-container);
+  height: 40px;
+  width: 10%;
+  border-radius: 7px;
+  border: none;
+}
+
+.container-cliente {
+  display: contents;
+  width: 100%;
+}
+
+.lista_cliente {
+  width: 85%;
+}
+
+/* Reglas de medios */
+@media (max-width: 1124px) {
+  .container-agenda {
+    padding: 10px;
+  }
+
+  .container-card {
+    padding: 0;
+  }
+
+  .form-content {
+    padding: 0px 30px;
+  }
+
+  .form-group {
+    display: contents;
+  }
+
+  li {
+    padding: 10px 6px;
+    font-size: 12px;
+    font-weight: bold;
+  }
+
+  h1 {
+    padding-top: 10px;
+    font: bold 15px "Montserrat";
+  }
+
+  .container-tabla {
+    width: 98vw;
+    overflow-x: auto;
+    padding: 10px;
+    box-sizing: border-box;
+  }
+
+  .table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  .boton .btn {
+    width: 70%;
+  }
+
+  .boton {
+    margin: 0;
+    padding-bottom: 10px;
+  }
+
+  h2 {
+    display: flex;
+  }
+}
+
+@media (max-width: 698px) {
+  .container-tabla {
+    width: 95vw;
+  }
+}

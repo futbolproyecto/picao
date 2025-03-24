@@ -14,6 +14,6 @@ public class CityController {
 
     @GetMapping(value = "get-all")
     public ResponseEntity<GenericResponseDTO> getAll() {
-        return GenericResponseDTO.genericResponse(cityService.getCities());
+        return GenericResponseDTO.genericResponse(cityService.getAllCities());
     }
 }

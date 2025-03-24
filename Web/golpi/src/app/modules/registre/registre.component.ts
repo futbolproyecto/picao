@@ -1,3 +1,4 @@
+// Core
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import {
@@ -8,15 +9,20 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
+import { trigger, transition, style, animate } from '@angular/animations';
+
+// Librerias
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { Constant } from '../../shared/utils/constant';
-import { ModoAuthService } from '../../core/service/modo-auth.service';
-import { MatSelectModule } from '@angular/material/select';
-import { trigger, transition, style, animate } from '@angular/animations';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { NgSelectModule } from '@ng-select/ng-select';
+
+// Servicios
+import { ModoAuthService } from '../../core/service/modo-auth.service';
+
+// Compartidos
+import { Constant } from '../../shared/utils/constant';
 
 @Component({
   selector: 'app-registre',
@@ -28,7 +34,6 @@ import { NgSelectModule } from '@ng-select/ng-select';
     MatButtonModule,
     FormsModule,
     ReactiveFormsModule,
-    MatSelectModule,
     MatFormFieldModule,
     NgSelectModule,
   ],
@@ -82,7 +87,7 @@ export class RegistreComponent {
           Validators.maxLength(Constant.CAMPO_MAXIMO_50),
         ],
       ],
-      indicador: ['', [Validators.required]],
+      indicador: [this.selected, [Validators.required]],
       celular: [
         '',
         [
@@ -192,6 +197,7 @@ export class RegistreComponent {
 
   limpiarFormulario(): void {
     this.formularioRegistro.reset();
+    this.formularioRegistro.patchValue({ indicador: this.selected });
   }
 
   enviar(): void {

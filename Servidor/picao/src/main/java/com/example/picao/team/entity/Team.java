@@ -13,7 +13,6 @@ import lombok.experimental.FieldDefaults;
 import java.util.Set;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
-
 @NoArgsConstructor()
 @Getter
 @Setter
@@ -36,11 +35,10 @@ public class Team {
     @ManyToOne(fetch = FetchType.LAZY)
     UserEntity ownerUser;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
-            CascadeType.REFRESH})
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinTable(name = "team_players",
-            joinColumns = @JoinColumn(
-                    name = "player_id"), inverseJoinColumns = @JoinColumn(name = "team_id"))
+            joinColumns = @JoinColumn(name = "team_id"),
+            inverseJoinColumns = @JoinColumn(name = "player_id"))
     Set<UserEntity> players;
 
 }

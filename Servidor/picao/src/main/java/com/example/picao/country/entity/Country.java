@@ -1,4 +1,4 @@
-package com.example.picao;
+package com.example.picao.country.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;

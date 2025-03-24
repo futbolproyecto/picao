@@ -1,8 +1,11 @@
+// Core
 import { Component } from '@angular/core';
+import { RouterModule } from '@angular/router';
+
+// Componentes
 import { FooterComponent } from '../../shared/components/layout/footer/footer.component';
 import { SidebarComponent } from '../../shared/components/layout/sidebar/sidebar.component';
-import { RouterModule } from '@angular/router';
-import { NavbarComponent } from "../../shared/components/layout/navbar/navbar.component";
+import { NavbarComponent } from '../../shared/components/layout/navbar/navbar.component';
 
 @Component({
   selector: 'app-home',

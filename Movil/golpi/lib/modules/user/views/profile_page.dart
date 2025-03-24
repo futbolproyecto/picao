@@ -1,12 +1,12 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-import 'package:golpi/core/constants/constants.dart';
-import 'package:golpi/core/models/option_model.dart';
-import 'package:golpi/modules/user/controller/profile_controller.dart';
-import 'package:golpi/modules/widgets/ui_buttoms.dart';
+import 'package:golpi/core/utils/utility.dart';
 import 'package:golpi/modules/widgets/ui_text.dart';
 import 'package:reactive_forms/reactive_forms.dart';
+import 'package:golpi/core/constants/constants.dart';
+import 'package:golpi/modules/widgets/ui_buttoms.dart';
 import 'package:golpi/modules/widgets/ui_text_field.dart';
+import 'package:golpi/modules/user/controller/profile_controller.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -68,7 +68,7 @@ class ProfilePage extends StatelessWidget {
                               ),
                               const SizedBox(height: 20),
                               UiTextFiel().textField(
-                                formControlName: 'lastName',
+                                formControlName: 'last_name',
                                 labelText: 'Apellidos',
                                 prefixIcon: Icons.person_2_outlined,
                                 colorPrefixIcon: Constants.primaryColor,
@@ -90,7 +90,7 @@ class ProfilePage extends StatelessWidget {
                               ),
                               const SizedBox(height: 20),
                               UiTextFiel().textField(
-                                formControlName: 'mobileNumber',
+                                formControlName: 'mobile_number',
                                 labelText: 'Celular',
                                 prefixIcon: Icons.phone_android_outlined,
                                 colorPrefixIcon: Constants.primaryColor,
@@ -134,9 +134,8 @@ class ProfilePage extends StatelessWidget {
                                 },
                               ),
                               const SizedBox(height: 20),
-                              UiTextFiel().dropDown(
-                                formControl: profileController
-                                    .valuePositionPlayerSelected.value,
+                              UiTextFiel().dropDownSearch(
+                                formControlName: 'position_player',
                                 labelText: 'Posicion',
                                 prefixIcon: Icons.flag_outlined,
                                 colorPrefixIcon: Constants.primaryColor,
@@ -172,9 +171,8 @@ class ProfilePage extends StatelessWidget {
                                 },
                               ),
                               const SizedBox(height: 20),
-                              UiTextFiel().dropDown(
-                                formControl: profileController
-                                    .valueDominantFootSelected.value,
+                              UiTextFiel().dropDownSearch(
+                                formControlName: 'dominant_foot',
                                 labelText: 'Pie dominante',
                                 prefixIcon: Icons.directions_run_outlined,
                                 colorPrefixIcon: Constants.primaryColor,
@@ -185,22 +183,20 @@ class ProfilePage extends StatelessWidget {
                                 },
                               ),
                               const SizedBox(height: 20),
-                              UiTextFiel().dropDown(
-                                formControl:
-                                    profileController.valueCitySelected.value,
+                              UiTextFiel().dropDownSearch(
+                                formControlName: 'city',
                                 labelText: 'Ciudad',
                                 prefixIcon: Icons.location_city_outlined,
                                 colorPrefixIcon: Constants.primaryColor,
-                                items: [OptionModel(id: 4, name: 'Cali')],
+                                items: profileController.listCitiesOption,
                                 validationMessages: {
                                   ValidationMessage.required: (error) =>
                                       'Campo requerido',
                                 },
                               ),
                               const SizedBox(height: 20),
-                              UiTextFiel().dropDown(
-                                formControl:
-                                    profileController.valueZoneSelected.value,
+                              UiTextFiel().dropDownSearch(
+                                formControlName: 'zone',
                                 labelText: 'Zona',
                                 prefixIcon: Icons.place_outlined,
                                 colorPrefixIcon: Constants.primaryColor,
@@ -218,8 +214,10 @@ class ProfilePage extends StatelessWidget {
 
                                         if (reactiveFormProfileRegistrer
                                             .valid) {
-                                          profileController
-                                              .registerPlayerProfile();
+                                          profileController.savePlayerProfile();
+                                        } else {
+                                          Utility.validateAllFields(
+                                              reactiveFormProfileRegistrer);
                                         }
                                       },
                                       title: 'Guardar')

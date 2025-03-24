@@ -1,12 +1,12 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-import 'package:golpi/core/constants/constants.dart';
-import 'package:golpi/core/models/option_model.dart';
-import 'package:golpi/modules/team/controller/team_controller.dart';
-import 'package:golpi/modules/widgets/ui_buttoms.dart';
+import 'package:golpi/core/utils/utility.dart';
 import 'package:golpi/modules/widgets/ui_text.dart';
+import 'package:golpi/core/constants/constants.dart';
 import 'package:reactive_forms/reactive_forms.dart';
+import 'package:golpi/modules/widgets/ui_buttoms.dart';
 import 'package:golpi/modules/widgets/ui_text_field.dart';
+import 'package:golpi/modules/team/controller/team_controller.dart';
 
 class RegisterTeamPage extends StatelessWidget {
   const RegisterTeamPage({super.key});
@@ -14,6 +14,7 @@ class RegisterTeamPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final TeamController teamController = Get.find<TeamController>();
+    teamController.loadDataTeam();
 
     return Scaffold(
       appBar: AppBar(
@@ -62,6 +63,8 @@ class RegisterTeamPage extends StatelessWidget {
                             validationMessages: {
                               ValidationMessage.required: (error) =>
                                   'Campo requerido',
+                              ValidationMessage.maxLength: (error) =>
+                                  'Maximo 50 caracteres',
                             },
                           ),
                           const SizedBox(height: 20),
@@ -73,6 +76,8 @@ class RegisterTeamPage extends StatelessWidget {
                             validationMessages: {
                               ValidationMessage.required: (error) =>
                                   'Campo requerido',
+                              ValidationMessage.maxLength: (error) =>
+                                  'Maximo 50 caracteres',
                             },
                           ),
                           const SizedBox(height: 20),
@@ -84,23 +89,25 @@ class RegisterTeamPage extends StatelessWidget {
                             validationMessages: {
                               ValidationMessage.required: (error) =>
                                   'Campo requerido',
+                              ValidationMessage.maxLength: (error) =>
+                                  'Maximo 50 caracteres',
                             },
                           ),
                           const SizedBox(height: 20),
-                          UiTextFiel().dropDown(
-                            formControl: teamController.valueCitySelected.value,
+                          UiTextFiel().dropDownSearch(
+                            formControlName: 'city',
                             labelText: 'Ciudad',
                             prefixIcon: Icons.location_city_outlined,
                             colorPrefixIcon: Constants.primaryColor,
-                            items: [OptionModel(id: 4, name: 'Cali')],
+                            items: teamController.listCitiesOption,
                             validationMessages: {
                               ValidationMessage.required: (error) =>
                                   'Campo requerido',
                             },
                           ),
                           const SizedBox(height: 20),
-                          UiTextFiel().dropDown(
-                            formControl: teamController.valueZoneSelected.value,
+                          UiTextFiel().dropDownSearch(
+                            formControlName: 'zone',
                             labelText: 'Zona',
                             prefixIcon: Icons.place_outlined,
                             colorPrefixIcon: Constants.primaryColor,
@@ -117,6 +124,9 @@ class RegisterTeamPage extends StatelessWidget {
                                         .markAllAsTouched();
                                     if (reactiveFormTeamRegistrer.valid) {
                                       teamController.registerTeam();
+                                    } else {
+                                      Utility.validateAllFields(
+                                          reactiveFormTeamRegistrer);
                                     }
                                   },
                                   title: 'Guardar')

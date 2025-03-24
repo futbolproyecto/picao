@@ -13,9 +13,8 @@
 
 html,
 body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
+  overflow-x: hidden;
+  width: 100%;
 }
 
 @font-face {
@@ -52,12 +51,12 @@ a.router-link-active {
 
 :root {
   /* Colores primarios */
-  --color-primary: #306a42;
-  --color-primary-container: #b3f1bf;
-  --color-on-primary-container: #15512c;
+  --color-primary: #36cc7a;
+  --color-primary-container: #B3F1BF;
+  --color-on-primary-container: #0c461e;
 
   /* Colores secundarios */
-  --color-secondary: #725187;
+  --color-secondary: #5b3a70;
   --color-secondary-container: #f4daff;
   --color-on-secondary-container: #59396e;
 

@@ -1,0 +1,19 @@
+.boton .btn {
+  background-color: var(--color-primary);
+  font-size: 16px;
+  color: var(--color-on-primary-container);
+  height: 45px;
+  border-radius: 10px;
+}
+
+h2 {
+  color: var(--color-surface-container--lowest) !important;
+  margin: 15px;
+}
+
+.container-titulo {
+  display: flex;
+  justify-content: space-between;
+  background: var(--color-secondary);
+  color: var(--color-surface-container--lowest);
+}

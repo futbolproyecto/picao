@@ -48,7 +48,7 @@ class HttpService {
     try {
       final response = await http
           .put(Uri.http(ConstantEndpoints.baseUrl, endPoint),
-              headers: {'Content-Type': 'application/json'},
+              headers: await getHeaders(),
               body: jsonEncode(body))
           .timeout(const Duration(seconds: 20));
 
@@ -95,7 +95,7 @@ class HttpService {
 
   Future<Object?> putRequesParam(Map<String, String>? parameters) async {
     try {
-      final response = await http.post(
+      final response = await http.put(
         Uri.http(ConstantEndpoints.baseUrl, endPoint, parameters),
         headers: {'Content-Type': 'application/json'},
       ).timeout(const Duration(seconds: 20));
@@ -122,6 +122,64 @@ class HttpService {
       final response = await http
           .get(
             Uri.http(ConstantEndpoints.baseUrl, endPoint),
+            headers: await getHeaders(),
+          )
+          .timeout(const Duration(seconds: 20));
+
+      if (response.statusCode != HttpStatus.ok) {
+        throw BadRequestException(
+            ErrorModel.fromJson(jsonDecode(utf8.decode(response.bodyBytes))));
+      }
+
+      final generalModel =
+          GeneralModel.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
+
+      return generalModel.payload;
+    } on BadRequestException catch (e) {
+      throw FetchDataException(e.error);
+    } on SocketException {
+      throw FetchDataException(ErrorModel().socektError());
+    } on TimeoutException {
+      throw FetchDataException(ErrorModel().timeOutError());
+    } on Exception catch (_) {
+      throw FetchDataException(ErrorModel().uncontrolledError());
+    }
+  }
+
+  Future<Object?> getRequesParam(Map<String, String>? parameters) async {
+    try {
+      final response = await http
+          .get(
+            Uri.http(ConstantEndpoints.baseUrl, endPoint, parameters),
+            headers: await getHeaders(),
+          )
+          .timeout(const Duration(seconds: 20));
+
+      if (response.statusCode != HttpStatus.ok) {
+        throw BadRequestException(
+            ErrorModel.fromJson(jsonDecode(utf8.decode(response.bodyBytes))));
+      }
+
+      final generalModel =
+          GeneralModel.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
+
+      return generalModel.payload;
+    } on BadRequestException catch (e) {
+      throw FetchDataException(e.error);
+    } on SocketException {
+      throw FetchDataException(ErrorModel().socektError());
+    } on TimeoutException {
+      throw FetchDataException(ErrorModel().timeOutError());
+    } on Exception catch (_) {
+      throw FetchDataException(ErrorModel().uncontrolledError());
+    }
+  }
+
+  Future<Object?> deleteRequesParam(Map<String, String>? parameters) async {
+    try {
+      final response = await http
+          .delete(
+            Uri.http(ConstantEndpoints.baseUrl, endPoint, parameters),
             headers: await getHeaders(),
           )
           .timeout(const Duration(seconds: 20));

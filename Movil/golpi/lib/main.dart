@@ -1,5 +1,6 @@
-import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:get/get.dart';
 import 'package:golpi/theme/theme.dart';
 import 'package:golpi/core/routes/app_pages.dart';
 import 'package:golpi/core/constants/constants.dart';
@@ -40,6 +41,15 @@ class MainApp extends StatelessWidget {
       theme: materialTheme.light(),
       darkTheme: materialTheme.dark(),
       themeMode: ThemeMode.light,
+      locale: Locale('es'),
+      supportedLocales: [
+        Locale('es', 'ES'),
+      ],
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
     );
   }
 }

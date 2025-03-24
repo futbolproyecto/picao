@@ -1,16 +1,25 @@
+// Core
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, HostListener, inject, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { filter, map, switchMap } from 'rxjs/operators';
+import { RouterModule } from '@angular/router';
+
+// Servicios
+import { AutenticacionStoreService } from '../../../../core/store/auth/autenticacion-store.service';
+import { UserService } from '../../../../core/service/user.service';
+
+// Librerias
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
-import { Observable } from 'rxjs';
-import { UsuarioResponseDto } from '../../../../data/schema/userResponseDto';
-import { AutenticacionStoreService } from '../../../../core/store/auth/autenticacion-store.service';
-import { UserService } from '../../../../core/service/user.service';
-import { map, switchMap } from 'rxjs/operators';
-import { RouterModule } from '@angular/router';
 import { MatTooltipModule } from '@angular/material/tooltip';
+
+// Dto
+import { UsuarioResponseDto } from '../../../../data/schema/userResponseDto';
+import { AlertsService } from '../../../../core/service/alerts.service';
+import { AuthService } from '../../../../core/service/auth.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -32,11 +41,15 @@ export class SidebarComponent implements OnInit {
   private usuario$: Observable<UsuarioResponseDto> =
     new Observable<UsuarioResponseDto>();
   private userService = inject(UserService);
+  private alertsService = inject(AlertsService);
+  public authService = inject(AuthService);
 
   public usuario: UsuarioResponseDto = new UsuarioResponseDto();
   public mostrarSubmodulosUsuario: boolean = false;
   public nombreMostrar: string = '';
   public menuExpandido: boolean = false;
+  public menuMobile: boolean = false;
+  public menuAbierto = false;
 
   constructor() {
     this.usuario$ = this.autenticacionStoreService.obtenerSesion$();
@@ -44,6 +57,18 @@ export class SidebarComponent implements OnInit {
 
   ngOnInit() {
     this.consultarUsuario();
+    this.checkIfMobile();
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: Event) {
+    this.checkIfMobile();
+  }
+
+  private checkIfMobile(): void {
+    if (window.innerWidth <= 768) {
+      this.menuMobile = false;
+    }
   }
 
   toggleSubmodulosUsuario(): void {
@@ -54,16 +79,37 @@ export class SidebarComponent implements OnInit {
     this.usuario$
       .pipe(
         map((usuario: UsuarioResponseDto) => usuario?.id ?? 0),
-
+        filter((id: number) => id !== 0),
         switchMap((id: number) => this.userService.getById(id))
       )
       .subscribe({
         next: (response) => {
           if (response?.payload) {
             this.usuario = response.payload;
-            this.nombreMostrar = `${this.usuario.name} ${this.usuario.lastName}`;
+            this.nombreMostrar = `${this.usuario.name} ${this.usuario.last_name}`;
           }
         },
       });
+  }
+
+  toggleMenuMobile(): void {
+    this.menuMobile = !this.menuMobile;
+  }
+
+  closeMenuMobile(): void {
+    if (window.innerWidth <= 768) {
+      this.menuMobile = false;
+    }
+  }
+
+  CerrarSesion() {
+    this.alertsService.fireConfirm(
+      'error',
+      'Esta seguro de cerrar sesión?',
+      'Al cerrarla, tendrá que autenticarse de nuevo para realizar alguna operación!',
+      () => {
+        this.authService.cerrarSesion();
+      }
+    );
   }
 }

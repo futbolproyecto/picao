@@ -1,12 +1,19 @@
+// Core
 import { Component, inject } from '@angular/core';
+
+// Librerias
+import { MatTooltipModule } from '@angular/material/tooltip';
+
+// Servicios
 import { AlertsService } from '../../../../core/service/alerts.service';
 import { AuthService } from '../../../../core/service/auth.service';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [MatTooltipModule],
+  imports: [MatTooltipModule, RouterModule, CommonModule],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css',
 })

@@ -7,7 +7,9 @@ INSERT INTO countries (name,cell_prefix) VALUES ('colombia','57');
 INSERT INTO statuses (description) VALUES ('activo'),('inactivo');
 
 -- crear usuario inicial
-INSERT INTO users (name,second_name,last_name,second_last_name,mobile_number,email,password,username,date_of_birth) VALUES ('golpi','segundo nombre','apellido golpi','segundo apellido golpi','1234567890','barcandres91@gmail.com','$2a$10$an2sN0xzn8Ve7yjAoPNdHufOvtA5dfW2jd3ZKZtBpD5LPwWEzBYSC','golpi', '01/01/2025');
+INSERT INTO users (name,second_name,last_name,second_last_name,mobile_number,email,password,username,date_of_birth) VALUES ('jeiner','andrey','grijalba','de las tres cruces','1234567890','barcandres91@gmail.com','$2a$10$an2sN0xzn8Ve7yjAoPNdHufOvtA5dfW2jd3ZKZtBpD5LPwWEzBYSC','jeinerjeiner', '01/01/2025');
+
+INSERT INTO users (name,second_name,last_name,second_last_name,mobile_number,email,password,username,date_of_birth) VALUES ('gilllllian','andrea','isazazazayacusa','odiosa','1134567890','barcandres93@gmail.com','$2a$10$an2sN0xzn8Ve7yjAoPNdHufOvtA5dfW2jd3ZKZtBpD5LPwWEzBYSC','gilliandre', '01/01/2025');
 -- se asignan roles
 --INSERT INTO user_roles (role_id, user_id) VALUES (1,1),(2,1);
 
@@ -27,4 +29,14 @@ INSERT INTO position_players (id,name) VALUES (1,'Portero'),(2,'Defensa central'
 INSERT INTO dominant_foot (id,name) VALUES (1,'Derecho'),(2,'Izquierdo'),(3,'Ambidiestro');
 
 -- crear equipos
-INSERT INTO teams (name,zone_id,city_id,owner_user_id) VALUES ('Los cebos de play',3,4,1),('Los recebos de play',3,4,1);
+INSERT INTO teams (name,zone_id,city_id,owner_user_id) VALUES ('Los cebos de play',3,4,1),('depor cali',3,4,1);
+
+-- crear perfil de jugador
+INSERT INTO players_profile (city_id,dominant_foot_id, position_player_id,stature,user_id,weight,zone_id,nickname) VALUES (1,1,1,170,1,80,1,'golpiMaster');
+INSERT INTO players_profile (city_id,dominant_foot_id, position_player_id,stature,user_id,weight,zone_id,nickname) VALUES (1,1,3,170,2,80,1,'oliverAtom');
+
+-- asignar jugador a equipos
+INSERT INTO team_players (player_id, team_id) VALUES (1,1),(1,2),(2,2);
+
+-- asignar un establecimiento
+INSERT INTO establishments (city_id, department_id, owner_user_id, id, mobile_number, name, address) VALUES (150, 76, 1, 'fa679ef7-697d-4345-a5fc-04e88e69437b', 3148688564, 'GolpiGroup', 'Cra 83c');

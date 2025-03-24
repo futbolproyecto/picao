@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:golpi/modules/user/models/user_model.dart';
+import 'package:golpi/modules/widgets/ui_text.dart';
 import 'package:golpi/modules/widgets/ui_text_field.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 
@@ -56,7 +57,7 @@ class ModalSearchUserPhonePage {
     required UserModel userModel,
   }) {
     final screenSize = MediaQuery.of(context).size;
-    const Color primaryColor = Color(0xFF04a57e);
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       height: 130,
@@ -64,71 +65,58 @@ class ModalSearchUserPhonePage {
       child: ListView.builder(
           itemCount: 1,
           itemBuilder: (context, index) {
-            return Column(
-              children: [
-                Text(
-                  'Datos del jugador',
-                  style: const TextStyle(
-                    color: Colors.black87,
-                    fontSize: 16,
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              child: Column(
+                children: [
+                  UiText(text: 'Datos del jugador').title(),
+                  const SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      UiText(
+                        text: 'Nombre: ',
+                      ).paragraphSemiBold(),
+                      UiText(
+                        text: '${userModel.name} ${userModel.lastName}',
+                      ).paragraphBlack(),
+                    ],
                   ),
-                ),
-                const SizedBox(height: 20),
-                Row(
-                  children: [
-                    Text(
-                      'Nombre: ',
-                      style: const TextStyle(
-                        color: Colors.black87,
-                        fontSize: 16,
-                      ),
-                    ),
-                    Text(
-                      "${userModel.name} ${userModel.lastName}",
-                      style: const TextStyle(
-                        color: Colors.black87,
-                        fontSize: 16,
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Text(
-                      'Email: ',
-                      style: const TextStyle(
-                        color: Colors.black87,
-                        fontSize: 16,
-                      ),
-                    ),
-                    Text(
-                      userModel.email,
-                      style: const TextStyle(
-                        color: Colors.black87,
-                        fontSize: 16,
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Text(
-                      'Celular: ',
-                      style: const TextStyle(
-                        color: Colors.black87,
-                        fontSize: 16,
-                      ),
-                    ),
-                    Text(
-                      userModel.mobileNumber,
-                      style: const TextStyle(
-                        color: Colors.black87,
-                        fontSize: 16,
-                      ),
-                    ),
-                  ],
-                )
-              ],
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      UiText(
+                        text: 'Email: ',
+                      ).paragraphSemiBold(),
+                      UiText(
+                        text: userModel.email ?? '',
+                      ).paragraphBlack(),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      UiText(
+                        text: 'Celular: ',
+                      ).paragraphSemiBold(),
+                      UiText(
+                        text: userModel.mobileNumber ?? '',
+                      ).paragraphBlack(),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      UiText(
+                        text: 'Alias: ',
+                      ).paragraphSemiBold(),
+                      UiText(
+                        text: userModel.nickName ?? '',
+                      ).paragraphBlack(),
+                    ],
+                  )
+                ],
+              ),
             );
           }),
     );

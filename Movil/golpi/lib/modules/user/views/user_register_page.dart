@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:golpi/core/constants/constants.dart';
 import 'package:golpi/core/routes/app_pages.dart';
+import 'package:golpi/core/utils/utility.dart';
 import 'package:golpi/modules/widgets/ui_buttoms.dart';
 import 'package:golpi/modules/widgets/ui_text.dart';
 import 'package:reactive_forms/reactive_forms.dart';
@@ -79,6 +80,8 @@ class RegisterUserPage extends StatelessWidget {
                             validationMessages: {
                               ValidationMessage.required: (error) =>
                                   'Campo requerido',
+                              ValidationMessage.maxLength: (error) =>
+                                  'Maximo 50 caracteres',
                             },
                           ),
                           const SizedBox(height: 20),
@@ -90,6 +93,8 @@ class RegisterUserPage extends StatelessWidget {
                             validationMessages: {
                               ValidationMessage.required: (error) =>
                                   'Campo requerido',
+                              ValidationMessage.maxLength: (error) =>
+                                  'Maximo 50 caracteres',
                             },
                           ),
                           const SizedBox(height: 20),
@@ -101,6 +106,10 @@ class RegisterUserPage extends StatelessWidget {
                             validationMessages: {
                               ValidationMessage.required: (error) =>
                                   'Campo requerido',
+                              ValidationMessage.email: (error) =>
+                                  'Formato de correo incorrecto',
+                              ValidationMessage.maxLength: (error) =>
+                                  'Maximo 50 caracteres',
                             },
                           ),
                           const SizedBox(height: 20),
@@ -112,6 +121,10 @@ class RegisterUserPage extends StatelessWidget {
                             validationMessages: {
                               ValidationMessage.required: (error) =>
                                   'Campo requerido',
+                              ValidationMessage.minLength: (error) =>
+                                  'Minimo 10 caracteres',
+                              ValidationMessage.maxLength: (error) =>
+                                  'Maximo 50 caracteres',
                             },
                           ),
                           const SizedBox(height: 20),
@@ -259,16 +272,36 @@ class RegisterUserPage extends StatelessWidget {
                                   ),
                                 ],
                               ))),
-                          Row(
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              ReactiveCheckbox(
-                                  formControlName: 'terms_and_conditions'),
-                              const Text('Acepto los '),
-                              UiButtoms(onPressed: () {}, title: 'Terminos')
-                                  .textButtom(Colors.black),
-                              const Text('y'),
-                              UiButtoms(onPressed: () {}, title: 'Condiciones')
-                                  .textButtom(Colors.black),
+                              Row(
+                                children: [
+                                  ReactiveCheckbox(
+                                    formControlName: 'terms_and_conditions',
+                                  ),
+                                  const Text('Acepto los '),
+                                  UiButtoms(onPressed: () {}, title: 'Terminos')
+                                      .textButtom(Colors.black),
+                                  const Text('y'),
+                                  UiButtoms(
+                                          onPressed: () {},
+                                          title: 'Condiciones')
+                                      .textButtom(Colors.black),
+                                ],
+                              ),
+                              Obx(() {
+                                return Padding(
+                                  padding: EdgeInsets.only(left: 50),
+                                  child: Text(
+                                    userController
+                                            .termsAndConditionsError.value ??
+                                        '',
+                                    style: TextStyle(
+                                        color: Color(0xffb00020), fontSize: 12),
+                                  ),
+                                );
+                              }),
                             ],
                           ),
                           const SizedBox(height: 20),
@@ -278,6 +311,19 @@ class RegisterUserPage extends StatelessWidget {
                                         .markAllAsTouched();
                                     if (reactiveFormUserRegistrer.valid) {
                                       userController.sendOtpMobileNumber();
+                                    } else {
+                                      if (userController.formUserRegistrer
+                                              .control('terms_and_conditions')
+                                              .invalid &&
+                                          userController.formUserRegistrer
+                                              .control('terms_and_conditions')
+                                              .touched) {
+                                        userController
+                                                .termsAndConditionsError.value =
+                                            'Debes aceptar los términos y condiciones';
+                                      }
+                                      Utility.validateAllFields(
+                                          reactiveFormUserRegistrer);
                                     }
                                   },
                                   title: 'Ingresar')
