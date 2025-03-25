@@ -1,19 +1,19 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-import 'package:golpi/core/constants/constants.dart';
-import 'package:golpi/core/exception/custom_exception.dart';
-import 'package:golpi/core/exception/models/error_model.dart';
 import 'package:golpi/core/routes/app_pages.dart';
-
-import 'package:golpi/data/repositories/user/user_repository.dart';
-import 'package:golpi/modules/user/models/change_password_model.dart';
-import 'package:golpi/modules/user/models/user_register_model.dart';
-import 'package:golpi/modules/widgets/modal_otp_validation.dart';
-import 'package:golpi/modules/widgets/ui_alert_message.dart';
+import 'package:golpi/generated/l10n.dart';
+import 'package:reactive_forms/reactive_forms.dart';
+import 'package:golpi/core/constants/constants.dart';
 import 'package:golpi/modules/widgets/ui_buttoms.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
-import 'package:reactive_forms/reactive_forms.dart';
+import 'package:golpi/core/exception/custom_exception.dart';
+import 'package:golpi/modules/widgets/ui_alert_message.dart';
+import 'package:golpi/core/exception/models/error_model.dart';
+import 'package:golpi/modules/widgets/modal_otp_validation.dart';
+import 'package:golpi/data/repositories/user/user_repository.dart';
+import 'package:golpi/modules/user/models/user_register_model.dart';
+import 'package:golpi/modules/user/models/change_password_model.dart';
 
 class UserController extends GetxController {
   final UserRepository userRepository;
@@ -125,13 +125,13 @@ class UserController extends GetxController {
                     onPressed: () async {
                       await validateOtp();
                     },
-                    title: 'Validar')
+                    title: S().validar)
                 .textButtom(Constants.primaryColor),
             UiButtoms(
                     onPressed: () {
                       Get.back();
                     },
-                    title: 'Cerrar')
+                    title: S().cerrar)
                 .textButtom(Colors.black),
           ]);
     } on CustomException catch (e) {
@@ -174,13 +174,13 @@ class UserController extends GetxController {
                       Get.back();
                       await validateOtpEmail();
                     },
-                    title: 'Validar')
+                    title: S().validar)
                 .textButtom(Constants.primaryColor),
             UiButtoms(
                     onPressed: () {
                       Get.back();
                     },
-                    title: 'Cerrar')
+                    title: S().cerrar)
                 .textButtom(Colors.black),
           ]);
     } on CustomException catch (e) {
@@ -284,7 +284,7 @@ class UserController extends GetxController {
 
       Get.back();
       UiAlertMessage(Get.context!).success(
-          message: 'La informacion se registro de manera exitosa',
+          message: S().exitoRegistrar,
           barrierDismissible: false,
           actionButtom: () {
             formUserRegistrer.reset();
@@ -323,7 +323,7 @@ class UserController extends GetxController {
 
       Get.back();
       UiAlertMessage(Get.context!).success(
-          message: 'La clave se actualizó correctamente',
+          message: S().exitoActualizarClave,
           barrierDismissible: false,
           actionButtom: () {
             formEmailRecoveryPassword.reset();

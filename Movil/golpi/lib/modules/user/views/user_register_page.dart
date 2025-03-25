@@ -1,11 +1,12 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-import 'package:golpi/core/constants/constants.dart';
-import 'package:golpi/core/routes/app_pages.dart';
+import 'package:golpi/generated/l10n.dart';
 import 'package:golpi/core/utils/utility.dart';
-import 'package:golpi/modules/widgets/ui_buttoms.dart';
+import 'package:golpi/core/routes/app_pages.dart';
 import 'package:golpi/modules/widgets/ui_text.dart';
 import 'package:reactive_forms/reactive_forms.dart';
+import 'package:golpi/core/constants/constants.dart';
+import 'package:golpi/modules/widgets/ui_buttoms.dart';
 import 'package:golpi/modules/widgets/ui_text_field.dart';
 import 'package:golpi/modules/user/controller/user_controller.dart';
 
@@ -23,7 +24,7 @@ class RegisterUserPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             const SizedBox(height: 50),
-            UiText(text: '¿Ya tienes una cuenta?').phraseBlack(),
+            UiText(text: S.of(context).preguntaTienesCuenta).phraseBlack(),
             InkWell(
               onTap: () {
                 Get.offNamed(AppPages.login);
@@ -35,7 +36,7 @@ class RegisterUserPage extends StatelessWidget {
                   decoration: BoxDecoration(
                       color: Constants.primaryColor,
                       borderRadius: const BorderRadius.all(Radius.circular(5))),
-                  child: const Center(child: Text('Ingresar'))),
+                  child: Center(child: Text(S.of(context).ingresar))),
             )
           ],
         ),
@@ -70,81 +71,82 @@ class RegisterUserPage extends StatelessWidget {
                         Widget? child,
                       ) {
                         return Column(children: [
-                          UiText(text: 'Registro de informacion').title(),
+                          UiText(text: S.of(context).registroInformacion)
+                              .title(),
                           const SizedBox(height: 20),
                           UiTextFiel().textField(
                             formControlName: 'name',
-                            labelText: 'Nombres',
+                            labelText: S.of(context).nombres,
                             prefixIcon: Icons.person_2_outlined,
                             colorPrefixIcon: Constants.primaryColor,
                             validationMessages: {
                               ValidationMessage.required: (error) =>
-                                  'Campo requerido',
+                                  S.of(context).campoRequerido,
                               ValidationMessage.maxLength: (error) =>
-                                  'Maximo 50 caracteres',
+                                  S.of(context).longitudMaximo(50),
                             },
                           ),
                           const SizedBox(height: 20),
                           UiTextFiel().textField(
                             formControlName: 'last_name',
-                            labelText: 'Apellidos',
+                            labelText: S.of(context).apellidos,
                             prefixIcon: Icons.person_2_outlined,
                             colorPrefixIcon: Constants.primaryColor,
                             validationMessages: {
                               ValidationMessage.required: (error) =>
-                                  'Campo requerido',
+                                  S.of(context).campoRequerido,
                               ValidationMessage.maxLength: (error) =>
-                                  'Maximo 50 caracteres',
+                                  S.of(context).longitudMaximo(50),
                             },
                           ),
                           const SizedBox(height: 20),
                           UiTextFiel().textField(
                             formControlName: 'email',
-                            labelText: 'Correo',
+                            labelText: S.of(context).correo,
                             prefixIcon: Icons.email_outlined,
                             colorPrefixIcon: Constants.primaryColor,
                             validationMessages: {
                               ValidationMessage.required: (error) =>
-                                  'Campo requerido',
+                                  S.of(context).campoRequerido,
                               ValidationMessage.email: (error) =>
-                                  'Formato de correo incorrecto',
+                                  S.of(context).formatoCorreoIncorrecto,
                               ValidationMessage.maxLength: (error) =>
-                                  'Maximo 50 caracteres',
+                                  S.of(context).longitudMaximo(50),
                             },
                           ),
                           const SizedBox(height: 20),
                           UiTextFiel().textField(
                             formControlName: 'mobile_number',
-                            labelText: 'Celular',
+                            labelText: S.of(context).celular,
                             prefixIcon: Icons.phone_android_outlined,
                             colorPrefixIcon: Constants.primaryColor,
                             validationMessages: {
                               ValidationMessage.required: (error) =>
-                                  'Campo requerido',
+                                  S.of(context).campoRequerido,
                               ValidationMessage.minLength: (error) =>
-                                  'Minimo 10 caracteres',
+                                  S.of(context).longitudMinimo(10),
                               ValidationMessage.maxLength: (error) =>
-                                  'Maximo 50 caracteres',
+                                  S.of(context).longitudMaximo(50),
                             },
                           ),
                           const SizedBox(height: 20),
                           UiTextFiel().datePickerField(
                             formControlName: 'date_of_birth',
-                            labelText: 'Fecha nacimiento',
+                            labelText: S.of(context).fechaNacimiento,
                             prefixIcon: Icons.date_range_outlined,
                             colorPrefixIcon: Constants.primaryColor,
                             firstDate: DateTime(1900),
                             lastDate: DateTime.now(),
                             validationMessages: {
                               ValidationMessage.required: (error) =>
-                                  'Campo requerido',
+                                  S.of(context).campoRequerido,
                             },
                           ),
                           const SizedBox(height: 20),
                           Obx(
                             () => UiTextFiel().textField(
                               formControlName: 'password',
-                              labelText: 'Clave',
+                              labelText: S.of(context).clave,
                               prefixIcon: Icons.lock_outline,
                               colorPrefixIcon: Constants.primaryColor,
                               obscureText: userController.obscureText.value,
@@ -157,7 +159,7 @@ class RegisterUserPage extends StatelessWidget {
                                   )),
                               validationMessages: {
                                 ValidationMessage.required: (error) =>
-                                    'Campo requerido',
+                                    S.of(context).campoRequerido,
                               },
                             ),
                           ),
@@ -165,7 +167,7 @@ class RegisterUserPage extends StatelessWidget {
                           Obx(
                             () => UiTextFiel().textField(
                               formControlName: 'password_confirmation',
-                              labelText: 'Confirmar clave',
+                              labelText: S.of(context).confirmarClave,
                               prefixIcon: Icons.lock_outline,
                               colorPrefixIcon: Constants.primaryColor,
                               obscureText: userController.obscureText.value,
@@ -178,9 +180,9 @@ class RegisterUserPage extends StatelessWidget {
                                   )),
                               validationMessages: {
                                 ValidationMessage.required: (error) =>
-                                    'Campo requerido',
+                                    S.of(context).campoRequerido,
                                 ValidationMessage.mustMatch: (error) =>
-                                    'La contraseña no coincide',
+                                    S.of(context).claveNoCoincide,
                               },
                             ),
                           ),
@@ -194,7 +196,7 @@ class RegisterUserPage extends StatelessWidget {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      const Text('Caracteres especiales'),
+                                      Text(S.of(context).caracteresEspeciales),
                                       userController.hasEspecialCaracter.value
                                           ? Icon(
                                               Icons.check_circle_outline,
@@ -210,7 +212,7 @@ class RegisterUserPage extends StatelessWidget {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      const Text('6 caracteres'),
+                                      Text(S.of(context).nCaracteres(6)),
                                       userController.hasMinCaracter.value
                                           ? Icon(
                                               Icons.check_circle_outline,
@@ -226,7 +228,7 @@ class RegisterUserPage extends StatelessWidget {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      const Text('Mayuscula'),
+                                      Text(S.of(context).mayuscula),
                                       userController.hasCapital.value
                                           ? Icon(
                                               Icons.check_circle_outline,
@@ -242,7 +244,7 @@ class RegisterUserPage extends StatelessWidget {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      const Text('Minuscula'),
+                                      Text(S.of(context).minuscula),
                                       userController.hasLower.value
                                           ? Icon(
                                               Icons.check_circle_outline,
@@ -258,7 +260,7 @@ class RegisterUserPage extends StatelessWidget {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      const Text('Numeros'),
+                                      Text(S.of(context).numeros),
                                       userController.hasNumber.value
                                           ? Icon(
                                               Icons.check_circle_outline,
@@ -280,13 +282,15 @@ class RegisterUserPage extends StatelessWidget {
                                   ReactiveCheckbox(
                                     formControlName: 'terms_and_conditions',
                                   ),
-                                  const Text('Acepto los '),
-                                  UiButtoms(onPressed: () {}, title: 'Terminos')
-                                      .textButtom(Colors.black),
-                                  const Text('y'),
+                                  Text(S.of(context).inicioMensajeTerminos),
                                   UiButtoms(
                                           onPressed: () {},
-                                          title: 'Condiciones')
+                                          title: S.of(context).terminos)
+                                      .textButtom(Colors.black),
+                                  Text(S.of(context).y),
+                                  UiButtoms(
+                                          onPressed: () {},
+                                          title: S.of(context).condiciones)
                                       .textButtom(Colors.black),
                                 ],
                               ),
@@ -320,13 +324,13 @@ class RegisterUserPage extends StatelessWidget {
                                               .touched) {
                                         userController
                                                 .termsAndConditionsError.value =
-                                            'Debes aceptar los términos y condiciones';
+                                            S.of(context).aceptarTerminos;
                                       }
                                       Utility.validateAllFields(
                                           reactiveFormUserRegistrer);
                                     }
                                   },
-                                  title: 'Ingresar')
+                                  title: S.of(context).ingresar)
                               .primaryButtom(),
                           const SizedBox(height: 20),
                         ]);

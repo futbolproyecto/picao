@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:golpi/generated/l10n.dart';
 import 'package:golpi/theme/theme.dart';
 import 'package:golpi/core/routes/app_pages.dart';
 import 'package:golpi/core/constants/constants.dart';
@@ -15,7 +16,7 @@ class MainApp extends StatelessWidget {
   MainApp({super.key});
 
   final MaterialTheme materialTheme = MaterialTheme(const TextTheme());
-  
+
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
@@ -42,10 +43,9 @@ class MainApp extends StatelessWidget {
       darkTheme: materialTheme.dark(),
       themeMode: ThemeMode.light,
       locale: Locale('es'),
-      supportedLocales: [
-        Locale('es', 'ES'),
-      ],
+      supportedLocales: S.delegate.supportedLocales,
       localizationsDelegates: [
+        S.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,

@@ -1,12 +1,13 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:golpi/core/constants/constants.dart';
+import 'package:flutter/material.dart';
 import 'package:golpi/core/routes/app_pages.dart';
-import 'package:golpi/modules/user/controller/user_controller.dart';
-import 'package:golpi/modules/widgets/ui_buttoms.dart';
+import 'package:golpi/generated/l10n.dart';
 import 'package:golpi/modules/widgets/ui_text.dart';
-import 'package:golpi/modules/widgets/ui_text_field.dart';
 import 'package:reactive_forms/reactive_forms.dart';
+import 'package:golpi/core/constants/constants.dart';
+import 'package:golpi/modules/widgets/ui_buttoms.dart';
+import 'package:golpi/modules/widgets/ui_text_field.dart';
+import 'package:golpi/modules/user/controller/user_controller.dart';
 
 class RecoverPasswordPage extends StatelessWidget {
   const RecoverPasswordPage({super.key});
@@ -15,7 +16,6 @@ class RecoverPasswordPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final UserController userController = Get.find<UserController>();
     return Scaffold(
-      //appBar: AppBar(backgroundColor: Constants.primaryColor),
       body: Column(
         children: [
           const SizedBox(height: 40),
@@ -23,7 +23,7 @@ class RecoverPasswordPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               const SizedBox(height: 50),
-              UiText(text: '¿Deseas iniciar sesion?').phraseBlack(),
+              UiText(text: S.of(context).preguntaIniciarSesion).phraseBlack(),
               InkWell(
                 onTap: () {
                   Get.offNamed(AppPages.login);
@@ -36,7 +36,7 @@ class RecoverPasswordPage extends StatelessWidget {
                         color: Constants.primaryColor,
                         borderRadius:
                             const BorderRadius.all(Radius.circular(5))),
-                    child: const Center(child: Text('Ingresar'))),
+                    child: Center(child: Text(S.of(context).ingresar))),
               )
             ],
           ),
@@ -64,7 +64,7 @@ class RecoverPasswordPage extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return Column(
                       children: [
-                        UiText(text: 'Restablecer contraseña').title(),
+                        UiText(text: S.of(context).restablecerClave).title(),
                         const SizedBox(height: 20),
                         Obx(
                           () => Visibility(
@@ -80,20 +80,22 @@ class RecoverPasswordPage extends StatelessWidget {
                                   return Column(
                                     children: [
                                       UiText(
-                                              text:
-                                                  'Por favor, introduce el correo electrónico asociado a tu cuenta para recuperar tu contraseña.')
+                                              text: S
+                                                  .of(context)
+                                                  .correoAsociadoCuenta)
                                           .paragraphBlack(),
                                       const SizedBox(height: 20),
                                       UiTextFiel().textField(
                                         formControlName: 'email',
-                                        labelText: 'Correo',
+                                        labelText: S.of(context).correo,
                                         prefixIcon: Icons.email_outlined,
                                         colorPrefixIcon: Constants.primaryColor,
                                         validationMessages: {
                                           ValidationMessage.required: (error) =>
-                                              'Campo requerido',
-                                          ValidationMessage.email: (error) =>
-                                              'Formato de correo incorrecto',
+                                              S.of(context).campoRequerido,
+                                          ValidationMessage.email: (error) => S
+                                              .of(context)
+                                              .formatoCorreoIncorrecto,
                                         },
                                       ),
                                       const SizedBox(height: 20),
@@ -106,7 +108,7 @@ class RecoverPasswordPage extends StatelessWidget {
                                                   userController.sendOtpEmail();
                                                 }
                                               },
-                                              title: 'Validar')
+                                              title: S.of(context).validar)
                                           .primaryButtom(),
                                     ],
                                   );
@@ -127,7 +129,7 @@ class RecoverPasswordPage extends StatelessWidget {
                                       Obx(
                                         () => UiTextFiel().textField(
                                           formControlName: 'password',
-                                          labelText: 'Clave',
+                                          labelText: S.of(context).clave,
                                           prefixIcon: Icons.lock_outline,
                                           colorPrefixIcon:
                                               Constants.primaryColor,
@@ -143,10 +145,13 @@ class RecoverPasswordPage extends StatelessWidget {
                                               )),
                                           validationMessages: {
                                             ValidationMessage.required:
-                                                (error) => 'Campo requerido',
+                                                (error) => S
+                                                    .of(context)
+                                                    .campoRequerido,
                                             ValidationMessage.maxLength:
-                                                (error) =>
-                                                    'Maximo 50 caracteres',
+                                                (error) => S
+                                                    .of(context)
+                                                    .longitudMaximo(50),
                                           },
                                         ),
                                       ),
@@ -155,7 +160,8 @@ class RecoverPasswordPage extends StatelessWidget {
                                         () => UiTextFiel().textField(
                                           formControlName:
                                               'password_confirmation',
-                                          labelText: 'Confirmar clave',
+                                          labelText:
+                                              S.of(context).confirmarClave,
                                           prefixIcon: Icons.lock_outline,
                                           colorPrefixIcon:
                                               Constants.primaryColor,
@@ -171,13 +177,17 @@ class RecoverPasswordPage extends StatelessWidget {
                                               )),
                                           validationMessages: {
                                             ValidationMessage.required:
-                                                (error) => 'Campo requerido',
+                                                (error) => S
+                                                    .of(context)
+                                                    .campoRequerido,
                                             ValidationMessage.mustMatch:
-                                                (error) =>
-                                                    'La contraseña no coincide',
+                                                (error) => S
+                                                    .of(context)
+                                                    .claveNoCoincide,
                                             ValidationMessage.maxLength:
-                                                (error) =>
-                                                    'Maximo 50 caracteres',
+                                                (error) => S
+                                                    .of(context)
+                                                    .longitudMaximo(50),
                                           },
                                         ),
                                       ),
@@ -189,8 +199,9 @@ class RecoverPasswordPage extends StatelessWidget {
                                                     MainAxisAlignment
                                                         .spaceBetween,
                                                 children: [
-                                                  const Text(
-                                                      'Caracteres especiales'),
+                                                  Text(S
+                                                      .of(context)
+                                                      .caracteresEspeciales),
                                                   userController
                                                           .hasEspecialCaracter
                                                           .value
@@ -211,7 +222,9 @@ class RecoverPasswordPage extends StatelessWidget {
                                                     MainAxisAlignment
                                                         .spaceBetween,
                                                 children: [
-                                                  const Text('6 caracteres'),
+                                                  Text(S
+                                                      .of(context)
+                                                      .nCaracteres(6)),
                                                   userController
                                                           .hasMinCaracter.value
                                                       ? Icon(
@@ -231,7 +244,7 @@ class RecoverPasswordPage extends StatelessWidget {
                                                     MainAxisAlignment
                                                         .spaceBetween,
                                                 children: [
-                                                  const Text('Mayuscula'),
+                                                  Text(S.of(context).mayuscula),
                                                   userController
                                                           .hasCapital.value
                                                       ? Icon(
@@ -251,7 +264,7 @@ class RecoverPasswordPage extends StatelessWidget {
                                                     MainAxisAlignment
                                                         .spaceBetween,
                                                 children: [
-                                                  const Text('Minuscula'),
+                                                  Text(S.of(context).minuscula),
                                                   userController.hasLower.value
                                                       ? Icon(
                                                           Icons
@@ -270,7 +283,7 @@ class RecoverPasswordPage extends StatelessWidget {
                                                     MainAxisAlignment
                                                         .spaceBetween,
                                                 children: [
-                                                  const Text('Numeros'),
+                                                  Text(S.of(context).numeros),
                                                   userController.hasNumber.value
                                                       ? Icon(
                                                           Icons
@@ -296,7 +309,7 @@ class RecoverPasswordPage extends StatelessWidget {
                                                       .changePassword();
                                                 }
                                               },
-                                              title: 'Validar')
+                                              title: S.of(context).validar)
                                           .primaryButtom(),
                                     ],
                                   );

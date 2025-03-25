@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:golpi/generated/l10n.dart';
 import 'package:golpi/core/utils/utility.dart';
 import 'package:golpi/modules/widgets/ui_text.dart';
 import 'package:reactive_forms/reactive_forms.dart';
@@ -17,7 +18,7 @@ class ProfilePage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: UiText(text: 'Perfil').titlePrimaryColor(),
+        title: UiText(text: S.of(context).perfil).titlePrimaryColor(),
         automaticallyImplyLeading: true,
       ),
       body: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
@@ -54,62 +55,62 @@ class ProfilePage extends StatelessWidget {
                           ) {
                             return Column(children: [
                               const SizedBox(height: 10),
-                              UiText(text: 'Mi perfil').title(),
+                              UiText(text: S.of(context).miPerfil).title(),
                               const SizedBox(height: 20),
                               UiTextFiel().textField(
                                 formControlName: 'name',
-                                labelText: 'Nombres',
+                                labelText: S.of(context).nombres,
                                 prefixIcon: Icons.person_2_outlined,
                                 colorPrefixIcon: Constants.primaryColor,
                                 validationMessages: {
                                   ValidationMessage.required: (error) =>
-                                      'Campo requerido',
+                                      S.of(context).campoRequerido,
                                 },
                               ),
                               const SizedBox(height: 20),
                               UiTextFiel().textField(
                                 formControlName: 'last_name',
-                                labelText: 'Apellidos',
+                                labelText: S.of(context).apellidos,
                                 prefixIcon: Icons.person_2_outlined,
                                 colorPrefixIcon: Constants.primaryColor,
                                 validationMessages: {
                                   ValidationMessage.required: (error) =>
-                                      'Campo requerido',
+                                      S.of(context).campoRequerido,
                                 },
                               ),
                               const SizedBox(height: 20),
                               UiTextFiel().textField(
                                 formControlName: 'email',
-                                labelText: 'Correo',
+                                labelText: S.of(context).correo,
                                 prefixIcon: Icons.email_outlined,
                                 colorPrefixIcon: Constants.primaryColor,
                                 validationMessages: {
                                   ValidationMessage.required: (error) =>
-                                      'Campo requerido',
+                                      S.of(context).campoRequerido,
                                 },
                               ),
                               const SizedBox(height: 20),
                               UiTextFiel().textField(
                                 formControlName: 'mobile_number',
-                                labelText: 'Celular',
+                                labelText: S.of(context).celular,
                                 prefixIcon: Icons.phone_android_outlined,
                                 colorPrefixIcon: Constants.primaryColor,
                                 validationMessages: {
                                   ValidationMessage.required: (error) =>
-                                      'Campo requerido',
+                                      S.of(context).campoRequerido,
                                 },
                               ),
                               const SizedBox(height: 20),
                               UiTextFiel().datePickerField(
                                 formControlName: 'date_of_birth',
-                                labelText: 'Fecha nacimiento',
+                                labelText: S.of(context).fechaNacimiento,
                                 prefixIcon: Icons.date_range_outlined,
                                 colorPrefixIcon: Constants.primaryColor,
                                 firstDate: DateTime(1900),
                                 lastDate: DateTime.now(),
                                 validationMessages: {
                                   ValidationMessage.required: (error) =>
-                                      'Campo requerido',
+                                      S.of(context).campoRequerido,
                                 },
                               ),
                             ]);
@@ -125,85 +126,85 @@ class ProfilePage extends StatelessWidget {
                               const SizedBox(height: 20),
                               UiTextFiel().textField(
                                 formControlName: 'nickname',
-                                labelText: 'Alias',
+                                labelText: S.of(context).alias,
                                 prefixIcon: Icons.face_outlined,
                                 colorPrefixIcon: Constants.primaryColor,
                                 validationMessages: {
                                   ValidationMessage.required: (error) =>
-                                      'Campo requerido',
+                                      S.of(context).campoRequerido,
                                 },
                               ),
                               const SizedBox(height: 20),
                               UiTextFiel().dropDownSearch(
                                 formControlName: 'position_player',
-                                labelText: 'Posicion',
+                                labelText: S.of(context).posicion,
                                 prefixIcon: Icons.flag_outlined,
                                 colorPrefixIcon: Constants.primaryColor,
                                 items:
                                     profileController.listPositionPlayerOption,
                                 validationMessages: {
                                   ValidationMessage.required: (error) =>
-                                      'Campo requerido',
+                                      S.of(context).campoRequerido,
                                 },
                               ),
                               const SizedBox(height: 20),
                               UiTextFiel().textField(
                                 formControlName: 'weight',
-                                labelText: 'Peso (KG)',
+                                labelText: S.of(context).pesoKg,
                                 textInputType: TextInputType.number,
                                 prefixIcon: Icons.fitness_center_outlined,
                                 colorPrefixIcon: Constants.primaryColor,
                                 validationMessages: {
                                   ValidationMessage.required: (error) =>
-                                      'Campo requerido'
+                                      S.of(context).campoRequerido
                                 },
                               ),
                               const SizedBox(height: 20),
                               UiTextFiel().textField(
                                 formControlName: 'stature',
-                                labelText: 'Estatura (CM)',
+                                labelText: S.of(context).estaturaCm,
                                 textInputType: TextInputType.number,
                                 prefixIcon: Icons.height_outlined,
                                 colorPrefixIcon: Constants.primaryColor,
                                 validationMessages: {
                                   ValidationMessage.required: (error) =>
-                                      'Campo requerido',
+                                      S.of(context).campoRequerido,
                                 },
                               ),
                               const SizedBox(height: 20),
                               UiTextFiel().dropDownSearch(
                                 formControlName: 'dominant_foot',
-                                labelText: 'Pie dominante',
+                                labelText: S.of(context).pieDominante,
                                 prefixIcon: Icons.directions_run_outlined,
                                 colorPrefixIcon: Constants.primaryColor,
                                 items: profileController.listDominantFootOption,
                                 validationMessages: {
                                   ValidationMessage.required: (error) =>
-                                      'Campo requerido',
+                                      S.of(context).campoRequerido,
                                 },
                               ),
                               const SizedBox(height: 20),
                               UiTextFiel().dropDownSearch(
                                 formControlName: 'city',
-                                labelText: 'Ciudad',
+                                labelText: S.of(context).ciudad,
                                 prefixIcon: Icons.location_city_outlined,
                                 colorPrefixIcon: Constants.primaryColor,
                                 items: profileController.listCitiesOption,
                                 validationMessages: {
                                   ValidationMessage.required: (error) =>
-                                      'Campo requerido',
+                                      S.of(context).campoRequerido,
                                 },
                               ),
                               const SizedBox(height: 20),
                               UiTextFiel().dropDownSearch(
                                 formControlName: 'zone',
-                                labelText: 'Zona',
+                                labelText: S.of(context).zona,
                                 prefixIcon: Icons.place_outlined,
                                 colorPrefixIcon: Constants.primaryColor,
                                 items: profileController.listZonesOption,
                                 validationMessages: {
                                   ValidationMessage.required: (error) =>
-                                      'Campo requerido',
+                                      S.of(context).campoRequerido,
                                 },
                               ),
                               const SizedBox(height: 20),
@@ -220,7 +221,7 @@ class ProfilePage extends StatelessWidget {
                                               reactiveFormProfileRegistrer);
                                         }
                                       },
-                                      title: 'Guardar')
+                                      title: S.of(context).guardar)
                                   .primaryButtom(),
                               const SizedBox(height: 20),
                             ]);

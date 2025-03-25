@@ -22,24 +22,80 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m0(numero) => "Máximo  ${numero} caracteres";
 
+  static String m1(numero) => "Minimo  ${numero} caracteres";
+
+  static String m2(numero) => "${numero} caracteres";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "aceptarTerminos": MessageLookupByLibrary.simpleMessage(
+            "Debes aceptar los términos y condiciones"),
+        "alias": MessageLookupByLibrary.simpleMessage("Alias"),
+        "apellidos": MessageLookupByLibrary.simpleMessage("Apellidos"),
         "bienvenido": MessageLookupByLibrary.simpleMessage("Bienvenido"),
         "campoRequerido":
             MessageLookupByLibrary.simpleMessage("Campo requerido"),
+        "caracteresEspeciales":
+            MessageLookupByLibrary.simpleMessage("Caracteres especiales"),
+        "celular": MessageLookupByLibrary.simpleMessage("Celular"),
+        "cerrar": MessageLookupByLibrary.simpleMessage("Cerrar"),
+        "ciudad": MessageLookupByLibrary.simpleMessage("Ciudad"),
         "clave": MessageLookupByLibrary.simpleMessage("Clave"),
+        "claveNoCoincide":
+            MessageLookupByLibrary.simpleMessage("La contraseña no coincide"),
+        "condiciones": MessageLookupByLibrary.simpleMessage("Condiciones"),
+        "confirmarClave":
+            MessageLookupByLibrary.simpleMessage("Confirmar clave"),
+        "correo": MessageLookupByLibrary.simpleMessage("Correo"),
+        "correoAsociadoCuenta": MessageLookupByLibrary.simpleMessage(
+            "Por favor, introduce el correo electrónico asociado a tu cuenta para recuperar tu contraseña."),
         "correoCelular":
             MessageLookupByLibrary.simpleMessage("Correo o celular"),
+        "estaturaCm": MessageLookupByLibrary.simpleMessage("Estatura (CM)"),
+        "exitoActualizarClave": MessageLookupByLibrary.simpleMessage(
+            "La clave se actualizó correctamente"),
+        "exitoRegistrar": MessageLookupByLibrary.simpleMessage(
+            "La información se registro de manera exitosa"),
+        "fechaNacimiento":
+            MessageLookupByLibrary.simpleMessage("Fecha nacimiento"),
+        "formatoCorreoIncorrecto": MessageLookupByLibrary.simpleMessage(
+            "Formato de correo incorrecto"),
+        "guardar": MessageLookupByLibrary.simpleMessage("Guardar"),
         "ingresaDatosSesion":
             MessageLookupByLibrary.simpleMessage("Ingresa tus datos de sesión"),
         "ingresar": MessageLookupByLibrary.simpleMessage("Ingresar"),
+        "inicioMensajeTerminos":
+            MessageLookupByLibrary.simpleMessage("Acepto los "),
         "longitudMaximo": m0,
+        "longitudMinimo": m1,
+        "mayuscula": MessageLookupByLibrary.simpleMessage("Mayuscula"),
         "mensajesErrorFormularios": MessageLookupByLibrary.simpleMessage(
             "--------------------------------------------"),
+        "miPerfil": MessageLookupByLibrary.simpleMessage("Mi perfil"),
+        "minuscula": MessageLookupByLibrary.simpleMessage("Minuscula"),
+        "nCaracteres": m2,
+        "nombres": MessageLookupByLibrary.simpleMessage("Nombres"),
+        "numeros": MessageLookupByLibrary.simpleMessage("Números"),
+        "perfil": MessageLookupByLibrary.simpleMessage("Perfil"),
+        "pesoKg": MessageLookupByLibrary.simpleMessage("Peso (KG)"),
+        "pieDominante": MessageLookupByLibrary.simpleMessage("Pie dominante"),
+        "posicion": MessageLookupByLibrary.simpleMessage("Posición"),
+        "preguntaIniciarSesion":
+            MessageLookupByLibrary.simpleMessage("¿Deseas iniciar sesion?"),
         "preguntaOlvidoClave":
             MessageLookupByLibrary.simpleMessage("¿Olvidaste tu contraseña?"),
         "preguntaRegistrar":
             MessageLookupByLibrary.simpleMessage("¿No tienes una cuenta?"),
-        "registrar": MessageLookupByLibrary.simpleMessage("Registrar")
+        "preguntaTienesCuenta":
+            MessageLookupByLibrary.simpleMessage("¿Ya tienes una cuenta?"),
+        "registrar": MessageLookupByLibrary.simpleMessage("Registrar"),
+        "registroInformacion":
+            MessageLookupByLibrary.simpleMessage("Registro de información"),
+        "restablecerClave":
+            MessageLookupByLibrary.simpleMessage("Restablecer contraseña"),
+        "terminos": MessageLookupByLibrary.simpleMessage("Terminos"),
+        "validar": MessageLookupByLibrary.simpleMessage("Validar"),
+        "y": MessageLookupByLibrary.simpleMessage("y"),
+        "zona": MessageLookupByLibrary.simpleMessage("Zona")
       };
 }
