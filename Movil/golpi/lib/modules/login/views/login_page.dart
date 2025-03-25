@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:golpi/generated/l10n.dart';
 import 'package:golpi/core/routes/app_pages.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:golpi/modules/widgets/ui_text.dart';
@@ -26,7 +27,7 @@ class LoginPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               const SizedBox(height: 50),
-              UiText(text: '¿No tienes una cuenta?').phraseWhite(),
+              UiText(text: S.of(context).preguntaRegistrar).phraseWhite(),
               InkWell(
                 onTap: () {
                   Get.toNamed(AppPages.userRegister);
@@ -39,7 +40,8 @@ class LoginPage extends StatelessWidget {
                         color: Constants.primaryColor,
                         borderRadius:
                             const BorderRadius.all(Radius.circular(5))),
-                    child: const Center(child: Text('Registrar'))),
+                    child:
+                        Center(child: Text(S.of(context).preguntaRegistrar))),
               )
             ],
           ),
@@ -80,28 +82,28 @@ class LoginPage extends StatelessWidget {
                       Widget? child,
                     ) {
                       return Column(children: [
-                        UiText(text: 'Bienvenido').title(),
+                        UiText(text: S.of(context).bienvenido).title(),
                         const SizedBox(height: 10),
-                        UiText(text: 'Ingresa tus datos de sesion')
+                        UiText(text: S.of(context).ingresaDatosSesion)
                             .phraseBlack(),
                         const SizedBox(height: 20),
                         UiTextFiel().textField(
                           formControlName: 'email_or_mobile_number',
-                          labelText: 'Correo o celular',
+                          labelText: S.of(context).correoCelular,
                           prefixIcon: Icons.email_outlined,
                           colorPrefixIcon: Constants.primaryColor,
                           validationMessages: {
                             ValidationMessage.required: (error) =>
-                                'Campo requerido',
+                                S.of(context).campoRequerido,
                             ValidationMessage.maxLength: (error) =>
-                                'Maximo 50 caracteres',
+                                S.of(context).longitudMaximo(50),
                           },
                         ),
                         const SizedBox(height: 20),
                         Obx(
                           () => UiTextFiel().textField(
                             formControlName: 'password',
-                            labelText: 'Clave',
+                            labelText: S.of(context).clave,
                             prefixIcon: Icons.lock_outline,
                             colorPrefixIcon: Constants.primaryColor,
                             obscureText: loginController.obscureText.value,
@@ -114,9 +116,9 @@ class LoginPage extends StatelessWidget {
                                 )),
                             validationMessages: {
                               ValidationMessage.required: (error) =>
-                                  'Campo requerido',
+                                  S.of(context).campoRequerido,
                               ValidationMessage.maxLength: (error) =>
-                                  'Maximo 50 caracteres',
+                                  S.of(context).longitudMaximo(50),
                             },
                           ),
                         ),
@@ -128,15 +130,16 @@ class LoginPage extends StatelessWidget {
                                     loginController.login();
                                   }
                                 },
-                                title: 'Ingresar')
+                                title: S.of(context).ingresar)
                             .primaryButtom(),
                         Center(
                           child: TextButton(
                             onPressed: () {
                               Get.toNamed(AppPages.chagePassword);
                             },
-                            child: UiText(text: '¿Olvidaste tu contraseña?')
-                                .phraseBlack(),
+                            child:
+                                UiText(text: S.of(context).preguntaOlvidoClave)
+                                    .phraseBlack(),
                           ),
                         ),
                       ]);

@@ -1,0 +1,13 @@
+{
+    "preguntaRegistrar": "¿No tienes una cuenta?",
+    "registrar": "Registrar",
+    "bienvenido": "Bienvenido",
+    "ingresaDatosSesion": "Ingresa tus datos de sesión",
+    "correoCelular": "Correo o celular",
+    "clave": "Clave",
+    "mensajesErrorFormularios": "--------------------------------------------",
+    "campoRequerido": "Campo requerido",
+    "longitudMaximo": "Máximo  {numero} caracteres",
+    "ingresar": "Ingresar",
+    "preguntaOlvidoClave": "¿Olvidaste tu contraseña?"
+}
