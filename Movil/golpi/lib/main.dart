@@ -1,11 +1,11 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
+import 'package:flutter/material.dart';
 import 'package:golpi/theme/theme.dart';
 import 'package:golpi/core/routes/app_pages.dart';
 import 'package:golpi/core/constants/constants.dart';
 import 'package:golpi/core/bindings/initial_binding.dart';
 import 'package:responsive_framework/responsive_framework.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() {
   runApp(MainApp());

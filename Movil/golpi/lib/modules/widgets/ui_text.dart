@@ -50,6 +50,17 @@ class UiText {
     );
   }
 
+  Widget phraseWhite() {
+    return Text(
+      text,
+      style: const TextStyle(
+        fontFamily: 'Montserrat',
+        fontSize: 14,
+        color: Colors.white,
+      ),
+    );
+  }
+
   Widget phrasePrimaryColor() {
     return Text(
       text,
