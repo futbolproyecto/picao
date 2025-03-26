@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-import 'package:golpi/core/routes/app_pages.dart';
 import 'package:golpi/generated/l10n.dart';
+import 'package:golpi/core/routes/app_pages.dart';
 import 'package:golpi/modules/widgets/ui_text.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:golpi/core/constants/constants.dart';
