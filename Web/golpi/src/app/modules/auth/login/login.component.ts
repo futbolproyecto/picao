@@ -11,7 +11,7 @@ import {
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { filter, map, Subscription, switchMap } from 'rxjs';
+import { filter, finalize, map, Subscription, switchMap } from 'rxjs';
 import { trigger, transition, style, animate } from '@angular/animations';
 
 // Librerias
@@ -114,6 +114,7 @@ export class LoginComponent {
     this.formularioLogin = this.formBuilder.group({
       correo: ['', [Validators.required]],
       pass: ['', [Validators.required]],
+      establishment: ['', []],
     });
   }
 
@@ -167,17 +168,22 @@ export class LoginComponent {
         password: this.pass?.value,
       };
 
+      this.loadingService.setLoading(true);
+
       this.subscripcion = this.authService.iniciarSesion(usuario).subscribe({
         next: (resp: GenericDto<AuthRequestDto>) => {
+          this.loadingService.setLoading(false);
           const usuario: AuthRequestDto =
             resp.payload ?? ({} as AuthRequestDto);
           this.autenticacionStore.adicionarSesion(usuario);
 
           this.cargarEstablecimientosUsuario();
-          this.formularioLogin.disable();
+          this.correo.disable();
+          this.pass.disable();
           this.mostrarSeleccionEstablecimiento = true;
         },
         error: (err) => {
+          this.loadingService.setLoading(false);
           if (err.status === 0) {
             this.alertsService.fireError({
               status: 0,
@@ -203,6 +209,8 @@ export class LoginComponent {
   }
 
   cargarEstablecimientosUsuario(): void {
+    this.loadingService.setLoading(true);
+
     this.autenticacionStore
       .obtenerSesion$()
       .pipe(
@@ -210,7 +218,8 @@ export class LoginComponent {
         filter((id: number) => id !== 0),
         switchMap((id: number) =>
           this.establishmentService.establecimientoPorUsuario(id)
-        )
+        ),
+        finalize(() => this.loadingService.setLoading(false))
       )
       .subscribe({
         next: (response) => {
@@ -234,6 +243,10 @@ export class LoginComponent {
 
   validarSeleccionEstablecimiento() {
     if (this.establecimientoSeleccionado) {
+      localStorage.setItem(
+        'establecimientoSeleccionado',
+        this.establecimientoSeleccionado.toString()
+      );
       this.router.navigate(['/home']);
     } else {
       this.alertsService.toast('error', 'Debe seleccionar un establecimiento');

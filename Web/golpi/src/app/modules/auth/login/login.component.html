@@ -7,8 +7,10 @@
             <div class="logo">
               <img src="./assets/img/logo_normal.png" alt="Logo" />
             </div>
-            <div *ngIf="mostrarSeleccionEstablecimiento" class="regresar">
+
+            <div class="regresar">
               <button
+                *ngIf="mostrarSeleccionEstablecimiento"
                 mat-icon-button
                 (click)="volverAlLogin()"
                 class="btn-regresar"
@@ -17,18 +19,17 @@
               </button>
               <h1>Bienvenidos</h1>
             </div>
-            <div *ngIf="!mostrarSeleccionEstablecimiento">
-              <h1>Bienvenidos</h1>
-              <p>
-                ¿No tienes una cuenta?
-                <a
-                  routerLink="/contactenos"
-                  class="toggle"
-                  (click)="cambioModoInicioRegistro()"
-                  >Contáctenos</a
-                >
-              </p>
-            </div>
+
+            <p *ngIf="!mostrarSeleccionEstablecimiento">
+              ¿No tienes una cuenta?
+              <a
+                routerLink="/contactenos"
+                class="toggle"
+                (click)="cambioModoInicioRegistro()"
+              >
+                Contáctenos
+              </a>
+            </p>
 
             <div class="input-form">
               <mat-form-field class="custom-input">
@@ -88,32 +89,33 @@
                 </div>
               </div>
             </div>
-          </form>
-        </div>
 
-        <div
-          class="formulario-establecimiento"
-          *ngIf="mostrarSeleccionEstablecimiento"
-        >
-          <div class="seleccion-establecimiento">
-            <ng-select
-              [(ngModel)]="establecimientoSeleccionado"
-              [items]="listaEstablecimientos"
-              bindLabel="name"
-              bindValue="id"
-              placeholder="Seleccione un establecimiento"
-            ></ng-select>
+            <div
+              class="formulario-establecimiento"
+              *ngIf="mostrarSeleccionEstablecimiento"
+            >
+              <div class="seleccion-establecimiento">
+                <ng-select
+                  formControlName="establishment"
+                  [(ngModel)]="establecimientoSeleccionado"
+                  [items]="listaEstablecimientos"
+                  bindLabel="name"
+                  bindValue="id"
+                  placeholder="Seleccione un establecimiento"
+                ></ng-select>
 
-            <div class="boton">
-              <button
-                mat-raised-button
-                class="btn"
-                (click)="validarSeleccionEstablecimiento()"
-              >
-                VALIDAR
-              </button>
+                <div class="boton">
+                  <button
+                    mat-raised-button
+                    class="btn"
+                    (click)="validarSeleccionEstablecimiento()"
+                  >
+                    VALIDAR
+                  </button>
+                </div>
+              </div>
             </div>
-          </div>
+          </form>
         </div>
 
         <div class="contactenos">

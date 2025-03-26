@@ -14,16 +14,18 @@ public class GenericResponseErrorDTO {
     private String code;
 
     public static ResponseEntity<GenericResponseErrorDTO> genericResponseError(
-            ErrorMessages error, HttpStatus status) {
+            ErrorMessages error, HttpStatus status, Object... args) {
 
         GenericResponseErrorDTO genericResponseErrorDto = new GenericResponseErrorDTO();
         genericResponseErrorDto.setStatus(status.value());
-        genericResponseErrorDto.setError(error.getMessage());
+        genericResponseErrorDto.setError(error.getFormattedMessage(args));
         genericResponseErrorDto.setRecommendation(error.getRecommendation());
         genericResponseErrorDto.setCode(error.getCode());
 
         return new ResponseEntity<>(genericResponseErrorDto, status);
-    }   public static ResponseEntity<GenericResponseErrorDTO> formResponseError(
+    }
+
+    public static ResponseEntity<GenericResponseErrorDTO> formResponseError(
             String error, HttpStatusCode status) {
 
         GenericResponseErrorDTO genericResponseErrorDto = new GenericResponseErrorDTO();

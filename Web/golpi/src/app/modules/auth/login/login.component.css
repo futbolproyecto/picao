@@ -113,8 +113,6 @@ a {
 
 /*Seleccionar establecimiento */
 .seleccion-establecimiento {
-  max-width: 400px;
-  margin: 0 auto;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -133,6 +131,10 @@ a {
 .regresar {
   display: flex;
   gap: 20px;
+}
+
+.titulo {
+  padding-left: 10px;
 }
 
 /* Carrusel */

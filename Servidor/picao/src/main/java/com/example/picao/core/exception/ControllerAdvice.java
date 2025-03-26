@@ -23,7 +23,7 @@ public class ControllerAdvice {
     @ExceptionHandler(value = AppException.class)
     public ResponseEntity<GenericResponseErrorDTO> appException(AppException ex) {
         return GenericResponseErrorDTO.genericResponseError(
-                ex.getErrorMessages(), HttpStatus.BAD_REQUEST);
+                ex.getErrorMessages(), HttpStatus.BAD_REQUEST, ex.getArgs());
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -42,6 +42,7 @@ public class ControllerAdvice {
     @ExceptionHandler(value = RuntimeException.class)
     public ResponseEntity<GenericResponseErrorDTO> exception(RuntimeException e) {
         log.error(e.getMessage());
+        e.printStackTrace();
         return GenericResponseErrorDTO.genericResponseError(
                 ErrorMessages.UNHANDLED_ERROR, HttpStatus.BAD_REQUEST);
     }

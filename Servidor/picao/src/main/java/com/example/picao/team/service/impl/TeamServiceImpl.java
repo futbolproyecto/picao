@@ -51,13 +51,13 @@ public class TeamServiceImpl implements TeamService {
                     });
 
             cityRepository.findById(requestDTO.cityId()).orElseThrow(
-                    () -> new AppException(ErrorMessages.GENERIC_NOT_EXIST, HttpStatus.NOT_FOUND));
+                    () -> new AppException(ErrorMessages.GENERIC_NOT_EXIST, HttpStatus.NOT_FOUND, "Ciudad"));
 
             zoneRepository.findById(requestDTO.zoneId()).orElseThrow(
-                    () -> new AppException(ErrorMessages.GENERIC_NOT_EXIST, HttpStatus.NOT_FOUND));
+                    () -> new AppException(ErrorMessages.GENERIC_NOT_EXIST, HttpStatus.NOT_FOUND, "Zona"));
 
             UserEntity user = userRepository.findById(requestDTO.userId()).orElseThrow(
-                    () -> new AppException(ErrorMessages.GENERIC_NOT_EXIST, HttpStatus.NOT_FOUND));
+                    () -> new AppException(ErrorMessages.GENERIC_NOT_EXIST, HttpStatus.NOT_FOUND, "Usuario"));
             Team team = MAPPER.toTeam(requestDTO);
 
             team.setPlayers(new HashSet<>(Collections.singleton(user)));
@@ -66,7 +66,7 @@ public class TeamServiceImpl implements TeamService {
 
 
         } catch (AppException e) {
-            throw new AppException(e.getErrorMessages(), e.getHttpStatus());
+            throw new AppException(e.getErrorMessages(), e.getHttpStatus(), e.getArgs());
         }
 
     }

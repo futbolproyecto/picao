@@ -134,6 +134,19 @@ form {
   padding-right: 13px;
 }
 
+/* Estilos para .ng-select */
+.check {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 50%;
+  flex-wrap: wrap;
+}
+
+.checkbox {
+  align-content: center;
+}
+
 /* Reglas de medios */
 @media (max-width: 1124px) {
   .container-establecimiento {

@@ -38,11 +38,13 @@ public class EstablishmentServiceImpl implements EstablishmentService {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
             City city = cityRepository.findById(requestDTO.cityId()).orElseThrow(
-                    () -> new AppException(ErrorMessages.GENERIC_NOT_EXIST, HttpStatus.NOT_FOUND));
+                    () -> new AppException(ErrorMessages.GENERIC_NOT_EXIST, HttpStatus.NOT_FOUND, "Ciudad"));
 
             establishmentRepository.findByName(requestDTO.name()).ifPresent(
                     user -> {
-                        throw new AppException(ErrorMessages.DUPLICATE_ESTABLISHMENT_NAME, HttpStatus.BAD_REQUEST);
+                        throw new AppException(
+                                ErrorMessages.GENERIC_DUPLICATE,
+                                HttpStatus.BAD_REQUEST, "Nombre del establecimiento");
                     });
 
             establishmentRepository.findByMobileNumber(requestDTO.mobileNumber()).ifPresent(
@@ -59,14 +61,15 @@ public class EstablishmentServiceImpl implements EstablishmentService {
 
             establishment.setOwnerUser(userRepository.findByEmail(authentication.getPrincipal().toString())
                     .orElseThrow(
-                            () -> new AppException(ErrorMessages.GENERIC_NOT_EXIST, HttpStatus.NOT_FOUND)));
+                            () -> new AppException(
+                                    ErrorMessages.GENERIC_NOT_EXIST, HttpStatus.NOT_FOUND, "Correo de usuario")));
 
 
             return MAPPER.toEstablishmentResponseDTO(establishmentRepository.save(establishment));
 
 
         } catch (AppException e) {
-            throw new AppException(e.getErrorMessages(), e.getHttpStatus());
+            throw new AppException(e.getErrorMessages(), e.getHttpStatus(), e.getArgs());
         }
     }
 
