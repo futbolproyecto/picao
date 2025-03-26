@@ -1,30 +1,20 @@
-// Core
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { FullCalendarModule } from '@fullcalendar/angular';
 
-// Librerias
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-
-// Compartidos
-import { MatCardModule } from '@angular/material/card';
 import { CardComponent } from '../../shared/components/custom/card/card.component';
-
-// Componentes
+import { MatCardModule } from '@angular/material/card';
 import { ReservaModalComponent } from '../reserva-modal/reserva-modal.component';
+import { MatDialog } from '@angular/material/dialog';
 
+import dayGridPlugin from '@fullcalendar/daygrid';
+import timeGridPlugin from '@fullcalendar/timegrid';
+import interactionPlugin from '@fullcalendar/interaction';
+import esLocale from '@fullcalendar/core/locales/es';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [
-    CommonModule,
-    MatCardModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatDialogModule,
-    CardComponent,
-  ],
+  imports: [CommonModule, FullCalendarModule, CardComponent, MatCardModule],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],
 })
@@ -32,44 +22,75 @@ export class DashboardComponent {
   public totalTurnos = 50;
   public turnosPendientes = 15;
   public turnosConfirmados = 35;
+  public turnosFinalizados = 10;
+  public turnosSinConfirmar = 5;
 
-  public selected: Date | null = null;
-  private dialog = inject(MatDialog);
+  constructor(private dialog: MatDialog) {}
 
-  // Simulación de reservas
-  public reservas = [
-    {
-      fecha: new Date(2025, 1, 10),
-      nombre: 'Juan Pérez',
-      hora: '10:00 AM',
-      estado: 'Confirmado',
+  calendarOptions = {
+    plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
+    initialView: 'timeGridWeek',
+    locale: esLocale,
+    headerToolbar: {
+      left: 'prev,next today',
+      center: 'title',
+      right: 'dayGridMonth,timeGridWeek,timeGridDay',
     },
-    {
-      fecha: new Date(2025, 1, 10),
-      nombre: 'María López',
-      hora: '2:30 PM',
-      estado: 'Pendiente',
-    },
-    {
-      fecha: new Date(2025, 1, 14),
-      nombre: 'Carlos Gómez',
-      hora: '4:00 PM',
-      estado: 'Reservado',
-    },
-  ];
+    allDaySlot: false,
+    events: [
+      {
+        title: 'Cancha 1 - Confirmado',
+        start: '2025-03-10T13:00:00',
+        end: '2025-03-10T14:00:00',
+        color: '#4caf50',
+        textColor: 'black',
+        extendedProps: {
+          cancha: 'Cancha 1',
+          tipo: 'Sintética',
+          cliente: 'Juan Pérez',
+          estado: 'Confirmado',
+        },
+      },
+      {
+        title: 'Cancha 2 - Reservado',
+        start: '2025-03-11T09:00:00',
+        end: '2025-03-11T10:00:00',
+        color: '#ff9800',
+        textColor: 'black',
+        extendedProps: {
+          cancha: 'Cancha 2',
+          tipo: 'Césped natural',
+          cliente: 'Carlos Gómez',
+          estado: 'Reservado',
+        },
+      },
+      {
+        title: 'Cancha 3 - Pendiente',
+        start: '2025-03-12T10:00:00',
+        end: '2025-03-11T11:00:00',
+        color: '#ffff00',
+        textColor: 'black',
+        extendedProps: {
+          cancha: 'Cancha 3',
+          tipo: 'Cemento',
+          cliente: 'Andrea Isaza',
+          estado: 'Pendiente',
+        },
+      },
+    ],
+    eventClick: this.abrirModal.bind(this),
+  };
 
-  onDateSelected(date: Date | null) {
-    if (date) {
-      const dayReservations = this.reservas.filter(
-        (res) => res.fecha.toDateString() === date.toDateString()
-      );
-
-      if (dayReservations.length > 0) {
-        this.dialog.open(ReservaModalComponent, {
-          data: { date, reservas: dayReservations },
-          width: '400px',
-        });
-      }
-    }
+  abrirModal(eventInfo: any) {
+    const turno = eventInfo.event.extendedProps;
+    this.dialog.open(ReservaModalComponent, {
+      data: {
+        cancha: turno.cancha,
+        tipo: turno.tipo,
+        cliente: turno.cliente,
+        estado: turno.estado,
+        hora: eventInfo.event.start,
+      },
+    });
   }
 }

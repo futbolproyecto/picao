@@ -18,6 +18,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 // Dto
 import { UsuarioResponseDto } from '../../../../data/schema/userResponseDto';
+import { AlertsService } from '../../../../core/service/alerts.service';
+import { AuthService } from '../../../../core/service/auth.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -39,6 +41,8 @@ export class SidebarComponent implements OnInit {
   private usuario$: Observable<UsuarioResponseDto> =
     new Observable<UsuarioResponseDto>();
   private userService = inject(UserService);
+  private alertsService = inject(AlertsService);
+  public authService = inject(AuthService);
 
   public usuario: UsuarioResponseDto = new UsuarioResponseDto();
   public mostrarSubmodulosUsuario: boolean = false;
@@ -96,5 +100,16 @@ export class SidebarComponent implements OnInit {
     if (window.innerWidth <= 768) {
       this.menuMobile = false;
     }
+  }
+
+  CerrarSesion() {
+    this.alertsService.fireConfirm(
+      'error',
+      'Esta seguro de cerrar sesión?',
+      'Al cerrarla, tendrá que autenticarse de nuevo para realizar alguna operación!',
+      () => {
+        this.authService.cerrarSesion();
+      }
+    );
   }
 }

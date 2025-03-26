@@ -1,7 +1,7 @@
 package com.example.picao.department.dto;
 
-import com.example.picao.city.entity.City;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.example.picao.city.dto.CityResponseDTO;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -10,12 +10,19 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Getter
 @Setter
-@RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class DepartmentResponseDTO {
 
-    final Integer id;
+    Integer id;
 
-    final String name;
-    @JsonIgnore
-    List<City> cities;
+    String name;
+
+    List<CityResponseDTO> cities;
+
+    public DepartmentResponseDTO(Integer id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 }

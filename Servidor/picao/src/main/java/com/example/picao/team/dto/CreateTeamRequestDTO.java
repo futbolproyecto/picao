@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public record CreateTeamRequestDTO(
-        @Size(max = 50, message = Constants.ERROR_MESSAGE_SIZE_NAME_TEAM)
+        @Size(max = 50, message = Constants.ERROR_MESSAGE_SIZE)
         String name,
 
         @NotNull

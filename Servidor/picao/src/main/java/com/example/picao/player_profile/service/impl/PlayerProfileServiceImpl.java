@@ -44,25 +44,25 @@ public class PlayerProfileServiceImpl implements PlayerProfileService {
                     });
 
             dominantFootRepository.findById(requestDTO.dominantFootId()).orElseThrow(
-                    () -> new AppException(ErrorMessages.GENERIC_NOT_EXIST, HttpStatus.NOT_FOUND));
+                    () -> new AppException(ErrorMessages.GENERIC_NOT_EXIST, HttpStatus.NOT_FOUND, "¨Pie dominante"));
 
             positionPlayerRepository.findById(requestDTO.positionPlayerId()).orElseThrow(
-                    () -> new AppException(ErrorMessages.GENERIC_NOT_EXIST, HttpStatus.NOT_FOUND));
+                    () -> new AppException(ErrorMessages.GENERIC_NOT_EXIST, HttpStatus.NOT_FOUND, "Posicion de jugador"));
 
             zoneRepository.findById(requestDTO.zoneId()).orElseThrow(
-                    () -> new AppException(ErrorMessages.GENERIC_NOT_EXIST, HttpStatus.NOT_FOUND));
+                    () -> new AppException(ErrorMessages.GENERIC_NOT_EXIST, HttpStatus.NOT_FOUND, "Zona"));
 
             cityRepository.findById(requestDTO.cityId()).orElseThrow(
-                    () -> new AppException(ErrorMessages.GENERIC_NOT_EXIST, HttpStatus.NOT_FOUND));
+                    () -> new AppException(ErrorMessages.GENERIC_NOT_EXIST, HttpStatus.NOT_FOUND, "Ciudad"));
 
             userRepository.findById(requestDTO.userId()).orElseThrow(
-                    () -> new AppException(ErrorMessages.GENERIC_NOT_EXIST, HttpStatus.NOT_FOUND));
+                    () -> new AppException(ErrorMessages.GENERIC_NOT_EXIST, HttpStatus.NOT_FOUND, "Usuario"));
 
             return MAPPER.toPlayerProfileResponseDTO(
                     playerProfileRepository.save(MAPPER.toPlayerProfile(requestDTO)));
 
         } catch (AppException e) {
-            throw new AppException(e.getErrorMessages(), e.getHttpStatus());
+            throw new AppException(e.getErrorMessages(), e.getHttpStatus(), e.getArgs());
         }
     }
 

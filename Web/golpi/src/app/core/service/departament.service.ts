@@ -13,4 +13,10 @@ export class DepartmentService {
   getAll() {
     return this.http.get<GenericDto>(this.baseUrl + `department/get-all`);
   }
+
+  getDepartmentsByCity(cityId: number) {
+    return this.http.get<GenericDto>(
+      this.baseUrl + `department/get-by-city/${cityId}`
+    );
+  }
 }

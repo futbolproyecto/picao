@@ -2,27 +2,32 @@
   <div class="card">
     <app-card>
       <div class="summary-cards">
-        <mat-card class="summary-card reservados">
-          <p>Turnos reservados</p>
+        <mat-card class="summary-card separados">
+          <p>Turnos separados</p>
           <mat-card-content>{{ totalTurnos }}</mat-card-content>
-        </mat-card>
-        <mat-card class="summary-card pendientes">
-          <p>Turnos pendientes</p>
-          <mat-card-content>{{ turnosPendientes }}</mat-card-content>
         </mat-card>
         <mat-card class="summary-card confirmados">
           <p>Turnos confirmados</p>
           <mat-card-content>{{ turnosConfirmados }}</mat-card-content>
         </mat-card>
-      </div>
-      <div class="container-card">
-        <mat-card class="demo-inline-calendar-card">
-          <mat-calendar
-            [(selected)]="selected"
-            (selectedChange)="onDateSelected($event)"
-          ></mat-calendar>
+        <mat-card class="summary-card finalizados">
+          <p>Turnos finalizados</p>
+          <mat-card-content>{{ turnosFinalizados }}</mat-card-content>
         </mat-card>
-        <p>Fecha seleccionada: {{ selected | date : "dd/MM/yyyy" }}</p>
+        <mat-card class="summary-card sin_confirmar">
+          <p>Turnos sin confirmar</p>
+          <mat-card-content>{{ turnosSinConfirmar }}</mat-card-content>
+        </mat-card>
+      </div>
+
+      <!-- Sección del calendario centrada -->
+      <div class="calendar-section">
+        <div class="container-card">
+          <full-calendar
+            class="fullcalendar"
+            [options]="calendarOptions"
+          ></full-calendar>
+        </div>
       </div>
     </app-card>
   </div>

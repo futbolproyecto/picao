@@ -11,13 +11,14 @@ import {
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Subscription } from 'rxjs';
+import { filter, finalize, map, Subscription, switchMap } from 'rxjs';
 import { trigger, transition, style, animate } from '@angular/animations';
 
 // Librerias
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 // Compartidos
 import { Constant } from '../../../shared/utils/constant';
@@ -34,6 +35,7 @@ import { OtpRequestDto } from '../../../data/schema/otpRequestDto';
 import { OtpService } from '../../../core/service/otp.service';
 import { LoadingService } from '../../../core/service/loading.service';
 import { AutenticacionStoreService } from '../../../core/store/auth/autenticacion-store.service';
+import { EstablishmentService } from '../../../core/service/establishment.service';
 
 // Componentes
 import { CarouselComponent } from '../../../shared/components/layout/carousel/carousel.component';
@@ -42,6 +44,7 @@ import { RegistreComponent } from '../../registre/registre.component';
 // Dto
 import { LoginRequestDto } from '../../../data/schema/loginRequestDto';
 import { AuthRequestDto } from '../../../data/schema/authRequestDto';
+import { UsuarioResponseDto } from '../../../data/schema/userResponseDto';
 
 @Component({
   selector: 'app-login',
@@ -56,6 +59,7 @@ import { AuthRequestDto } from '../../../data/schema/authRequestDto';
     RegistreComponent,
     CarouselComponent,
     MatFormFieldModule,
+    NgSelectModule,
   ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
@@ -77,6 +81,7 @@ export class LoginComponent {
   private alertsService = inject(AlertsService);
   private subscripcion: Subscription = new Subscription();
   private readonly autenticacionStore = inject(AutenticacionStoreService);
+  private establishmentService = inject(EstablishmentService);
   public usuario: AuthRequestDto = new AuthRequestDto();
   private destroyRef = inject(DestroyRef);
 
@@ -89,6 +94,10 @@ export class LoginComponent {
   //cadenas para errores
   public correoError: string = '';
   public passError: string = '';
+
+  public mostrarSeleccionEstablecimiento = false;
+  public listaEstablecimientos: any[] = [];
+  public establecimientoSeleccionado: any = null;
 
   constructor(
     private formBuilder: UntypedFormBuilder,
@@ -105,6 +114,7 @@ export class LoginComponent {
     this.formularioLogin = this.formBuilder.group({
       correo: ['', [Validators.required]],
       pass: ['', [Validators.required]],
+      establishment: ['', []],
     });
   }
 
@@ -158,22 +168,67 @@ export class LoginComponent {
         password: this.pass?.value,
       };
 
+      this.loadingService.setLoading(true);
+
       this.subscripcion = this.authService.iniciarSesion(usuario).subscribe({
         next: (resp: GenericDto<AuthRequestDto>) => {
+          this.loadingService.setLoading(false);
           const usuario: AuthRequestDto =
             resp.payload ?? ({} as AuthRequestDto);
-
-          // if (!usuario.roles || !usuario.roles.includes('ADMINISTRADOR')) {
-          //   this.alertsService.toast(
-          //     'error',
-          //     'Acceso restringido: no tienes permisos de administrador'
-          //   );
-          //   return;
-          // }
-
           this.autenticacionStore.adicionarSesion(usuario);
-          this.router.navigate(['/home']);
-          this.limpiarFormulario();
+
+          this.cargarEstablecimientosUsuario();
+          this.correo.disable();
+          this.pass.disable();
+          this.mostrarSeleccionEstablecimiento = true;
+        },
+        error: (err) => {
+          this.loadingService.setLoading(false);
+          if (err.status === 0) {
+            this.alertsService.fireError({
+              status: 0,
+              error: 'No se pudo conectar con el servidor',
+              recommendation:
+                'Verifica tu conexión a internet o que el servidor esté en ejecución.',
+            });
+          } else {
+            const errorDto = new MessageExceptionDto({
+              status: err.error?.status,
+              error: err.error?.error,
+              recommendation: err.error?.recommendation,
+            });
+
+            this.alertsService.fireError(errorDto);
+          }
+        },
+      });
+    } else {
+      this.formularioLogin.markAllAsTouched();
+      this.alertsService.toast('error', Constant.ERROR_FORM_INCOMPLETO);
+    }
+  }
+
+  cargarEstablecimientosUsuario(): void {
+    this.loadingService.setLoading(true);
+
+    this.autenticacionStore
+      .obtenerSesion$()
+      .pipe(
+        map((usuario: UsuarioResponseDto) => usuario?.id ?? 0),
+        filter((id: number) => id !== 0),
+        switchMap((id: number) =>
+          this.establishmentService.establecimientoPorUsuario(id)
+        ),
+        finalize(() => this.loadingService.setLoading(false))
+      )
+      .subscribe({
+        next: (response) => {
+          if (response?.payload) {
+            this.listaEstablecimientos = response.payload.map((est: any) => ({
+              id: est.id,
+              name: est.name,
+            }));
+          }
         },
         error: (err) => {
           const errorDto = new MessageExceptionDto({
@@ -181,14 +236,26 @@ export class LoginComponent {
             error: err.error?.error,
             recommendation: err.error?.recommendation,
           });
-
           this.alertsService.fireError(errorDto);
         },
       });
+  }
+
+  validarSeleccionEstablecimiento() {
+    if (this.establecimientoSeleccionado) {
+      localStorage.setItem(
+        'establecimientoSeleccionado',
+        this.establecimientoSeleccionado.toString()
+      );
+      this.router.navigate(['/home']);
     } else {
-      this.formularioLogin.markAllAsTouched();
-      this.alertsService.toast('error', Constant.ERROR_FORM_INCOMPLETO);
+      this.alertsService.toast('error', 'Debe seleccionar un establecimiento');
     }
+  }
+
+  volverAlLogin() {
+    this.mostrarSeleccionEstablecimiento = false;
+    this.formularioLogin.enable();
   }
 
   enviarCodigo(event: Event): void {

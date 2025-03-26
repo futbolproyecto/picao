@@ -48,32 +48,19 @@
               </small>
             </div>
 
-            <div class="form-group">
-              <ng-select
-                formControlName="Tipo_cancha"
-                placeholder="Tipo cancha*"
-                class="lista"
+            <div class="check">
+              <mat-checkbox
+                class="checkbox"
+                color="primary"
+                formControlName="disponible"
+                >Disponible</mat-checkbox
               >
-                <ng-option value="1">Sala</ng-option>
-                <ng-option value="2">Profesional</ng-option>
-                <ng-option value="3">7</ng-option>
-              </ng-select>
-              <small class="text-error" *ngIf="validarTipoCancha()">
-                {{ tipoCanchaError }}
-              </small>
-
-              <ng-select
-                formControlName="establecimiento"
-                placeholder="Establecimiento*"
-                class="lista"
+              <mat-checkbox
+                class="checkbox"
+                color="primary"
+                formControlName="techado"
+                >Techado</mat-checkbox
               >
-                <ng-option value="1">Maracana</ng-option>
-                <ng-option value="2">Tiro de esquina</ng-option>
-                <ng-option value="3">La 70</ng-option>
-              </ng-select>
-              <small class="text-error" *ngIf="validarEstablecimiento()">
-                {{ establecimientoError }}
-              </small>
             </div>
 
             <div class="boton">

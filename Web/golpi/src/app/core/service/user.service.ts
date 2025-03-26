@@ -27,7 +27,7 @@ export class UserService {
   }
 
   update(user: UsuarioResponseDto) {
-    return this.http.post(this.baseUrl + 'user/update', user);
+    return this.http.put(this.baseUrl + 'user/update', user);
   }
 
   setPassword(setPasswordDto: SetPasswordDto) {

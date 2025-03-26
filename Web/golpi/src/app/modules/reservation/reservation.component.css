@@ -93,11 +93,11 @@ mat-form-field {
 }
 
 .boton .btn {
-  background-color: var(--color-primary-container);
+  background-color: var(--color-primary);
   font-size: 16px;
   color: var(--color-on-primary-container);
   height: 45px;
-  width: 20%;
+  width: 50%;
   border-radius: 10px;
   margin-left: 15px;
 }
@@ -143,6 +143,24 @@ form {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+}
+
+.btn-adicionar {
+  background-color: var(--color-primary-container);
+  color: var(--color-on-primary-container);
+  height: 40px;
+  width: 10%;
+  border-radius: 7px;
+  border: none;
+}
+
+.container-cliente {
+  display: contents;
+  width: 100%;
+}
+
+.lista_cliente {
+  width: 85%;
 }
 
 /* Reglas de medios */

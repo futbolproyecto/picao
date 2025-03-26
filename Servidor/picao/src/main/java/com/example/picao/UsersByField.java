@@ -1,5 +1,6 @@
 package com.example.picao;
 
+import com.example.picao.field.entity.Field;
 import com.example.picao.user.entity.UserEntity;
 import jakarta.persistence.*;
 import lombok.Getter;

@@ -130,6 +130,34 @@ ul li a p {
   transform: translateX(200px);
 }
 
+.cerrar {
+  margin-top: auto; /* Esto empuja el botón de cerrar sesión al final */
+  list-style-type: none;
+  padding-left: 0;
+  cursor: pointer;
+}
+
+.cerrar a {
+  font-size: 1rem;
+  font-family: "Montserrat";
+  display: flex;
+  align-items: center;
+  color: var(--color-shadow);
+}
+
+.cerrar:hover a,
+.cerrar:hover i {
+  font-weight: bold;
+}
+
+.cerrar i {
+  color: var(--color-error);
+}
+
+.cerrar p {
+  margin: 10px;
+}
+
 @media (max-width: 1124px) {
   .hamburguer-menu {
     display: block;

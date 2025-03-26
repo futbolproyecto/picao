@@ -85,18 +85,25 @@
         </li>
         <li>
           <a
-            [routerLink]="['/home/agenda']"
+            [routerLink]="['/home/reservacion']"
             routerLinkActive="router-link-active"
-            [matTooltip]="'Agenda'"
+            [matTooltip]="'Reservación'"
             [matTooltipPosition]="'right'"
             [matTooltipDisabled]="!menuExpandido"
             (click)="closeMenuMobile()"
           >
             <i class="material-icons icono-menu">event</i>
-            <p *ngIf="!menuExpandido">Agenda</p>
+            <p *ngIf="!menuExpandido">Reservación</p>
           </a>
         </li>
       </ul>
     </div>
+  </div>
+
+  <div class="cerrar">
+    <a (click)="CerrarSesion()">
+      <i class="material-icons iconred icono-menu">logout</i>
+      <p *ngIf="!menuExpandido">CERRAR SESIÓN</p>
+    </a>
   </div>
 </div>
