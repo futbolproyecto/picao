@@ -18,8 +18,8 @@ class ManageTeamPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title:
-            UiText(text: S.of(context).administrarEquipo).titlePrimaryColor(),
+        title: UiText(text: S.of(context).administrarEquipo)
+            .title(color: Constants.primaryColor),
       ),
       body: Column(
         children: [

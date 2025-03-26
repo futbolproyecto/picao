@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:golpi/core/constants/constants.dart';
 
 class UiButtoms {
-  final VoidCallback onPressed;
-  final String title;
+  final VoidCallback? onPressed;
+  final String? title;
 
   UiButtoms({
-    required this.onPressed,
-    required this.title,
+    this.onPressed,
+    this.title,
   });
 
   Widget primaryButtom() {
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton(
-        onPressed: () => onPressed(),
+        onPressed: () => onPressed!(),
         style: ElevatedButton.styleFrom(
           padding: const EdgeInsets.symmetric(vertical: 15),
           shape: RoundedRectangleBorder(
@@ -24,7 +25,7 @@ class UiButtoms {
           foregroundColor: Constants.primaryColor,
         ),
         child: Text(
-          title,
+          title!,
           style: const TextStyle(
             fontSize: 18,
             color: Colors.white,
@@ -51,7 +52,7 @@ class UiButtoms {
             ),
             backgroundColor: Colors.white),
         child: Text(
-          title,
+          title!,
           style: TextStyle(fontSize: 18, color: Constants.primaryColor),
         ),
       ),
@@ -60,9 +61,30 @@ class UiButtoms {
 
   Widget textButtom(Color color) {
     return TextButton(
-      child: Text(title,
+      child: Text(title!,
           style: TextStyle(color: color, decoration: TextDecoration.underline)),
-      onPressed: () => onPressed(),
+      onPressed: () => onPressed!(),
+    );
+  }
+
+  Widget backButtom() {
+    return Positioned(
+      top: 30,
+      left: 10,
+      child: GestureDetector(
+        onTap: () => Get.back(),
+        child: Container(
+          width: 50,
+          height: 50,
+          decoration: BoxDecoration(
+            color: Colors.purple[200],
+            shape: BoxShape.circle,
+          ),
+          child: Center(
+            child: Icon(Icons.arrow_back, size: 50 * 0.5, color: Colors.green),
+          ),
+        ),
+      ),
     );
   }
 }

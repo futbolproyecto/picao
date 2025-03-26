@@ -28,7 +28,7 @@ class RegisterUserPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 const SizedBox(height: 50),
-                UiText(text: S.of(context).preguntaTienesCuenta).phraseBlack(),
+                UiText(text: S.of(context).preguntaTienesCuenta).phraseWhite(),
                 InkWell(
                   onTap: () {
                     Get.offNamed(AppPages.login);

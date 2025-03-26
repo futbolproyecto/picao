@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:golpi/core/routes/app_pages.dart';
@@ -21,8 +22,10 @@ class HomeController extends GetxController {
 
   void changeIndexTabBarView(int index) {
     indexTabBarView.value = index;
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
     switch (index) {
       case 0:
+        SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
         floatingActionButton.value = FloatingActionButton(
           onPressed: () {},
         );

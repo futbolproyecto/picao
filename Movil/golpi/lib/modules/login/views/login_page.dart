@@ -20,7 +20,10 @@ class LoginPage extends StatelessWidget {
     return Scaffold(
         body: Stack(
       children: [
-        CurvedBackground(isCurveUp: false),
+        CurvedBackground(
+          isCurveUp: false,
+          height: 300,
+        ),
         Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           const SizedBox(height: 30),
           Row(
@@ -40,8 +43,7 @@ class LoginPage extends StatelessWidget {
                         color: Constants.primaryColor,
                         borderRadius:
                             const BorderRadius.all(Radius.circular(5))),
-                    child:
-                        Center(child: Text(S.of(context).preguntaRegistrar))),
+                    child: Center(child: Text(S.of(context).registrar))),
               )
             ],
           ),
@@ -50,7 +52,7 @@ class LoginPage extends StatelessWidget {
             'assets/img/golpilogo.png',
             width: 80,
           ),
-          UiText(text: 'Golpi').titlePrimaryColor(),
+          UiText(text: 'Golpi').title(color: Constants.primaryColor),
           const SizedBox(height: 20),
           Expanded(
               child: Container(

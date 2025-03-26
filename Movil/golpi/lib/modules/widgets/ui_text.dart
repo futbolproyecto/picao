@@ -6,25 +6,14 @@ class UiText {
 
   UiText({required this.text});
 
-  Widget title() {
-    return Text(
-      text,
-      style: const TextStyle(
-        fontFamily: 'Montserrat',
-        fontSize: 20,
-        fontWeight: FontWeight.bold,
-      ),
-    );
-  }
-
-  Widget titlePrimaryColor() {
+  Widget title({Color? color}) {
     return Text(
       text,
       style: TextStyle(
           fontFamily: 'Montserrat',
           fontSize: 20,
           fontWeight: FontWeight.bold,
-          color: Constants.primaryColor),
+          color: color),
     );
   }
 
@@ -34,7 +23,7 @@ class UiText {
       style: const TextStyle(
         fontFamily: 'Montserrat',
         fontSize: 14,
-        fontWeight: FontWeight.w600,
+        fontWeight: FontWeight.w900,
       ),
     );
   }
@@ -77,7 +66,7 @@ class UiText {
       style: const TextStyle(
         fontFamily: 'Helvetica',
         fontSize: 14,
-        fontWeight: FontWeight.w600,
+        fontWeight: FontWeight.w900,
       ),
     );
   }

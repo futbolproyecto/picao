@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:golpi/generated/l10n.dart';
 import 'package:golpi/core/utils/utility.dart';
+import 'package:golpi/modules/widgets/image_preview.dart';
 import 'package:golpi/modules/widgets/ui_text.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:golpi/core/constants/constants.dart';
@@ -18,48 +19,35 @@ class ProfilePage extends StatelessWidget {
     final ProfileController profileController = Get.find<ProfileController>();
 
     return Scaffold(
-      appBar: AppBar(
-        title: UiText(text: S.of(context).perfil).titlePrimaryColor(),
-        automaticallyImplyLeading: true,
-      ),
       body: Stack(
         children: [
-          CurvedBackground(isCurveUp: false),
+          CurvedBackground(
+            isCurveUp: true,
+            height: 300,
+          ),
+          UiButtoms().backButtom(),
           Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-            const SizedBox(height: 40),
+            const SizedBox(height: 50),
+            UiText(text: S.of(context).perfil).title(color: Colors.white),
+            const SizedBox(height: 20),
+            ImagePreview(),
             Expanded(
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(30),
-                    topRight: Radius.circular(30),
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black54,
-                      spreadRadius: 0.5,
-                      blurRadius: 15,
-                      offset: Offset(0, 3),
-                    ),
-                  ],
-                ),
-                child: ListView.builder(
-                    itemCount: 1,
-                    itemBuilder: (context, index) {
-                      return Column(
-                        children: [
-                          ReactiveFormBuilder(
-                              form: () => profileController.formUserInfo,
-                              builder: (
-                                BuildContext context,
-                                FormGroup reactiveFormUserInfo,
-                                Widget? child,
-                              ) {
-                                return Column(children: [
-                                  const SizedBox(height: 10),
-                                  UiText(text: S.of(context).miPerfil).title(),
+              child: ListView.builder(
+                  itemCount: 1,
+                  itemBuilder: (context, index) {
+                    return Column(
+                      children: [
+                        ReactiveFormBuilder(
+                            form: () => profileController.formUserInfo,
+                            builder: (
+                              BuildContext context,
+                              FormGroup reactiveFormUserInfo,
+                              Widget? child,
+                            ) {
+                              return Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 10),
+                                child: Column(children: [
                                   const SizedBox(height: 20),
                                   UiTextFiel().textField(
                                     formControlName: 'name',
@@ -117,16 +105,20 @@ class ProfilePage extends StatelessWidget {
                                           S.of(context).campoRequerido,
                                     },
                                   ),
-                                ]);
-                              }),
-                          ReactiveFormBuilder(
-                              form: () => profileController.formProfile,
-                              builder: (
-                                BuildContext context,
-                                FormGroup reactiveFormProfileRegistrer,
-                                Widget? child,
-                              ) {
-                                return Column(children: [
+                                ]),
+                              );
+                            }),
+                        ReactiveFormBuilder(
+                            form: () => profileController.formProfile,
+                            builder: (
+                              BuildContext context,
+                              FormGroup reactiveFormProfileRegistrer,
+                              Widget? child,
+                            ) {
+                              return Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 10),
+                                child: Column(children: [
                                   const SizedBox(height: 20),
                                   UiTextFiel().textField(
                                     formControlName: 'nickname',
@@ -230,12 +222,12 @@ class ProfilePage extends StatelessWidget {
                                           title: S.of(context).guardar)
                                       .primaryButtom(),
                                   const SizedBox(height: 20),
-                                ]);
-                              }),
-                        ],
-                      );
-                    }),
-              ),
+                                ]),
+                              );
+                            }),
+                      ],
+                    );
+                  }),
             ),
           ]),
         ],
