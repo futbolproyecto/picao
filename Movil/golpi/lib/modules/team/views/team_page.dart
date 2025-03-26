@@ -1,11 +1,12 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-import 'package:golpi/core/constants/constants.dart';
+import 'package:golpi/generated/l10n.dart';
 import 'package:golpi/core/routes/app_pages.dart';
-import 'package:golpi/modules/home/controller/home_controller.dart';
-import 'package:golpi/modules/team/controller/team_controller.dart';
-import 'package:golpi/modules/widgets/ui_buttoms.dart';
 import 'package:golpi/modules/widgets/ui_text.dart';
+import 'package:golpi/core/constants/constants.dart';
+import 'package:golpi/modules/widgets/ui_buttoms.dart';
+import 'package:golpi/modules/team/controller/team_controller.dart';
+import 'package:golpi/modules/home/controller/home_controller.dart';
 
 class TeamPage extends StatelessWidget {
   const TeamPage({super.key});
@@ -76,9 +77,10 @@ class TeamPage extends StatelessWidget {
                               .phraseSemiBold(),
                           subtitle: Column(
                             children: [
-                              _buildInfoRow('Posición:',
+                              _buildInfoRow('${S.of(context).posicion}:',
                                   '${homeController.listTeams[index].positionPlayer}'),
-                              _buildInfoRow('Cantidad jugadores:',
+                              _buildInfoRow(
+                                  '${S.of(context).cantidadJugadores}:',
                                   '${homeController.listTeams[index].numberOfPlayers}'),
                             ],
                           ),

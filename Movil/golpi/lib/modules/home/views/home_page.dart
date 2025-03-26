@@ -1,9 +1,10 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:golpi/core/routes/app_pages.dart';
-import 'package:golpi/modules/team/views/team_page.dart';
+import 'package:golpi/generated/l10n.dart';
 import 'package:golpi/modules/widgets/ui_text.dart';
 import 'package:golpi/core/constants/constants.dart';
+import 'package:golpi/modules/team/views/team_page.dart';
 import 'package:golpi/modules/home/controller/home_controller.dart';
 import 'package:contained_tab_bar_view/contained_tab_bar_view.dart';
 
@@ -39,15 +40,17 @@ class HomePage extends StatelessWidget {
                 itemBuilder: (context) => [
                       PopupMenuItem(
                         value: 1,
-                        child: UiText(text: 'Perfil').phraseBlack(),
+                        child: UiText(text: S.of(context).perfil).phraseBlack(),
                       ),
                       PopupMenuItem(
                         value: 2,
-                        child: UiText(text: 'Ajustes').phraseBlack(),
+                        child:
+                            UiText(text: S.of(context).ajustes).phraseBlack(),
                       ),
                       PopupMenuItem(
                         value: 3,
-                        child: UiText(text: 'Salir').phraseBlack(),
+                        child: UiText(text: S.of(context).cerrarSesion)
+                            .phraseBlack(),
                       ),
                     ])
           ],
@@ -72,8 +75,8 @@ class HomePage extends StatelessWidget {
                         child: const Icon(Icons.home_outlined, size: 28)),
                   ),
                   Obx(() => homeController.indexTabBarView.value == 0
-                      ? UiText(text: 'Inicio').paragraphSemiBold()
-                      : UiText(text: 'Inicio').paragraphBlack())
+                      ? UiText(text: S.of(context).inicio).paragraphSemiBold()
+                      : UiText(text: S.of(context).inicio).paragraphBlack())
                 ],
               ),
               Column(
@@ -93,8 +96,8 @@ class HomePage extends StatelessWidget {
                         child: const Icon(Icons.groups_outlined, size: 28)),
                   ),
                   Obx(() => homeController.indexTabBarView.value == 1
-                      ? UiText(text: 'Equipos').paragraphSemiBold()
-                      : UiText(text: 'Equipos').paragraphBlack())
+                      ? UiText(text: S.of(context).equipos).paragraphSemiBold()
+                      : UiText(text: S.of(context).equipos).paragraphBlack())
                 ],
               ),
               Column(
@@ -115,8 +118,9 @@ class HomePage extends StatelessWidget {
                             size: 28)),
                   ),
                   Obx(() => homeController.indexTabBarView.value == 2
-                      ? UiText(text: 'Encuentros').paragraphSemiBold()
-                      : UiText(text: 'Encuentros').paragraphBlack())
+                      ? UiText(text: S.of(context).encuentros)
+                          .paragraphSemiBold()
+                      : UiText(text: S.of(context).encuentros).paragraphBlack())
                 ],
               ),
               Column(
@@ -136,8 +140,8 @@ class HomePage extends StatelessWidget {
                         child: const Icon(Icons.chat_outlined, size: 28)),
                   ),
                   Obx(() => homeController.indexTabBarView.value == 3
-                      ? UiText(text: 'Chats').paragraphSemiBold()
-                      : UiText(text: 'Chats').paragraphBlack())
+                      ? UiText(text: S.of(context).chats).paragraphSemiBold()
+                      : UiText(text: S.of(context).chats).paragraphBlack())
                 ],
               ),
             ],

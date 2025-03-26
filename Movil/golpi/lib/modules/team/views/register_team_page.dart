@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:golpi/generated/l10n.dart';
 import 'package:golpi/core/utils/utility.dart';
 import 'package:golpi/modules/widgets/ui_text.dart';
 import 'package:golpi/core/constants/constants.dart';
@@ -18,7 +19,7 @@ class RegisterTeamPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: UiText(text: 'Equipo').titlePrimaryColor(),
+        title: UiText(text: S.of(context).equipo).titlePrimaryColor(),
         automaticallyImplyLeading: true,
       ),
       body: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
@@ -53,68 +54,68 @@ class RegisterTeamPage extends StatelessWidget {
                       ) {
                         return Column(children: [
                           const SizedBox(height: 10),
-                          UiText(text: 'Registrar equipo').title(),
+                          UiText(text: S.of(context).registrarEquipo).title(),
                           const SizedBox(height: 20),
                           UiTextFiel().textField(
                             formControlName: 'team_name',
-                            labelText: 'Nombre del equipo',
+                            labelText: S.of(context).nombreEquipo,
                             prefixIcon: Icons.group_outlined,
                             colorPrefixIcon: Constants.primaryColor,
                             validationMessages: {
                               ValidationMessage.required: (error) =>
-                                  'Campo requerido',
+                                  S.of(context).campoRequerido,
                               ValidationMessage.maxLength: (error) =>
-                                  'Maximo 50 caracteres',
+                                  S.of(context).longitudMaximo(50),
                             },
                           ),
                           const SizedBox(height: 20),
                           UiTextFiel().textField(
                             formControlName: 'representative_name',
-                            labelText: 'Representante',
+                            labelText: S.of(context).representante,
                             prefixIcon: Icons.person_2_outlined,
                             colorPrefixIcon: Constants.primaryColor,
                             validationMessages: {
                               ValidationMessage.required: (error) =>
-                                  'Campo requerido',
+                                  S.of(context).campoRequerido,
                               ValidationMessage.maxLength: (error) =>
-                                  'Maximo 50 caracteres',
+                                  S.of(context).longitudMaximo(50),
                             },
                           ),
                           const SizedBox(height: 20),
                           UiTextFiel().textField(
                             formControlName: 'contact_number',
-                            labelText: 'Numero de contacto',
+                            labelText: S.of(context).numeroContacto,
                             prefixIcon: Icons.contact_phone_outlined,
                             colorPrefixIcon: Constants.primaryColor,
                             validationMessages: {
                               ValidationMessage.required: (error) =>
-                                  'Campo requerido',
+                                  S.of(context).campoRequerido,
                               ValidationMessage.maxLength: (error) =>
-                                  'Maximo 50 caracteres',
+                                  S.of(context).longitudMaximo(50),
                             },
                           ),
                           const SizedBox(height: 20),
                           UiTextFiel().dropDownSearch(
                             formControlName: 'city',
-                            labelText: 'Ciudad',
+                            labelText: S.of(context).ciudad,
                             prefixIcon: Icons.location_city_outlined,
                             colorPrefixIcon: Constants.primaryColor,
                             items: teamController.listCitiesOption,
                             validationMessages: {
                               ValidationMessage.required: (error) =>
-                                  'Campo requerido',
+                                  S.of(context).campoRequerido,
                             },
                           ),
                           const SizedBox(height: 20),
                           UiTextFiel().dropDownSearch(
                             formControlName: 'zone',
-                            labelText: 'Zona',
+                            labelText: S.of(context).zona,
                             prefixIcon: Icons.place_outlined,
                             colorPrefixIcon: Constants.primaryColor,
                             items: teamController.listZonesOption,
                             validationMessages: {
                               ValidationMessage.required: (error) =>
-                                  'Campo requerido',
+                                  S.of(context).campoRequerido,
                             },
                           ),
                           const SizedBox(height: 20),
@@ -129,7 +130,7 @@ class RegisterTeamPage extends StatelessWidget {
                                           reactiveFormTeamRegistrer);
                                     }
                                   },
-                                  title: 'Guardar')
+                                  title: S.of(context).guardar)
                               .primaryButtom(),
                           const SizedBox(height: 20),
                         ]);

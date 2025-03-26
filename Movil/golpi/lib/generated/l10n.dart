@@ -18,17 +18,20 @@ class S {
   static S? _current;
 
   static S get current {
-    assert(_current != null,
-        'No instance of S was loaded. Try to initialize the S delegate before accessing S.current.');
+    assert(
+      _current != null,
+      'No instance of S was loaded. Try to initialize the S delegate before accessing S.current.',
+    );
     return _current!;
   }
 
   static const AppLocalizationDelegate delegate = AppLocalizationDelegate();
 
   static Future<S> load(Locale locale) {
-    final name = (locale.countryCode?.isEmpty ?? false)
-        ? locale.languageCode
-        : locale.toString();
+    final name =
+        (locale.countryCode?.isEmpty ?? false)
+            ? locale.languageCode
+            : locale.toString();
     final localeName = Intl.canonicalizedLocale(name);
     return initializeMessages(localeName).then((_) {
       Intl.defaultLocale = localeName;
@@ -41,8 +44,10 @@ class S {
 
   static S of(BuildContext context) {
     final instance = S.maybeOf(context);
-    assert(instance != null,
-        'No instance of S present in the widget tree. Did you add S.delegate in localizationsDelegates?');
+    assert(
+      instance != null,
+      'No instance of S present in the widget tree. Did you add S.delegate in localizationsDelegates?',
+    );
     return instance!;
   }
 
@@ -62,22 +67,12 @@ class S {
 
   /// `Registrar`
   String get registrar {
-    return Intl.message(
-      'Registrar',
-      name: 'registrar',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Registrar', name: 'registrar', desc: '', args: []);
   }
 
   /// `Bienvenido`
   String get bienvenido {
-    return Intl.message(
-      'Bienvenido',
-      name: 'bienvenido',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Bienvenido', name: 'bienvenido', desc: '', args: []);
   }
 
   /// `Ingresa tus datos de sesión`
@@ -102,38 +97,23 @@ class S {
 
   /// `Clave`
   String get clave {
-    return Intl.message(
-      'Clave',
-      name: 'clave',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Clave', name: 'clave', desc: '', args: []);
   }
 
   /// `Validar`
   String get validar {
-    return Intl.message(
-      'Validar',
-      name: 'validar',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Validar', name: 'validar', desc: '', args: []);
   }
 
   /// `Cerrar`
   String get cerrar {
-    return Intl.message(
-      'Cerrar',
-      name: 'cerrar',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Cerrar', name: 'cerrar', desc: '', args: []);
   }
 
-  /// `La información se registro de manera exitosa`
+  /// `La información se registró de manera exitosa`
   String get exitoRegistrar {
     return Intl.message(
-      'La información se registro de manera exitosa',
+      'La información se registró de manera exitosa',
       name: 'exitoRegistrar',
       desc: '',
       args: [],
@@ -152,12 +132,7 @@ class S {
 
   /// `Ingresar`
   String get ingresar {
-    return Intl.message(
-      'Ingresar',
-      name: 'ingresar',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Ingresar', name: 'ingresar', desc: '', args: []);
   }
 
   /// `¿Olvidaste tu contraseña?`
@@ -192,48 +167,28 @@ class S {
 
   /// `Nombres`
   String get nombres {
-    return Intl.message(
-      'Nombres',
-      name: 'nombres',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Nombres', name: 'nombres', desc: '', args: []);
   }
 
   /// `Apellidos`
   String get apellidos {
-    return Intl.message(
-      'Apellidos',
-      name: 'apellidos',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Apellidos', name: 'apellidos', desc: '', args: []);
   }
 
   /// `Correo`
   String get correo {
-    return Intl.message(
-      'Correo',
-      name: 'correo',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Correo', name: 'correo', desc: '', args: []);
   }
 
   /// `Celular`
   String get celular {
-    return Intl.message(
-      'Celular',
-      name: 'celular',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Celular', name: 'celular', desc: '', args: []);
   }
 
-  /// `Fecha nacimiento`
+  /// `Fecha de nacimiento`
   String get fechaNacimiento {
     return Intl.message(
-      'Fecha nacimiento',
+      'Fecha de nacimiento',
       name: 'fechaNacimiento',
       desc: '',
       args: [],
@@ -280,34 +235,19 @@ class S {
     );
   }
 
-  /// `Mayuscula`
+  /// `Mayúscula`
   String get mayuscula {
-    return Intl.message(
-      'Mayuscula',
-      name: 'mayuscula',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Mayúscula', name: 'mayuscula', desc: '', args: []);
   }
 
-  /// `Minuscula`
+  /// `Minúscula`
   String get minuscula {
-    return Intl.message(
-      'Minuscula',
-      name: 'minuscula',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Minúscula', name: 'minuscula', desc: '', args: []);
   }
 
   /// `Números`
   String get numeros {
-    return Intl.message(
-      'Números',
-      name: 'numeros',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Números', name: 'numeros', desc: '', args: []);
   }
 
   /// `Acepto los `
@@ -320,34 +260,19 @@ class S {
     );
   }
 
-  /// `Terminos`
+  /// `Términos`
   String get terminos {
-    return Intl.message(
-      'Terminos',
-      name: 'terminos',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Términos', name: 'terminos', desc: '', args: []);
   }
 
   /// `y`
   String get y {
-    return Intl.message(
-      'y',
-      name: 'y',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('y', name: 'y', desc: '', args: []);
   }
 
   /// `Condiciones`
   String get condiciones {
-    return Intl.message(
-      'Condiciones',
-      name: 'condiciones',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Condiciones', name: 'condiciones', desc: '', args: []);
   }
 
   /// `Debes aceptar los términos y condiciones`
@@ -360,10 +285,10 @@ class S {
     );
   }
 
-  /// `¿Deseas iniciar sesion?`
+  /// `¿Deseas iniciar sesión?`
   String get preguntaIniciarSesion {
     return Intl.message(
-      '¿Deseas iniciar sesion?',
+      '¿Deseas iniciar sesión?',
       name: 'preguntaIniciarSesion',
       desc: '',
       args: [],
@@ -392,52 +317,27 @@ class S {
 
   /// `Perfil`
   String get perfil {
-    return Intl.message(
-      'Perfil',
-      name: 'perfil',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Perfil', name: 'perfil', desc: '', args: []);
   }
 
   /// `Mi perfil`
   String get miPerfil {
-    return Intl.message(
-      'Mi perfil',
-      name: 'miPerfil',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Mi perfil', name: 'miPerfil', desc: '', args: []);
   }
 
   /// `Guardar`
   String get guardar {
-    return Intl.message(
-      'Guardar',
-      name: 'guardar',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Guardar', name: 'guardar', desc: '', args: []);
   }
 
   /// `Zona`
   String get zona {
-    return Intl.message(
-      'Zona',
-      name: 'zona',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Zona', name: 'zona', desc: '', args: []);
   }
 
   /// `Ciudad`
   String get ciudad {
-    return Intl.message(
-      'Ciudad',
-      name: 'ciudad',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Ciudad', name: 'ciudad', desc: '', args: []);
   }
 
   /// `Pie dominante`
@@ -462,32 +362,197 @@ class S {
 
   /// `Peso (KG)`
   String get pesoKg {
-    return Intl.message(
-      'Peso (KG)',
-      name: 'pesoKg',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Peso (KG)', name: 'pesoKg', desc: '', args: []);
   }
 
   /// `Posición`
   String get posicion {
+    return Intl.message('Posición', name: 'posicion', desc: '', args: []);
+  }
+
+  /// `Alias`
+  String get alias {
+    return Intl.message('Alias', name: 'alias', desc: '', args: []);
+  }
+
+  /// `Agregar jugador`
+  String get agregarJugador {
     return Intl.message(
-      'Posición',
-      name: 'posicion',
+      'Agregar jugador',
+      name: 'agregarJugador',
       desc: '',
       args: [],
     );
   }
 
-  /// `Alias`
-  String get alias {
+  /// `Cancelar`
+  String get cancelar {
+    return Intl.message('Cancelar', name: 'cancelar', desc: '', args: []);
+  }
+
+  /// `Buscar`
+  String get buscar {
+    return Intl.message('Buscar', name: 'buscar', desc: '', args: []);
+  }
+
+  /// `Invitar jugador`
+  String get invitarJugador {
     return Intl.message(
-      'Alias',
-      name: 'alias',
+      'Invitar jugador',
+      name: 'invitarJugador',
       desc: '',
       args: [],
     );
+  }
+
+  /// `{jugador} ha sido agregado exitosamente al equipo`
+  String jugadorAgregadoEquipo(Object jugador) {
+    return Intl.message(
+      '$jugador ha sido agregado exitosamente al equipo',
+      name: 'jugadorAgregadoEquipo',
+      desc: '',
+      args: [jugador],
+    );
+  }
+
+  /// `Hola, quiero invitarte a que descargues Golpi, una app para organizar partidos de fútbol. Descarga aquí: https://golpi.com`
+  String get invitacionDescargaGolpi {
+    return Intl.message(
+      'Hola, quiero invitarte a que descargues Golpi, una app para organizar partidos de fútbol. Descarga aquí: https://golpi.com',
+      name: 'invitacionDescargaGolpi',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `¿Está seguro que desea salir del equipo {equipo} Perderás acceso a sus actividades y notificaciones?`
+  String confirmacionSalirEquipo(Object equipo) {
+    return Intl.message(
+      '¿Está seguro que desea salir del equipo $equipo Perderás acceso a sus actividades y notificaciones?',
+      name: 'confirmacionSalirEquipo',
+      desc: '',
+      args: [equipo],
+    );
+  }
+
+  /// `Salir`
+  String get salir {
+    return Intl.message('Salir', name: 'salir', desc: '', args: []);
+  }
+
+  /// `Has salido exitosamente del equipo {equipo}`
+  String exitoSalirEquipo(Object equipo) {
+    return Intl.message(
+      'Has salido exitosamente del equipo $equipo',
+      name: 'exitoSalirEquipo',
+      desc: '',
+      args: [equipo],
+    );
+  }
+
+  /// `Rol`
+  String get rol {
+    return Intl.message('Rol', name: 'rol', desc: '', args: []);
+  }
+
+  /// `Cantidad jugadores`
+  String get cantidadJugadores {
+    return Intl.message(
+      'Cantidad jugadores',
+      name: 'cantidadJugadores',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Equipo`
+  String get equipo {
+    return Intl.message('Equipo', name: 'equipo', desc: '', args: []);
+  }
+
+  /// `Registrar equipo`
+  String get registrarEquipo {
+    return Intl.message(
+      'Registrar equipo',
+      name: 'registrarEquipo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Nombre del equipo`
+  String get nombreEquipo {
+    return Intl.message(
+      'Nombre del equipo',
+      name: 'nombreEquipo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Representante`
+  String get representante {
+    return Intl.message(
+      'Representante',
+      name: 'representante',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Número de contacto`
+  String get numeroContacto {
+    return Intl.message(
+      'Número de contacto',
+      name: 'numeroContacto',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Administrar equipo`
+  String get administrarEquipo {
+    return Intl.message(
+      'Administrar equipo',
+      name: 'administrarEquipo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cerrar sesión`
+  String get cerrarSesion {
+    return Intl.message(
+      'Cerrar sesión',
+      name: 'cerrarSesion',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Ajustes`
+  String get ajustes {
+    return Intl.message('Ajustes', name: 'ajustes', desc: '', args: []);
+  }
+
+  /// `Inicio`
+  String get inicio {
+    return Intl.message('Inicio', name: 'inicio', desc: '', args: []);
+  }
+
+  /// `Equipos`
+  String get equipos {
+    return Intl.message('Equipos', name: 'equipos', desc: '', args: []);
+  }
+
+  /// `Encuentros`
+  String get encuentros {
+    return Intl.message('Encuentros', name: 'encuentros', desc: '', args: []);
+  }
+
+  /// `Chats`
+  String get chats {
+    return Intl.message('Chats', name: 'chats', desc: '', args: []);
   }
 
   /// `--------------------------------------------`
@@ -510,20 +575,20 @@ class S {
     );
   }
 
-  /// `Máximo  {numero} caracteres`
+  /// `Máximo {numero} caracteres`
   String longitudMaximo(Object numero) {
     return Intl.message(
-      'Máximo  $numero caracteres',
+      'Máximo $numero caracteres',
       name: 'longitudMaximo',
       desc: '',
       args: [numero],
     );
   }
 
-  /// `Minimo  {numero} caracteres`
+  /// `Mínimo {numero} caracteres`
   String longitudMinimo(Object numero) {
     return Intl.message(
-      'Minimo  $numero caracteres',
+      'Mínimo $numero caracteres',
       name: 'longitudMinimo',
       desc: '',
       args: [numero],

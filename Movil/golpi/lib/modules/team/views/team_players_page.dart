@@ -1,8 +1,9 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:flutter/material.dart';
+import 'package:golpi/generated/l10n.dart';
+import 'package:golpi/modules/widgets/ui_text.dart';
 import 'package:golpi/core/constants/constants.dart';
 import 'package:golpi/modules/team/controller/team_controller.dart';
-import 'package:golpi/modules/widgets/ui_text.dart';
 
 class TeamPlayers extends StatelessWidget {
   const TeamPlayers({super.key});
@@ -52,9 +53,9 @@ class TeamPlayers extends StatelessWidget {
                                 .phraseSemiBold(),
                             subtitle: Column(
                               children: [
-                                _buildInfoRow('Alias:',
+                                _buildInfoRow('${S.of(context).alias}:',
                                     '${teamController.teamModel.value?.players?[index].nickName}'),
-                                _buildInfoRow('Rol:',
+                                _buildInfoRow('${S.of(context).rol}:',
                                     '${teamController.teamModel.value?.players?[index].positionPlayer}'),
                               ],
                             ),

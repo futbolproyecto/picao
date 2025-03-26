@@ -1,9 +1,10 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-import 'package:golpi/core/constants/constants.dart';
-import 'package:golpi/modules/home/controller/home_controller.dart';
+import 'package:golpi/generated/l10n.dart';
 import 'package:golpi/modules/widgets/ui_text.dart';
+import 'package:golpi/core/constants/constants.dart';
 import 'package:golpi/modules/team/views/team_players_page.dart';
+import 'package:golpi/modules/home/controller/home_controller.dart';
 import 'package:golpi/modules/team/controller/team_controller.dart';
 
 class ManageTeamPage extends StatelessWidget {
@@ -17,7 +18,8 @@ class ManageTeamPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: UiText(text: 'Administrar equipo').titlePrimaryColor(),
+        title:
+            UiText(text: S.of(context).administrarEquipo).titlePrimaryColor(),
       ),
       body: Column(
         children: [
@@ -108,7 +110,8 @@ class ManageTeamPage extends StatelessWidget {
                                       Icons.exit_to_app_outlined,
                                       color: Colors.red,
                                     ),
-                                    UiText(text: 'Salir').paragraphBlack()
+                                    UiText(text: S.of(context).salir)
+                                        .paragraphBlack()
                                   ],
                                 ),
                               ),
