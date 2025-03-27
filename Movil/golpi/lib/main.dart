@@ -39,7 +39,7 @@ class MainApp extends StatelessWidget {
       initialRoute: AppPages.splash,
       getPages: AppPages.routes,
       debugShowCheckedModeBanner: false,
-      theme: materialTheme.light(),
+      theme: materialTheme.dark(),
       darkTheme: materialTheme.dark(),
       themeMode: ThemeMode.light,
       locale: Locale('es'),

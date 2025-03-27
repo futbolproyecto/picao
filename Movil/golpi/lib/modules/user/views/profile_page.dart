@@ -48,7 +48,6 @@ class ProfilePage extends StatelessWidget {
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 10),
                                 child: Column(children: [
-                                  const SizedBox(height: 20),
                                   UiTextFiel().textField(
                                     formControlName: 'name',
                                     labelText: S.of(context).nombres,

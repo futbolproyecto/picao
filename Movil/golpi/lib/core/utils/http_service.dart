@@ -18,7 +18,7 @@ class HttpService {
     try {
       final response = await http
           .post(
-            Uri.http(ConstantEndpoints.baseUrl, endPoint),
+            Uri.https(ConstantEndpoints.baseUrl, endPoint),
             headers: await getHeaders(),
             body: jsonEncode(body),
           )
@@ -47,7 +47,7 @@ class HttpService {
   Future<Object?> put(Map<String, dynamic>? body) async {
     try {
       final response = await http
-          .put(Uri.http(ConstantEndpoints.baseUrl, endPoint),
+          .put(Uri.https(ConstantEndpoints.baseUrl, endPoint),
               headers: await getHeaders(),
               body: jsonEncode(body))
           .timeout(const Duration(seconds: 20));
@@ -72,7 +72,7 @@ class HttpService {
   Future<Object?> postRequesParam(Map<String, String>? parameters) async {
     try {
       final response = await http.post(
-        Uri.http(ConstantEndpoints.baseUrl, endPoint, parameters),
+        Uri.https(ConstantEndpoints.baseUrl, endPoint, parameters),
         headers: {'Content-Type': 'application/json'},
       ).timeout(const Duration(seconds: 20));
 
@@ -96,7 +96,7 @@ class HttpService {
   Future<Object?> putRequesParam(Map<String, String>? parameters) async {
     try {
       final response = await http.put(
-        Uri.http(ConstantEndpoints.baseUrl, endPoint, parameters),
+        Uri.https(ConstantEndpoints.baseUrl, endPoint, parameters),
         headers: {'Content-Type': 'application/json'},
       ).timeout(const Duration(seconds: 20));
 
@@ -121,7 +121,7 @@ class HttpService {
     try {
       final response = await http
           .get(
-            Uri.http(ConstantEndpoints.baseUrl, endPoint),
+            Uri.https(ConstantEndpoints.baseUrl, endPoint),
             headers: await getHeaders(),
           )
           .timeout(const Duration(seconds: 20));
@@ -150,7 +150,7 @@ class HttpService {
     try {
       final response = await http
           .get(
-            Uri.http(ConstantEndpoints.baseUrl, endPoint, parameters),
+            Uri.https(ConstantEndpoints.baseUrl, endPoint, parameters),
             headers: await getHeaders(),
           )
           .timeout(const Duration(seconds: 20));
@@ -179,7 +179,7 @@ class HttpService {
     try {
       final response = await http
           .delete(
-            Uri.http(ConstantEndpoints.baseUrl, endPoint, parameters),
+            Uri.https(ConstantEndpoints.baseUrl, endPoint, parameters),
             headers: await getHeaders(),
           )
           .timeout(const Duration(seconds: 20));

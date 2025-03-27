@@ -33,6 +33,7 @@ class TeamPlayers extends StatelessWidget {
                       itemBuilder: (context, index) {
                         return Card(
                           elevation: 3,
+                          color: Colors.white,
                           child: ListTile(
                             leading: Container(
                               width: 80,
@@ -73,7 +74,7 @@ class TeamPlayers extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          UiText(text: label).paragraphSemiBold(),
+          UiText(text: label).phraseBlack(),
           UiText(text: value).phraseBlack()
         ],
       ),

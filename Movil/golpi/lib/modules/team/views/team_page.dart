@@ -33,13 +33,16 @@ class TeamPage extends StatelessWidget {
           Column(
             children: [
               const SizedBox(height: 60),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  UiText(text: 'Top equipos').paragraphBlack(),
-                  UiButtoms(onPressed: () {}, title: 'Ver todo')
-                      .textButtom(Colors.black)
-                ],
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    UiText(text: 'Top equipos').phraseBlack(),
+                    UiButtoms(onPressed: () {}, title: 'Ver todo')
+                        .textButtom(Colors.black)
+                  ],
+                ),
               ),
               Align(
                 alignment: Alignment.topCenter,

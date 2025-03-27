@@ -6,7 +6,7 @@ class ImagePreview extends StatelessWidget {
 
   const ImagePreview({
     super.key,
-    this.size = 200, // Tamaño del contenedor
+    this.size = 150,
     this.onTap,
   });
 

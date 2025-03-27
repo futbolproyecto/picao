@@ -62,7 +62,12 @@ class UiButtoms {
   Widget textButtom(Color color) {
     return TextButton(
       child: Text(title!,
-          style: TextStyle(color: color, decoration: TextDecoration.underline)),
+          style: TextStyle(
+            color: color,
+            decoration: TextDecoration.underline,
+            fontFamily: 'Helvetica',
+            fontSize: 16,
+          )),
       onPressed: () => onPressed!(),
     );
   }

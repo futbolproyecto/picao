@@ -9,7 +9,7 @@ class HomePage extends StatelessWidget {
     return Scaffold(
         body: Stack(
       children: [
-        CurvedBackground(isCurveUp: true),
+        CurvedBackground(isCurveUp: false),
       ],
     ));
   }

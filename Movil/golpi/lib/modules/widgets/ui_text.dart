@@ -22,7 +22,7 @@ class UiText {
       text,
       style: const TextStyle(
         fontFamily: 'Montserrat',
-        fontSize: 14,
+        fontSize: 16,
         fontWeight: FontWeight.w900,
       ),
     );
@@ -33,7 +33,7 @@ class UiText {
       text,
       style: const TextStyle(
         fontFamily: 'Montserrat',
-        fontSize: 14,
+        fontSize: 16,
         color: Colors.black,
       ),
     );
@@ -44,7 +44,7 @@ class UiText {
       text,
       style: const TextStyle(
         fontFamily: 'Montserrat',
-        fontSize: 14,
+        fontSize: 16,
         color: Colors.white,
       ),
     );
@@ -55,7 +55,7 @@ class UiText {
       text,
       style: TextStyle(
           fontFamily: 'Montserrat',
-          fontSize: 14,
+          fontSize: 16,
           color: Constants.primaryColor),
     );
   }
@@ -65,7 +65,7 @@ class UiText {
       text,
       style: const TextStyle(
         fontFamily: 'Helvetica',
-        fontSize: 14,
+        fontSize: 16,
         fontWeight: FontWeight.w900,
       ),
     );
@@ -76,7 +76,7 @@ class UiText {
       text,
       style: const TextStyle(
         fontFamily: 'Helvetica',
-        fontSize: 14,
+        fontSize: 16,
       ),
     );
   }
