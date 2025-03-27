@@ -4,7 +4,6 @@ import 'package:golpi/generated/l10n.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:golpi/core/routes/app_pages.dart';
 import 'package:reactive_forms/reactive_forms.dart';
-import 'package:golpi/core/constants/constants.dart';
 import 'package:golpi/core/models/option_model.dart';
 import 'package:golpi/modules/widgets/ui_buttoms.dart';
 import 'package:golpi/data/service/secure_storage.dart';
@@ -147,7 +146,7 @@ class TeamController extends GetxController {
                       }
                     },
                     title: S().buscar)
-                .textButtom(Constants.primaryColor),
+                .textButtom(Theme.of(Get.context!).colorScheme.primary),
             UiButtoms(
                     onPressed: () {
                       Get.back();
@@ -195,7 +194,7 @@ class TeamController extends GetxController {
                           '${response.name} ${response.lastName}');
                     },
                     title: S().agregarJugador)
-                .textButtom(Constants.primaryColor),
+                .textButtom(Theme.of(Get.context!).colorScheme.primary),
             UiButtoms(
                     onPressed: () {
                       Get.back();
@@ -214,7 +213,7 @@ class TeamController extends GetxController {
                     openWhatsApp(formMobileNumer.control('mobile_phone').value);
                   },
                   title: S().invitarJugador)
-              .textButtom(Constants.primaryColor),
+              .textButtom(Theme.of(Get.context!).colorScheme.primary),
           UiButtoms(
                   onPressed: () {
                     Get.back();
@@ -311,7 +310,7 @@ class TeamController extends GetxController {
                       leaveTeam(homeController);
                     },
                     title: S().salir)
-                .textButtom(Constants.primaryColor),
+                .textButtom(Theme.of(Get.context!).colorScheme.primary),
             UiButtoms(
                     onPressed: () {
                       Get.back();

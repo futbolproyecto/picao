@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:golpi/generated/l10n.dart';
 import 'package:golpi/core/utils/utility.dart';
 import 'package:golpi/modules/widgets/ui_text.dart';
-import 'package:golpi/core/constants/constants.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:golpi/modules/widgets/ui_buttoms.dart';
 import 'package:golpi/modules/widgets/image_preview.dart';
@@ -51,7 +50,8 @@ class RegisterTeamPage extends StatelessWidget {
                                 formControlName: 'team_name',
                                 labelText: S.of(context).nombreEquipo,
                                 prefixIcon: Icons.group_outlined,
-                                colorPrefixIcon: Constants.primaryColor,
+                                colorPrefixIcon:
+                                    Theme.of(context).colorScheme.primary,
                                 validationMessages: {
                                   ValidationMessage.required: (error) =>
                                       S.of(context).campoRequerido,
@@ -64,7 +64,7 @@ class RegisterTeamPage extends StatelessWidget {
                                 formControlName: 'representative_name',
                                 labelText: S.of(context).representante,
                                 prefixIcon: Icons.person_2_outlined,
-                                colorPrefixIcon: Constants.primaryColor,
+                                colorPrefixIcon: Theme.of(context).colorScheme.primary,
                                 validationMessages: {
                                   ValidationMessage.required: (error) =>
                                       S.of(context).campoRequerido,
@@ -77,7 +77,7 @@ class RegisterTeamPage extends StatelessWidget {
                                 formControlName: 'contact_number',
                                 labelText: S.of(context).numeroContacto,
                                 prefixIcon: Icons.contact_phone_outlined,
-                                colorPrefixIcon: Constants.primaryColor,
+                                colorPrefixIcon: Theme.of(context).colorScheme.primary,
                                 validationMessages: {
                                   ValidationMessage.required: (error) =>
                                       S.of(context).campoRequerido,
@@ -90,7 +90,7 @@ class RegisterTeamPage extends StatelessWidget {
                                 formControlName: 'city',
                                 labelText: S.of(context).ciudad,
                                 prefixIcon: Icons.location_city_outlined,
-                                colorPrefixIcon: Constants.primaryColor,
+                                colorPrefixIcon: Theme.of(context).colorScheme.primary,
                                 items: teamController.listCitiesOption,
                                 validationMessages: {
                                   ValidationMessage.required: (error) =>
@@ -102,7 +102,7 @@ class RegisterTeamPage extends StatelessWidget {
                                 formControlName: 'zone',
                                 labelText: S.of(context).zona,
                                 prefixIcon: Icons.place_outlined,
-                                colorPrefixIcon: Constants.primaryColor,
+                                colorPrefixIcon: Theme.of(context).colorScheme.primary,
                                 items: teamController.listZonesOption,
                                 validationMessages: {
                                   ValidationMessage.required: (error) =>

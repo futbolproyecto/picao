@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:golpi/core/routes/app_pages.dart';
 import 'package:golpi/generated/l10n.dart';
 import 'package:reactive_forms/reactive_forms.dart';
-import 'package:golpi/core/constants/constants.dart';
 import 'package:golpi/modules/widgets/ui_buttoms.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
@@ -126,7 +125,7 @@ class UserController extends GetxController {
                       await validateOtp();
                     },
                     title: S().validar)
-                .textButtom(Constants.primaryColor),
+                .textButtom(Theme.of(Get.context!).colorScheme.primary),
             UiButtoms(
                     onPressed: () {
                       Get.back();
@@ -175,7 +174,7 @@ class UserController extends GetxController {
                       await validateOtpEmail();
                     },
                     title: S().validar)
-                .textButtom(Constants.primaryColor),
+                .textButtom(Theme.of(Get.context!).colorScheme.primary),
             UiButtoms(
                     onPressed: () {
                       Get.back();

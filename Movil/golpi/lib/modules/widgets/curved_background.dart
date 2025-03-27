@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:golpi/core/constants/constants.dart';
 
 /// Define el fondo de los formularios y/o pantallas
 /// de la aplicacion, se debe usar con un stack.
@@ -30,7 +29,7 @@ class CurvedBackground extends StatelessWidget {
       child: Container(
         width: double.infinity,
         height: height,
-        color: Constants.secondaryColor,
+        color: Theme.of(context).colorScheme.secondary,
       ),
     );
   }

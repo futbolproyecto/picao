@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:golpi/generated/l10n.dart';
 import 'package:golpi/core/routes/app_pages.dart';
 import 'package:golpi/modules/widgets/ui_text.dart';
-import 'package:golpi/core/constants/constants.dart';
 import 'package:golpi/modules/widgets/ui_buttoms.dart';
 import 'package:golpi/modules/widgets/curved_background.dart';
 import 'package:golpi/modules/team/controller/team_controller.dart';
@@ -38,9 +37,9 @@ class TeamPage extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    UiText(text: 'Top equipos').phraseBlack(),
+                    UiText(text: 'Top equipos').phrase(),
                     UiButtoms(onPressed: () {}, title: 'Ver todo')
-                        .textButtom(Colors.black)
+                        .textButtom(Theme.of(context).colorScheme.onSurface)
                   ],
                 ),
               ),
@@ -48,7 +47,7 @@ class TeamPage extends StatelessWidget {
                 alignment: Alignment.topCenter,
                 child: Card(
                   elevation: 3,
-                  color: Colors.white,
+                  color: Theme.of(context).colorScheme.surfaceContainer,
                   child: SizedBox(
                     width: screenSize.width * 0.9,
                     height: 150,
@@ -57,17 +56,18 @@ class TeamPage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 20),
-              Center(child: UiText(text: 'Mis equipos').phraseBlack()),
+              Center(child: UiText(text: 'Mis equipos').phrase()),
               Expanded(
                 child: Obx(
                   () => ListView.builder(
                       itemCount: homeController.listTeams.toList().length,
                       itemBuilder: (context, index) {
                         return Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                           child: Card(
                             elevation: 3,
-                            color: Colors.white,
+                            color:
+                                Theme.of(context).colorScheme.surfaceContainer,
                             child: Padding(
                               padding: const EdgeInsets.symmetric(vertical: 10),
                               child: ListTile(
@@ -75,7 +75,9 @@ class TeamPage extends StatelessWidget {
                                     decoration: BoxDecoration(
                                         shape: BoxShape.circle,
                                         border: Border.all(
-                                          color: Constants.secondaryColor,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .secondary,
                                           width: 3,
                                         )),
                                     child: Container(
@@ -84,7 +86,9 @@ class TeamPage extends StatelessWidget {
                                       decoration: BoxDecoration(
                                           shape: BoxShape.circle,
                                           border: Border.all(
-                                            color: Constants.secondaryColor,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .secondary,
                                             width: 3,
                                           )),
                                       child: ClipOval(
@@ -133,10 +137,7 @@ class TeamPage extends StatelessWidget {
       padding: const EdgeInsets.only(top: 2, bottom: 2, right: 20),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          UiText(text: label).phraseBlack(),
-          UiText(text: value).phraseBlack()
-        ],
+        children: [UiText(text: label).phrase(), UiText(text: value).phrase()],
       ),
     );
   }

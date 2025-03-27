@@ -1,6 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:golpi/core/constants/constants.dart';
+import 'package:flutter/material.dart';
 
 class UiButtoms {
   final VoidCallback? onPressed;
@@ -21,39 +20,17 @@ class UiButtoms {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),
-          backgroundColor: Constants.primaryColor,
-          foregroundColor: Constants.primaryColor,
+          backgroundColor: Theme.of(Get.context!).colorScheme.primaryContainer,
+          foregroundColor: Theme.of(Get.context!).colorScheme.primaryContainer,
         ),
         child: Text(
           title!,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 18,
-            color: Colors.white,
+            color: Theme.of(Get.context!).colorScheme.onPrimaryContainer,
             fontFamily: 'Montserrat',
             fontWeight: FontWeight.bold,
           ),
-        ),
-      ),
-    );
-  }
-
-  Widget secondaryButtom() {
-    return SizedBox(
-      width: double.infinity,
-      child: ElevatedButton(
-        onPressed: () {
-          onPressed;
-        },
-        style: ElevatedButton.styleFrom(
-            padding: const EdgeInsets.symmetric(vertical: 15),
-            shape: RoundedRectangleBorder(
-              side: BorderSide(color: Constants.primaryColor),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            backgroundColor: Colors.white),
-        child: Text(
-          title!,
-          style: TextStyle(fontSize: 18, color: Constants.primaryColor),
         ),
       ),
     );
@@ -74,19 +51,21 @@ class UiButtoms {
 
   Widget backButtom() {
     return Positioned(
-      top: 30,
+      top: 40,
       left: 10,
       child: GestureDetector(
         onTap: () => Get.back(),
         child: Container(
-          width: 50,
-          height: 50,
+          width: 40,
+          height: 40,
           decoration: BoxDecoration(
-            color: Colors.purple[200],
+            color: Theme.of(Get.context!).colorScheme.secondaryContainer,
             shape: BoxShape.circle,
           ),
           child: Center(
-            child: Icon(Icons.arrow_back, size: 50 * 0.5, color: Colors.green),
+            child: Icon(Icons.arrow_back,
+                size: 40 * 0.5,
+                color: Theme.of(Get.context!).colorScheme.secondary),
           ),
         ),
       ),

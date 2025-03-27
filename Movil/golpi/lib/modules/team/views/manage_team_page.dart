@@ -2,7 +2,6 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:golpi/generated/l10n.dart';
 import 'package:golpi/modules/widgets/ui_text.dart';
-import 'package:golpi/core/constants/constants.dart';
 import 'package:golpi/modules/widgets/ui_buttoms.dart';
 import 'package:golpi/modules/widgets/curved_background.dart';
 import 'package:golpi/modules/team/views/team_players_page.dart';
@@ -37,7 +36,7 @@ class ManageTeamPage extends StatelessWidget {
                   alignment: Alignment.topCenter,
                   child: Card(
                     elevation: 3,
-                    color: Colors.white,
+                    color: Theme.of(context).colorScheme.surfaceContainer,
                     child: SizedBox(
                       width: screenSize.width * 0.8,
                       child: Column(
@@ -46,7 +45,8 @@ class ManageTeamPage extends StatelessWidget {
                               decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   border: Border.all(
-                                    color: Constants.secondaryColor,
+                                    color:
+                                        Theme.of(context).colorScheme.secondary,
                                     width: 3,
                                   )),
                               child: Container(
@@ -55,7 +55,9 @@ class ManageTeamPage extends StatelessWidget {
                                 decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     border: Border.all(
-                                      color: Constants.secondaryColor,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .secondary,
                                       width: 3,
                                     )),
                                 child: ClipOval(
@@ -77,7 +79,7 @@ class ManageTeamPage extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 UiText(text: 'Creado por:').paragraphSemiBold(),
-                                UiText(text: 'Pepito perez').paragraphBlack(),
+                                UiText(text: 'Pepito perez').paragraph(),
                               ],
                             ),
                           ),
@@ -88,7 +90,7 @@ class ManageTeamPage extends StatelessWidget {
                               children: [
                                 UiText(text: 'Fecha creacion:')
                                     .paragraphSemiBold(),
-                                UiText(text: '2024-12-24').paragraphBlack(),
+                                UiText(text: '2024-12-24').paragraph(),
                               ],
                             ),
                           ),
@@ -121,7 +123,7 @@ class ManageTeamPage extends StatelessWidget {
                                           color: Colors.red,
                                         ),
                                         UiText(text: S.of(context).salir)
-                                            .paragraphBlack()
+                                            .paragraph()
                                       ],
                                     ),
                                   ),
@@ -132,7 +134,9 @@ class ManageTeamPage extends StatelessWidget {
                                 width: 60,
                                 height: 70,
                                 decoration: BoxDecoration(
-                                  color: Colors.white,
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .surfaceContainer,
                                   border: Border.all(
                                     color: Colors.grey.shade300,
                                     width: 2.0,
@@ -147,9 +151,11 @@ class ManageTeamPage extends StatelessWidget {
                                     children: [
                                       Icon(
                                         Icons.chat_outlined,
-                                        color: Constants.primaryColor,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .primary,
                                       ),
-                                      UiText(text: 'Chat').paragraphBlack()
+                                      UiText(text: 'Chat').paragraph()
                                     ],
                                   ),
                                 ),

@@ -5,7 +5,6 @@ import 'package:golpi/core/utils/utility.dart';
 import 'package:golpi/core/routes/app_pages.dart';
 import 'package:golpi/modules/widgets/ui_text.dart';
 import 'package:reactive_forms/reactive_forms.dart';
-import 'package:golpi/core/constants/constants.dart';
 import 'package:golpi/modules/widgets/ui_buttoms.dart';
 import 'package:golpi/modules/widgets/ui_text_field.dart';
 import 'package:golpi/modules/widgets/curved_background.dart';
@@ -28,7 +27,8 @@ class RegisterUserPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 const SizedBox(height: 50),
-                UiText(text: S.of(context).preguntaTienesCuenta).phraseWhite(),
+                UiText(text: S.of(context).preguntaTienesCuenta)
+                    .phrase(color: Theme.of(context).colorScheme.surface),
                 InkWell(
                   onTap: () {
                     Get.offNamed(AppPages.login);
@@ -38,10 +38,17 @@ class RegisterUserPage extends StatelessWidget {
                       width: 80,
                       height: 30,
                       decoration: BoxDecoration(
-                          color: Constants.primaryColor,
+                          color: Theme.of(context).colorScheme.primaryContainer,
                           borderRadius:
                               const BorderRadius.all(Radius.circular(5))),
-                      child: Center(child: Text(S.of(context).ingresar))),
+                      child: Center(
+                          child: Text(
+                        S.of(context).ingresar,
+                        style: TextStyle(
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onPrimaryContainer),
+                      ))),
                 )
               ],
             ),
@@ -49,8 +56,8 @@ class RegisterUserPage extends StatelessWidget {
             Expanded(
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
-                decoration: const BoxDecoration(
-                  color: Colors.white,
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.surface,
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(30),
                     topRight: Radius.circular(30),
@@ -83,7 +90,8 @@ class RegisterUserPage extends StatelessWidget {
                                 formControlName: 'name',
                                 labelText: S.of(context).nombres,
                                 prefixIcon: Icons.person_2_outlined,
-                                colorPrefixIcon: Constants.primaryColor,
+                                colorPrefixIcon:
+                                    Theme.of(context).colorScheme.primary,
                                 validationMessages: {
                                   ValidationMessage.required: (error) =>
                                       S.of(context).campoRequerido,
@@ -96,7 +104,8 @@ class RegisterUserPage extends StatelessWidget {
                                 formControlName: 'last_name',
                                 labelText: S.of(context).apellidos,
                                 prefixIcon: Icons.person_2_outlined,
-                                colorPrefixIcon: Constants.primaryColor,
+                                colorPrefixIcon:
+                                    Theme.of(context).colorScheme.primary,
                                 validationMessages: {
                                   ValidationMessage.required: (error) =>
                                       S.of(context).campoRequerido,
@@ -109,7 +118,8 @@ class RegisterUserPage extends StatelessWidget {
                                 formControlName: 'email',
                                 labelText: S.of(context).correo,
                                 prefixIcon: Icons.email_outlined,
-                                colorPrefixIcon: Constants.primaryColor,
+                                colorPrefixIcon:
+                                    Theme.of(context).colorScheme.primary,
                                 validationMessages: {
                                   ValidationMessage.required: (error) =>
                                       S.of(context).campoRequerido,
@@ -124,7 +134,8 @@ class RegisterUserPage extends StatelessWidget {
                                 formControlName: 'mobile_number',
                                 labelText: S.of(context).celular,
                                 prefixIcon: Icons.phone_android_outlined,
-                                colorPrefixIcon: Constants.primaryColor,
+                                colorPrefixIcon:
+                                    Theme.of(context).colorScheme.primary,
                                 validationMessages: {
                                   ValidationMessage.required: (error) =>
                                       S.of(context).campoRequerido,
@@ -139,7 +150,8 @@ class RegisterUserPage extends StatelessWidget {
                                 formControlName: 'date_of_birth',
                                 labelText: S.of(context).fechaNacimiento,
                                 prefixIcon: Icons.date_range_outlined,
-                                colorPrefixIcon: Constants.primaryColor,
+                                colorPrefixIcon:
+                                    Theme.of(context).colorScheme.primary,
                                 firstDate: DateTime(1900),
                                 lastDate: DateTime.now(),
                                 validationMessages: {
@@ -153,7 +165,8 @@ class RegisterUserPage extends StatelessWidget {
                                   formControlName: 'password',
                                   labelText: S.of(context).clave,
                                   prefixIcon: Icons.lock_outline,
-                                  colorPrefixIcon: Constants.primaryColor,
+                                  colorPrefixIcon:
+                                      Theme.of(context).colorScheme.primary,
                                   obscureText: userController.obscureText.value,
                                   suffixIcon: IconButton(
                                       onPressed:
@@ -175,7 +188,8 @@ class RegisterUserPage extends StatelessWidget {
                                   formControlName: 'password_confirmation',
                                   labelText: S.of(context).confirmarClave,
                                   prefixIcon: Icons.lock_outline,
-                                  colorPrefixIcon: Constants.primaryColor,
+                                  colorPrefixIcon:
+                                      Theme.of(context).colorScheme.primary,
                                   obscureText: userController.obscureText.value,
                                   suffixIcon: IconButton(
                                       onPressed:
@@ -210,8 +224,9 @@ class RegisterUserPage extends StatelessWidget {
                                                   .hasEspecialCaracter.value
                                               ? Icon(
                                                   Icons.check_circle_outline,
-                                                  color:
-                                                      Constants.secondaryColor,
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .secondary,
                                                 )
                                               : const Icon(
                                                   Icons.error_outline,
@@ -227,8 +242,9 @@ class RegisterUserPage extends StatelessWidget {
                                           userController.hasMinCaracter.value
                                               ? Icon(
                                                   Icons.check_circle_outline,
-                                                  color:
-                                                      Constants.secondaryColor,
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .secondary,
                                                 )
                                               : const Icon(
                                                   Icons.error_outline,
@@ -244,8 +260,9 @@ class RegisterUserPage extends StatelessWidget {
                                           userController.hasCapital.value
                                               ? Icon(
                                                   Icons.check_circle_outline,
-                                                  color:
-                                                      Constants.secondaryColor,
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .secondary,
                                                 )
                                               : const Icon(
                                                   Icons.error_outline,
@@ -261,8 +278,9 @@ class RegisterUserPage extends StatelessWidget {
                                           userController.hasLower.value
                                               ? Icon(
                                                   Icons.check_circle_outline,
-                                                  color:
-                                                      Constants.secondaryColor,
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .secondary,
                                                 )
                                               : const Icon(
                                                   Icons.error_outline,
@@ -278,8 +296,9 @@ class RegisterUserPage extends StatelessWidget {
                                           userController.hasNumber.value
                                               ? Icon(
                                                   Icons.check_circle_outline,
-                                                  color:
-                                                      Constants.secondaryColor,
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .secondary,
                                                 )
                                               : const Icon(
                                                   Icons.error_outline,
@@ -297,16 +316,26 @@ class RegisterUserPage extends StatelessWidget {
                                       ReactiveCheckbox(
                                         formControlName: 'terms_and_conditions',
                                       ),
-                                      Text(S.of(context).inicioMensajeTerminos),
+                                      Text(
+                                        S.of(context).inicioMensajeTerminos,
+                                        style: TextStyle(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onSurface),
+                                      ),
                                       UiButtoms(
                                               onPressed: () {},
                                               title: S.of(context).terminos)
-                                          .textButtom(Colors.black),
+                                          .textButtom(Theme.of(context)
+                                              .colorScheme
+                                              .onSurface),
                                       Text(S.of(context).y),
                                       UiButtoms(
                                               onPressed: () {},
                                               title: S.of(context).condiciones)
-                                          .textButtom(Colors.black),
+                                          .textButtom(Theme.of(context)
+                                              .colorScheme
+                                              .onSurface),
                                     ],
                                   ),
                                   Obx(() {

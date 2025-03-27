@@ -17,7 +17,7 @@ class HomeController extends GetxController {
   HomeController(this.teamRepository);
 
   RxInt indexTabBarView = 0.obs;
-  var floatingActionButton = FloatingActionButton(onPressed: () {}).obs;
+  var floatingActionButton = Rx<Widget?>(null);
   var listTeams = <TeamDataModel>[].obs;
 
   void changeIndexTabBarView(int index) {
@@ -25,32 +25,31 @@ class HomeController extends GetxController {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
     switch (index) {
       case 0:
-        SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
-        floatingActionButton.value = FloatingActionButton(
-          onPressed: () {},
-        );
+        floatingActionButton.value = null;
         break;
       case 1:
         getTeamsByUserId();
-        floatingActionButton.value = FloatingActionButton(
-          onPressed: () {
-            Get.toNamed(AppPages.registerTeam);
-          },
-          child: const Icon(
-            Icons.group_add_outlined,
-            size: 30,
-          ),
-        );
+
+        floatingActionButton.value = Padding(
+            padding: const EdgeInsets.only(bottom: 100),
+            child: FloatingActionButton(
+              onPressed: () {
+                Get.toNamed(AppPages.registerTeam);
+              },
+              backgroundColor:
+                  Theme.of(Get.context!).colorScheme.secondaryContainer,
+              child: Icon(
+                Icons.group_add_outlined,
+                size: 30,
+                color: Theme.of(Get.context!).colorScheme.secondary,
+              ),
+            ));
         break;
       case 2:
-        floatingActionButton.value = FloatingActionButton(
-          onPressed: () {},
-        );
+        floatingActionButton.value = null;
         break;
       case 3:
-        floatingActionButton.value = FloatingActionButton(
-          onPressed: () {},
-        );
+        floatingActionButton.value = null;
         break;
       default:
     }

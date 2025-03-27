@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:golpi/core/constants/constants.dart';
+import 'package:get/get.dart';
 
 class UiText {
   final String text;
@@ -28,24 +28,13 @@ class UiText {
     );
   }
 
-  Widget phraseBlack() {
+  Widget phrase({Color? color}) {
     return Text(
       text,
-      style: const TextStyle(
+      style: TextStyle(
         fontFamily: 'Montserrat',
         fontSize: 16,
-        color: Colors.black,
-      ),
-    );
-  }
-
-  Widget phraseWhite() {
-    return Text(
-      text,
-      style: const TextStyle(
-        fontFamily: 'Montserrat',
-        fontSize: 16,
-        color: Colors.white,
+        color: color ?? Theme.of(Get.context!).colorScheme.onSurface,
       ),
     );
   }
@@ -56,28 +45,28 @@ class UiText {
       style: TextStyle(
           fontFamily: 'Montserrat',
           fontSize: 16,
-          color: Constants.primaryColor),
+          color: Theme.of(Get.context!).colorScheme.primary),
     );
   }
 
-  Widget paragraphSemiBold() {
+  Widget paragraphSemiBold({Color? color}) {
     return Text(
       text,
-      style: const TextStyle(
-        fontFamily: 'Helvetica',
-        fontSize: 16,
-        fontWeight: FontWeight.w900,
-      ),
+      style: TextStyle(
+          fontFamily: 'Helvetica',
+          fontSize: 16,
+          fontWeight: FontWeight.w900,
+          color: color ?? Theme.of(Get.context!).colorScheme.onSurface),
     );
   }
 
-  Widget paragraphBlack() {
+  Widget paragraph({Color? color}) {
     return Text(
       text,
-      style: const TextStyle(
-        fontFamily: 'Helvetica',
-        fontSize: 16,
-      ),
+      style: TextStyle(
+          fontFamily: 'Helvetica',
+          fontSize: 16,
+          color: color ?? Theme.of(Get.context!).colorScheme.onSurface),
     );
   }
 }

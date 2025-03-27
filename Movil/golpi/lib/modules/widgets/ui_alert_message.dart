@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:golpi/core/constants/constants.dart';
 import 'package:golpi/modules/widgets/ui_buttoms.dart';
 
 class UiAlertMessage {
@@ -12,28 +11,33 @@ class UiAlertMessage {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            backgroundColor: Colors.white,
-            contentPadding: const EdgeInsets.symmetric(vertical: 10),
-            insetPadding: const EdgeInsets.all(25),
-            icon: const Icon(
-              Icons.cancel_outlined,
-              size: 50,
-              color: Color.fromARGB(255, 255, 17, 0),
-            ),
-            content: Container(
-              width: 400,
-              decoration: const BoxDecoration(
-                border: Border(
-                  top: BorderSide(
-                    color: Color.fromARGB(255, 245, 16, 0),
-                    width: 5.0,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+            contentPadding: const EdgeInsets.all(2),
+            titlePadding: EdgeInsets.zero,
+            title: Container(
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(vertical: 20),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.error,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(16),
+                    topRight: Radius.circular(16),
                   ),
                 ),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Text(message, textAlign: TextAlign.center),
-              ),
+                child: const Icon(
+                  Icons.cancel_outlined,
+                  size: 60,
+                  color: Colors.white,
+                )),
+            content: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Text(message,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontFamily: 'Montserrat',
+                    fontSize: 16,
+                  )),
             ),
             actions: [
               TextButton(
@@ -62,27 +66,33 @@ class UiAlertMessage {
         barrierDismissible: barrierDismissible,
         builder: (BuildContext context) {
           return AlertDialog(
-            backgroundColor: Colors.white,
-            contentPadding: const EdgeInsets.symmetric(vertical: 10),
-            insetPadding: const EdgeInsets.all(25),
-            icon: Icon(
-              Icons.check_circle_outline,
-              size: 50,
-              color: Constants.primaryColor,
-            ),
-            content: Container(
-              decoration: BoxDecoration(
-                border: Border(
-                  top: BorderSide(
-                    color: Constants.primaryColor,
-                    width: 5.0,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+            contentPadding: const EdgeInsets.all(2),
+            titlePadding: EdgeInsets.zero,
+            title: Container(
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(vertical: 20),
+                decoration: BoxDecoration(
+                  color: Colors.green[600],
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(16),
+                    topRight: Radius.circular(16),
                   ),
                 ),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Text(message, textAlign: TextAlign.center),
-              ),
+                child: const Icon(
+                  Icons.check_circle_outline,
+                  size: 60,
+                  color: Colors.white,
+                )),
+            content: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Text(message,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontFamily: 'Montserrat',
+                    fontSize: 16,
+                  )),
             ),
             actions: [
               UiButtoms(onPressed: () => actionButtom(), title: 'Cerrar')
@@ -102,27 +112,33 @@ class UiAlertMessage {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            backgroundColor: Colors.white,
-            contentPadding: const EdgeInsets.symmetric(vertical: 10),
-            insetPadding: const EdgeInsets.all(25),
-            icon: const Icon(
-              Icons.error_outline,
-              size: 50,
-              color: Color.fromARGB(255, 252, 189, 0),
-            ),
-            content: Container(
-              decoration: const BoxDecoration(
-                border: Border(
-                  top: BorderSide(
-                    color: Color.fromARGB(255, 252, 189, 0),
-                    width: 5.0,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+            contentPadding: const EdgeInsets.all(2),
+            titlePadding: EdgeInsets.zero,
+            title: Container(
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(vertical: 20),
+                decoration: BoxDecoration(
+                  color: Colors.amber[600],
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(16),
+                    topRight: Radius.circular(16),
                   ),
                 ),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Text(message, textAlign: TextAlign.center),
-              ),
+                child: const Icon(
+                  Icons.error_outline,
+                  size: 60,
+                  color: Colors.white,
+                )),
+            content: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Text(message,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontFamily: 'Montserrat',
+                    fontSize: 16,
+                  )),
             ),
             actions: actions ??
                 [
@@ -147,30 +163,31 @@ class UiAlertMessage {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            backgroundColor: Colors.white,
-            contentPadding: const EdgeInsets.symmetric(vertical: 10),
-            insetPadding: const EdgeInsets.all(25),
-            icon: SizedBox(
-              width: 60,
-              height: 60,
-              child: Image.asset(
-                'assets/img/golpilogo.png',
-                fit: BoxFit.contain,
-              ),
-            ),
-            content: Container(
-              decoration: BoxDecoration(
-                border: Border(
-                  top: BorderSide(
-                    color: Constants.secondaryColor,
-                    width: 5.0,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+            contentPadding: const EdgeInsets.all(2),
+            titlePadding: EdgeInsets.zero,
+            title: Container(
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(vertical: 20),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.secondary,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(16),
+                    topRight: Radius.circular(16),
                   ),
                 ),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                child: child,
-              ),
+                child: SizedBox(
+                  width: 60,
+                  height: 60,
+                  child: Image.asset(
+                    'assets/img/golpilogo.png',
+                    fit: BoxFit.contain,
+                  ),
+                )),
+            content: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              child: child,
             ),
             actions: actions,
           );

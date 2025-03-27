@@ -2,7 +2,6 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:golpi/generated/l10n.dart';
 import 'package:golpi/modules/widgets/ui_text.dart';
-import 'package:golpi/core/constants/constants.dart';
 import 'package:golpi/modules/team/controller/team_controller.dart';
 
 class TeamPlayers extends StatelessWidget {
@@ -20,7 +19,7 @@ class TeamPlayers extends StatelessWidget {
           child: Icon(
             Icons.person_add_alt,
             size: 40,
-            color: Constants.primaryColor,
+            color: Theme.of(context).colorScheme.primary,
           ),
         ),
         Obx(
@@ -31,34 +30,41 @@ class TeamPlayers extends StatelessWidget {
                       itemCount:
                           teamController.teamModel.value?.players?.length,
                       itemBuilder: (context, index) {
-                        return Card(
-                          elevation: 3,
-                          color: Colors.white,
-                          child: ListTile(
-                            leading: Container(
-                              width: 80,
-                              height: 80,
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  border: Border.all(
-                                    color: Constants.secondaryColor,
-                                    width: 3,
-                                  )),
-                              child: ClipOval(
-                                child: Image.asset('assets/img/usericon.png'),
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 5),
+                          child: Card(
+                            elevation: 3,
+                            color:
+                                Theme.of(context).colorScheme.surfaceContainer,
+                            child: ListTile(
+                              leading: Container(
+                                width: 80,
+                                height: 80,
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    border: Border.all(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .secondary,
+                                      width: 3,
+                                    )),
+                                child: ClipOval(
+                                  child: Image.asset('assets/img/usericon.png'),
+                                ),
                               ),
-                            ),
-                            title: UiText(
-                                    text:
-                                        '${teamController.teamModel.value?.players?[index].name} ${teamController.teamModel.value?.players?[index].lastName}')
-                                .phraseSemiBold(),
-                            subtitle: Column(
-                              children: [
-                                _buildInfoRow('${S.of(context).alias}:',
-                                    '${teamController.teamModel.value?.players?[index].nickName}'),
-                                _buildInfoRow('${S.of(context).rol}:',
-                                    '${teamController.teamModel.value?.players?[index].positionPlayer}'),
-                              ],
+                              title: UiText(
+                                      text:
+                                          '${teamController.teamModel.value?.players?[index].name} ${teamController.teamModel.value?.players?[index].lastName}')
+                                  .phraseSemiBold(),
+                              subtitle: Column(
+                                children: [
+                                  _buildInfoRow('${S.of(context).alias}:',
+                                      '${teamController.teamModel.value?.players?[index].nickName}'),
+                                  _buildInfoRow('${S.of(context).rol}:',
+                                      '${teamController.teamModel.value?.players?[index].positionPlayer}'),
+                                ],
+                              ),
                             ),
                           ),
                         );
@@ -73,10 +79,7 @@ class TeamPlayers extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 1),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          UiText(text: label).phraseBlack(),
-          UiText(text: value).phraseBlack()
-        ],
+        children: [UiText(text: label).phrase(), UiText(text: value).phrase()],
       ),
     );
   }

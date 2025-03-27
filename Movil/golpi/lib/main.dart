@@ -1,14 +1,22 @@
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:golpi/generated/l10n.dart';
 import 'package:golpi/theme/theme.dart';
 import 'package:golpi/core/routes/app_pages.dart';
-import 'package:golpi/core/constants/constants.dart';
 import 'package:golpi/core/bindings/initial_binding.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+    statusBarColor: Colors
+        .transparent, // 🔹 Hace que el fondo de la barra de estado sea transparente
+    statusBarIconBrightness: Brightness.dark, // 🔹 Iconos oscuros por defecto
+    statusBarBrightness: Brightness.light, // 🔹 Para iOS
+  ));
   runApp(MainApp());
 }
 
@@ -33,13 +41,13 @@ class MainApp extends StatelessWidget {
             const ResponsiveBreakpoint.resize(1200, name: DESKTOP),
             const ResponsiveBreakpoint.autoScale(2460, name: "4K"),
           ],
-          backgroundColor: Constants.primaryColor),
+          backgroundColor: Theme.of(context).colorScheme.primary),
       title: 'Golpi',
       initialBinding: InitialBinding(),
       initialRoute: AppPages.splash,
       getPages: AppPages.routes,
       debugShowCheckedModeBanner: false,
-      theme: materialTheme.dark(),
+      theme: materialTheme.light(),
       darkTheme: materialTheme.dark(),
       themeMode: ThemeMode.light,
       locale: Locale('es'),

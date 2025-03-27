@@ -4,7 +4,6 @@ import 'package:golpi/generated/l10n.dart';
 import 'package:golpi/core/routes/app_pages.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:golpi/modules/widgets/ui_text.dart';
-import 'package:golpi/core/constants/constants.dart';
 import 'package:golpi/modules/widgets/ui_buttoms.dart';
 import 'package:golpi/modules/widgets/ui_text_field.dart';
 import 'package:golpi/modules/widgets/curved_background.dart';
@@ -22,7 +21,7 @@ class LoginPage extends StatelessWidget {
       children: [
         CurvedBackground(
           isCurveUp: false,
-          height: 300,
+          height: 350,
         ),
         Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           const SizedBox(height: 30),
@@ -30,7 +29,8 @@ class LoginPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               const SizedBox(height: 50),
-              UiText(text: S.of(context).preguntaRegistrar).phraseWhite(),
+              UiText(text: S.of(context).preguntaRegistrar)
+                  .phrase(color: Theme.of(context).colorScheme.surface),
               InkWell(
                 onTap: () {
                   Get.toNamed(AppPages.userRegister);
@@ -40,10 +40,16 @@ class LoginPage extends StatelessWidget {
                     width: 80,
                     height: 30,
                     decoration: BoxDecoration(
-                        color: Constants.primaryColor,
+                        color: Theme.of(context).colorScheme.primaryContainer,
                         borderRadius:
                             const BorderRadius.all(Radius.circular(5))),
-                    child: Center(child: Text(S.of(context).registrar))),
+                    child: Center(
+                        child: Text(
+                      S.of(context).registrar,
+                      style: TextStyle(
+                          color:
+                              Theme.of(context).colorScheme.onPrimaryContainer),
+                    ))),
               )
             ],
           ),
@@ -52,13 +58,14 @@ class LoginPage extends StatelessWidget {
             'assets/img/golpilogo.png',
             width: 80,
           ),
-          UiText(text: 'Golpi').title(color: Constants.primaryColor),
+          UiText(text: 'Golpi')
+              .title(color: Theme.of(context).colorScheme.primaryContainer),
           const SizedBox(height: 20),
           Expanded(
               child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 20),
-            decoration: const BoxDecoration(
-              color: Colors.white,
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.surface,
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(30),
                 topRight: Radius.circular(30),
@@ -84,16 +91,18 @@ class LoginPage extends StatelessWidget {
                       Widget? child,
                     ) {
                       return Column(children: [
-                        UiText(text: S.of(context).bienvenido).title(),
+                        UiText(text: S.of(context).bienvenido).title(
+                            color: Theme.of(context).colorScheme.onSurface),
                         const SizedBox(height: 10),
-                        UiText(text: S.of(context).ingresaDatosSesion)
-                            .phraseBlack(),
+                        UiText(text: S.of(context).ingresaDatosSesion).phrase(
+                            color: Theme.of(context).colorScheme.onSurface),
                         const SizedBox(height: 20),
                         UiTextFiel().textField(
                           formControlName: 'email_or_mobile_number',
                           labelText: S.of(context).correoCelular,
                           prefixIcon: Icons.email_outlined,
-                          colorPrefixIcon: Constants.primaryColor,
+                          colorPrefixIcon:
+                              Theme.of(context).colorScheme.primary,
                           validationMessages: {
                             ValidationMessage.required: (error) =>
                                 S.of(context).campoRequerido,
@@ -107,7 +116,8 @@ class LoginPage extends StatelessWidget {
                             formControlName: 'password',
                             labelText: S.of(context).clave,
                             prefixIcon: Icons.lock_outline,
-                            colorPrefixIcon: Constants.primaryColor,
+                            colorPrefixIcon:
+                                Theme.of(context).colorScheme.primary,
                             obscureText: loginController.obscureText.value,
                             suffixIcon: IconButton(
                                 onPressed: loginController.toggleObscureText,
@@ -141,7 +151,7 @@ class LoginPage extends StatelessWidget {
                             },
                             child:
                                 UiText(text: S.of(context).preguntaOlvidoClave)
-                                    .phraseBlack(),
+                                    .phrase(),
                           ),
                         ),
                       ]);

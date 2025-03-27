@@ -48,8 +48,7 @@ class HttpService {
     try {
       final response = await http
           .put(Uri.https(ConstantEndpoints.baseUrl, endPoint),
-              headers: await getHeaders(),
-              body: jsonEncode(body))
+              headers: await getHeaders(), body: jsonEncode(body))
           .timeout(const Duration(seconds: 20));
 
       if (response.statusCode != HttpStatus.ok) {

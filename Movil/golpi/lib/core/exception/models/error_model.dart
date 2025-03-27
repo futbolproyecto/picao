@@ -13,12 +13,14 @@ class ErrorModel {
     this.recommendation,
   });
 
-  factory ErrorModel.fromJson(Map<String, dynamic> json) => ErrorModel(
-        status: json["status"],
-        code: json["code"],
-        error: json["error"],
-        recommendation: json["recommendation"],
-      );
+  factory ErrorModel.fromJson(Map<String, dynamic> json) {
+    return ErrorModel(
+      status: json["status"],
+      code: json["code"].toString(),
+      error: json["error"],
+      recommendation: json["recommendation"],
+    );
+  }
 
   Map<String, dynamic> toJson() => {
         "status": status,
