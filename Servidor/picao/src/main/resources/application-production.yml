@@ -30,9 +30,13 @@ spring:
     username: futboleroproyecto@gmail.com
     password: cuutxtrejzpfrrxw
     properties:
-      mail.smtp.auth: true
-      mail.smtp.starttls.enable: true
-      mail.smtp.ssl.trust: smtp.gmail.com
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+          ssl:
+            trust: smtp.gmail.com
 
 logging:
   level:
