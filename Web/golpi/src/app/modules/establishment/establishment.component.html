@@ -20,7 +20,7 @@
   <div class="form-group">
     <mat-form-field>
       <mat-label>Teléfono</mat-label>
-      <input matInput formControlName="telefono" />
+      <input matInput type="number" formControlName="telefono" />
     </mat-form-field>
     <small class="text-error" *ngIf="validarTelefono()">
       {{ telefonoError }}

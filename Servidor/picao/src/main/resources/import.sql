@@ -7,7 +7,7 @@ INSERT INTO countries (name,cell_prefix) VALUES ('colombia','57');
 INSERT INTO statuses (description) VALUES ('activo'),('inactivo');
 
 -- crear usuario inicial
-INSERT INTO users (name,second_name,last_name,second_last_name,mobile_number,email,password,username,date_of_birth) VALUES ('jeiner','andrey','grijalba','de las tres cruces','1234567890','barcandres91@gmail.com','$2a$10$an2sN0xzn8Ve7yjAoPNdHufOvtA5dfW2jd3ZKZtBpD5LPwWEzBYSC','jeinerjeiner', '01/01/2025'), ('gilllllian','andrea','isazazazayacusa','odiosa','1134567890','barcandres93@gmail.com','$2a$10$an2sN0xzn8Ve7yjAoPNdHufOvtA5dfW2jd3ZKZtBpD5LPwWEzBYSC','gilliandre', '01/01/2025');
+INSERT INTO users (name,second_name,last_name,second_last_name,mobile_number,email,password,username,date_of_birth) VALUES ('jeiner','andrey','grijalba','de las tres cruces','573177388096','barcandres92@gmail.com','$2a$10$dIrOXqnQNxgMnZJnhHFD5Ombt/WNLTuAkhtqCgGlGurif6VohE7r.','userJeiner', '01/01/2025'), ('guilian','andrea','isaza','diosa','573148688564','guillanisaza@gmail.com','$2a$10$dIrOXqnQNxgMnZJnhHFD5Ombt/WNLTuAkhtqCgGlGurif6VohE7r.','userAndrea', '01/01/2025'), ('cristian','andres','blandon','guzman','573104657100','barcandres91@gmail.com','$2a$10$dIrOXqnQNxgMnZJnhHFD5Ombt/WNLTuAkhtqCgGlGurif6VohE7r.','userBlandon', '01/01/2025'), ('francia','viviana','muñoz','torres','573138957145','viviana_0927@gmail.com','$2a$10$dIrOXqnQNxgMnZJnhHFD5Ombt/WNLTuAkhtqCgGlGurif6VohE7r.','userFrancia', '01/01/2025');
 -- se asignan roles
 --INSERT INTO user_roles (role_id, user_id) VALUES (1,1),(2,1);
 

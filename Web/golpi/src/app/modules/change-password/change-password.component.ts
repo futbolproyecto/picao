@@ -76,12 +76,7 @@ export class ChangePasswordComponent implements OnInit {
       {
         password: [
           '',
-          [
-            Validators.required,
-            Validators.minLength(Constant.CAMPO_MINIMO_CONTRASENA),
-            Validators.maxLength(Constant.CAMPO_MAXIMO_CONTRASENA),
-            ValidatorsCustom.validarSiHayEspacios,
-          ],
+          [Validators.required, ValidatorsCustom.validarSiHayEspacios],
         ],
         passwordNew: [
           '',
@@ -139,46 +134,40 @@ export class ChangePasswordComponent implements OnInit {
   validarPasswordConfirmCampoValido(): boolean {
     return this.passwordConfirm.valid;
   }
+
   //validar campos is-valid
   validarPassword(): boolean {
     let status = false;
-    if (this.password.dirty) {
+    if (this.password.touched || this.password.dirty) {
       if (this.password.hasError('required')) {
         this.passwordError = Constant.ERROR_CAMPO_REQUERIDO;
         status = true;
-      } else if (this.password.hasError('minlength')) {
-        this.passwordError = Constant.ERROR_CAMPO_MINIMO_CONTRASENA;
-        status = true;
-      } else if (this.password.hasError('maxlength')) {
-        this.passwordError = Constant.ERROR_CAMPO_MAXIMO_CONTRASENA;
-        status = true;
       } else if (this.password.hasError('hayEspacios')) {
-        status = false;
+        this.passwordError = Constant.ERROR_CAMPO_NO_ESPACIOS;
+        status = true;
       }
     }
-
     return status;
   }
 
   validarPasswordNew(): boolean {
     let status = false;
+    this.passwordNewError = '';
     this.passwordSeguridadError = false;
-    if (this.passwordNew.dirty) {
-      if (this.passwordNew.hasError('required')) {
+
+    const touchedOrDirty = this.passwordNew.touched || this.passwordNew.dirty;
+    const value = this.passwordNew.value?.trim();
+
+    if (touchedOrDirty) {
+      if (value === '' && this.passwordNew.hasError('required')) {
         this.passwordNewError = Constant.ERROR_CAMPO_REQUERIDO;
         status = true;
-      } else if (this.passwordNew.hasError('minlength')) {
-        this.passwordNewError = Constant.ERROR_CAMPO_MINIMO_CONTRASENA;
+      } else if (this.passwordNew.hasError('hayEspacios')) {
+        this.passwordNewError = Constant.ERROR_CAMPO_NO_ESPACIOS;
         status = true;
-      } else if (this.passwordNew.hasError('maxlength')) {
-        this.passwordNewError = Constant.ERROR_CAMPO_MAXIMO_CONTRASENA;
-        status = true;
-      } else if (
-        this.passwordNew.hasError('pattern') ||
-        this.passwordNew.hasError('hayEspacios')
-      ) {
+      } else if (this.passwordNew.hasError('pattern')) {
         this.passwordSeguridadError = true;
-        status = false;
+        status = true;
       }
     }
 
@@ -187,20 +176,39 @@ export class ChangePasswordComponent implements OnInit {
 
   validarPasswordConfirm(): boolean {
     let status = false;
-    if (this.passwordConfirm.dirty) {
+    this.passwordConfirmError = ''; 
+
+    if (this.passwordConfirm.touched || this.passwordConfirm.dirty) {
       if (this.passwordConfirm.hasError('required')) {
         this.passwordConfirmError = Constant.ERROR_CAMPO_REQUERIDO;
         status = true;
-      } else if (
-        this.formularioPass.errors?.['noSonIguales'] &&
-        this.passwordNew.dirty
-      ) {
+      } else if (this.passwordConfirm.hasError('noSonIguales')) {
         this.passwordConfirmError = Constant.ERROR_CAMPO_CONTRASENA_NO_CONCIDEN;
         status = true;
       }
     }
 
     return status;
+  }
+
+  validarErroresDePolitica(): boolean {
+    this.passwordSeguridadError = false;
+
+    if (this.passwordNew.touched || this.passwordNew.dirty) {
+      const value = this.passwordNew.value;
+      if (
+        value &&
+        (this.passwordNew.hasError('pattern') ||
+          this.passwordNew.hasError('minlength') ||
+          this.passwordNew.hasError('maxlength') ||
+          this.passwordNew.hasError('hayEspacios'))
+      ) {
+        this.passwordSeguridadError = true;
+        return true;
+      }
+    }
+
+    return false;
   }
 
   actualizarPassword(): void {

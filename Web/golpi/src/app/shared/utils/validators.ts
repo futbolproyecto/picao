@@ -15,20 +15,31 @@ export class ValidatorsCustom {
     if (campo && campo.includes(' ')) {
       return { hayEspacios: true };
     }
-    return null; 
+    return null;
   };
 
-  static validarQueSeanIguales: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
-    if (!(control instanceof FormGroup)) return null;
+  static validarQueSeanIguales(
+    formGroup: AbstractControl
+  ): ValidationErrors | null {
+    const password = formGroup.get('passwordNew')?.value;
+    const confirmPassword = formGroup.get('passwordConfirm')?.value;
 
-    const contrasena = control.get('passwordNew')?.value;
-    const confirmarPassword = control.get('passwordConfirm')?.value;
-
-    return contrasena && confirmarPassword && contrasena === confirmarPassword
-      ? null
-      : { noSonIguales: true };
-  };
-
+    if (password !== confirmPassword) {
+      formGroup.get('passwordConfirm')?.setErrors({ noSonIguales: true });
+      return { noSonIguales: true };
+    } else {
+      const errors = formGroup.get('passwordConfirm')?.errors;
+      if (errors) {
+        delete errors['noSonIguales'];
+        if (Object.keys(errors).length === 0) {
+          formGroup.get('passwordConfirm')?.setErrors(null);
+        } else {
+          formGroup.get('passwordConfirm')?.setErrors(errors);
+        }
+      }
+      return null;
+    }
+  }
 
   static validarFechaMayorMax(fechaValida: Date): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
@@ -38,7 +49,6 @@ export class ValidatorsCustom {
       return fechaValida > fecha ? null : { fechaMayorMax: true };
     };
   }
-
 
   static validateAllFormFields(formGroup: FormGroup, element: ElementRef) {
     formGroup.markAllAsTouched();
@@ -59,5 +69,4 @@ export class ValidatorsCustom {
       invalidControl.focus();
     }
   }
-
 }

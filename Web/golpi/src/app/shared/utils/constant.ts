@@ -24,7 +24,7 @@ export class Constant {
   static ERROR_CAMPO_REQUERIDO = 'Campo requerido';
   static ERROR_FORM_INCOMPLETO =
     'Todos los campos deben estar correctamente diligenciados.';
-  static ERROR_CAMPO_REQUERIDO_CORREO = 'Ingrese su correo electrónico celular';
+  static ERROR_CAMPO_REQUERIDO_CORREO = 'Ingrese su correo electrónico';
   static ERROR_CAMPO_REQUERIDO_CONTRASENA = 'Ingrese su contraseña';
   static ERROR_CAMPO_MINIMO_2 = 'Este campo es de mínimo 2 caracteres';
   static ERROR_CAMPO_MINIMO_10 = 'Este campo es de mínimo 10 caracteres';
@@ -41,6 +41,7 @@ export class Constant {
   static ERROR_CAMPO_SOLO_NUMEROS = 'Solo se permiten números';
   static ERROR_CAMPO_SOLO_NUMEROS_LETRAS = 'Solo se permiten números y letras';
   static ERROR_CAMPO_EMAIL_INVALIDO = 'El email es inválido';
+  static ERROR_CAMPO_NO_ESPACIOS = 'No se permiten espacios.';
   static ERROR_CAMPO_CONTRASENA_NO_CONCIDEN =
     'La contraseña nueva y la confirmación de contraseña no coinciden.';
 }

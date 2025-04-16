@@ -34,7 +34,6 @@ export class AlertsService {
     });
   }
 
-
   fireError(errorDto: MessageExceptionDto) {
     Swal.fire({
       title: `Error [${errorDto.status}]`,
@@ -82,6 +81,27 @@ export class AlertsService {
       cancelButtonText: 'No',
       confirmButtonColor: '#725187',
       cancelButtonColor: '#306a42',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        myCallBack();
+      }
+    });
+  }
+
+  emailConfirm(
+    icon: SweetAlertIcon,
+    title: string,
+    text: string,
+    myCallBack: any
+  ) {
+    Swal.fire({
+      title: title,
+      text: text,
+      icon: icon,
+      reverseButtons: true,
+      showCancelButton: false,
+      confirmButtonText: 'Aceptar',
+      confirmButtonColor: '#725187',
     }).then((result) => {
       if (result.isConfirmed) {
         myCallBack();
