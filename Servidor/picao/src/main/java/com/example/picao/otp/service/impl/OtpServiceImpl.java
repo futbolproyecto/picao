@@ -174,8 +174,14 @@ public class OtpServiceImpl implements OtpService {
     private void sendEmailOtp(String otp, String email) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(email);
-        message.setSubject("Recuperación contraseña");
-        message.setText("Para restablecer tu contraseña, por favor ingresa el siguiente código de validación. " + otp);
+        message.setSubject("Recuperación de contraseña");
+
+        String body = "Para restablecer tu contraseña, por favor ingresa el siguiente código de validación.\n\n"
+                + otp + "\n\n"
+                + "Si tienes algún problema o no solicitaste el restablecimiento, por favor contacta a nuestro equipo de soporte.\n"
+                + "Gracias por usar Golpi. Saludos.";
+
+        message.setText(body);
         message.setFrom(email);
 
         mailSender.send(message);
