@@ -23,6 +23,7 @@ import { ModoAuthService } from '../../core/service/modo-auth.service';
 
 // Compartidos
 import { Constant } from '../../shared/utils/constant';
+import { AlertsService } from '../../core/service/alerts.service';
 
 @Component({
   selector: 'app-registre',
@@ -52,6 +53,7 @@ import { Constant } from '../../shared/utils/constant';
 export class RegistreComponent {
   private formBuilder = inject(UntypedFormBuilder);
   private ModoAuthService = inject(ModoAuthService);
+  private alertsService = inject(AlertsService);
 
   public esModoRegistro: boolean = false;
   public formularioRegistro: UntypedFormGroup = new UntypedFormGroup({});
@@ -201,11 +203,11 @@ export class RegistreComponent {
   }
 
   enviar(): void {
-    if (this.formularioRegistro.invalid) {
+    if (this.formularioRegistro.valid) {
+      console.log('Enviando datos...');
+    } else {
       this.formularioRegistro.markAllAsTouched();
-      return;
+      this.alertsService.toast('error', Constant.ERROR_FORM_INCOMPLETO);
     }
-
-    console.log('Enviando datos...');
   }
 }

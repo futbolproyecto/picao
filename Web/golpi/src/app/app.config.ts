@@ -14,6 +14,13 @@ import { loadingInterceptor } from './core/interceptors/loading.interceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxSpinnerModule } from 'ngx-spinner';
 
+import { LOCALE_ID } from '@angular/core';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
+import { registerLocaleData } from '@angular/common';
+import localeEs from '@angular/common/locales/es';
+
+registerLocaleData(localeEs);
+
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
@@ -26,5 +33,8 @@ export const appConfig: ApplicationConfig = {
     provideStore(),
     provideAnimationsAsync(),
     provideState({ name: 'estado', reducer: autenticacionReducer }),
+
+    { provide: LOCALE_ID, useValue: 'es' },
+    { provide: MAT_DATE_LOCALE, useValue: 'es-ES' },
   ],
 };

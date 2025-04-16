@@ -273,21 +273,40 @@ export class LoginComponent {
           .pipe(takeUntilDestroyed(this.destroyRef))
           .subscribe(
             () => {
-              this.validarEmail(correoIngresado);
+              this.mensajeValidacion(correoIngresado);
             },
             (err) => {
-              const errorDto = new MessageExceptionDto({
-                status: err.error?.status,
-                error: err.error?.error,
-                recommendation: err.error?.recommendation,
-              });
+              this.loadingService.setLoading(false);
+              if (err.status === 0) {
+                this.alertsService.fireError({
+                  status: 0,
+                  error: 'No se pudo conectar con el servidor',
+                  recommendation:
+                    'Verifica tu conexión a internet o que el servidor esté en ejecución.',
+                });
+              } else {
+                const errorDto = new MessageExceptionDto({
+                  status: err.error?.status,
+                  error: err.error?.error,
+                  recommendation: err.error?.recommendation,
+                });
 
-              this.alertsService.fireError2(errorDto, () => {
-                this.enviarCodigo(event);
-              });
+                this.alertsService.fireError2(errorDto, () => {
+                  this.enviarCodigo(event);
+                });
+              }
             }
           );
       }
+    );
+  }
+
+  mensajeValidacion(correo: string): void {
+    this.alertsService.emailConfirm(
+      'info',
+      'Código de recuperación enviado',
+      'Verifique el correo electrónico. Si no lo encuentra en la bandeja de entrada, por favor, revise la carpeta de SPAM o correo no deseado.',
+      () => this.validarEmail(correo)
     );
   }
 
