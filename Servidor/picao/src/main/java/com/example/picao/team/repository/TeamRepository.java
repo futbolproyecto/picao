@@ -50,7 +50,7 @@ public interface TeamRepository extends JpaRepository<Team, Integer> {
             JOIN players_profile pp ON u.id = pp.user_id
             JOIN position_players pos ON pos.id = pp.position_player_id
             WHERE tp.team_id IN (SELECT team_id FROM team_players WHERE player_id = :userId AND team_id = :teamId)
-            ORDER BY t.name, u.name
+            ORDER BY u.name
             """, nativeQuery = true)
     List<Tuple> findTeamsByUserId(int userId, int teamId);
 
