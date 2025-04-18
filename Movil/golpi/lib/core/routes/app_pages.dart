@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:golpi/core/bindings/initial_binding.dart';
-import 'package:golpi/modules/home/views/home_page.dart';
+import 'package:golpi/modules/home/views/principal_page.dart';
 import 'package:golpi/modules/login/views/login_page.dart';
 import 'package:golpi/modules/splash/views/splash_page.dart';
 import 'package:golpi/modules/home/bindings/home_bindigs.dart';
@@ -43,7 +43,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.home,
-      page: () => const HomePage(),
+      page: () => const PrincipalPage(),
       binding: HomeBinding(),
     ),
     GetPage(

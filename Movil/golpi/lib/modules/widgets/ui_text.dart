@@ -1,30 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:golpi/core/constants/constants.dart';
+import 'package:get/get.dart';
 
 class UiText {
   final String text;
 
   UiText({required this.text});
 
-  Widget title() {
-    return Text(
-      text,
-      style: const TextStyle(
-        fontFamily: 'Montserrat',
-        fontSize: 20,
-        fontWeight: FontWeight.bold,
-      ),
-    );
-  }
-
-  Widget titlePrimaryColor() {
+  Widget title({Color? color}) {
     return Text(
       text,
       style: TextStyle(
           fontFamily: 'Montserrat',
           fontSize: 20,
           fontWeight: FontWeight.bold,
-          color: Constants.primaryColor),
+          color: color),
     );
   }
 
@@ -33,19 +22,19 @@ class UiText {
       text,
       style: const TextStyle(
         fontFamily: 'Montserrat',
-        fontSize: 14,
-        fontWeight: FontWeight.w600,
+        fontSize: 16,
+        fontWeight: FontWeight.w900,
       ),
     );
   }
 
-  Widget phraseBlack() {
+  Widget phrase({Color? color}) {
     return Text(
       text,
-      style: const TextStyle(
+      style: TextStyle(
         fontFamily: 'Montserrat',
-        fontSize: 14,
-        color: Colors.black,
+        fontSize: 16,
+        color: color ?? Theme.of(Get.context!).colorScheme.onSurface,
       ),
     );
   }
@@ -55,29 +44,29 @@ class UiText {
       text,
       style: TextStyle(
           fontFamily: 'Montserrat',
-          fontSize: 14,
-          color: Constants.primaryColor),
+          fontSize: 16,
+          color: Theme.of(Get.context!).colorScheme.primary),
     );
   }
 
-  Widget paragraphSemiBold() {
+  Widget paragraphSemiBold({Color? color}) {
     return Text(
       text,
-      style: const TextStyle(
-        fontFamily: 'Helvetica',
-        fontSize: 14,
-        fontWeight: FontWeight.w600,
-      ),
+      style: TextStyle(
+          fontFamily: 'Helvetica',
+          fontSize: 16,
+          fontWeight: FontWeight.w900,
+          color: color ?? Theme.of(Get.context!).colorScheme.onSurface),
     );
   }
 
-  Widget paragraphBlack() {
+  Widget paragraph({Color? color}) {
     return Text(
       text,
-      style: const TextStyle(
-        fontFamily: 'Helvetica',
-        fontSize: 14,
-      ),
+      style: TextStyle(
+          fontFamily: 'Helvetica',
+          fontSize: 16,
+          color: color ?? Theme.of(Get.context!).colorScheme.onSurface),
     );
   }
 }

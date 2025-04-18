@@ -1,26 +1,32 @@
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
-import 'package:golpi/core/constants/constants.dart';
-import 'package:golpi/core/bindings/initial_binding.dart';
+import 'package:flutter/material.dart';
+import 'package:golpi/generated/l10n.dart';
+import 'package:golpi/theme/theme.dart';
 import 'package:golpi/core/routes/app_pages.dart';
+import 'package:golpi/core/bindings/initial_binding.dart';
 import 'package:responsive_framework/responsive_framework.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() {
-  runApp(const MainApp());
+  WidgetsFlutterBinding.ensureInitialized();
+
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+    statusBarColor: Colors
+        .transparent, // 🔹 Hace que el fondo de la barra de estado sea transparente
+    statusBarIconBrightness: Brightness.dark, // 🔹 Iconos oscuros por defecto
+    statusBarBrightness: Brightness.light, // 🔹 Para iOS
+  ));
+  runApp(MainApp());
 }
 
 class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+  MainApp({super.key});
+
+  final MaterialTheme materialTheme = MaterialTheme(const TextTheme());
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: Constants.primaryColor,
-      statusBarIconBrightness: Brightness.dark,
-    ));
-
     return GetMaterialApp(
       builder: (context, widget) => ResponsiveWrapper.builder(
           BouncingScrollWrapper.builder(context, widget!),
@@ -35,27 +41,23 @@ class MainApp extends StatelessWidget {
             const ResponsiveBreakpoint.resize(1200, name: DESKTOP),
             const ResponsiveBreakpoint.autoScale(2460, name: "4K"),
           ],
-          backgroundColor: Constants.primaryColor),
+          backgroundColor: Theme.of(context).colorScheme.primary),
       title: 'Golpi',
       initialBinding: InitialBinding(),
       initialRoute: AppPages.splash,
       getPages: AppPages.routes,
       debugShowCheckedModeBanner: false,
+      theme: materialTheme.light(),
+      darkTheme: materialTheme.dark(),
+      themeMode: ThemeMode.light,
       locale: Locale('es'),
-      supportedLocales: [
-        Locale('es', 'ES'),
-      ],
+      supportedLocales: S.delegate.supportedLocales,
       localizationsDelegates: [
+        S.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      theme: ThemeData(
-        primaryColor: Constants.primaryColor,
-        textTheme: const TextTheme(
-          bodyMedium: TextStyle(color: Colors.black),
-        ),
-      ),
     );
   }
 }
