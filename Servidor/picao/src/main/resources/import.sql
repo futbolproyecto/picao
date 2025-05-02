@@ -1,7 +1,14 @@
 -- crear roles
 INSERT INTO roles (name) VALUES ('JUGADOR'),('CAPITAN_EQUIPO'),('ENTRENADOR'),('AGENDADOR_CANCHA');
 -- crear paises
-INSERT INTO countries (name,cell_prefix) VALUES ('colombia','57');
+CREATE TABLE pais (
+    id SERIAL PRIMARY KEY,
+    identificador VARCHAR(10),
+    descripcion VARCHAR(100)
+);
+
+INSERT INTO countries (cell_prefix, name) VALUES('93', 'Afganistán'),('355', 'Albania'),('213', 'Argelia'),('376', 'Andorra'),('244', 'Angola'),('54', 'Argentina'),('374', 'Armenia'),('61', 'Australia'),('43', 'Austria'),('994', 'Azerbaiyán'),('973', 'Baréin'),('880', 'Bangladés'),('375', 'Bielorrusia'),('32', 'Bélgica'),('591', 'Bolivia'),('387', 'Bosnia y Herzegovina'),('267', 'Botsuana'),('55', 'Brasil'),('359', 'Bulgaria'),('226', 'Burkina Faso'),('257', 'Burundi'),('855', 'Camboya'),('237', 'Camerún'),('1', 'Canadá'),('236', 'República Centroafricana'),('56', 'Chile'),('86', 'China'),('57', 'Colombia'),('506', 'Costa Rica'),('385', 'Croacia'),('53', 'Cuba'),('357', 'Chipre'),('420', 'Chequia'),('45', 'Dinamarca'),('593', 'Ecuador'),('20', 'Egipto'),('503', 'El Salvador'),('372', 'Estonia'),('251', 'Etiopía'),('679', 'Fiyi'),('358', 'Finlandia'),('33', 'Francia'),('995', 'Georgia'),('49', 'Alemania'),('233', 'Ghana'),('30', 'Grecia'),('502', 'Guatemala'),('509', 'Haití'),('504', 'Honduras'),('36', 'Hungría'),('354', 'Islandia'),('91', 'India'),('62', 'Indonesia'),('98', 'Irán'),('964', 'Irak'),('353', 'Irlanda'),('972', 'Israel'),('39', 'Italia'),('81', 'Japón'),('962', 'Jordania'),('254', 'Kenia'),('965', 'Kuwait'),('371', 'Letonia'),('961', 'Líbano'),('370', 'Lituania'),('352', 'Luxemburgo'),('261', 'Madagascar'),('60', 'Malasia'),('223', 'Malí'),('356', 'Malta'),('52', 'México'),('373', 'Moldavia'),('377', 'Mónaco'),('976', 'Mongolia'),('212', 'Marruecos'),('258', 'Mozambique'),('95', 'Birmania'),('264', 'Namibia'),('977', 'Nepal'),('31', 'Países Bajos'),('64', 'Nueva Zelanda'),('505', 'Nicaragua'),('227', 'Níger'),('234', 'Nigeria'),('47', 'Noruega'),('92', 'Pakistán'),('507', 'Panamá'),('595', 'Paraguay'),('51', 'Perú'),('63', 'Filipinas'),('48', 'Polonia'),('351', 'Portugal'),('974', 'Catar'),('40', 'Rumania'),('7', 'Rusia'),('250', 'Ruanda'),('966', 'Arabia Saudita'),('221', 'Senegal'),('381', 'Serbia'),('65', 'Singapur'),('421', 'Eslovaquia'),('386', 'Eslovenia'),('27', 'Sudáfrica'),('82', 'Corea del Sur'),('34', 'España'),('94', 'Sri Lanka'),('46', 'Suecia'),('41', 'Suiza'),('963', 'Siria'),('886', 'Taiwán'),('992', 'Tayikistán'),('255', 'Tanzania'),('66', 'Tailandia'),('228', 'Togo'),('216', 'Túnez'),('90', 'Turquía'),('993', 'Turkmenistán'),('256', 'Uganda'),('380', 'Ucrania'),('971', 'Emiratos Árabes Unidos'),('44', 'Reino Unido'),('1', 'Estados Unidos'),('598', 'Uruguay'),('998', 'Uzbekistán'),('58', 'Venezuela'),('84', 'Vietnam'),('260', 'Zambia'),('263', 'Zimbabue');
+
 
 -- crear status
 INSERT INTO statuses (description) VALUES ('activo'),('inactivo');
