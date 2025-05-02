@@ -27,6 +27,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.LinkedHashSet;
 
 @RequiredArgsConstructor()
 @Service
@@ -150,14 +151,15 @@ public class TeamServiceImpl implements TeamService {
             return TeamResponseDTO.builder()
                     .id(Integer.parseInt(teamsUser.get(0).get("team_id").toString()))
                     .name(teamsUser.get(0).get("team_name").toString())
-                    .players(teamsUser.stream().map(
-                                    player -> UserResponseDTO.builder()
-                                            .name(player.get("user_name").toString())
-                                            .lastName(player.get("last_name").toString())
-                                            .nickName(player.get("nick_name").toString())
-                                            .positionPlayer(player.get("position_player").toString())
-                                            .build())
-                            .collect(Collectors.toSet())).build();
+                    .players(teamsUser.stream()
+                            .map(player -> UserResponseDTO.builder()
+                                    .name(player.get("user_name").toString())
+                                    .lastName(player.get("last_name").toString())
+                                    .nickName(player.get("nick_name").toString())
+                                    .positionPlayer(player.get("position_player").toString())
+                                    .build())
+                            .collect(Collectors.toCollection(LinkedHashSet::new)))
+                    .build();
 
 
         } catch (AppException e) {

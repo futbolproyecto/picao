@@ -60,11 +60,13 @@ public class OtpServiceImpl implements OtpService {
                     () -> new AppException(ErrorMessages.PHONE_NUMBER_NOT_EXIST, HttpStatus.NOT_FOUND));
 
             String otp = generateOTP();
+
+            sendOtpWhatsApp(mobileNumber, otp);
+
             otpBD.setCode(otp);
             otpBD.setCreatedAt(LocalDateTime.now());
             otpRepository.save(otpBD);
 
-            sendOtpWhatsApp(mobileNumber, otp);
 
             return "Codigo enviado nuevamente";
 
@@ -78,21 +80,28 @@ public class OtpServiceImpl implements OtpService {
     @Override
     public String sendMobileNumber(String mobileNumber) {
 
+        userRepository.findByMobileNumber(mobileNumber).ifPresent(
+                user -> {
+                    throw new AppException(ErrorMessages.DUPLICATE_PHONE_NUMBER, HttpStatus.BAD_REQUEST);
+                });
+
         otpRepository.findByMobileNumber(mobileNumber).ifPresent(
                 otpBD -> {
                     throw new AppException(ErrorMessages.GENERATED_OTP, HttpStatus.BAD_REQUEST);
                 });
 
         String otp = generateOTP();
+
+        sendOtpWhatsApp(mobileNumber, otp);
+
         otpRepository.save(Otp.builder()
                 .code(otp)
                 .mobileNumber(mobileNumber)
                 .createdAt(LocalDateTime.now())
                 .build());
 
-        sendOtpWhatsApp(mobileNumber, otp);
 
-        return "Codigo enviado nuevamente";
+        return "Codigo enviado correctamente";
 
     }
 

@@ -10,7 +10,7 @@ class ModalSearchUserPhonePage {
     required FormGroup formMobileNumer,
   }) {
     final screenSize = MediaQuery.of(context).size;
-    const Color primaryColor = Color(0xFF04a57e);
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       height: 130,
@@ -27,19 +27,16 @@ class ModalSearchUserPhonePage {
                 ) {
                   return Column(
                     children: [
-                      Text(
-                        'Ingresa el numero de celular del jugador para buscarlo',
-                        style: const TextStyle(
-                          color: Colors.black87,
-                          fontSize: 16,
-                        ),
-                      ),
+                      UiText(
+                        text:
+                            'Ingresa el numero de celular del jugador para buscarlo',
+                      ).phrase(),
                       const SizedBox(height: 20),
                       UiTextFiel().textField(
                         formControlName: 'mobile_phone',
                         labelText: 'Numero celular',
                         prefixIcon: Icons.phone_android_outlined,
-                        colorPrefixIcon: primaryColor,
+                        colorPrefixIcon: Theme.of(context).colorScheme.primary,
                         validationMessages: {
                           ValidationMessage.required: (error) =>
                               'Campo requerido',
@@ -79,7 +76,7 @@ class ModalSearchUserPhonePage {
                       ).paragraphSemiBold(),
                       UiText(
                         text: '${userModel.name} ${userModel.lastName}',
-                      ).paragraphBlack(),
+                      ).paragraph(),
                     ],
                   ),
                   Row(
@@ -90,7 +87,7 @@ class ModalSearchUserPhonePage {
                       ).paragraphSemiBold(),
                       UiText(
                         text: userModel.email ?? '',
-                      ).paragraphBlack(),
+                      ).paragraph(),
                     ],
                   ),
                   Row(
@@ -101,7 +98,7 @@ class ModalSearchUserPhonePage {
                       ).paragraphSemiBold(),
                       UiText(
                         text: userModel.mobileNumber ?? '',
-                      ).paragraphBlack(),
+                      ).paragraph(),
                     ],
                   ),
                   Row(
@@ -112,7 +109,7 @@ class ModalSearchUserPhonePage {
                       ).paragraphSemiBold(),
                       UiText(
                         text: userModel.nickName ?? '',
-                      ).paragraphBlack(),
+                      ).paragraph(),
                     ],
                   )
                 ],

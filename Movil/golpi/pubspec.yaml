@@ -14,12 +14,13 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
+  intl: ^0.19.0
+
   get: ^4.6.6
   reactive_forms: ^17.0.1
   reactive_date_time_picker: ^4.0.0
   reactive_dropdown_search: ^3.0.0
   http: ^1.2.2
-  intl: ^0.19.0
   quickalert: ^1.1.0
   responsive_framework: ^0.2.0
   contained_tab_bar_view: ^0.8.0
@@ -40,6 +41,8 @@ flutter_icons:
   ios: true
 
 flutter:
+  # Generar código de internacionalización flutter gen en .dart_tool
+  generate: true
   uses-material-design: true
   assets:
     - assets/img/
@@ -60,3 +63,7 @@ flutter:
           weight: 700
         - asset: assets/fonts/Helvetica-Italic.ttf
           style: italic
+
+flutter_intl:
+  main_locale: es_CO
+  enabled: true

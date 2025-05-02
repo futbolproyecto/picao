@@ -1,33 +1,33 @@
+import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-import 'package:golpi/core/constants/constants.dart';
 
 class UiButtoms {
-  final VoidCallback onPressed;
-  final String title;
+  final VoidCallback? onPressed;
+  final String? title;
 
   UiButtoms({
-    required this.onPressed,
-    required this.title,
+    this.onPressed,
+    this.title,
   });
 
   Widget primaryButtom() {
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton(
-        onPressed: () => onPressed(),
+        onPressed: () => onPressed!(),
         style: ElevatedButton.styleFrom(
           padding: const EdgeInsets.symmetric(vertical: 15),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),
-          backgroundColor: Constants.primaryColor,
-          foregroundColor: Constants.primaryColor,
+          backgroundColor: Theme.of(Get.context!).colorScheme.primaryContainer,
+          foregroundColor: Theme.of(Get.context!).colorScheme.primaryContainer,
         ),
         child: Text(
-          title,
-          style: const TextStyle(
+          title!,
+          style: TextStyle(
             fontSize: 18,
-            color: Colors.white,
+            color: Theme.of(Get.context!).colorScheme.onPrimaryContainer,
             fontFamily: 'Montserrat',
             fontWeight: FontWeight.bold,
           ),
@@ -36,33 +36,39 @@ class UiButtoms {
     );
   }
 
-  Widget secondaryButtom() {
-    return SizedBox(
-      width: double.infinity,
-      child: ElevatedButton(
-        onPressed: () {
-          onPressed;
-        },
-        style: ElevatedButton.styleFrom(
-            padding: const EdgeInsets.symmetric(vertical: 15),
-            shape: RoundedRectangleBorder(
-              side: BorderSide(color: Constants.primaryColor),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            backgroundColor: Colors.white),
-        child: Text(
-          title,
-          style: TextStyle(fontSize: 18, color: Constants.primaryColor),
-        ),
-      ),
+  Widget textButtom(Color color) {
+    return TextButton(
+      child: Text(title!,
+          style: TextStyle(
+            color: color,
+            decoration: TextDecoration.underline,
+            fontFamily: 'Helvetica',
+            fontSize: 16,
+          )),
+      onPressed: () => onPressed!(),
     );
   }
 
-  Widget textButtom(Color color) {
-    return TextButton(
-      child: Text(title,
-          style: TextStyle(color: color, decoration: TextDecoration.underline)),
-      onPressed: () => onPressed(),
+  Widget backButtom() {
+    return Positioned(
+      top: 40,
+      left: 10,
+      child: GestureDetector(
+        onTap: () => Get.back(),
+        child: Container(
+          width: 40,
+          height: 40,
+          decoration: BoxDecoration(
+            color: Theme.of(Get.context!).colorScheme.secondaryContainer,
+            shape: BoxShape.circle,
+          ),
+          child: Center(
+            child: Icon(Icons.arrow_back,
+                size: 40 * 0.5,
+                color: Theme.of(Get.context!).colorScheme.secondary),
+          ),
+        ),
+      ),
     );
   }
 }

@@ -1,25 +1,25 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:golpi/generated/l10n.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:golpi/core/routes/app_pages.dart';
-import 'package:golpi/modules/home/controller/home_controller.dart';
-import 'package:golpi/modules/team/models/team_model.dart';
-import 'package:golpi/modules/team/models/user_team_model.dart';
 import 'package:reactive_forms/reactive_forms.dart';
-import 'package:golpi/core/constants/constants.dart';
 import 'package:golpi/core/models/option_model.dart';
+import 'package:golpi/modules/widgets/ui_buttoms.dart';
 import 'package:golpi/data/service/secure_storage.dart';
+import 'package:quickalert/models/quickalert_type.dart';
+import 'package:golpi/modules/team/models/team_model.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:golpi/core/exception/custom_exception.dart';
+import 'package:golpi/modules/widgets/ui_alert_message.dart';
 import 'package:golpi/core/exception/models/error_model.dart';
+import 'package:golpi/modules/team/models/user_team_model.dart';
+import 'package:golpi/modules/home/controller/home_controller.dart';
 import 'package:golpi/data/repositories/team/team_repository.dart';
+import 'package:golpi/core/constants/constant_secure_storage.dart';
 import 'package:golpi/data/repositories/user/user_repository.dart';
 import 'package:golpi/modules/team/models/team_register_model.dart';
 import 'package:golpi/modules/team/widgets/modal_search_user_phone_page.dart';
-import 'package:golpi/modules/widgets/ui_alert_message.dart';
-import 'package:golpi/modules/widgets/ui_buttoms.dart';
-import 'package:quickalert/models/quickalert_type.dart';
-import 'package:quickalert/widgets/quickalert_dialog.dart';
-import 'package:golpi/core/constants/constant_secure_storage.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class TeamController extends GetxController {
   final UserRepository userRepository;
@@ -98,7 +98,7 @@ class TeamController extends GetxController {
       ));
       Get.back();
       UiAlertMessage(Get.context!).success(
-          message: 'La informacion se registro de manera exitosa',
+          message: S().exitoRegistrar,
           barrierDismissible: false,
           actionButtom: () {
             formTeamRegistrer.reset();
@@ -145,13 +145,13 @@ class TeamController extends GetxController {
                         formMobileNumer.markAllAsTouched();
                       }
                     },
-                    title: 'Buscar')
-                .textButtom(Constants.primaryColor),
+                    title: S().buscar)
+                .textButtom(Theme.of(Get.context!).colorScheme.primary),
             UiButtoms(
                     onPressed: () {
                       Get.back();
                     },
-                    title: 'Cerrar')
+                    title: S().cerrar)
                 .textButtom(Colors.black),
           ]);
     } on CustomException catch (e) {
@@ -193,13 +193,13 @@ class TeamController extends GetxController {
                       addUserTeam(response.id!,
                           '${response.name} ${response.lastName}');
                     },
-                    title: 'Agregar jugador')
-                .textButtom(Constants.primaryColor),
+                    title: S().agregarJugador)
+                .textButtom(Theme.of(Get.context!).colorScheme.primary),
             UiButtoms(
                     onPressed: () {
                       Get.back();
                     },
-                    title: 'Cancelar')
+                    title: S().cancelar)
                 .textButtom(Colors.black),
           ]);
     } on CustomException catch (e) {
@@ -212,13 +212,13 @@ class TeamController extends GetxController {
                     Get.back();
                     openWhatsApp(formMobileNumer.control('mobile_phone').value);
                   },
-                  title: 'Invitar jugador')
-              .textButtom(Constants.primaryColor),
+                  title: S().invitarJugador)
+              .textButtom(Theme.of(Get.context!).colorScheme.primary),
           UiButtoms(
                   onPressed: () {
                     Get.back();
                   },
-                  title: 'Cerrar')
+                  title: S().cerrar)
               .textButtom(Colors.black),
         ]);
       } else {
@@ -255,8 +255,7 @@ class TeamController extends GetxController {
           actionButtom: () {
             Get.back();
           },
-          message:
-              '${playerName.toUpperCase()} ha sido agregado exitosamente al equipo');
+          message: S().jugadorAgregadoEquipo(playerName.toUpperCase()));
 
       getTeamsByUserId(teamId.value);
     } on CustomException catch (e) {
@@ -272,8 +271,7 @@ class TeamController extends GetxController {
   }
 
   void openWhatsApp(String phoneNumber) async {
-    final String message = Uri.encodeComponent(
-        "Hola, quiero invitarte a que descargues Golpi, una app para organizar partidos de fútbol. Descarga aquí: https://golpi.com");
+    final String message = Uri.encodeComponent(S().invitacionDescargaGolpi);
 
     final String whatsappUrl = "https://wa.me/$phoneNumber?text=$message";
 
@@ -304,20 +302,20 @@ class TeamController extends GetxController {
     try {
       UiAlertMessage(Get.context!).alert(
           message:
-              '¿Esta seguro que desea salir del equipo ${teamModel.value!.name!.toUpperCase()}? Perderás acceso a sus actividades y notificaciones. ',
+              S().confirmacionSalirEquipo(teamModel.value!.name!.toUpperCase()),
           actions: [
             UiButtoms(
                     onPressed: () {
                       Get.back();
                       leaveTeam(homeController);
                     },
-                    title: 'Salir')
-                .textButtom(Constants.primaryColor),
+                    title: S().salir)
+                .textButtom(Theme.of(Get.context!).colorScheme.primary),
             UiButtoms(
                     onPressed: () {
                       Get.back();
                     },
-                    title: 'Cerrar')
+                    title: S().cerrar)
                 .textButtom(Colors.black),
           ]);
     } on CustomException catch (e) {
@@ -356,8 +354,7 @@ class TeamController extends GetxController {
             Get.toNamed(AppPages.home);
             homeController.getTeamsByUserId();
           },
-          message:
-              'Has salido exitosamente del equipo ${teamModel.value!.name!.toUpperCase()}');
+          message: S().exitoSalirEquipo(teamModel.value!.name!.toUpperCase()));
     } on CustomException catch (e) {
       Get.back();
       UiAlertMessage(Get.context!)
