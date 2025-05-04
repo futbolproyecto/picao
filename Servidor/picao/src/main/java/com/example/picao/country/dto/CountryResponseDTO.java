@@ -17,4 +17,9 @@ public class CountryResponseDTO {
 
     @JsonProperty("cell_prefix")
     String cellPrefix;
+
+    @JsonProperty("iso_code")
+    String isoCode;
+
+
 }
