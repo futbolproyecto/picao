@@ -27,11 +27,13 @@ public record CreateUserRequestDTO(
         @Email(regexp = Constants.REGEX_EMAIL, message = Constants.ERROR_MESSAGE_EMAIL)
         String email,
         @NotBlank
-        @Pattern(regexp = Constants.PASSWORD_PATTERN, message =Constants.ERROR_MESSAGE_PASSWORD)
+        @Pattern(regexp = Constants.PASSWORD_PATTERN, message = Constants.ERROR_MESSAGE_PASSWORD)
         String password,
         @JsonFormat(pattern = "yyyy-MM-dd")
         @JsonProperty("date_of_birth")
-        LocalDate dateOfBirth
+        LocalDate dateOfBirth,
+        @JsonProperty("country_id")
+        Integer countryId
 ) {
 
 }

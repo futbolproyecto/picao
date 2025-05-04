@@ -19,6 +19,7 @@ public class Constants {
             "/authentication/login",
             "/user/create",
             "/user/change-password",
-            "/otp/**"
+            "/otp/**",
+            "/country/get-all"
     };
 }
