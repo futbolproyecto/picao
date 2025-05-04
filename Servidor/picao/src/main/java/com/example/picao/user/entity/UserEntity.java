@@ -1,5 +1,8 @@
 package com.example.picao.user.entity;
 
+import com.example.picao.city.entity.City;
+import com.example.picao.country.entity.Country;
+import com.example.picao.field.entity.Field;
 import com.example.picao.player_profile.entity.PlayerProfile;
 import com.example.picao.role.entity.Role;
 import jakarta.persistence.*;
@@ -10,6 +13,7 @@ import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -58,6 +62,10 @@ public class UserEntity {
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     PlayerProfile playerProfile;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "country_id")
+    private Country country;
 
     public UserEntity(Integer id) {
         this.id = id;

@@ -3,6 +3,8 @@ package com.example.picao.user.service.impl;
 import com.example.picao.core.exception.AppException;
 import com.example.picao.core.util.ErrorMessages;
 import com.example.picao.core.util.UsefulMethods;
+import com.example.picao.country.entity.Country;
+import com.example.picao.country.repository.CountryRepository;
 import com.example.picao.user.dto.*;
 import com.example.picao.user.mapper.UserMapper;
 import com.example.picao.otp.repository.OtpRepository;
@@ -33,6 +35,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final OtpRepository otpRepository;
+    private final CountryRepository countryRepository;
 
 
     @Override
@@ -66,8 +69,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                     });
 
 
+            Country country = countryRepository.findById(requestDTO.countryId()).orElseThrow(
+                    () -> new AppException(ErrorMessages.GENERIC_NOT_EXIST, HttpStatus.NOT_FOUND, "Pais"));
+
+
             UserEntity userEntity = MAPPER.toUser(requestDTO);
             userEntity.setPassword(passwordEncoder.encode(userEntity.getPassword()));
+            userEntity.setCountry(country);
 
 
             return MAPPER.toUserResponseDTO(userRepository.save(userEntity));
@@ -154,6 +162,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public UserResponseDTO update(UpdateUserRequestDTO requestDTO) {
         try {
+
             UserEntity userEntity = userRepository.findById(requestDTO.id()).orElseThrow(
                     () -> new AppException(ErrorMessages.USER_NOT_EXIST, HttpStatus.NOT_FOUND));
 

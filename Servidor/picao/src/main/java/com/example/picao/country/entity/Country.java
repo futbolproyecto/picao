@@ -22,4 +22,8 @@ public class Country {
     @Column(name = "cell_prefix", length = 10)
     String cellPrefix;
 
+    @Column(name = "iso_code", length = 3)
+    String isoCode;
+
+
 }
