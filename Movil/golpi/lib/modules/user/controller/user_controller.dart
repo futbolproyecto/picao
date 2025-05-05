@@ -73,8 +73,7 @@ class UserController extends GetxController {
         validators: [Validators.required, Validators.maxLength(50)]),
     'terms_and_conditions':
         FormControl<bool>(value: false, validators: [Validators.requiredTrue]),
-    'cell_prefix': FormControl<String>(
-        validators: [Validators.required, Validators.maxLength(50)]),
+    'cell_prefix': FormControl<String>(validators: [Validators.required]),
   }, validators: [
     const MustMatchValidator('password', 'password_confirmation', false)
   ]);

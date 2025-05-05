@@ -198,6 +198,12 @@ class RegisterUserPage extends StatelessWidget {
                                                   ),
                                                 );
                                               }).toList(),
+                                              validationMessages: {
+                                                ValidationMessage.required:
+                                                    (error) => S
+                                                        .of(context)
+                                                        .campoRequerido,
+                                              },
                                             ),
                                     ),
                                     SizedBox(width: 8),
