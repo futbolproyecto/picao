@@ -769,6 +769,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Solo se permiten numeros`
+  String get soloNumeros {
+    return Intl.message(
+      'Solo se permiten numeros',
+      name: 'soloNumeros',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

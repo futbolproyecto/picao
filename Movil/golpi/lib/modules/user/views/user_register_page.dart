@@ -130,20 +130,106 @@ class RegisterUserPage extends StatelessWidget {
                                 },
                               ),
                               const SizedBox(height: 20),
-                              UiTextFiel().textField(
-                                formControlName: 'mobile_number',
-                                labelText: S.of(context).celular,
-                                prefixIcon: Icons.phone_android_outlined,
-                                colorPrefixIcon:
-                                    Theme.of(context).colorScheme.primary,
-                                validationMessages: {
-                                  ValidationMessage.required: (error) =>
-                                      S.of(context).campoRequerido,
-                                  ValidationMessage.minLength: (error) =>
-                                      S.of(context).longitudMinimo(10),
-                                  ValidationMessage.maxLength: (error) =>
-                                      S.of(context).longitudMaximo(50),
-                                },
+                              Obx(
+                                () => Row(
+                                  children: [
+                                    Expanded(
+                                      flex: 3,
+                                      child: userController.isLoading.value
+                                          ? LinearProgressIndicator()
+                                          : ReactiveDropdownField<String>(
+                                              formControlName: 'cell_prefix',
+                                              decoration: InputDecoration(
+                                                labelText: 'Indicativo',
+                                                filled: true,
+                                                fillColor: Colors.white,
+                                                contentPadding:
+                                                    const EdgeInsets.symmetric(
+                                                        vertical: 16.0,
+                                                        horizontal: 16.0),
+                                                labelStyle: const TextStyle(
+                                                  color: Colors.black54,
+                                                  fontFamily: 'Montserrat',
+                                                ),
+                                                border: OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          15.0),
+                                                ),
+                                                focusedBorder:
+                                                    OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          15.0),
+                                                  borderSide: BorderSide(
+                                                      color: Colors.grey[300]!,
+                                                      width: 1),
+                                                ),
+                                                enabledBorder:
+                                                    OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          15.0),
+                                                  borderSide: BorderSide(
+                                                      color: Colors.grey[200]!),
+                                                ),
+                                              ),
+                                              items: userController.listContries
+                                                  .map((country) {
+                                                return DropdownMenuItem<String>(
+                                                  value: country.cellPrefix,
+                                                  child: Row(
+                                                    children: [
+                                                      Image.asset(
+                                                        country.flagAsset,
+                                                        width: 24,
+                                                        height: 18,
+                                                        package:
+                                                            'country_icons',
+                                                        errorBuilder:
+                                                            (_, __, ___) =>
+                                                                Icon(Icons.flag,
+                                                                    size: 16),
+                                                      ),
+                                                      SizedBox(width: 6),
+                                                      Text(
+                                                          '${country.cellPrefix}'),
+                                                    ],
+                                                  ),
+                                                );
+                                              }).toList(),
+                                            ),
+                                    ),
+                                    SizedBox(width: 8),
+                                    Expanded(
+                                      flex: 7,
+                                      child: UiTextFiel().textField(
+                                        formControlName: 'mobile_number',
+                                        labelText: S.of(context).celular,
+                                        textInputType: TextInputType.number,
+                                        prefixIcon:
+                                            Icons.phone_android_outlined,
+                                        colorPrefixIcon: Theme.of(context)
+                                            .colorScheme
+                                            .primary,
+                                        validationMessages: {
+                                          ValidationMessage.required: (error) =>
+                                              S.of(context).campoRequerido,
+                                          ValidationMessage.minLength:
+                                              (error) => S
+                                                  .of(context)
+                                                  .longitudMinimo(10),
+                                          ValidationMessage.maxLength:
+                                              (error) => S
+                                                  .of(context)
+                                                  .longitudMaximo(50),
+                                          ValidationMessage.number: (error) =>
+                                              S.of(context).soloNumeros,
+                                        },
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                               const SizedBox(height: 20),
                               UiTextFiel().datePickerField(

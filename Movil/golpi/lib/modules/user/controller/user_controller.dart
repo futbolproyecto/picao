@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:golpi/core/models/country_model.dart';
 import 'package:golpi/core/routes/app_pages.dart';
 import 'package:golpi/generated/l10n.dart';
 import 'package:reactive_forms/reactive_forms.dart';
@@ -22,6 +23,7 @@ class UserController extends GetxController {
   void onInit() {
     validateFormatPasswordUser();
     validateFormatPasswordRecoverPassword();
+    getAllCountry();
     super.onInit();
   }
 
@@ -44,6 +46,7 @@ class UserController extends GetxController {
   var isValidateEmail = true.obs;
   var isEmailValidated = false.obs;
   var termsAndConditionsError = Rx<String?>(null);
+  var listContries = [CountryModel()].obs;
 
   var formUserRegistrer = FormGroup({
     'name': FormControl<String>(
@@ -63,12 +66,15 @@ class UserController extends GetxController {
     'mobile_number': FormControl<String>(validators: [
       Validators.required,
       Validators.minLength(10),
-      Validators.maxLength(50)
+      Validators.maxLength(50),
+      Validators.number(),
     ]),
     'date_of_birth': FormControl<DateTime>(
         validators: [Validators.required, Validators.maxLength(50)]),
     'terms_and_conditions':
         FormControl<bool>(value: false, validators: [Validators.requiredTrue]),
+    'cell_prefix': FormControl<String>(
+        validators: [Validators.required, Validators.maxLength(50)]),
   }, validators: [
     const MustMatchValidator('password', 'password_confirmation', false)
   ]);
@@ -110,7 +116,7 @@ class UserController extends GetxController {
       );
 
       await userRepository.sendOtpMobileNumber(
-          formUserRegistrer.control('mobile_number').value);
+          '${formUserRegistrer.control('cell_prefix').value}${formUserRegistrer.control('mobile_number').value}');
 
       Get.back();
       UiAlertMessage(Get.context!).custom(
@@ -378,6 +384,34 @@ class UserController extends GetxController {
         showValidationPassword.value = false;
       }
     });
+  }
+
+  Future<void> getAllCountry() async {
+    try {
+      isLoading.value = true;
+      listContries.value = await userRepository.getAllCountry();
+
+      listContries.sort((a, b) =>
+          int.parse(a.cellPrefix!).compareTo(int.parse(b.cellPrefix!)));
+
+      final defaultCountry = listContries.firstWhere(
+        (c) => c.isoCode == 'CO',
+        orElse: () => listContries.first,
+      );
+
+      formUserRegistrer.control('cell_prefix').value =
+          defaultCountry.cellPrefix;
+      isLoading.value = false;
+    } on CustomException catch (e) {
+      isLoading.value = false;
+      UiAlertMessage(Get.context!)
+          .error(message: '${e.error.error}\n${e.error.recommendation}');
+    } on Exception catch (_) {
+      isLoading.value = false;
+      UiAlertMessage(Get.context!).error(
+          message:
+              '${ErrorModel().uncontrolledError().error!}\n${ErrorModel().uncontrolledError().recommendation!}');
+    }
   }
 
   void _scrollToBottom() {
