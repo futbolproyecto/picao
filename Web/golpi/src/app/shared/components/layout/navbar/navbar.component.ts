@@ -41,6 +41,7 @@ export class NavbarComponent implements OnInit {
   private userService = inject(UserService);
 
   public nombreMostrar: string = '';
+  public tieneEstablecimiento: boolean = true;
 
   constructor() {
     this.usuario$ = this.autenticacionStoreService.obtenerSesion$();
@@ -48,6 +49,10 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit() {
     this.consultarUsuario();
+
+    this.autenticacionStoreService.tieneEstablecimiento$.subscribe((valor) => {
+      this.tieneEstablecimiento = valor;
+    });
   }
 
   consultarUsuario(): void {

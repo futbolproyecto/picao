@@ -8,11 +8,19 @@
   </div>
 
   <mat-menu #menuUsuario="matMenu" class="menu-usuario">
-    <button mat-menu-item [routerLink]="['/home/update-data']">
+    <button
+      mat-menu-item
+      [routerLink]="['/home/update-data']"
+      *ngIf="tieneEstablecimiento"
+    >
       <mat-icon class="icono-submenu">person</mat-icon>
       <span class="submenu">Actualizar datos</span>
     </button>
-    <button mat-menu-item [routerLink]="['/home/change-password']">
+    <button
+      mat-menu-item
+      [routerLink]="['/home/change-password']"
+      *ngIf="tieneEstablecimiento"
+    >
       <mat-icon class="icono-submenu">lock</mat-icon>
       <span class="submenu">Cambiar contraseña</span>
     </button>
@@ -24,7 +32,7 @@
   </mat-menu>
 
   <!-- Notificaciones -->
-  <div class="notificaciones">
+  <div class="notificaciones" *ngIf="tieneEstablecimiento">
     <a
       mat-icon-button
       [routerLink]="['/home/notification']"
