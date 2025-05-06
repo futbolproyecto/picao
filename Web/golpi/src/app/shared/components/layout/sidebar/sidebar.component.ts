@@ -1,13 +1,10 @@
 // Core
 import { CommonModule } from '@angular/common';
 import { Component, HostListener, inject, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
-import { filter, map, switchMap } from 'rxjs/operators';
-import { RouterModule } from '@angular/router';
+import { NavigationEnd, RouterModule, Router } from '@angular/router';
 
 // Servicios
 import { AutenticacionStoreService } from '../../../../core/store/auth/autenticacion-store.service';
-import { UserService } from '../../../../core/service/user.service';
 
 // Librerias
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -18,8 +15,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 // Dto
 import { UsuarioResponseDto } from '../../../../data/schema/userResponseDto';
-import { AlertsService } from '../../../../core/service/alerts.service';
 import { AuthService } from '../../../../core/service/auth.service';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-sidebar',
@@ -37,27 +34,53 @@ import { AuthService } from '../../../../core/service/auth.service';
   styleUrl: './sidebar.component.css',
 })
 export class SidebarComponent implements OnInit {
+  private router = inject(Router);
   private autenticacionStoreService = inject(AutenticacionStoreService);
-  private usuario$: Observable<UsuarioResponseDto> =
-    new Observable<UsuarioResponseDto>();
-  private userService = inject(UserService);
-  private alertsService = inject(AlertsService);
   public authService = inject(AuthService);
-
   public usuario: UsuarioResponseDto = new UsuarioResponseDto();
-  public mostrarSubmodulosUsuario: boolean = false;
-  public nombreMostrar: string = '';
   public menuExpandido: boolean = false;
   public menuMobile: boolean = false;
   public menuAbierto = false;
+  public tieneEstablecimiento: boolean = true;
 
-  constructor() {
-    this.usuario$ = this.autenticacionStoreService.obtenerSesion$();
-  }
+  public currentUrl: string = '';
+  public mostrarSubmodulosConfiguracion: boolean = false;
 
   ngOnInit() {
-    this.consultarUsuario();
     this.checkIfMobile();
+
+    this.autenticacionStoreService.tieneEstablecimiento$.subscribe((valor) => {
+      this.tieneEstablecimiento = valor;
+    });
+
+    this.router.events
+      .pipe(
+        filter(
+          (event): event is NavigationEnd => event instanceof NavigationEnd
+        )
+      )
+      .subscribe((event) => {
+        this.currentUrl = event.urlAfterRedirects;
+        this.updateMenuState();
+      });
+  }
+
+  updateMenuState() {
+    // Lógica para actualizar el estado del submenú
+    if (
+      this.currentUrl === '/home/settings/user' ||
+      this.currentUrl === '/home/settings/schedule-settings'
+    ) {
+      this.mostrarSubmodulosConfiguracion = true; // Expande el submenú
+    } else {
+      this.mostrarSubmodulosConfiguracion = false; // Contrae el submenú
+    }
+  }
+
+  closeMenuMobile(): void {
+    if (window.innerWidth <= 768) {
+      this.menuMobile = false;
+    }
   }
 
   @HostListener('window:resize', ['$event'])
@@ -71,45 +94,12 @@ export class SidebarComponent implements OnInit {
     }
   }
 
-  toggleSubmodulosUsuario(): void {
-    this.mostrarSubmodulosUsuario = !this.mostrarSubmodulosUsuario;
-  }
-
-  consultarUsuario(): void {
-    this.usuario$
-      .pipe(
-        map((usuario: UsuarioResponseDto) => usuario?.id ?? 0),
-        filter((id: number) => id !== 0),
-        switchMap((id: number) => this.userService.getById(id))
-      )
-      .subscribe({
-        next: (response) => {
-          if (response?.payload) {
-            this.usuario = response.payload;
-            this.nombreMostrar = `${this.usuario.name} ${this.usuario.last_name}`;
-          }
-        },
-      });
+  toggleSubmodulosConfiguracion() {
+    // Alterna entre expandir y contraer el submenú
+    this.mostrarSubmodulosConfiguracion = !this.mostrarSubmodulosConfiguracion;
   }
 
   toggleMenuMobile(): void {
     this.menuMobile = !this.menuMobile;
-  }
-
-  closeMenuMobile(): void {
-    if (window.innerWidth <= 768) {
-      this.menuMobile = false;
-    }
-  }
-
-  CerrarSesion() {
-    this.alertsService.fireConfirm(
-      'error',
-      'Esta seguro de cerrar sesión?',
-      'Al cerrarla, tendrá que autenticarse de nuevo para realizar alguna operación!',
-      () => {
-        this.authService.cerrarSesion();
-      }
-    );
   }
 }

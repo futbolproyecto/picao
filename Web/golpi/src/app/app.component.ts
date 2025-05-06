@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
+import { LoadingService } from './core/service/loading.service';
 
 @Component({
   selector: 'app-root',
@@ -12,13 +13,18 @@ import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 export class AppComponent {
   title = 'Golpi';
 
-  constructor(private spinner: NgxSpinnerService) {}
+  constructor(
+    private spinner: NgxSpinnerService,
+    private loadingService: LoadingService
+  ) {}
 
   ngOnInit() {
-    this.spinner.show();
-
-    setTimeout(() => {
-      this.spinner.hide();
-    }, 3000);
+    this.loadingService.loading$.subscribe((isLoading: boolean) => {
+      if (isLoading) {
+        this.spinner.show;
+      } else {
+        this.spinner.hide;
+      }
+    });
   }
 }

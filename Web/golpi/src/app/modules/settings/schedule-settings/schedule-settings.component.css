@@ -1,35 +1,41 @@
-.container-matches {
+.container-horarios {
   padding: 0 16px;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
 
-/* Título */
 h1 {
   font: 20px "Montserrat";
-  color: var(--color-on-tertiary-container);
 }
 
-/* Tarjeta */
-.card-update {
+.card-soccer {
   padding-bottom: 30px;
   background: var(--color-surface-container--lowest);
   box-shadow: 0 3px 15px var(--color-outline-variant);
-  border-radius: 10px;
+  border-radius: 15px;
 }
 
 .container-card {
   padding: 5px;
 }
 
-/* Módulos y listas */
 .container-modulos,
-ul {
+ul,
+.lista {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   width: 100%;
+}
+
+.hora {
+  width: 100%;
+}
+
+label {
+  padding-left: 15px;
+  display: flex;
 }
 
 li {
@@ -52,32 +58,18 @@ li:hover {
   background-color: var(--color-surface-container);
 }
 
-/* Transiciones */
-.container-pestana,
-.container-actualizar {
+.container-pestana {
   text-align: center;
   color: var(--color-secondary);
   transition: opacity 0.3s ease-in-out;
 }
 
-.container-pestana.ng-leave-active,
-.container-actualizar.ng-leave-active {
+.container-pestana.ng-leave-active {
   opacity: 0;
 }
 
-/* Texto */
-p {
-  font-size: 20px;
-}
-
-span {
-  font-weight: bold;
-  font-size: 24px;
-}
-
-/* Formulario */
 .form-content {
-  padding: 0 76px;
+  padding: 0 50px;
 }
 
 .form-group {
@@ -92,7 +84,6 @@ mat-form-field {
   align-items: flex-start;
 }
 
-/* Botón */
 .boton {
   display: flex;
   justify-content: center;
@@ -103,34 +94,22 @@ mat-form-field {
 
 .boton .btn {
   background-color: var(--color-primary);
-  font-size: 16px;
   color: var(--color-on-primary-container);
   height: 45px;
-  width: 50%;
-  border-radius: 10px;
+  width: 45%;
+  border-radius: 15px;
+  font-size: 18px;
+  transition: background-color 0.3s ease;
 }
 
-/* Formulario en columna */
+.boton .btn:hover {
+  background-color: var(--color-inverse-primary);
+}
+
 form {
   display: flex;
   flex-direction: column;
   gap: 15px;
-}
-
-/* Celular */
-.container-celular {
-  width: 100%;
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.custom-input-indicativo {
-  flex: 1;
-}
-
-.custom-input-celular {
-  flex: 3;
 }
 
 /* Estilos para .ng-select */
@@ -158,22 +137,49 @@ form {
   padding-right: 13px;
 }
 
+/* Checks */
+.checkbox-canchas {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.checkbox-dias {
+  display: flex;
+  gap: 5px;
+}
+
+.titulo {
+  border-radius: 10px;
+  font-weight: bold;
+  align-items: center;
+  font-size: 16px;
+  display: flex;
+  padding: 10px;
+}
+
+h2 {
+  font-weight: bold;
+  color: var(--color-on-secondary-container);
+}
+
+.container-tabla {
+  padding: 20px;
+}
+
 /* Reglas de medios */
 @media (max-width: 1124px) {
-  .container-matches {
-    padding: 10px;
-  }
-
   .container-card {
     padding: 0;
   }
 
   .form-content {
-    padding: 0px 30px;
+    padding: 0 15px;
   }
 
   .form-group {
-    display: contents;
+    flex-direction: column;
+    gap: 10px;
   }
 
   li {
@@ -185,5 +191,32 @@ form {
   h1 {
     padding-top: 10px;
     font: bold 15px "Montserrat";
+  }
+
+  .boton .btn {
+    width: 60%;
+    height: 40px;
+  }
+
+  .container-tabla {
+    width: 98vw;
+    overflow-x: auto;
+    padding: 10px;
+    box-sizing: border-box;
+  }
+
+  .table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  h2 {
+    display: flex;
+  }
+}
+
+@media (max-width: 698px) {
+  .container-tabla {
+    width: 95vw;
   }
 }

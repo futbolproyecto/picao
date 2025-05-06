@@ -1,4 +1,5 @@
 <div class="search-container">
+  <h2>Listado de {{ titulo }}</h2>
   <mat-form-field>
     <input matInput (keyup)="filtrarBusqueda($event)" placeholder="Buscar" />
   </mat-form-field>
@@ -42,7 +43,7 @@
                 type="button"
                 class="mx-1"
               >
-                <i class="material-icons">check</i>
+                <i class="material-icons">check_circle</i>
               </button>
               <button
                 *ngIf="finish"
@@ -52,7 +53,7 @@
                 type="button"
                 class="mx-1"
               >
-                <i class="material-icons">close</i>
+                <i class="material-icons">cancel</i>
               </button>
               <button
                 *ngIf="estado"

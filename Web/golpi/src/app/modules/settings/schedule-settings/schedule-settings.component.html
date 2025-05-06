@@ -1,0 +1,156 @@
+<div class="container-horarios">
+  <h1>Configuración / {{ nombrePestana }}</h1>
+  <div class="card-soccer">
+    <app-card>
+      <div class="container-card">
+        <div class="container-modulos">
+          <ul>
+            <li
+              [class.active-tab]="configuracionHorarioActivo"
+              (click)="activarPestana('configuracionHorarios')"
+            >
+              <a>Configuración de horarios</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div *ngIf="configuracionHorarioActivo" class="container-pestana">
+        <form
+          [formGroup]="formularioHorarioEstablecimiento"
+          class="form-content"
+        >
+          <!-- Establecimiento -->
+          <div class="form-group">
+            <ng-select
+              class="lista"
+              formControlName="establishment"
+              [items]="establishmentDto"
+              bindLabel="name"
+              bindValue="id"
+              placeholder="Establecimiento* "
+            ></ng-select>
+          </div>
+
+          <!-- Canchas asociadas -->
+          <div *ngIf="listaCanchas.length > 0" class="form-group mt-3">
+            <div class="titulo">
+              <span class="label-canchas">Canchas asociadas: </span>
+            </div>
+
+            <div class="checkbox-canchas">
+              <mat-checkbox
+                *ngFor="let cancha of listaCanchas"
+                [checked]="canchasSeleccionadas.includes(cancha.id)"
+                (change)="onCheckboxChange(cancha.id, $event)"
+                class="checkbox"
+                color="primary"
+              >
+                {{ cancha.name }}
+              </mat-checkbox>
+            </div>
+          </div>
+
+          <!-- Fechas -->
+          <div class="form-group">
+            <mat-form-field>
+              <mat-label>Fecha inicio</mat-label>
+              <input
+                matInput
+                [matDatepicker]="inicioPicker"
+                formControlName="fecha_inicio"
+              />
+              <mat-datepicker-toggle
+                matIconSuffix
+                [for]="inicioPicker"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #inicioPicker></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-label>Fecha fin</mat-label>
+              <input
+                matInput
+                [matDatepicker]="finPicker"
+                formControlName="fecha_fin"
+              />
+              <mat-datepicker-toggle
+                matIconSuffix
+                [for]="finPicker"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #finPicker></mat-datepicker>
+            </mat-form-field>
+          </div>
+
+          <!-- Horas -->
+          <!-- <div class="form-group">
+            <mat-form-field>
+              <mat-label>Hora inicio</mat-label>
+              <input matInput type="time" formControlName="hora_inicio" />
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-label>Hora fin</mat-label>
+              <input matInput type="time" formControlName="hora_fin" />
+            </mat-form-field>
+          </div> -->
+
+          <div class="form-group">
+            <div class="hora">
+              <ng-select
+                formControlName="hora_inicio"
+                [items]="horas"
+                bindLabel="label"
+                bindValue="value"
+                placeholder="Hora inicio"
+              ></ng-select>
+            </div>
+
+            <div class="hora">
+              <ng-select
+                formControlName="hora_fin"
+                [items]="horas"
+                bindLabel="label"
+                bindValue="value"
+                placeholder="Hora fin"
+              ></ng-select>
+            </div>
+          </div>
+
+          <!-- Días de la semana -->
+          <div class="form-group">
+            <div class="titulo"><span>Días: </span></div>
+            <div class="checkbox-dias">
+              <mat-checkbox
+                *ngFor="let dia of diasSemana"
+                [checked]="diasSeleccionados.includes(dia.valor)"
+                (change)="onDiaChange(dia.valor, $event)"
+                color="primary"
+              >
+                {{ dia.nombre }}
+              </mat-checkbox>
+            </div>
+          </div>
+
+          <!-- Botón Guardar -->
+          <div class="boton">
+            <button mat-raised-button class="btn" type="button">Guardar</button>
+          </div>
+        </form>
+
+        <div class="container-tabla">
+          <div class="table-wrapper">
+            <app-data-table
+              [titulo]="horariosTitulo"
+              [tableData]="tablaEstablecimientos"
+              [columnHeader]="encabezadosEstablecimientos"
+              [estado]="estado"
+              [edit]="edit"
+            >
+            </app-data-table>
+          </div>
+        </div>
+      </div>
+    </app-card>
+  </div>
+</div>

@@ -10,7 +10,6 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
-import { map, Observable, startWith } from 'rxjs';
 
 // Librerias
 import { MatInputModule } from '@angular/material/input';
@@ -64,6 +63,7 @@ export class ReservationComponent implements OnInit {
   public confirm: boolean = true;
   public finish: boolean = true;
   public edit: boolean = true;
+  public tituloReservacion: string = 'reservaciones';
 
   myControl = new FormControl('');
 

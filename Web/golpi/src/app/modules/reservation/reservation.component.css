@@ -1,6 +1,6 @@
 /* Contenedor principal */
 .container-agenda {
-  padding: 16px;
+  padding: 0 16px;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -8,10 +8,8 @@
 
 /* Estilos para encabezados */
 h1 {
-  font-weight: bold;
-  font-size: 20px;
-  color: var(--color-secondary);
-  font-family: "Montserrat";
+  font: 20px "Montserrat";
+  color: var(--color-on-tertiary-container);
 }
 
 /* Estilo de tarjetas */
@@ -24,19 +22,16 @@ h1 {
 
 /* Contenedores internos */
 .container-card {
-  padding: 10px;
+  padding: 5px;
 }
 
 .container-modulos,
-ul {
+ul,
+.lista {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   width: 100%;
-}
-
-ul {
-  padding: 10px;
 }
 
 /* Estilos para los elementos de lista */
@@ -44,17 +39,20 @@ li {
   list-style: none;
   cursor: pointer;
   text-decoration: none;
-  border-bottom: 2px solid var(--color-primary);
-  padding: 10px 30px;
-  font-family: "Montserrat";
-  font-size: 18px;
-  color: var(--color-outline-variant);
+  padding: 10px 20px;
+  border-radius: 6px 6px 0 0;
+  margin-right: 5px;
+  transition: all 0.3s ease;
 }
 
-li:hover,
-.active-tab {
+li.active-tab {
   border-bottom: 2px solid var(--color-secondary);
   color: var(--color-secondary);
+  font-weight: bold;
+}
+
+li:hover {
+  background-color: var(--color-surface-container);
 }
 
 /* Pestaña */
@@ -161,6 +159,10 @@ form {
 
 .lista_cliente {
   width: 85%;
+}
+
+h2 {
+  display: flex;
 }
 
 /* Reglas de medios */

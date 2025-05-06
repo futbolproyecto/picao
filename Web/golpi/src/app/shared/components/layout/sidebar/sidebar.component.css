@@ -130,32 +130,63 @@ ul li a p {
   transform: translateX(200px);
 }
 
-.cerrar {
-  margin-top: auto; /* Esto empuja el botón de cerrar sesión al final */
-  list-style-type: none;
-  padding-left: 0;
+/* Estilo similar al de user */
+.config {
+  font-family: "Montserrat";
+  font-size: 1.1rem;
   cursor: pointer;
 }
 
-.cerrar a {
-  font-size: 1rem;
+.modulo-principal {
+  display: flex;
+  color: var(--color-outline);
+  border-radius: 10px;
+  padding: 10px 15px;
   font-family: "Montserrat";
+  font-size: 1rem;
+  align-items: center;
+  transition: background-color 0.3s ease;
+}
+
+.modulo-principal:hover {
+  background-color: var(--color-surface-container);
+  border-radius: 8px;
+}
+
+.modulo-principal p {
+  padding-left: 10px;
+}
+
+.icono-menu,
+.icono-submenu {
+  font-size: 28px;
+  margin-right: 10px;
+}
+
+.submenu ul a {
+  padding-left: 25px;
+}
+
+.submenu {
+  display: flex;
+  flex-direction: column;
+  padding-left: 10px;
+}
+
+.submenu ul li a {
   display: flex;
   align-items: center;
-  color: var(--color-shadow);
+  color: var(--color-outline);
+  border-radius: 10px;
+  padding: 10px;
 }
 
-.cerrar:hover a,
-.cerrar:hover i {
-  font-weight: bold;
+.submenu ul li a:hover {
+  color: var(--color-secondary);
 }
 
-.cerrar i {
-  color: var(--color-error);
-}
-
-.cerrar p {
-  margin: 10px;
+.submenu ul li a p {
+  margin-left: 10px;
 }
 
 @media (max-width: 1124px) {

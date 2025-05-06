@@ -1,4 +1,29 @@
 <nav>
+  <!-- Menú usuario -->
+  <div class="usuario-menu" [matMenuTriggerFor]="menuUsuario">
+    <span>
+      Hi, {{ usuario.name | titlecase }} {{ usuario.last_name | titlecase }}
+    </span>
+    <mat-icon>expand_more</mat-icon>
+  </div>
+
+  <mat-menu #menuUsuario="matMenu" class="menu-usuario">
+    <button mat-menu-item [routerLink]="['/home/update-data']">
+      <mat-icon class="icono-submenu">person</mat-icon>
+      <span class="submenu">Actualizar datos</span>
+    </button>
+    <button mat-menu-item [routerLink]="['/home/change-password']">
+      <mat-icon class="icono-submenu">lock</mat-icon>
+      <span class="submenu">Cambiar contraseña</span>
+    </button>
+
+    <button mat-menu-item (click)="CerrarSesion()">
+      <mat-icon class="icono-submenu-cerrar">logout</mat-icon>
+      <span class="cerrar">Cerrar sesión</span>
+    </button>
+  </mat-menu>
+
+  <!-- Notificaciones -->
   <div class="notificaciones">
     <a
       mat-icon-button
@@ -6,9 +31,6 @@
       routerLinkActive="router-link-active"
     >
       <i class="material-icons iconred icono-menu">notifications</i>
-      <!-- <span class="contador" *ngIf="cantidadSolicitudes > 0">
-        {{ cantidadSolicitudes }}
-      </span> -->
     </a>
   </div>
 </nav>

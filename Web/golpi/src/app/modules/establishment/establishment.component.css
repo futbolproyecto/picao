@@ -41,14 +41,6 @@ form {
   padding: 20px;
 }
 
-h1 {
-  display: flex;
-  font-weight: bold;
-  font-size: 20px;
-  color: var(--color-secondary);
-  font-family: "Montserrat";
-}
-
 .ng-select,
 .ng-select div,
 ::ng-deep.ng-select input,

@@ -21,7 +21,8 @@
   </div>
 
   <div class="sidebar-wrapper">
-    <div class="user" (click)="toggleSubmodulosUsuario()">
+    <!-- Usuario -->
+    <div class="user">
       <div class="nombre">
         <span *ngIf="!menuExpandido">
           {{ usuario.name | titlecase }} {{ usuario.last_name | titlecase }}
@@ -30,40 +31,60 @@
           {{ usuario.name | titlecase | slice : 0 : 1
           }}{{ usuario.last_name | titlecase | slice : 0 : 1 }}
         </span>
+      </div>
+    </div>
+
+    <!-- Configuración -->
+    <div class="config" (click)="toggleSubmodulosConfiguracion()">
+      <div class="modulo-principal">
+        <i class="material-icons icono-menu">settings</i>
+        <p *ngIf="!menuExpandido">Configuración</p>
         <mat-icon>{{
-          mostrarSubmodulosUsuario ? "expand_less" : "expand_more"
+          mostrarSubmodulosConfiguracion ? "expand_less" : "expand_more"
         }}</mat-icon>
       </div>
-
-      <div class="submenu" *ngIf="mostrarSubmodulosUsuario">
+      <div class="submenu" *ngIf="mostrarSubmodulosConfiguracion">
         <ul>
           <li>
             <a
-              [routerLink]="['/home/update-data']"
+              [routerLink]="['/home/settings/user']"
               routerLinkActive="router-link-active"
               [matTooltip]="'Usuario'"
               [matTooltipPosition]="'right'"
               [matTooltipDisabled]="!menuExpandido"
               (click)="closeMenuMobile()"
             >
-              <i class="material-icons icono-submenu">manage_accounts</i>
+              <i class="material-icons icono-submenu">person</i>
               <p *ngIf="!menuExpandido">Usuario</p>
+            </a>
+          </li>
+          <li>
+            <a
+              [routerLink]="['/home/settings/schedule-settings']"
+              routerLinkActive="router-link-active"
+              [matTooltip]="'Bloqueo de horarios'"
+              [matTooltipPosition]="'right'"
+              [matTooltipDisabled]="!menuExpandido"
+              (click)="closeMenuMobile()"
+            >
+              <i class="material-icons icono-submenu">schedule</i>
+              <p *ngIf="!menuExpandido">Configuración horarios</p>
             </a>
           </li>
         </ul>
       </div>
     </div>
 
+    <!-- Menú principal -->
     <div class="menu">
       <ul>
-        <li>
+        <li *ngIf="tieneEstablecimiento">
           <a
             [routerLink]="['/home/dashboard']"
             routerLinkActive="router-link-active"
             [matTooltip]="'Dashboard'"
             [matTooltipPosition]="'right'"
             [matTooltipDisabled]="!menuExpandido"
-            class="menu-item"
             (click)="closeMenuMobile()"
           >
             <i class="material-icons icono-menu">dashboard</i>
@@ -83,7 +104,7 @@
             <p *ngIf="!menuExpandido">Establecimiento</p>
           </a>
         </li>
-        <li>
+        <li *ngIf="tieneEstablecimiento">
           <a
             [routerLink]="['/home/reservacion']"
             routerLinkActive="router-link-active"
@@ -98,12 +119,5 @@
         </li>
       </ul>
     </div>
-  </div>
-
-  <div class="cerrar">
-    <a (click)="CerrarSesion()">
-      <i class="material-icons iconred icono-menu">logout</i>
-      <p *ngIf="!menuExpandido">CERRAR SESIÓN</p>
-    </a>
   </div>
 </div>

@@ -9,6 +9,9 @@ import { SoccerFieldComponent } from './modules/soccer-field/soccer-field.compon
 import { DashboardComponent } from './modules/dashboard/dashboard.component';
 import { ReservationComponent } from './modules/reservation/reservation.component';
 import { NotificationsComponent } from './modules/notifications/notifications.component';
+import { ScheduleSettingsComponent } from './modules/settings/schedule-settings/schedule-settings.component';
+import { UserComponent } from './modules/settings/user/user.component';
+import { ChangePasswordComponent } from './modules/change-password/change-password.component';
 
 export const routes: Routes = [
   {
@@ -46,9 +49,35 @@ export const routes: Routes = [
         component: UpdateDataComponent,
       },
       {
+        path: 'change-password',
+        title: 'Cambio contraseña',
+        component: ChangePasswordComponent,
+      },
+      {
         path: 'notification',
         title: 'Notificaciones',
         component: NotificationsComponent,
+      },
+      {
+        path: 'settings',
+        title: 'Configuraciones',
+        children: [
+          {
+            path: 'user',
+            title: 'Usuario',
+            component: UserComponent,
+          },
+          {
+            path: 'schedule-settings',
+            title: 'Bloqueo de Horarios',
+            component: ScheduleSettingsComponent,
+          },
+          {
+            path: '',
+            redirectTo: 'usuario',
+            pathMatch: 'full',
+          },
+        ],
       },
       {
         path: '',

@@ -19,6 +19,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 // Compartidos
 import { Constant } from '../../../shared/utils/constant';
@@ -33,7 +34,7 @@ import { AlertsService } from '../../../core/service/alerts.service';
 import { UserService } from '../../../core/service/user.service';
 import { OtpRequestDto } from '../../../data/schema/otpRequestDto';
 import { OtpService } from '../../../core/service/otp.service';
-import { LoadingService } from '../../../core/service/loading.service';
+import { BusyService } from '../../../core/busy.service';
 import { AutenticacionStoreService } from '../../../core/store/auth/autenticacion-store.service';
 import { EstablishmentService } from '../../../core/service/establishment.service';
 
@@ -60,6 +61,7 @@ import { UsuarioResponseDto } from '../../../data/schema/userResponseDto';
     CarouselComponent,
     MatFormFieldModule,
     NgSelectModule,
+    NgxSpinnerModule,
   ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
@@ -89,7 +91,6 @@ export class LoginComponent {
   public esModoRegistro: boolean = false;
   public formularioLogin: UntypedFormGroup = new UntypedFormGroup({});
   public loginRequestDto: LoginRequestDto = new LoginRequestDto();
-  public loadingService: LoadingService = new LoadingService();
 
   //cadenas para errores
   public correoError: string = '';
@@ -98,11 +99,13 @@ export class LoginComponent {
   public mostrarSeleccionEstablecimiento = false;
   public listaEstablecimientos: any[] = [];
   public establecimientoSeleccionado: any = null;
+  public cargando: boolean = false;
 
   constructor(
     private formBuilder: UntypedFormBuilder,
     private ModoAuthService: ModoAuthService,
-    private router: Router
+    private router: Router,
+    private busyService: BusyService
   ) {
     this.buildForm();
     this.ModoAuthService.esModoRegistro$.subscribe((modo) => {
@@ -168,40 +171,44 @@ export class LoginComponent {
         password: this.pass?.value,
       };
 
-      this.loadingService.setLoading(true);
+      this.busyService.busy();
 
-      this.subscripcion = this.authService.iniciarSesion(usuario).subscribe({
-        next: (resp: GenericDto<AuthRequestDto>) => {
-          this.loadingService.setLoading(false);
-          const usuario: AuthRequestDto =
-            resp.payload ?? ({} as AuthRequestDto);
-          this.autenticacionStore.adicionarSesion(usuario);
+      this.subscripcion = this.authService
+        .iniciarSesion(usuario)
+        .pipe(
+          finalize(() => {
+            this.busyService.idle();
+          })
+        )
+        .subscribe({
+          next: (resp: GenericDto<AuthRequestDto>) => {
+            const usuario: AuthRequestDto =
+              resp.payload ?? ({} as AuthRequestDto);
+            this.autenticacionStore.adicionarSesion(usuario);
 
-          this.cargarEstablecimientosUsuario();
-          this.correo.disable();
-          this.pass.disable();
-          this.mostrarSeleccionEstablecimiento = true;
-        },
-        error: (err) => {
-          this.loadingService.setLoading(false);
-          if (err.status === 0) {
-            this.alertsService.fireError({
-              status: 0,
-              error: 'No se pudo conectar con el servidor',
-              recommendation:
-                'Verifica tu conexión a internet o que el servidor esté en ejecución.',
-            });
-          } else {
-            const errorDto = new MessageExceptionDto({
-              status: err.error?.status,
-              error: err.error?.error,
-              recommendation: err.error?.recommendation,
-            });
+            this.correo.disable();
+            this.pass.disable();
+            this.cargarEstablecimientosUsuario();
+          },
+          error: (err) => {
+            if (err.status === 0) {
+              this.alertsService.fireError({
+                status: 0,
+                error: 'No se pudo conectar con el servidor',
+                recommendation:
+                  'Verifica tu conexión a internet o que el servidor esté en ejecución.',
+              });
+            } else {
+              const errorDto = new MessageExceptionDto({
+                status: err.error?.status,
+                error: err.error?.error,
+                recommendation: err.error?.recommendation,
+              });
 
-            this.alertsService.fireError(errorDto);
-          }
-        },
-      });
+              this.alertsService.fireError(errorDto);
+            }
+          },
+        });
     } else {
       this.formularioLogin.markAllAsTouched();
       this.alertsService.toast('error', Constant.ERROR_FORM_INCOMPLETO);
@@ -209,8 +216,6 @@ export class LoginComponent {
   }
 
   cargarEstablecimientosUsuario(): void {
-    this.loadingService.setLoading(true);
-
     this.autenticacionStore
       .obtenerSesion$()
       .pipe(
@@ -218,16 +223,19 @@ export class LoginComponent {
         filter((id: number) => id !== 0),
         switchMap((id: number) =>
           this.establishmentService.establecimientoPorUsuario(id)
-        ),
-        finalize(() => this.loadingService.setLoading(false))
+        )
       )
       .subscribe({
         next: (response) => {
-          if (response?.payload) {
-            this.listaEstablecimientos = response.payload.map((est: any) => ({
-              id: est.id,
-              name: est.name,
-            }));
+          const establecimientos = response?.payload ?? [];
+
+          if (establecimientos.length > 0) {
+            this.listaEstablecimientos = establecimientos;
+            this.mostrarSeleccionEstablecimiento = true;
+          } else {
+            this.autenticacionStore.setTieneEstablecimiento(false);
+            this.mostrarSeleccionEstablecimiento = false;
+            this.router.navigate(['/home/soccer-field']);
           }
         },
         error: (err) => {
@@ -276,7 +284,6 @@ export class LoginComponent {
               this.mensajeValidacion(correoIngresado);
             },
             (err) => {
-              this.loadingService.setLoading(false);
               if (err.status === 0) {
                 this.alertsService.fireError({
                   status: 0,

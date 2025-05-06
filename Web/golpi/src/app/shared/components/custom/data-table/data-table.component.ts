@@ -1,15 +1,13 @@
-// Core
 import { Component, Input, OnChanges, Output, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EventEmitter } from '@angular/core';
-
-// Librerias
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatTableDataSource } from '@angular/material/table';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-data-table',
@@ -23,10 +21,11 @@ import { MatTableDataSource } from '@angular/material/table';
     MatInputModule,
   ],
   templateUrl: './data-table.component.html',
-  styleUrl: './data-table.component.css',
+  styleUrls: ['./data-table.component.css'],
 })
 export class DataTableComponent implements OnChanges {
   @Input() tableData: any = [];
+  @Input() titulo: string = '';
   @Input() columnHeader: any;
   @Input() edit: boolean = false;
   @Input() estado: boolean = false;
@@ -47,17 +46,19 @@ export class DataTableComponent implements OnChanges {
   @ViewChild(MatSort, { static: false }) sort!: MatSort;
   @ViewChild(MatPaginator, { static: false }) paginator!: MatPaginator;
 
+  constructor(private cdr: ChangeDetectorRef) {
+    this.id = new EventEmitter<{ value: number }>();
+    this.item = new EventEmitter<{ value: number }>();
+  }
+
   ngOnChanges(): void {
-    if (this.tableData) {
+    if (this.tableData && this.tableData.length > 0) {
       this.dataSource.data = this.tableData;
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
+    } else {
+      this.dataSource.data = [];
     }
-  }
-
-  constructor() {
-    this.id = new EventEmitter<{ value: number }>();
-    this.item = new EventEmitter<{ value: number }>();
   }
 
   filtrarBusqueda(event: Event) {

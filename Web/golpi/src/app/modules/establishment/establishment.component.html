@@ -2,7 +2,15 @@
   <div class="form-group">
     <mat-form-field>
       <mat-label>Nombre establecimiento</mat-label>
-      <input matInput formControlName="nombre_establecimiento" />
+      <input
+        matInput
+        formControlName="nombre_establecimiento"
+        maxlength="50"
+        #nombre_establecimiento
+      />
+      <mat-hint align="end"
+        >{{ nombre_establecimiento.value.length }} / 50</mat-hint
+      >
     </mat-form-field>
     <small class="text-error" *ngIf="validarNombre()">
       {{ nombreError }}
@@ -10,7 +18,8 @@
 
     <mat-form-field>
       <mat-label>Dirección</mat-label>
-      <input matInput formControlName="direccion" />
+      <input matInput formControlName="direccion" maxlength="50" #direccion />
+      <mat-hint align="end">{{ direccion.value.length }} / 50</mat-hint>
     </mat-form-field>
     <small class="text-error" *ngIf="validarDireccion()">
       {{ direccionError }}
@@ -53,9 +62,9 @@
 </form>
 
 <div class="container-tabla">
-  <h2>Listado de establecimientos</h2>
   <div class="table-wrapper">
     <app-data-table
+      [titulo]="establecimientoTitulo"
       [tableData]="tablaEstablecimientos"
       [columnHeader]="encabezadosEstablecimientos"
       [estado]="estado"

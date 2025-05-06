@@ -1,5 +1,5 @@
 // Core
-import { Component, inject, DestroyRef } from '@angular/core';
+import { Component, inject, DestroyRef, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   AbstractControl,
@@ -30,10 +30,11 @@ import { FieldService } from '../../core/service/field.service';
 import { FieldRequestDto } from '../../data/schema/fieldRequestDTO';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MessageExceptionDto } from '../../data/schema/MessageExceptionDto';
-import { filter, map, switchMap } from 'rxjs';
+import { filter, finalize, map, switchMap } from 'rxjs';
 import { AutenticacionStoreService } from '../../core/store/auth/autenticacion-store.service';
 import { UsuarioResponseDto } from '../../data/schema/userResponseDto';
 import { EstablishmentService } from '../../core/service/establishment.service';
+import { BusyService } from '../../core/busy.service';
 
 @Component({
   selector: 'app-soccer-field',
@@ -53,7 +54,7 @@ import { EstablishmentService } from '../../core/service/establishment.service';
   templateUrl: './soccer-field.component.html',
   styleUrl: './soccer-field.component.css',
 })
-export class SoccerFieldComponent {
+export class SoccerFieldComponent implements OnInit {
   private readonly autenticacionStore = inject(AutenticacionStoreService);
   private formBuilder = inject(UntypedFormBuilder);
   public formularioCancha: UntypedFormGroup = new UntypedFormGroup({});
@@ -67,6 +68,7 @@ export class SoccerFieldComponent {
   public registrarCanchaActivo: boolean = false;
   public registrarEstablecimientoActivo: boolean = true;
   public nombrePestana: string = 'Registrar establecimiento';
+  public tieneEstablecimiento: boolean = true;
 
   public listaEstablecimientos: any[] = [];
   public establecimientoSeleccionado: any = null;
@@ -77,6 +79,7 @@ export class SoccerFieldComponent {
 
   public estado: boolean = true;
   public edit: boolean = true;
+  public canchasTitulo: string = 'canchas';
 
   public encabezadosCanchas = {
     name: 'Descripción cancha',
@@ -86,10 +89,17 @@ export class SoccerFieldComponent {
     acciones: 'Acciones',
   };
 
-  constructor() {
+  constructor(private busyService: BusyService) {
     this.buildForm();
+  }
+
+  ngOnInit() {
     this.cargarEstablecimientosUsuario();
     this.cargarCanchaEstablecimiento();
+
+    this.autenticacionStore.tieneEstablecimiento$.subscribe((valor) => {
+      this.tieneEstablecimiento = valor;
+    });
   }
 
   cargarCanchaEstablecimiento(): void {
@@ -105,21 +115,31 @@ export class SoccerFieldComponent {
       return;
     }
 
-    this.fieldService.canchaPorEstablecimiento(idEstablecimiento).subscribe({
-      next: (response) => {
-        if (response?.payload) {
-          this.tablaCanchas = response.payload;
-        }
-      },
-      error: (err) => {
-        const errorDto = new MessageExceptionDto({
-          status: err.error?.status,
-          error: err.error?.error,
-          recommendation: err.error?.recommendation,
-        });
-        this.alertsService.fireError(errorDto);
-      },
-    });
+    this.busyService.busy();
+
+    this.fieldService
+      .canchaPorEstablecimiento(idEstablecimiento)
+      .pipe(
+        finalize(() => {
+          this.busyService.idle();
+        })
+      )
+      .subscribe({
+        next: (response) => {
+          const canchas = response?.payload ?? [];
+          if (canchas) {
+            this.tablaCanchas = canchas;
+          }
+        },
+        error: (err) => {
+          const errorDto = new MessageExceptionDto({
+            status: err.error?.status,
+            error: err.error?.error,
+            recommendation: err.error?.recommendation,
+          });
+          this.alertsService.fireError(errorDto);
+        },
+      });
   }
 
   cargarEstablecimientosUsuario(): void {
@@ -229,9 +249,14 @@ export class SoccerFieldComponent {
 
       this.fieldService
         .crearCancha(this.fieldDto)
-        .pipe(takeUntilDestroyed(this.destroyRef))
-        .subscribe(
-          () => {
+        .pipe(
+          takeUntilDestroyed(this.destroyRef),
+          finalize(() => {
+            this.busyService.idle();
+          })
+        )
+        .subscribe({
+          next: () => {
             this.alertsService.toast(
               'success',
               'Cancha registrada exitosamente.'
@@ -239,15 +264,15 @@ export class SoccerFieldComponent {
             this.limpiarFormulario();
             this.cargarCanchaEstablecimiento();
           },
-          (err) => {
+          error: (err) => {
             const errorDto = new MessageExceptionDto({
               status: err.error?.status,
               error: err.error?.error,
               recommendation: err.error?.recommendation,
             });
             this.alertsService.fireError(errorDto);
-          }
-        );
+          },
+        });
     } else {
       this.formularioCancha.markAllAsTouched();
       this.alertsService.toast('error', Constant.ERROR_FORM_INCOMPLETO);

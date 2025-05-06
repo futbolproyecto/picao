@@ -14,6 +14,7 @@
               <a>Registrar establecimiento</a>
             </li>
             <li
+              *ngIf="tieneEstablecimiento"
               [class.active-tab]="registrarCanchaActivo"
               (click)="activarPestana('registrarCancha')"
             >
@@ -76,9 +77,9 @@
           </form>
 
           <div class="container-tabla">
-            <h2>Listado de canchas</h2>
             <div class="table-wrapper">
               <app-data-table
+                [titulo]="canchasTitulo"
                 [tableData]="tablaCanchas"
                 [columnHeader]="encabezadosCanchas"
                 [estado]="estado"

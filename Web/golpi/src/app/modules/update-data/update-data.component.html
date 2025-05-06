@@ -13,12 +13,6 @@
             >
               <a>Actualizar datos</a>
             </li>
-            <li
-              [class.active-tab]="cambiarActivo"
-              (click)="activarPestana('cambiar')"
-            >
-              <a>Cambiar contraseña</a>
-            </li>
           </ul>
         </div>
       </div>
@@ -30,7 +24,15 @@
             <div class="form-group">
               <mat-form-field>
                 <mat-label>Primer nombre</mat-label>
-                <input matInput formControlName="primer_nombre" />
+                <input
+                  matInput
+                  formControlName="primer_nombre"
+                  maxlength="20"
+                  #primer_nombre
+                />
+                <mat-hint align="end"
+                  >{{ primer_nombre.value.length }} / 20</mat-hint
+                >
               </mat-form-field>
               <small class="text-error" *ngIf="validarPrimerNombre()">
                 {{ primerNombreError }}
@@ -38,7 +40,15 @@
 
               <mat-form-field>
                 <mat-label>Segundo nombre</mat-label>
-                <input matInput formControlName="segundo_nombre" />
+                <input
+                  matInput
+                  formControlName="segundo_nombre"
+                  #segundo_nombre
+                  maxlength="20"
+                />
+                <mat-hint align="end"
+                  >{{ segundo_nombre.value.length }} / 20</mat-hint
+                >
               </mat-form-field>
               <small class="text-error" *ngIf="validarSegundoNombre()">
                 {{ segundoNombreError }}
@@ -48,7 +58,15 @@
             <div class="form-group">
               <mat-form-field>
                 <mat-label>Primer apellido</mat-label>
-                <input matInput formControlName="primer_apellido" />
+                <input
+                  matInput
+                  formControlName="primer_apellido"
+                  #primer_apellido
+                  maxlength="20"
+                />
+                <mat-hint align="end"
+                  >{{ primer_apellido.value.length }} / 20</mat-hint
+                >
               </mat-form-field>
               <small class="text-error" *ngIf="validarPrimerApellido()">
                 {{ primerApellidoError }}
@@ -56,7 +74,15 @@
 
               <mat-form-field>
                 <mat-label>Segundo apellido</mat-label>
-                <input matInput formControlName="segundo_apellido" />
+                <input
+                  matInput
+                  formControlName="segundo_apellido"
+                  #segundo_apellido
+                  maxlength="20"
+                />
+                <mat-hint align="end"
+                  >{{ segundo_apellido.value.length }} / 20</mat-hint
+                >
               </mat-form-field>
               <small class="text-error" *ngIf="validarSegundoApellido()">
                 {{ segundoApellidoError }}
@@ -66,7 +92,13 @@
             <div class="form-group">
               <mat-form-field>
                 <mat-label>Correo electrónico</mat-label>
-                <input matInput formControlName="correo" />
+                <input
+                  matInput
+                  formControlName="correo"
+                  maxlength="30"
+                  #correo
+                />
+                <mat-hint align="end">{{ correo.value.length }} / 30</mat-hint>
               </mat-form-field>
               <small class="text-error" *ngIf="validarCorreo()">
                 {{ correoError }}
@@ -76,11 +108,40 @@
                 <ng-select
                   formControlName="indicador"
                   [items]="countryDTO"
-                  bindLabel="cellPrefix"
+                  bindLabel="cell_prefix"
                   bindValue="id"
-                  class="custom-input-indicativo"
                   [(ngModel)]="selected"
+                  class="custom-input-indicativo"
                 >
+                  <ng-template ng-option-tmp let-item="item">
+                    <img
+                      [src]="
+                        'https://flagcdn.com/24x18/' +
+                        item.iso_code.toLowerCase() +
+                        '.png'
+                      "
+                      width="20"
+                      height="15"
+                      style="margin-right: 8px"
+                      alt="{{ item.iso_code }}"
+                    />
+                    {{ item.cell_prefix }} ({{ item.name }})
+                  </ng-template>
+
+                  <ng-template ng-label-tmp let-item="item">
+                    <img
+                      [src]="
+                        'https://flagcdn.com/24x18/' +
+                        item?.iso_code?.toLowerCase() +
+                        '.png'
+                      "
+                      width="20"
+                      height="15"
+                      style="margin-right: 5px"
+                      alt="{{ item?.iso_code }}"
+                    />
+                    {{ item?.cell_prefix }}
+                  </ng-template>
                 </ng-select>
 
                 <mat-form-field class="custom-input-celular">
@@ -90,7 +151,12 @@
                     formControlName="celular"
                     type="number"
                     autocomplete="off"
+                    #celular
+                    maxlength="15"
                   />
+                  <mat-hint align="end"
+                    >{{ celular.value.length }} / 15</mat-hint
+                  >
                 </mat-form-field>
               </div>
             </div>

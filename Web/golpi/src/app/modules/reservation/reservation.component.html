@@ -119,9 +119,9 @@
           </form>
 
           <div class="container-tabla">
-            <h2>Listado de reservas</h2>
             <div class="table-wrapper">
               <app-data-table
+                [titulo]="tituloReservacion"
                 [tableData]="tablaReservacion"
                 [columnHeader]="encabezadosReservacion"
                 [confirm]="confirm"

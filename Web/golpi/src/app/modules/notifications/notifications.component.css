@@ -1,6 +1,6 @@
 /* Contenedor principal */
 .container-solicitudes {
-  padding: 16px;
+  padding: 0 16px;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
