@@ -35,7 +35,11 @@
     </div>
 
     <!-- Configuración -->
-    <div class="config" (click)="toggleSubmodulosConfiguracion()">
+    <div
+      class="config"
+      (click)="toggleSubmodulosConfiguracion()"
+      *ngIf="tieneEstablecimiento"
+    >
       <div class="modulo-principal">
         <i class="material-icons icono-menu">settings</i>
         <p *ngIf="!menuExpandido">Configuración</p>
