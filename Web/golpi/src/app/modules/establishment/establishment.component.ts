@@ -32,8 +32,6 @@ import { EstablishmentRequestDto } from '../../data/schema/establishmentRequestD
 import { MessageExceptionDto } from '../../data/schema/MessageExceptionDto';
 import { UsuarioResponseDto } from '../../data/schema/userResponseDto';
 import { BusyService } from '../../core/busy.service';
-import { GoogleMapsModule } from '@angular/google-maps';
-import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'app-establishment',
@@ -45,8 +43,6 @@ import { MatIcon } from '@angular/material/icon';
     FormsModule,
     DataTableComponent,
     NgSelectModule,
-    GoogleMapsModule,
-    MatIcon,
   ],
   templateUrl: './establishment.component.html',
   styleUrl: './establishment.component.css',
@@ -122,7 +118,6 @@ export class EstablishmentComponent implements OnInit {
         next: (response) => {
           const establecimientos = response?.payload ?? [];
           if (establecimientos) {
-
             this.tablaEstablecimientos = establecimientos;
           }
         },
