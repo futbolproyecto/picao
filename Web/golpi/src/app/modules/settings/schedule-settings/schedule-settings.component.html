@@ -35,13 +35,13 @@
           <!-- Canchas asociadas -->
           <div *ngIf="listaCanchas.length > 0" class="form-group mt-3">
             <div class="titulo">
-              <span class="label-canchas">Canchas asociadas: </span>
+              <span class="label-canchas">Canchas </span>
             </div>
 
             <div class="checkbox-canchas">
               <mat-checkbox
+                formControlName="cancha"
                 *ngFor="let cancha of listaCanchas"
-                [checked]="canchasSeleccionadas.includes(cancha.id)"
                 (change)="onCheckboxChange(cancha.id, $event)"
                 class="checkbox"
                 color="primary"
@@ -49,6 +49,18 @@
                 {{ cancha.name }}
               </mat-checkbox>
             </div>
+          </div>
+
+          <div class="form-group">
+            <mat-radio-group
+              formControlName="tipo_bloqueo"
+              class="tipo-bloqueo"
+              color="primary"
+            >
+              <mat-label class="titulo">Tipo bloqueo </mat-label>
+              <mat-radio-button value="1">Permanente</mat-radio-button>
+              <mat-radio-button value="2">Temporal</mat-radio-button>
+            </mat-radio-group>
           </div>
 
           <!-- Fechas -->
@@ -82,19 +94,6 @@
             </mat-form-field>
           </div>
 
-          <!-- Horas -->
-          <!-- <div class="form-group">
-            <mat-form-field>
-              <mat-label>Hora inicio</mat-label>
-              <input matInput type="time" formControlName="hora_inicio" />
-            </mat-form-field>
-
-            <mat-form-field>
-              <mat-label>Hora fin</mat-label>
-              <input matInput type="time" formControlName="hora_fin" />
-            </mat-form-field>
-          </div> -->
-
           <div class="form-group">
             <div class="hora">
               <ng-select
@@ -118,14 +117,24 @@
           </div>
 
           <!-- Días de la semana -->
-          <div class="form-group">
-            <div class="titulo"><span>Días: </span></div>
+          <div class="form-group check">
+            <div class="titulo"><span>Días</span></div>
             <div class="checkbox-dias">
               <mat-checkbox
+                [checked]="todosLosDiasSeleccionados()"
+                [indeterminate]="algunosDiasSeleccionados()"
+                (change)="alternarSeleccionDias($event.checked)"
+                color="primary"
+              >
+                Todos los días
+              </mat-checkbox>
+              <mat-checkbox
+                formControlName="dia"
                 *ngFor="let dia of diasSemana"
                 [checked]="diasSeleccionados.includes(dia.valor)"
-                (change)="onDiaChange(dia.valor, $event)"
+                (change)="diaCambio(dia.valor, $event)"
                 color="primary"
+                class="check-individual"
               >
                 {{ dia.nombre }}
               </mat-checkbox>
@@ -134,7 +143,14 @@
 
           <!-- Botón Guardar -->
           <div class="boton">
-            <button mat-raised-button class="btn" type="button">Guardar</button>
+            <button
+              mat-raised-button
+              class="btn"
+              type="button"
+              (click)="guardarHorario()"
+            >
+              Guardar
+            </button>
           </div>
         </form>
 
@@ -144,7 +160,8 @@
               [titulo]="horariosTitulo"
               [tableData]="tablaEstablecimientos"
               [columnHeader]="encabezadosEstablecimientos"
-              [estado]="estado"
+              [delete]="eliminar"
+              (id)="eliminarBloqueo($event)"
               [edit]="edit"
             >
             </app-data-table>

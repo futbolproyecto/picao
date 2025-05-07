@@ -1,6 +1,9 @@
 <button
   class="hamburguer-menu"
-  [ngClass]="{ 'hamburguer-menu-right': menuMobile }"
+  [ngClass]="{
+    'hamburguer-menu-right': menuMobile,
+    'menu-abierto': menuMobile
+  }"
   (click)="toggleMenuMobile()"
 >
   <mat-icon>{{ menuMobile ? "close" : "menu" }}</mat-icon>
@@ -49,7 +52,7 @@
       </div>
       <div class="submenu" *ngIf="mostrarSubmodulosConfiguracion">
         <ul>
-          <li>
+          <!-- <li>
             <a
               [routerLink]="['/home/settings/user']"
               routerLinkActive="router-link-active"
@@ -61,7 +64,7 @@
               <i class="material-icons icono-submenu">person</i>
               <p *ngIf="!menuExpandido">Usuario</p>
             </a>
-          </li>
+          </li> -->
           <li>
             <a
               [routerLink]="['/home/settings/schedule-settings']"

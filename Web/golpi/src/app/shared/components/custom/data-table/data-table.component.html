@@ -6,77 +6,99 @@
 </div>
 
 <div class="table-container">
-  <table mat-table [dataSource]="dataSource" matSort class="table-hover">
-    <ng-container
-      [matColumnDef]="tableData"
-      *ngFor="let tableData of objectKeys(columnHeader)"
-    >
-      <th
-        mat-header-cell
-        *matHeaderCellDef
-        mat-sort-header
-        class="columnas"
-        [ngClass]="{ acciones: tableData === 'acciones' }"
+  <div class="table-scroll">
+    <table mat-table [dataSource]="dataSource" matSort class="table-hover">
+      <ng-container
+        [matColumnDef]="tableData"
+        *ngFor="let tableData of objectKeys(columnHeader)"
       >
-        {{ columnHeader[tableData] }}
-      </th>
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+          class="columnas"
+          [ngClass]="{ acciones: tableData === 'acciones' }"
+        >
+          {{ columnHeader[tableData] }}
+        </th>
 
-      <td mat-cell *matCellDef="let element">
-        <div *ngIf="element[tableData] === undefined">
-          <div class="example-button-row">
-            <div class="example-flex-container">
-              <button
-                *ngIf="edit"
-                (click)="editar(element)"
-                mat-mini-fab
-                aria-label="Editar"
-                type="button"
-                class="mx-1"
-              >
-                <i class="material-icons">edit</i>
-              </button>
-              <button
-                *ngIf="confirm"
-                (click)="confirmar(element)"
-                mat-mini-fab
-                aria-label="Confirmar"
-                type="button"
-                class="mx-1"
-              >
-                <i class="material-icons">check_circle</i>
-              </button>
-              <button
-                *ngIf="finish"
-                (click)="finalizar(element)"
-                mat-mini-fab
-                aria-label="Finalizar"
-                type="button"
-                class="mx-1"
-              >
-                <i class="material-icons">cancel</i>
-              </button>
-              <button
-                *ngIf="estado"
-                (click)="actualizarEstado(element.id)"
-                mat-mini-fab
-                type="button"
-                class="mx-1"
-              >
-                <span
-                  *ngIf="element.activo; then thenActivo; else elseActivo"
-                ></span>
-              </button>
+        <td mat-cell *matCellDef="let element">
+          <div *ngIf="element[tableData] === undefined">
+            <div class="example-button-row">
+              <div class="example-flex-container">
+                <button
+                  *ngIf="edit"
+                  (click)="editar(element)"
+                  mat-mini-fab
+                  aria-label="Editar"
+                  type="button"
+                  class="mx-1"
+                  title="Editar"
+                >
+                  <i class="material-icons">edit</i>
+                </button>
+                <button
+                  *ngIf="confirm"
+                  (click)="confirmar(element)"
+                  mat-mini-fab
+                  aria-label="Confirmar"
+                  type="button"
+                  class="mx-1"
+                  title="Confirmar"
+                >
+                  <i class="material-icons">check_circle</i>
+                </button>
+                <button
+                  *ngIf="finish"
+                  (click)="finalizar(element)"
+                  mat-mini-fab
+                  aria-label="Finalizar"
+                  type="button"
+                  class="mx-1"
+                  title="Cancelar"
+                >
+                  <i class="material-icons">cancel</i>
+                </button>
+                <button
+                  *ngIf="delete"
+                  (click)="deleteId(element)"
+                  mat-mini-fab
+                  aria-label="Eliminar"
+                  type="button"
+                  class="mx-1"
+                  title="Eliminar"
+                >
+                  <i class="material-icons">delete</i>
+                </button>
+                <button
+                  *ngIf="estado"
+                  (click)="actualizarEstado(element.id)"
+                  mat-mini-fab
+                  type="button"
+                  class="mx-1"
+                >
+                  <span
+                    *ngIf="element.activo; then thenActivo; else elseActivo"
+                  ></span>
+                </button>
+              </div>
             </div>
           </div>
-        </div>
 
-        {{ element[tableData] }}
-      </td>
-    </ng-container>
+          <span
+            *ngIf="element[tableData]?.length > 30; else normal"
+            [matTooltip]="element[tableData]"
+          >
+            {{ element[tableData] | slice : 0 : 30 }}...
+          </span>
+          <ng-template #normal>{{ element[tableData] }}</ng-template>
+        </td>
+      </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="objectKeys(columnHeader)"></tr>
-    <tr mat-row *matRowDef="let row; columns: objectKeys(columnHeader)"></tr>
-  </table>
+      <tr mat-header-row *matHeaderRowDef="objectKeys(columnHeader)"></tr>
+      <tr mat-row *matRowDef="let row; columns: objectKeys(columnHeader)"></tr>
+    </table>
+  </div>
 
   <mat-paginator
     [pageSizeOptions]="[5, 10, 20]"
@@ -85,8 +107,8 @@
 </div>
 
 <ng-template #thenActivo>
-  <i class="material-icons d-flex" title="Inactivo">block</i>
+  <i class="material-icons d-flex" title="Inactivo">toggle_off</i>
 </ng-template>
 <ng-template #elseActivo>
-  <i class="material-icons d-flex" title="Activo">check_circle</i>
+  <i class="material-icons d-flex" title="Activo">toggle_on</i>
 </ng-template>

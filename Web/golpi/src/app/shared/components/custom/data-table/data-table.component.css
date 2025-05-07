@@ -1,6 +1,7 @@
 .search-container {
   display: flex;
-  justify-content: flex-end;
+  align-items: end;
+  justify-content: space-between;
 }
 
 th {
@@ -9,7 +10,7 @@ th {
   font-family: "Montserrat", sans-serif;
   font-size: 14px;
   text-align: left;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); /* Sombra sutil para las cabeceras */
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 td {
@@ -24,8 +25,8 @@ td {
 }
 
 .material-icons:hover {
-  transform: scale(1.2); /* Efecto de ampliación al pasar el ratón */
-  color: var(--color-secondary); /* Color secundario al hacer hover */
+  transform: scale(1.2);
+  color: var(--color-secondary);
 }
 
 .table-hover {
@@ -59,7 +60,7 @@ th {
 .table-container {
   box-shadow: 0 3px 15px var(--color-outline-variant);
   border-radius: 10px;
-  overflow: hidden;
+  overflow: visible;
 }
 
 mat-paginator {
@@ -74,10 +75,8 @@ mat-paginator .mat-paginator-range-actions {
   color: var(--color-on-surface);
 }
 
-.search-container {
-  display: flex;
-  align-items: end;
-  justify-content: space-between;
+.table-scroll {
+  overflow-x: auto;
 }
 
 .search-container input {
@@ -91,25 +90,43 @@ tr:hover {
   cursor: pointer;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1124px) {
   .table-container {
-    overflow-x: auto; /* Hacer que la tabla sea desplazable horizontalmente */
+    overflow-x: auto;
   }
 
   table {
-    min-width: 600px; /* Asegurarse de que la tabla no se colapse */
+    min-width: 600px;
   }
 
   th,
   td {
-    font-size: 12px; /* Reducir el tamaño de la fuente en dispositivos pequeños */
+    font-size: 12px;
   }
 
   .material-icons {
-    font-size: 16px; /* Reducir el tamaño de los iconos */
+    font-size: 16px;
+  }
+
+  .search-container {
+    flex-direction: column;
+  }
+
+  h2 {
+    padding-top: 15px;
+    align-self: center;
   }
 
   .search-container input {
     font-size: 14px;
+  }
+
+  .table-scroll table {
+    min-width: 600px;
+  }
+
+  mat-paginator {
+    justify-content: center;
+    margin-top: 12px;
   }
 }

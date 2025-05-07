@@ -13,7 +13,19 @@ import Swal, { SweetAlertIcon } from 'sweetalert2';
 export class AlertsService {
   toast(icon: SweetAlertIcon, title: string, timer: number = 3000) {
     const screenWidth = window.innerWidth;
-    const toastWidth = screenWidth < 768 ? '90%' : '50%';
+
+    const calculateWidth = (title: string): string => {
+      const baseCharWidth = 15;
+      const padding = 50;
+      const maxWidth =
+        screenWidth < 768 ? screenWidth * 0.9 : screenWidth * 0.4;
+      const minWidth = 200;
+      const calculated = title.length * baseCharWidth + padding;
+
+      return Math.min(Math.max(calculated, minWidth), maxWidth) + 'px';
+    };
+
+    const toastWidth = calculateWidth(title);
 
     const Toast = Swal.mixin({
       width: toastWidth,

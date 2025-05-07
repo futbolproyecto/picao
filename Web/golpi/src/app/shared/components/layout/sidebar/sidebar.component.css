@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column;
   height: 100%;
+  width: 300px;
   padding: 10px;
 }
 
@@ -90,7 +91,7 @@ ul li a p {
 
 /* Menu lateral */
 .expandido {
-  width: 100px;
+  width: 115px;
 }
 
 .expandido .logo-img img {
@@ -130,7 +131,10 @@ ul li a p {
   transform: translateX(200px);
 }
 
-/* Estilo similar al de user */
+.hamburguer-menu.menu-abierto {
+  left: 30% !important;
+}
+
 .config {
   font-family: "Montserrat";
   font-size: 1.1rem;
@@ -138,14 +142,21 @@ ul li a p {
 }
 
 .modulo-principal {
-  display: flex;
-  color: var(--color-outline);
-  border-radius: 10px;
-  padding: 10px 15px;
   font-family: "Montserrat";
   font-size: 1rem;
+  color: var(--color-outline);
+  display: flex;
   align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  border-radius: 10px;
+  padding: 10px 15px;
   transition: background-color 0.3s ease;
+}
+
+.modulo-principal i.icono-menu {
+  flex: 0 0 auto;
 }
 
 .modulo-principal:hover {
@@ -154,7 +165,13 @@ ul li a p {
 }
 
 .modulo-principal p {
-  padding-left: 10px;
+  flex: 1;
+  margin: 0;
+  text-align: left;
+}
+
+.modulo-principal mat-icon {
+  flex: 0 0 auto;
 }
 
 .icono-menu,
@@ -198,7 +215,7 @@ ul li a p {
     position: fixed;
     top: 0;
     left: -100%;
-    width: 210px;
+    width: 65%;
     height: 100vh;
     background-color: var(--color-surface-container);
     transition: left 0.3s ease-in-out;
@@ -208,6 +225,7 @@ ul li a p {
 
   .container-sidemenu.mobile-menu {
     left: 0;
+    width: 300px;
   }
 
   .expandido {

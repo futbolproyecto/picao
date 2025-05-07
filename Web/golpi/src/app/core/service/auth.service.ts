@@ -3,7 +3,6 @@ import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { LoginRequestDto } from '../../data/schema/loginRequestDto';
 import { environment } from '../../../environments/environment';
-import { AuthRequestDto } from '../../data/schema/authRequestDto';
 import { ConstantesEndpoints } from '../utils/models/constantes-endpoints';
 import { AutenticacionStoreService } from '../store/auth/autenticacion-store.service';
 import { GenericDto } from '../models/generic-dto';
@@ -19,6 +18,8 @@ export class AuthService {
   baseUrl: string = environment.BaseUrl;
 
   iniciarSesion(loginRequestDto: LoginRequestDto): Observable<GenericDto> {
+    console.log('BaseUrl en tiempo de ejecución:', environment.BaseUrl);
+
     return this.http.post<GenericDto>(
       this.baseUrl + ConstantesEndpoints.LOGIN,
       loginRequestDto

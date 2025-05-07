@@ -1,5 +1,5 @@
 .container-horarios {
-  padding: 0 16px;
+  padding: 16px;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -90,7 +90,6 @@ mat-form-field {
   justify-content: center;
   align-items: center;
   margin-top: 30px;
-  padding-bottom: 2rem;
 }
 
 .boton .btn {
@@ -147,7 +146,18 @@ form {
 
 .checkbox-dias {
   display: flex;
+  text-align: justify;
   gap: 5px;
+  flex-direction: column;
+}
+
+.check {
+  display: ruby;
+  text-align: justify;
+}
+
+.check-individual {
+  margin-left: 30px;
 }
 
 .titulo {
@@ -166,6 +176,10 @@ h2 {
 
 .container-tabla {
   padding: 20px;
+}
+
+.tipo-bloqueo {
+  display: flex;
 }
 
 /* Reglas de medios */

@@ -8,6 +8,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatTableDataSource } from '@angular/material/table';
 import { ChangeDetectorRef } from '@angular/core';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-data-table',
@@ -19,6 +20,7 @@ import { ChangeDetectorRef } from '@angular/core';
     MatTableModule,
     MatSortModule,
     MatInputModule,
+    MatTooltipModule,
   ],
   templateUrl: './data-table.component.html',
   styleUrls: ['./data-table.component.css'],
@@ -31,13 +33,10 @@ export class DataTableComponent implements OnChanges {
   @Input() estado: boolean = false;
   @Input() confirm: boolean = false;
   @Input() finish: boolean = false;
+  @Input() delete: boolean = false;
 
-  @Output() id: EventEmitter<{ value: number }> = new EventEmitter<{
-    value: number;
-  }>();
-  @Output() item: EventEmitter<{ value: number }> = new EventEmitter<{
-    value: number;
-  }>();
+  @Output() id: EventEmitter<number> = new EventEmitter<number>();
+  @Output() item: EventEmitter<number> = new EventEmitter<number>();
 
   objectKeys = Object.keys;
 
@@ -46,9 +45,9 @@ export class DataTableComponent implements OnChanges {
   @ViewChild(MatSort, { static: false }) sort!: MatSort;
   @ViewChild(MatPaginator, { static: false }) paginator!: MatPaginator;
 
-  constructor(private cdr: ChangeDetectorRef) {
-    this.id = new EventEmitter<{ value: number }>();
-    this.item = new EventEmitter<{ value: number }>();
+  constructor() {
+    this.id = new EventEmitter();
+    this.item = new EventEmitter();
   }
 
   ngOnChanges(): void {
@@ -67,18 +66,22 @@ export class DataTableComponent implements OnChanges {
   }
 
   editar(id: number) {
-    this.item.emit({ value: id });
+    this.item.emit(id);
   }
 
   confirmar(id: number) {
-    this.item.emit({ value: id });
+    this.item.emit(id);
   }
 
   finalizar(id: number) {
-    this.item.emit({ value: id });
+    this.item.emit(id);
+  }
+
+  deleteId(id: number) {
+    this.item.emit(id);
   }
 
   actualizarEstado(i: number) {
-    this.id.emit({ value: i });
+    this.id.emit(i);
   }
 }
