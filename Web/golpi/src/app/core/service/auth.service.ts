@@ -18,8 +18,6 @@ export class AuthService {
   baseUrl: string = environment.BaseUrl;
 
   iniciarSesion(loginRequestDto: LoginRequestDto): Observable<GenericDto> {
-    console.log('BaseUrl en tiempo de ejecución:', environment.BaseUrl);
-
     return this.http.post<GenericDto>(
       this.baseUrl + ConstantesEndpoints.LOGIN,
       loginRequestDto
