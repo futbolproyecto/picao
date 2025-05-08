@@ -14,12 +14,13 @@ import { DataTableComponent } from '../../shared/components/custom/data-table/da
 export class NotificationsComponent {
   // private notificacionService = inject(NotificationService);
 
-  solicitudes: WritableSignal<any[]> = signal([]);
+  public solicitudes: WritableSignal<any[]> = signal([]);
+  public visualizarInfo: boolean = true;
 
   public encabezadosSolicitud = {
-    fecha: 'Fecha',
-    hora: 'Hora',
-    nombre: 'Nombre cliente',
+    fecha_reserva: 'Fecha de reserva',
+    horas: 'Hora de reserva',
+    nombre_usuario: 'Nombre cliente',
     celular: 'Celular',
     correo: 'Correo electrónico',
     cancha: 'Cancha',
@@ -28,17 +29,17 @@ export class NotificationsComponent {
 
   tablaSolicitud = [
     {
-      fecha: '2024-12-19',
-      hora: '13:00',
-      nombre: 'Dulce Isaza',
+      fecha_reserva: '2024-12-19',
+      horas: '13:00 - 14:00',
+      nombre_usuario: 'Dulce Isaza',
       celular: '1234567890',
       correo: 'dulce@gmail.com',
       cancha: 'Cancha 2',
     },
     {
-      fecha: '2024-12-20',
-      hora: '14:00',
-      nombre: 'Andrea Isaza',
+      fecha_reserva: '2024-12-20',
+      horas: '15:00 - 16:00',
+      nombre_usuario: 'Andrea Isaza',
       celular: '0987654321',
       correo: 'andrea@hotmail.com',
       cancha: 'Cancha 1',

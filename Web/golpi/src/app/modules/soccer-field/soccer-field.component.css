@@ -6,7 +6,6 @@
 }
 
 h1 {
-  font: 20px "Montserrat";
   color: var(--color-on-tertiary-container);
 }
 
@@ -60,25 +59,14 @@ li:hover {
   opacity: 0;
 }
 
-p {
-  font-size: 20px;
-}
-
-span {
-  font-weight: bold;
-  font-size: 24px;
-}
-
 .form-content {
   padding: 0 76px;
-}
-
-.form-group {
   display: flex;
-  gap: 20px;
+  flex-direction: column;
+  gap: 15px;
 }
 
-mat-form-field {
+.input-field {
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -98,12 +86,6 @@ mat-form-field {
   height: 45px;
   width: 50%;
   border-radius: 10px;
-}
-
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
 }
 
 .container-tabla {
@@ -136,22 +118,8 @@ form {
 }
 
 /* Estilos para .ng-select */
-.check {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  gap: 50%;
-  flex-wrap: wrap;
-}
-
 .checkbox {
   align-content: center;
-}
-
-.card-header-custom {
-  background-color: var(--color-on-secondary-container);
-  color: white;
-  align-items: center;
 }
 
 /* Reglas de medios */
@@ -168,10 +136,6 @@ form {
     padding: 0px 30px;
   }
 
-  .form-group {
-    display: contents;
-  }
-
   li {
     padding: 10px 6px;
     font-size: 12px;
@@ -180,7 +144,6 @@ form {
 
   h1 {
     padding-top: 10px;
-    font: bold 15px "Montserrat";
   }
 
   .container-tabla {
@@ -193,10 +156,6 @@ form {
   .table-wrapper {
     width: 100%;
     overflow-x: auto;
-  }
-
-  h2 {
-    display: flex;
   }
 }
 

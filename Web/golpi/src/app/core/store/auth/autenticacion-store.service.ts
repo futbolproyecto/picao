@@ -21,6 +21,8 @@ export class AutenticacionStoreService {
 
   // dispatch
   public adicionarSesion(nuevaSesion: AuthRequestDto) {
+    sessionStorage.setItem('authentication', JSON.stringify(nuevaSesion));
+
     this.store.dispatch(
       fromAutenticacionActions.adicionarSesion({
         usuarioSesion: nuevaSesion,
@@ -47,9 +49,9 @@ export class AutenticacionStoreService {
   }
 
   public obtenerId$(): Observable<number> {
-    return this.store.select(fromAutenticacionSelectors.selectId).pipe(
-      map((id) => id ?? 0)
-    );
+    return this.store
+      .select(fromAutenticacionSelectors.selectId)
+      .pipe(map((id) => id ?? 0));
   }
 
   private tieneEstablecimientoSubject = new BehaviorSubject<boolean>(true);

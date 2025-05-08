@@ -16,7 +16,6 @@ form {
 }
 
 h1 {
-  font-family: "Montserrat";
   font-size: 1.5rem;
   font-weight: bold;
   color: var(--color-on-primary-container);
@@ -130,7 +129,6 @@ a {
 
   h1 {
     padding-top: 10px;
-    font: bold 15px "Montserrat";
   }
 
   p {

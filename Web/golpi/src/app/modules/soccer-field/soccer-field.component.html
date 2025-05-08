@@ -24,23 +24,24 @@
         </div>
       </div>
 
-      <div class="container-pestanas">
-        <div *ngIf="registrarEstablecimientoActivo" class="container-pestana">
-          <app-establishment></app-establishment>
-        </div>
+      <div *ngIf="registrarEstablecimientoActivo" class="container-pestana">
+        <app-establishment></app-establishment>
+      </div>
 
-        <div *ngIf="registrarCanchaActivo" class="container-pestana">
-          <form [formGroup]="formularioCancha" class="form-content">
-            <div class="form-group">
-              <mat-form-field>
+      <div *ngIf="registrarCanchaActivo" class="container-pestana">
+        <form [formGroup]="formularioCancha" class="form-content">
+          <div class="row">
+            <div class="col-md-6">
+              <mat-form-field class="input-field">
                 <mat-label>Descripción cancha</mat-label>
                 <input matInput formControlName="descripcion_cancha" />
               </mat-form-field>
               <small class="text-error" *ngIf="validarDescripcionCancha()">
                 {{ descripcionCanchaError }}
               </small>
-
-              <mat-form-field>
+            </div>
+            <div class="col-md-6">
+              <mat-form-field class="input-field">
                 <mat-label>Cant. jugadores</mat-label>
                 <input matInput formControlName="cantidad_jugadores" />
               </mat-form-field>
@@ -48,14 +49,18 @@
                 {{ cantidadJugadoresError }}
               </small>
             </div>
+          </div>
 
-            <div class="check">
+          <div class="row">
+            <div class="col-md-6">
               <mat-checkbox
                 class="checkbox"
                 color="primary"
                 formControlName="disponible"
                 >Disponible</mat-checkbox
               >
+            </div>
+            <div class="col-md-6">
               <mat-checkbox
                 class="checkbox"
                 color="primary"
@@ -63,30 +68,30 @@
                 >Techado</mat-checkbox
               >
             </div>
+          </div>
 
-            <div class="boton">
-              <button
-                mat-raised-button
-                (click)="registrarCancha()"
-                class="btn"
-                type="button"
-              >
-                Guardar
-              </button>
-            </div>
-          </form>
+          <div class="boton">
+            <button
+              mat-raised-button
+              (click)="registrarCancha()"
+              class="btn"
+              type="button"
+            >
+              Guardar
+            </button>
+          </div>
+        </form>
 
-          <div class="container-tabla">
-            <div class="table-wrapper">
-              <app-data-table
-                [titulo]="canchasTitulo"
-                [tableData]="tablaCanchas"
-                [columnHeader]="encabezadosCanchas"
-                [estado]="estado"
-                [edit]="edit"
-              >
-              </app-data-table>
-            </div>
+        <div class="container-tabla">
+          <div class="table-wrapper">
+            <app-data-table
+              [titulo]="canchasTitulo"
+              [tableData]="tablaCanchas"
+              [columnHeader]="encabezadosCanchas"
+              [estado]="estado"
+              [edit]="edit"
+            >
+            </app-data-table>
           </div>
         </div>
       </div>

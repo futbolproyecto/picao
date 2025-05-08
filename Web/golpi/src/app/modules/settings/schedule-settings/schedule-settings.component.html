@@ -21,81 +21,90 @@
           class="form-content"
         >
           <!-- Establecimiento -->
-          <div class="form-group">
-            <ng-select
-              class="lista"
-              formControlName="establishment"
-              [items]="establishmentDto"
-              bindLabel="name"
-              bindValue="id"
-              placeholder="Establecimiento* "
-            ></ng-select>
+          <div class="row">
+            <div class="col-md-12">
+              <ng-select
+                class="lista"
+                formControlName="establishment"
+                [items]="establishmentDto"
+                bindLabel="name"
+                bindValue="id"
+                placeholder="Establecimiento* "
+              ></ng-select>
+            </div>
           </div>
 
           <!-- Canchas asociadas -->
-          <div *ngIf="listaCanchas.length > 0" class="form-group mt-3">
-            <div class="titulo">
-              <span class="label-canchas">Canchas </span>
-            </div>
+          <div class="row">
+            <div *ngIf="listaCanchas.length > 0" class="col-md-6 canchas">
+              <div class="titulo">
+                <span class="label-canchas">Canchas </span>
+              </div>
 
-            <div class="checkbox-canchas">
-              <mat-checkbox
-                formControlName="cancha"
-                *ngFor="let cancha of listaCanchas"
-                (change)="onCheckboxChange(cancha.id, $event)"
-                class="checkbox"
-                color="primary"
-              >
-                {{ cancha.name }}
-              </mat-checkbox>
+              <div class="checkbox-canchas">
+                <mat-checkbox
+                  formControlName="cancha"
+                  *ngFor="let cancha of listaCanchas"
+                  (change)="onCheckboxChange(cancha.id, $event)"
+                  class="checkbox"
+                  color="primary"
+                >
+                  {{ cancha.name }}
+                </mat-checkbox>
+              </div>
             </div>
           </div>
 
-          <div class="form-group">
-            <mat-radio-group
-              formControlName="tipo_bloqueo"
-              class="tipo-bloqueo"
-              color="primary"
-            >
-              <mat-label class="titulo">Tipo bloqueo </mat-label>
-              <mat-radio-button value="1">Permanente</mat-radio-button>
-              <mat-radio-button value="2">Temporal</mat-radio-button>
-            </mat-radio-group>
+          <div class="row">
+            <div class="col-md-6">
+              <mat-radio-group
+                formControlName="tipo_bloqueo"
+                class="tipo-bloqueo"
+                color="primary"
+              >
+                <mat-label class="titulo">Tipo bloqueo </mat-label>
+                <mat-radio-button value="1">Permanente</mat-radio-button>
+                <mat-radio-button value="2">Temporal</mat-radio-button>
+              </mat-radio-group>
+            </div>
           </div>
 
           <!-- Fechas -->
-          <div class="form-group">
-            <mat-form-field>
-              <mat-label>Fecha inicio</mat-label>
-              <input
-                matInput
-                [matDatepicker]="inicioPicker"
-                formControlName="fecha_inicio"
-              />
-              <mat-datepicker-toggle
-                matIconSuffix
-                [for]="inicioPicker"
-              ></mat-datepicker-toggle>
-              <mat-datepicker #inicioPicker></mat-datepicker>
-            </mat-form-field>
-
-            <mat-form-field>
-              <mat-label>Fecha fin</mat-label>
-              <input
-                matInput
-                [matDatepicker]="finPicker"
-                formControlName="fecha_fin"
-              />
-              <mat-datepicker-toggle
-                matIconSuffix
-                [for]="finPicker"
-              ></mat-datepicker-toggle>
-              <mat-datepicker #finPicker></mat-datepicker>
-            </mat-form-field>
+          <div class="row">
+            <div class="col-md-6">
+              <mat-form-field class="input-field">
+                <mat-label>Fecha inicio</mat-label>
+                <input
+                  matInput
+                  [matDatepicker]="inicioPicker"
+                  formControlName="fecha_inicio"
+                />
+                <mat-datepicker-toggle
+                  matIconSuffix
+                  [for]="inicioPicker"
+                ></mat-datepicker-toggle>
+                <mat-datepicker #inicioPicker></mat-datepicker>
+              </mat-form-field>
+            </div>
+            <div class="col-md-6">
+              <mat-form-field class="input-field">
+                <mat-label>Fecha fin</mat-label>
+                <input
+                  matInput
+                  [matDatepicker]="finPicker"
+                  formControlName="fecha_fin"
+                />
+                <mat-datepicker-toggle
+                  matIconSuffix
+                  [for]="finPicker"
+                ></mat-datepicker-toggle>
+                <mat-datepicker #finPicker></mat-datepicker>
+              </mat-form-field>
+            </div>
           </div>
 
-          <div class="form-group">
-            <div class="hora">
+          <div class="row">
+            <div class="col-md-6">
               <ng-select
                 formControlName="hora_inicio"
                 [items]="horas"
@@ -104,8 +113,7 @@
                 placeholder="Hora inicio"
               ></ng-select>
             </div>
-
-            <div class="hora">
+            <div class="col-md-6">
               <ng-select
                 formControlName="hora_fin"
                 [items]="horas"
@@ -117,27 +125,29 @@
           </div>
 
           <!-- Días de la semana -->
-          <div class="form-group check">
-            <div class="titulo"><span>Días</span></div>
-            <div class="checkbox-dias">
-              <mat-checkbox
-                [checked]="todosLosDiasSeleccionados()"
-                [indeterminate]="algunosDiasSeleccionados()"
-                (change)="alternarSeleccionDias($event.checked)"
-                color="primary"
-              >
-                Todos los días
-              </mat-checkbox>
-              <mat-checkbox
-                formControlName="dia"
-                *ngFor="let dia of diasSemana"
-                [checked]="diasSeleccionados.includes(dia.valor)"
-                (change)="diaCambio(dia.valor, $event)"
-                color="primary"
-                class="check-individual"
-              >
-                {{ dia.nombre }}
-              </mat-checkbox>
+          <div class="row">
+            <div class="col-md-6 check">
+              <div class="titulo"><span>Días</span></div>
+              <div class="checkbox-dias">
+                <mat-checkbox
+                  [checked]="todosLosDiasSeleccionados()"
+                  [indeterminate]="algunosDiasSeleccionados()"
+                  (change)="alternarSeleccionDias($event.checked)"
+                  color="primary"
+                >
+                  Todos los días
+                </mat-checkbox>
+                <mat-checkbox
+                  formControlName="dia"
+                  *ngFor="let dia of diasSemana"
+                  [checked]="diasSeleccionados.includes(dia.valor)"
+                  (change)="diaCambio(dia.valor, $event)"
+                  color="primary"
+                  class="check-individual"
+                >
+                  {{ dia.nombre }}
+                </mat-checkbox>
+              </div>
             </div>
           </div>
 

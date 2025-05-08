@@ -71,6 +71,17 @@
                   <i class="material-icons">delete</i>
                 </button>
                 <button
+                  *ngIf="visualizarInfo"
+                  (click)="visualizar(element)"
+                  mat-mini-fab
+                  aria-label="Ver"
+                  type="button"
+                  class="mx-1"
+                  title="Ver"
+                >
+                  <i class="material-icons">visibility</i>
+                </button>
+                <button
                   *ngIf="estado"
                   (click)="actualizarEstado(element.id)"
                   mat-mini-fab

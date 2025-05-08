@@ -8,7 +8,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: "Montserrat";
 }
 
 /* Contenedor de la caja y login */
@@ -51,7 +50,6 @@ form {
 
 /* Estilos del título */
 h1 {
-  font: bold 2.1rem "Montserrat";
   color: var(--color-on-primary-container);
 }
 
@@ -224,7 +222,6 @@ app-registre {
 
   h1 {
     padding-top: 10px;
-    font: bold 20px "Montserrat";
   }
 
   p {

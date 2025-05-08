@@ -20,32 +20,32 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 // Compartidos
-import { Constant } from '../../../shared/utils/constant';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { GenericDto } from '../../../core/models/generic-dto';
-import { MessageExceptionDto } from '../../../data/schema/MessageExceptionDto';
+import { GenericDto } from '../../core/models/generic-dto';
+import { Constant } from '../../shared/utils/constant';
 
 // Servicios
-import { ModoAuthService } from '../../../core/service/modo-auth.service';
-import { AuthService } from '../../../core/service/auth.service';
-import { AlertsService } from '../../../core/service/alerts.service';
-import { UserService } from '../../../core/service/user.service';
-import { OtpRequestDto } from '../../../data/schema/otpRequestDto';
-import { OtpService } from '../../../core/service/otp.service';
-import { BusyService } from '../../../core/busy.service';
-import { AutenticacionStoreService } from '../../../core/store/auth/autenticacion-store.service';
-import { EstablishmentService } from '../../../core/service/establishment.service';
+import { ModoAuthService } from '../../core/service/modo-auth.service';
+import { BusyService } from '../../core/busy.service';
+import { AlertsService } from '../../core/service/alerts.service';
+import { AutenticacionStoreService } from '../../core/store/auth/autenticacion-store.service';
+import { EstablishmentService } from '../../core/service/establishment.service';
+import { AuthService } from '../../core/service/auth.service';
+import { UserService } from '../../core/service/user.service';
+import { OtpService } from '../../core/service/otp.service';
 
 // Componentes
-import { CarouselComponent } from '../../../shared/components/layout/carousel/carousel.component';
-import { RegistreComponent } from '../../registre/registre.component';
+import { RegistreComponent } from '../registre/registre.component';
+import { CarouselComponent } from '../../shared/components/layout/carousel/carousel.component';
 
 // Dto
-import { LoginRequestDto } from '../../../data/schema/loginRequestDto';
-import { AuthRequestDto } from '../../../data/schema/authRequestDto';
-import { UsuarioResponseDto } from '../../../data/schema/userResponseDto';
+import { OtpRequestDto } from '../../data/schema/otpRequestDto';
+import { AuthRequestDto } from '../../data/schema/authRequestDto';
+import { LoginRequestDto } from '../../data/schema/loginRequestDto';
+import { MessageExceptionDto } from '../../data/schema/MessageExceptionDto';
+import { UsuarioResponseDto } from '../../data/schema/userResponseDto';
 
 @Component({
   selector: 'app-login',

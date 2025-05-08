@@ -34,9 +34,11 @@ export class DataTableComponent implements OnChanges {
   @Input() confirm: boolean = false;
   @Input() finish: boolean = false;
   @Input() delete: boolean = false;
+  @Input() visualizarInfo: boolean = false; //Visualizar informacion completa del cliente
 
   @Output() id: EventEmitter<number> = new EventEmitter<number>();
   @Output() item: EventEmitter<number> = new EventEmitter<number>();
+  @Output() idCliente: EventEmitter<number>;
 
   objectKeys = Object.keys;
 
@@ -48,6 +50,7 @@ export class DataTableComponent implements OnChanges {
   constructor() {
     this.id = new EventEmitter();
     this.item = new EventEmitter();
+    this.idCliente = new EventEmitter();
   }
 
   ngOnChanges(): void {
@@ -83,5 +86,9 @@ export class DataTableComponent implements OnChanges {
 
   actualizarEstado(i: number) {
     this.id.emit(i);
+  }
+
+  visualizar(id: number) {
+    this.idCliente.emit(id);
   }
 }

@@ -3,6 +3,7 @@
   color: var(--color-error);
   padding: 0 2px;
   margin: 0px;
+  display: flex;
 }
 
 .text-error h6 {

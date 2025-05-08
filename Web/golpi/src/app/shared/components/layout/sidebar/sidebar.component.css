@@ -18,7 +18,6 @@
   font-weight: 700;
   color: var(--color-secondary);
   font-size: 1.4rem;
-  font-family: "Montserrat";
 }
 
 .logo-img img {
@@ -32,7 +31,6 @@
 
 /* Estilo enlaces */
 a {
-  font-family: "Montserrat";
   font-size: 1rem;
   color: var(--color-shadow);
   text-decoration: none;
@@ -55,7 +53,6 @@ ul {
 }
 
 .user {
-  font-family: "Montserrat";
   font-size: 1.1rem;
   cursor: pointer;
 }
@@ -136,13 +133,11 @@ ul li a p {
 }
 
 .config {
-  font-family: "Montserrat";
   font-size: 1.1rem;
   cursor: pointer;
 }
 
 .modulo-principal {
-  font-family: "Montserrat";
   font-size: 1rem;
   color: var(--color-outline);
   display: flex;

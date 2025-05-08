@@ -7,6 +7,7 @@ import { ConstantesEndpoints } from '../utils/models/constantes-endpoints';
 import { AutenticacionStoreService } from '../store/auth/autenticacion-store.service';
 import { GenericDto } from '../models/generic-dto';
 import { Router } from '@angular/router';
+import { AuthRequestDto } from '../../data/schema/authRequestDto';
 
 @Injectable({
   providedIn: 'root',
@@ -25,8 +26,10 @@ export class AuthService {
   }
 
   verificarToken(): string {
-    let token = this.store.obtenerToken$();
-    return token;
+    const authString = sessionStorage.getItem('authentication');
+    if (!authString) return '';
+    const auth: AuthRequestDto = JSON.parse(authString);
+    return auth.token ?? '';
   }
 
   cerrarSesion() {

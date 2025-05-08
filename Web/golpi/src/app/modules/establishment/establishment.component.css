@@ -1,13 +1,12 @@
+/* Formulario */
 .form-content {
   padding: 0 76px;
-}
-
-.form-group {
   display: flex;
-  gap: 20px;
+  flex-direction: column;
+  gap: 15px;
 }
 
-mat-form-field {
+.input-field {
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -28,12 +27,6 @@ mat-form-field {
   height: 45px;
   width: 50%;
   border-radius: 10px;
-}
-
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
 }
 
 .container-tabla {
@@ -88,18 +81,10 @@ form {
     padding: 0px 30px;
   }
 
-  .form-group {
-    display: contents;
-  }
-
   li {
     padding: 10px 6px;
     font-size: 12px;
     font-weight: bold;
-  }
-
-  h1 {
-    font: bold 15px "Montserrat";
   }
 
   .container-tabla {

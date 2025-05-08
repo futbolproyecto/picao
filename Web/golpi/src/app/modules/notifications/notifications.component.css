@@ -11,7 +11,6 @@ h1 {
   font-weight: bold;
   font-size: 20px;
   color: var(--color-secondary);
-  font-family: "Montserrat";
 }
 
 /* Estilo de tarjetas */
@@ -46,7 +45,6 @@ li {
   text-decoration: none;
   border-bottom: 2px solid var(--color-primary);
   padding: 10px 30px;
-  font-family: "Montserrat";
   font-size: 18px;
   color: var(--color-outline-variant);
 }
@@ -100,7 +98,6 @@ li:hover,
 
   h1 {
     padding-top: 10px;
-    font: bold 15px "Montserrat";
   }
 
   .container-tabla {

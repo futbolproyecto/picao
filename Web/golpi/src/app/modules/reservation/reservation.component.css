@@ -8,7 +8,6 @@
 
 /* Estilos para encabezados */
 h1 {
-  font: 20px "Montserrat";
   color: var(--color-on-tertiary-container);
 }
 
@@ -70,14 +69,12 @@ li:hover {
 /* Formulario */
 .form-content {
   padding: 0 76px;
-}
-
-.form-group {
   display: flex;
-  gap: 20px;
+  flex-direction: column;
+  gap: 15px;
 }
 
-mat-form-field {
+.input-field {
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -100,10 +97,8 @@ mat-form-field {
   margin-left: 15px;
 }
 
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
+.boton .btn:hover {
+  box-shadow: 0 3px 15px var(--color-outline-variant);
 }
 
 /* Tabla */
@@ -147,22 +142,29 @@ form {
   background-color: var(--color-primary-container);
   color: var(--color-on-primary-container);
   height: 40px;
-  width: 10%;
+  width: auto;
   border-radius: 7px;
   border: none;
-}
-
-.container-cliente {
-  display: contents;
-  width: 100%;
-}
-
-.lista_cliente {
-  width: 85%;
-}
-
-h2 {
+  padding: 10px;
   display: flex;
+  align-items: anchor-center;
+  gap: 0.5rem;
+}
+
+.btn-adicionar:hover {
+  box-shadow: 0 3px 15px var(--color-outline-variant);
+}
+
+.titulo {
+  display: flex;
+  align-items: anchor-center;
+  /* font-weight: bold; */
+}
+
+.disponibilidad {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
 }
 
 /* Reglas de medios */
@@ -179,10 +181,6 @@ h2 {
     padding: 0px 30px;
   }
 
-  .form-group {
-    display: contents;
-  }
-
   li {
     padding: 10px 6px;
     font-size: 12px;
@@ -191,7 +189,6 @@ h2 {
 
   h1 {
     padding-top: 10px;
-    font: bold 15px "Montserrat";
   }
 
   .container-tabla {
@@ -213,10 +210,6 @@ h2 {
   .boton {
     margin: 0;
     padding-bottom: 10px;
-  }
-
-  h2 {
-    display: flex;
   }
 }
 

@@ -13,7 +13,6 @@ nav {
   display: flex;
   align-items: center;
   cursor: pointer;
-  font-family: "Montserrat";
   font-size: 1rem;
   font-weight: 500;
   color: var(--color-secondary);
@@ -28,10 +27,6 @@ nav {
 .mat-menu-item .mat-icon {
   margin-right: 10px;
   color: var(--color-outline);
-}
-
-.submenu {
-  font-family: "Montserrat";
 }
 
 .submenu,
@@ -68,8 +63,4 @@ nav {
 .notificaciones:hover i {
   font-weight: bold;
   color: var(--color-secondary);
-}
-
-.cerrar {
-  font-family: "Montserrat";
 }

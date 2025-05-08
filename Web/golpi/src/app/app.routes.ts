@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { LoginComponent } from './modules/auth/login/login.component';
+
 import { HomeComponent } from './modules/home/home.component';
 import { RegistreComponent } from './modules/registre/registre.component';
 import { autenticacionGuard } from './core/guard/autenticacion.guard';
@@ -12,6 +12,7 @@ import { NotificationsComponent } from './modules/notifications/notifications.co
 import { ScheduleSettingsComponent } from './modules/settings/schedule-settings/schedule-settings.component';
 import { UserComponent } from './modules/settings/user/user.component';
 import { ChangePasswordComponent } from './modules/change-password/change-password.component';
+import { LoginComponent } from './modules/login/login.component';
 
 export const routes: Routes = [
   {
