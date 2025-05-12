@@ -1,21 +1,13 @@
 -- crear roles
 INSERT INTO roles (name) VALUES ('JUGADOR'),('CAPITAN_EQUIPO'),('ENTRENADOR'),('AGENDADOR_CANCHA');
--- crear paises
-CREATE TABLE pais (
-    id SERIAL PRIMARY KEY,
-    identificador VARCHAR(10),
-    descripcion VARCHAR(100)
-);
 
+-- crear paises
 INSERT INTO countries (cell_prefix, name, iso_code) VALUES('93', 'Afganistán', 'AF'),('355', 'Albania', 'AL'),('213', 'Argelia', 'DZ'),('376', 'Andorra', 'AD'),('244', 'Angola', 'AO'),('54', 'Argentina', 'AR'),('374', 'Armenia', 'AM'),('61', 'Australia', 'AU'),('43', 'Austria', 'AT'),('994', 'Azerbaiyán', 'AZ'),('973', 'Baréin', 'BH'),('880', 'Bangladés', 'BD'),('375', 'Bielorrusia', 'BY'),('32', 'Bélgica', 'BE'),('591', 'Bolivia', 'BO'),('387', 'Bosnia y Herzegovina', 'BA'),('267', 'Botsuana', 'BW'),('55', 'Brasil', 'BR'),('359', 'Bulgaria', 'BG'),('226', 'Burkina Faso', 'BF'),('257', 'Burundi', 'BI'),('855', 'Camboya', 'KH'),('237', 'Camerún', 'CM'),('1', 'Canadá', 'CA'),('236', 'República Centroafricana', 'CF'),('56', 'Chile', 'CL'),('86', 'China', 'CN'),('57', 'Colombia', 'CO'),('506', 'Costa Rica', 'CR'),('385', 'Croacia', 'HR'),('53', 'Cuba', 'CU'),('357', 'Chipre', 'CY'),('420', 'Chequia', 'CZ'),('45', 'Dinamarca', 'DK'),('593', 'Ecuador', 'EC'),('20', 'Egipto', 'EG'),('503', 'El Salvador', 'SV'),('372', 'Estonia', 'EE'),('251', 'Etiopía', 'ET'),('679', 'Fiyi', 'FJ'),('358', 'Finlandia', 'FI'),('33', 'Francia', 'FR'),('995', 'Georgia', 'GE'),('49', 'Alemania', 'DE'),('233', 'Ghana', 'GH'),('30', 'Grecia', 'GR'),('502', 'Guatemala', 'GT'),('509', 'Haití', 'HT'),('504', 'Honduras', 'HN'),('36', 'Hungría', 'HU'),('354', 'Islandia', 'IS'),('91', 'India', 'IN'),('62', 'Indonesia', 'ID'),('98', 'Irán', 'IR'),('964', 'Irak', 'IQ'),('353', 'Irlanda', 'IE'),('972', 'Israel', 'IL'),('39', 'Italia', 'IT'),('81', 'Japón', 'JP'),('962', 'Jordania', 'JO'),('254', 'Kenia', 'KE'),('965', 'Kuwait', 'KW'),('371', 'Letonia', 'LV'),('961', 'Líbano', 'LB'),('370', 'Lituania', 'LT'),('352', 'Luxemburgo', 'LU'),('261', 'Madagascar', 'MG'),('60', 'Malasia', 'MY'),('223', 'Malí', 'ML'),('356', 'Malta', 'MT'),('52', 'México', 'MX'),('373', 'Moldavia', 'MD'),('377', 'Mónaco', 'MC'),('976', 'Mongolia', 'MN'),('212', 'Marruecos', 'MA'),('258', 'Mozambique', 'MZ'),('95', 'Birmania', 'MM'),('264', 'Namibia', 'NA'),('977', 'Nepal', 'NP'),('31', 'Países Bajos', 'NL'),('64', 'Nueva Zelanda', 'NZ'),('505', 'Nicaragua', 'NI'),('227', 'Níger', 'NE'),('234', 'Nigeria', 'NG'),('47', 'Noruega', 'NO'),('92', 'Pakistán', 'PK'),('507', 'Panamá', 'PA'),('595', 'Paraguay', 'PY'),('51', 'Perú', 'PE'),('63', 'Filipinas', 'PH'),('48', 'Polonia', 'PL'),('351', 'Portugal', 'PT'),('974', 'Catar', 'QA'),('40', 'Rumania', 'RO'),('7', 'Rusia', 'RU'),('250', 'Ruanda', 'RW'),('966', 'Arabia Saudita', 'SA'),('221', 'Senegal', 'SN'),('381', 'Serbia', 'RS'),('65', 'Singapur', 'SG'),('421', 'Eslovaquia', 'SK'),('386', 'Eslovenia', 'SI'),('27', 'Sudáfrica', 'ZA'),('82', 'Corea del Sur', 'KR'),('34', 'España', 'ES'),('94', 'Sri Lanka', 'LK'),('46', 'Suecia', 'SE'),('41', 'Suiza', 'CH'),('963', 'Siria', 'SY'),('886', 'Taiwán', 'TW'),('992', 'Tayikistán', 'TJ'),('255', 'Tanzania', 'TZ'),('66', 'Tailandia', 'TH'),('228', 'Togo', 'TG'),('216', 'Túnez', 'TN'),('90', 'Turquía', 'TR'),('993', 'Turkmenistán', 'TM'),('256', 'Uganda', 'UG'),('380', 'Ucrania', 'UA'),('971', 'Emiratos Árabes Unidos', 'AE'),('44', 'Reino Unido', 'GB'),('1', 'Estados Unidos', 'US'),('598', 'Uruguay', 'UY'),('998', 'Uzbekistán', 'UZ'),('58', 'Venezuela', 'VE'),('84', 'Vietnam', 'VN'),('260', 'Zambia', 'ZM'),('263', 'Zimbabue', 'ZW');
 
 
-
--- crear status
-INSERT INTO statuses (description) VALUES ('activo'),('inactivo');
-
 -- crear usuario inicial
 INSERT INTO users (name,second_name,last_name,second_last_name,mobile_number,email,password,username,date_of_birth) VALUES ('jeiner','andrey','grijalba','de las tres cruces','573177388096','barcandres92@gmail.com','$2a$10$dIrOXqnQNxgMnZJnhHFD5Ombt/WNLTuAkhtqCgGlGurif6VohE7r.','userJeiner', '01/01/2025'), ('guilian','andrea','isaza','diosa','573148688564','guillanisaza@gmail.com','$2a$10$dIrOXqnQNxgMnZJnhHFD5Ombt/WNLTuAkhtqCgGlGurif6VohE7r.','userAndrea', '01/01/2025'), ('cristian','andres','blandon','guzman','573104657100','barcandres91@gmail.com','$2a$10$dIrOXqnQNxgMnZJnhHFD5Ombt/WNLTuAkhtqCgGlGurif6VohE7r.','userBlandon', '01/01/2025'), ('francia','viviana','muñoz','torres','573138957145','viviana_0927@gmail.com','$2a$10$dIrOXqnQNxgMnZJnhHFD5Ombt/WNLTuAkhtqCgGlGurif6VohE7r.','userFrancia', '01/01/2025');
+
 -- se asignan roles
 --INSERT INTO user_roles (role_id, user_id) VALUES (1,1),(2,1);
 
@@ -46,3 +38,6 @@ INSERT INTO team_players (player_id, team_id) VALUES (1,1),(1,2),(2,2);
 
 -- asignar un establecimiento
 INSERT INTO establishments (city_id, department_id, owner_user_id, id, mobile_number, name, address) VALUES (150, 76, 2, 'fa679ef7-697d-4345-a5fc-04e88e69437b', 3148688564, 'GolpiGroup', 'Cra 83c'), (150, 76, 4, '5a08f837-f2f3-472e-9365-d09da32f2efb', 573138957145, 'GolpiGroup2', 'Cra 83c');
+
+-- crear cancha 
+INSERT INTO fields (id, establishment_id, name, capacity, is_available, is_roofed) VALUES ('b35b9201-6506-4a09-82fb-7ab2ab0523e7','fa679ef7-697d-4345-a5fc-04e88e69437b', 'Cancha 1', '10', true, false); 
