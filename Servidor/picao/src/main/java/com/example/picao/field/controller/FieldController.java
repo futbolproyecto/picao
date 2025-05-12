@@ -27,4 +27,9 @@ public class FieldController {
     public ResponseEntity<GenericResponseDTO> getByOwnerUserId(@PathVariable() UUID establishmentId) {
         return GenericResponseDTO.genericResponse(fieldService.getByEstablishmentId(establishmentId));
     }
+
+    @GetMapping(value = "get-agendas-by-establishment-id/{establishmentId}")
+    public ResponseEntity<GenericResponseDTO> getAgendasByEstablishmentId(@PathVariable() UUID establishmentId) {
+        return GenericResponseDTO.genericResponse(fieldService.getAgendasByEstablishmentId(establishmentId));
+    }
 }

@@ -6,12 +6,10 @@ import com.example.picao.core.util.dto.GenericResponseDTO;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @AllArgsConstructor
@@ -24,5 +22,10 @@ public class AgendaController {
     public ResponseEntity<GenericResponseDTO> create(
             @RequestBody @Valid List<CreateAgendaRequestDTO> requestDTO) {
         return GenericResponseDTO.genericResponse(agendaService.create(requestDTO));
+    }
+
+    @GetMapping(value = "get-by-establishment-id/{establishmentId}")
+    public ResponseEntity<GenericResponseDTO> getByEstablishmentId(@PathVariable() UUID establishmentId) {
+        return GenericResponseDTO.genericResponse(agendaService.getByEstablishmentId(establishmentId));
     }
 }

@@ -22,6 +22,6 @@ public class Department {
     @Column(length = 100)
     String name;
 
-    @OneToMany(mappedBy = "department",fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "department", fetch = FetchType.LAZY)
     List<City> cities;
 }

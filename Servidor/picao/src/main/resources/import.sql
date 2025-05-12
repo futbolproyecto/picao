@@ -40,4 +40,4 @@ INSERT INTO team_players (player_id, team_id) VALUES (1,1),(1,2),(2,2);
 INSERT INTO establishments (city_id, department_id, owner_user_id, id, mobile_number, name, address) VALUES (150, 76, 2, 'fa679ef7-697d-4345-a5fc-04e88e69437b', 3148688564, 'GolpiGroup', 'Cra 83c'), (150, 76, 4, '5a08f837-f2f3-472e-9365-d09da32f2efb', 573138957145, 'GolpiGroup2', 'Cra 83c');
 
 -- crear cancha 
-INSERT INTO fields (id, establishment_id, name, capacity, is_available, is_roofed) VALUES ('b35b9201-6506-4a09-82fb-7ab2ab0523e7','fa679ef7-697d-4345-a5fc-04e88e69437b', 'Cancha 1', '10', true, false); 
+INSERT INTO fields (id, establishment_id, name, capacity, is_available, is_roofed) VALUES ('b35b9201-6506-4a09-82fb-7ab2ab0523e7','fa679ef7-697d-4345-a5fc-04e88e69437b', 'Cancha 1', '10', true, false),('2347e40e-57e1-4bf5-8f8f-b315e691939c','fa679ef7-697d-4345-a5fc-04e88e69437b', 'Cancha 2', '10', true, false); 

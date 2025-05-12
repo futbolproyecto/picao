@@ -1,17 +1,21 @@
 package com.example.picao.agenda.service.impl;
 
+import com.example.picao.agenda.dto.AgendaResponseDTO;
 import com.example.picao.agenda.dto.CreateAgendaRequestDTO;
 import com.example.picao.agenda.dto.LockDownDayDTO;
 import com.example.picao.agenda.entity.Agenda;
 import com.example.picao.agenda.entity.DayOfWeek;
 import com.example.picao.agenda.entity.TimeStatus;
+import com.example.picao.agenda.mapper.AgendaMapper;
 import com.example.picao.agenda.repository.AgendaRepository;
 import com.example.picao.agenda.service.AgendaService;
 import com.example.picao.core.exception.AppException;
 import com.example.picao.core.util.ErrorMessages;
 import com.example.picao.field.entity.Field;
+import com.example.picao.field.mapper.FieldMapper;
 import com.example.picao.field.repository.FieldRepository;
 import lombok.RequiredArgsConstructor;
+import org.mapstruct.factory.Mappers;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,11 +23,13 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.UUID;
 
 @RequiredArgsConstructor()
 @Service
 public class AgendaServiceImpl implements AgendaService {
 
+    private static final AgendaMapper MAPPER = Mappers.getMapper(AgendaMapper.class);
     private final AgendaRepository agendaRepository;
     private final FieldRepository fieldRepository;
 
@@ -73,5 +79,18 @@ public class AgendaServiceImpl implements AgendaService {
         } catch (AppException e) {
             throw new AppException(e.getErrorMessages(), e.getHttpStatus(), e.getArgs());
         }
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<AgendaResponseDTO> getByEstablishmentId(UUID establishmentId) {
+
+        try {
+            return agendaRepository.findByEstablishmentId(
+                    establishmentId).stream().map(MAPPER::toAgendaResponseDTO).toList();
+        } catch (AppException e) {
+            throw new AppException(e.getErrorMessages(), e.getHttpStatus(), e.getArgs());
+        }
+
     }
 }

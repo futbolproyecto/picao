@@ -55,14 +55,24 @@ public class FieldServiceImpl implements FieldService {
     @Transactional(readOnly = true)
     @Override
     public List<FieldResponseDTO> getByEstablishmentId(UUID establishmentId) {
+
         try {
-            return fieldRepository.findByEstablishmentId(establishmentId)
-                    .stream()
-                    .map(
-                            MAPPER::toFieldResponseDto).toList();
+            return fieldRepository.findByEstablishmentId(establishmentId);
 
         } catch (AppException e) {
             throw new AppException(e.getErrorMessages(), e.getHttpStatus());
         }
+    }
+
+    @Override
+    public List<FieldResponseDTO> getAgendasByEstablishmentId(UUID establishmentId) {
+
+        try {
+            return fieldRepository.findAgendasByEstablishmentId(establishmentId)
+                    .stream().map(MAPPER::toFieldResponseDto).toList();
+        } catch (AppException e) {
+            throw new AppException(e.getErrorMessages(), e.getHttpStatus());
+        }
+
     }
 }

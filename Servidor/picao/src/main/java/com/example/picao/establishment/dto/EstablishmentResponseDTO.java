@@ -5,6 +5,7 @@ import com.example.picao.department.dto.DepartmentResponseDTO;
 import com.example.picao.user.dto.UserResponseDTO;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 import java.util.Set;
 import java.util.UUID;
@@ -15,6 +16,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Builder
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class EstablishmentResponseDTO {
 
     UUID id;
