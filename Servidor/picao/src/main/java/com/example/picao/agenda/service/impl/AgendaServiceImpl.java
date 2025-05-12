@@ -14,15 +14,11 @@ import com.example.picao.field.repository.FieldRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.format.TextStyle;
 import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor()
 @Service
@@ -31,58 +27,44 @@ public class AgendaServiceImpl implements AgendaService {
     private final AgendaRepository agendaRepository;
     private final FieldRepository fieldRepository;
 
+    @Transactional
     @Override
     public String create(List<CreateAgendaRequestDTO> createAgendaRequestDTO) {
-
         try {
-
             for (CreateAgendaRequestDTO request : createAgendaRequestDTO) {
 
                 Field field = fieldRepository.findById(request.fieldId())
                         .orElseThrow(() -> new AppException(
                                 ErrorMessages.GENERIC_NOT_EXIST, HttpStatus.NOT_FOUND, "Cancha"));
 
-                // Crear un mapa: fecha → objeto de bloqueo
-                Map<LocalDate, LockDownDayDTO> mapLockDate = request.lockDownDay().stream()
-                        .collect(Collectors.toMap(LockDownDayDTO::day, Function.identity()));
+                for (LockDownDayDTO lockDownDayDTO : request.lockDownDay()) {
+                    LocalDate date = lockDownDayDTO.day();
 
-                LocalDate currentDate = request.startDate();
-
-                // si la fecha actual es menor a la final hace el ciclo
-                while (!currentDate.isAfter(request.endDate())) {
-
-                    //  Si ya hay registros para esa fecha y cancha, saltar
-                    if (Boolean.TRUE.equals(agendaRepository.existsByFieldIdAndDate(field.getId(), currentDate))) {
-                        currentDate = currentDate.plusDays(1);
+                    // Si ya hay registros para esa fecha y cancha, saltar
+                    if (Boolean.TRUE.equals(agendaRepository.existsByFieldIdAndDate(field.getId(), date))) {
                         continue;
                     }
 
-                    LockDownDayDTO lockDownDayDTO = mapLockDate.get(currentDate);
+                    DayOfWeek dayOfWeek = DayOfWeek.fromId(date.getDayOfWeek().getValue());
 
-                    DayOfWeek dayOfWeek = DayOfWeek.fromId(currentDate.getDayOfWeek().getValue());
+                    for (int hour = 0; hour < 24; hour++) {
+                        LocalTime currentHour = LocalTime.of(hour, 0);
 
-                    if (lockDownDayDTO != null) {
-                        for (int hour = 0; hour < 24; hour++) {
-                            LocalTime currentHour = LocalTime.of(hour, 0);
+                        // Guardar solo si está fuera del rango bloqueado
+                        if (currentHour.isBefore(lockDownDayDTO.startTime()) ||
+                                !currentHour.isBefore(lockDownDayDTO.endTime())) {
 
-                            // Guardar solo si está fuera del rango bloqueado
-                            if (currentHour.isBefore(lockDownDayDTO.startTime()) ||
-                                    !currentHour.isBefore(lockDownDayDTO.endTime())) {
+                            Agenda agenda = new Agenda();
+                            agenda.setDate(date);
+                            agenda.setStartTime(currentHour);
+                            agenda.setEndTime(currentHour.plusHours(1));
+                            agenda.setStatus(TimeStatus.DISPONIBLE);
+                            agenda.setDayOfWeek(dayOfWeek);
+                            agenda.setField(field);
 
-                                Agenda agenda = new Agenda();
-                                agenda.setDate(currentDate);
-                                agenda.setStartTime(currentHour);
-                                agenda.setEndTime(currentHour.plusHours(1));
-                                agenda.setStatus(TimeStatus.DISPONIBLE);
-                                agenda.setDayOfWeek(dayOfWeek);
-                                agenda.setField(field);
-
-                                agendaRepository.save(agenda);
-                            }
+                            agendaRepository.save(agenda);
                         }
                     }
-
-                    currentDate = currentDate.plusDays(1);
                 }
             }
 

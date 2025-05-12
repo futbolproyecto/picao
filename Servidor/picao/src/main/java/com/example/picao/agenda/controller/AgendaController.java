@@ -3,7 +3,6 @@ package com.example.picao.agenda.controller;
 import com.example.picao.agenda.dto.CreateAgendaRequestDTO;
 import com.example.picao.agenda.service.AgendaService;
 import com.example.picao.core.util.dto.GenericResponseDTO;
-import com.example.picao.field.dto.CreateFieldRequestDTO;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
