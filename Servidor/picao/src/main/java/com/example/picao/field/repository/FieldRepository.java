@@ -1,7 +1,5 @@
 package com.example.picao.field.repository;
 
-import com.example.picao.agenda.entity.Agenda;
-import com.example.picao.city.dto.CityResponseDTO;
 import com.example.picao.field.dto.FieldResponseDTO;
 import com.example.picao.field.entity.Field;
 import org.springframework.data.jpa.repository.JpaRepository;

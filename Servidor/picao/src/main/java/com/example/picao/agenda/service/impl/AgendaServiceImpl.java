@@ -56,20 +56,21 @@ public class AgendaServiceImpl implements AgendaService {
                     for (int hour = 0; hour < 24; hour++) {
                         LocalTime currentHour = LocalTime.of(hour, 0);
 
-                        // Guardar solo si está fuera del rango bloqueado
-                        if (currentHour.isBefore(lockDownDayDTO.startTime()) ||
-                                !currentHour.isBefore(lockDownDayDTO.endTime())) {
+                        // Determinar el estado: BLOQUEADO si está dentro del rango, DISPONIBLE si está fuera
+                        TimeStatus status = (!currentHour.isBefore(lockDownDayDTO.startTime()) &&
+                                currentHour.isBefore(lockDownDayDTO.endTime()))
+                                ? TimeStatus.BLOQUEADO
+                                : TimeStatus.DISPONIBLE;
 
-                            Agenda agenda = new Agenda();
-                            agenda.setDate(date);
-                            agenda.setStartTime(currentHour);
-                            agenda.setEndTime(currentHour.plusHours(1));
-                            agenda.setStatus(TimeStatus.DISPONIBLE);
-                            agenda.setDayOfWeek(dayOfWeek);
-                            agenda.setField(field);
+                        Agenda agenda = new Agenda();
+                        agenda.setDate(date);
+                        agenda.setStartTime(currentHour);
+                        agenda.setEndTime(currentHour.plusHours(1));
+                        agenda.setStatus(status);
+                        agenda.setDayOfWeek(dayOfWeek);
+                        agenda.setField(field);
 
-                            agendaRepository.save(agenda);
-                        }
+                        agendaRepository.save(agenda);
                     }
                 }
             }
@@ -80,6 +81,7 @@ public class AgendaServiceImpl implements AgendaService {
             throw new AppException(e.getErrorMessages(), e.getHttpStatus(), e.getArgs());
         }
     }
+
 
     @Transactional(readOnly = true)
     @Override
