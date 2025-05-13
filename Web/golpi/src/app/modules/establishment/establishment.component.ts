@@ -105,31 +105,32 @@ export class EstablishmentComponent implements OnInit {
   }
 
   cargarEstablecimientosUsuario(): void {
-    this.autenticacionStoreService
-      .obtenerSesion$()
-      .pipe(
-        map((usuario: UsuarioResponseDto) => usuario?.id ?? 0),
-        filter((id: number) => id !== 0),
-        switchMap((id: number) =>
-          this.establishmentService.establecimientoPorUsuario(id)
-        )
-      )
-      .subscribe({
-        next: (response) => {
-          const establecimientos = response?.payload ?? [];
-          if (establecimientos) {
-            this.tablaEstablecimientos = establecimientos;
-          }
-        },
-        error: (err) => {
-          const errorDto = new MessageExceptionDto({
-            status: err.error?.status,
-            error: err.error?.error,
-            recommendation: err.error?.recommendation,
+    const authDataString = sessionStorage.getItem('authentication');
+    if (authDataString) {
+      const authData = JSON.parse(authDataString);
+      const usuarioId = authData.id;
+
+      if (usuarioId !== 0) {
+        this.establishmentService
+          .establecimientoPorUsuario(usuarioId)
+          .subscribe({
+            next: (response) => {
+              const establecimientos = response?.payload ?? [];
+              if (establecimientos) {
+                this.tablaEstablecimientos = establecimientos;
+              }
+            },
+            error: (err) => {
+              const errorDto = new MessageExceptionDto({
+                status: err.error?.status,
+                error: err.error?.error,
+                recommendation: err.error?.recommendation,
+              });
+              this.alertsService.fireError(errorDto);
+            },
           });
-          this.alertsService.fireError(errorDto);
-        },
-      });
+      }
+    }
   }
 
   buildForm(): void {

@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { LoginRequestDto } from '../../data/schema/loginRequestDto';
 import { environment } from '../../../environments/environment';
@@ -19,10 +19,21 @@ export class AuthService {
   baseUrl: string = environment.BaseUrl;
 
   iniciarSesion(loginRequestDto: LoginRequestDto): Observable<GenericDto> {
-    return this.http.post<GenericDto>(
-      this.baseUrl + ConstantesEndpoints.LOGIN,
-      loginRequestDto
-    );
+    return this.http
+      .post<GenericDto>(
+        this.baseUrl + ConstantesEndpoints.LOGIN,
+        loginRequestDto
+      )
+      .pipe(
+        tap((response) => {
+          const authData = {
+            token: response.payload.token,
+            id: response.payload.id,
+            mobile_number: response.payload.mobile_number,
+          };
+          sessionStorage.setItem('authentication', JSON.stringify(authData));
+        })
+      );
   }
 
   verificarToken(): string {

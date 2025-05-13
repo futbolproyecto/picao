@@ -34,8 +34,6 @@ import { UserService } from '../../../../core/service/user.service';
 export class NavbarComponent implements OnInit {
   private alertsService = inject(AlertsService);
   private autenticacionStoreService = inject(AutenticacionStoreService);
-  private usuario$: Observable<UsuarioResponseDto> =
-    new Observable<UsuarioResponseDto>();
   public usuario: UsuarioResponseDto = new UsuarioResponseDto();
   public authService = inject(AuthService);
   private userService = inject(UserService);
@@ -43,33 +41,28 @@ export class NavbarComponent implements OnInit {
   public nombreMostrar: string = '';
   public tieneEstablecimiento: boolean = true;
 
-  constructor() {
-    this.usuario$ = this.autenticacionStoreService.obtenerSesion$();
-  }
-
   ngOnInit() {
-    this.consultarUsuario();
+    const authDataString = sessionStorage.getItem('authentication');
+    if (authDataString) {
+      const authData = JSON.parse(authDataString);
+      this.usuario.id = authData.id;
 
-    this.autenticacionStoreService.tieneEstablecimiento$.subscribe((valor) => {
-      this.tieneEstablecimiento = valor;
-    });
-  }
-
-  consultarUsuario(): void {
-    this.usuario$
-      .pipe(
-        map((usuario: UsuarioResponseDto) => usuario?.id ?? 0),
-        filter((id: number) => id !== 0),
-        switchMap((id: number) => this.userService.getById(id))
-      )
-      .subscribe({
+      this.userService.getById(authData.id).subscribe({
         next: (response) => {
           if (response?.payload) {
             this.usuario = response.payload;
             this.nombreMostrar = `${this.usuario.name} ${this.usuario.last_name}`;
           }
         },
+        error: (err) => {
+          console.error('Error al obtener los detalles del usuario', err);
+        },
       });
+    }
+
+    this.autenticacionStoreService.tieneEstablecimiento$.subscribe((valor) => {
+      this.tieneEstablecimiento = valor;
+    });
   }
 
   CerrarSesion() {

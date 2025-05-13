@@ -65,7 +65,6 @@ export class UpdateDataComponent {
   private alertsService = inject(AlertsService);
   public usuario: UsuarioResponseDto = new UsuarioResponseDto();
   private userService = inject(UserService);
-  private autenticacionStoreService = inject(AutenticacionStoreService);
   private destroyRef = inject(DestroyRef);
   private countryService = inject(CountryService);
   public countryDTO: Array<CountryDto> = new Array<CountryDto>();
@@ -349,30 +348,31 @@ export class UpdateDataComponent {
   }
 
   cargarDatosUsuario(): void {
-    this.autenticacionStoreService
-      .obtenerSesion$()
-      .pipe(
-        map((usuario: UsuarioResponseDto) => usuario?.id ?? 0),
-        filter((id: number) => id !== 0),
-        switchMap((id: number) => this.userService.getById(id))
-      )
-      .subscribe({
-        next: (response) => {
-          if (response?.payload) {
-            this.usuario = response.payload;
-            this.usuarioId = this.usuario.id ?? 0;
-            this.llenarFormulario();
-          }
-        },
-        error: (err) => {
-          const errorDto = new MessageExceptionDto({
-            status: err.error?.status,
-            error: err.error?.error,
-            recommendation: err.error?.recommendation,
-          });
-          this.alertsService.fireError(errorDto);
-        },
-      });
+    const authDataString = sessionStorage.getItem('authentication');
+    if (authDataString) {
+      const authData = JSON.parse(authDataString);
+      const usuarioId = authData.id;
+
+      if (usuarioId !== 0) {
+        this.userService.getById(usuarioId).subscribe({
+          next: (response) => {
+            if (response?.payload) {
+              this.usuario = response.payload;
+              this.usuarioId = this.usuario.id ?? 0;
+              this.llenarFormulario();
+            }
+          },
+          error: (err) => {
+            const errorDto = new MessageExceptionDto({
+              status: err.error?.status,
+              error: err.error?.error,
+              recommendation: err.error?.recommendation,
+            });
+            this.alertsService.fireError(errorDto);
+          },
+        });
+      }
+    }
   }
 
   llenarFormulario(): void {
