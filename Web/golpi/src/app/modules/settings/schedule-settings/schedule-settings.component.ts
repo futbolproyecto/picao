@@ -1,10 +1,12 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, computed, DestroyRef, inject } from '@angular/core';
 import { CardComponent } from '../../../shared/components/custom/card/card.component';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
 import {
   AbstractControl,
+  FormArray,
+  FormControl,
   FormsModule,
   ReactiveFormsModule,
   UntypedFormBuilder,
@@ -15,7 +17,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { BusyService } from '../../../core/busy.service';
 import { EstablishmentRequestDto } from '../../../data/schema/establishmentRequestDto';
-import { filter, map, switchMap } from 'rxjs';
+import { filter, finalize, map, switchMap } from 'rxjs';
 import { MessageExceptionDto } from '../../../data/schema/MessageExceptionDto';
 import { EstablishmentService } from '../../../core/service/establishment.service';
 import { AutenticacionStoreService } from '../../../core/store/auth/autenticacion-store.service';
@@ -26,6 +28,9 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { DataTableComponent } from '../../../shared/components/custom/data-table/data-table.component';
 import { MatRadioModule } from '@angular/material/radio';
+import { CreateAgendaRequestDto } from '../../../data/schema/createAgendaRequestDto';
+import { AgendaService } from '../../../core/service/agenda.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-schedule-settings',
@@ -53,6 +58,8 @@ export class ScheduleSettingsComponent {
   private fieldService = inject(FieldService);
   private autenticacionStoreService = inject(AutenticacionStoreService);
   private alertsService = inject(AlertsService);
+  private agendaService = inject(AgendaService);
+  private destroyRef = inject(DestroyRef);
 
   //Librerias
   private formBuilder = inject(UntypedFormBuilder);
@@ -64,22 +71,24 @@ export class ScheduleSettingsComponent {
   //   new Array<EstablishmentRequestDto>();
   public establishmentDto: Array<EstablishmentRequestDto> =
     new Array<EstablishmentRequestDto>();
+  public createAgendaRequestDto: Array<CreateAgendaRequestDto> =
+    new Array<CreateAgendaRequestDto>();
 
   public configuracionHorarioActivo: boolean = true;
   public nombrePestana: string = 'Configuracion de horarios';
   public listaCanchas: any[] = [];
   public canchasSeleccionadas: number[] = [];
   public horas: { label: string; value: string }[] = [];
-  public diasSeleccionados: string[] = [];
+  public diasSeleccionados: number[] = [];
 
   diasSemana = [
-    { nombre: 'Lunes', valor: 'LUNES' },
-    { nombre: 'Martes', valor: 'MARTES' },
-    { nombre: 'Miércoles', valor: 'MIERCOLES' },
-    { nombre: 'Jueves', valor: 'JUEVES' },
-    { nombre: 'Viernes', valor: 'VIERNES' },
-    { nombre: 'Sábado', valor: 'SABADO' },
-    { nombre: 'Domingo', valor: 'DOMINGO' },
+    { nombre: 'Lunes', valor: 'LUNES', id: 1 },
+    { nombre: 'Martes', valor: 'MARTES', id: 2 },
+    { nombre: 'Miércoles', valor: 'MIERCOLES', id: 3 },
+    { nombre: 'Jueves', valor: 'JUEVES', id: 4 },
+    { nombre: 'Viernes', valor: 'VIERNES', id: 5 },
+    { nombre: 'Sábado', valor: 'SABADO', id: 6 },
+    { nombre: 'Domingo', valor: 'DOMINGO', id: 0 },
   ];
 
   //Tabla
@@ -99,18 +108,18 @@ export class ScheduleSettingsComponent {
   tablaEstablecimientos = [
     {
       establishment: 'GolpiGroup',
-      blocked_courts: 'Número1, Número2, Número3, Número4',
-      lock_period: '2025-05-07 - 2025-06-07',
-      blocking_time: '00:00 - 15:00',
-      days_blocking: 'Lunes, Martes, Miercoles, Jueves',
+      blocked_courts: 'Cancha 1',
+      lock_period: '2025-05-13 - 2025-06-14',
+      blocking_time: '00:00 - 02:00',
+      days_blocking: 'Martes',
     },
-    {
-      establishment: 'GolpiGroup2',
-      blocked_courts: 'Número1',
-      lock_period: '2025-05-05 - 2025-05-25',
-      blocking_time: '15:00 - 16:00',
-      days_blocking: 'Todos los días',
-    },
+    // {
+    //   establishment: 'GolpiGroup2',
+    //   blocked_courts: 'Número1',
+    //   lock_period: '2025-05-05 - 2025-05-25',
+    //   blocking_time: '15:00 - 16:00',
+    //   days_blocking: 'Todos los días',
+    // },
   ];
 
   constructor(private busyService: BusyService) {
@@ -156,7 +165,7 @@ export class ScheduleSettingsComponent {
   buildForm(): void {
     this.formularioHorarioEstablecimiento = this.formBuilder.group({
       establishment: [null, Validators.required],
-      cancha: ['', Validators.required],
+      cancha: this.formBuilder.array([], Validators.required),
       tipo_bloqueo: ['', Validators.required],
       fecha_inicio: ['', Validators.required],
       fecha_fin: ['', Validators.required],
@@ -170,8 +179,8 @@ export class ScheduleSettingsComponent {
     return this.formularioHorarioEstablecimiento.get('establishment')!;
   }
 
-  get cancha(): AbstractControl {
-    return this.formularioHorarioEstablecimiento.get('cancha')!;
+  get cancha(): FormArray {
+    return this.formularioHorarioEstablecimiento.get('cancha') as FormArray;
   }
 
   get tipo_bloqueo(): AbstractControl {
@@ -238,6 +247,11 @@ export class ScheduleSettingsComponent {
             return;
           }
           this.listaCanchas = response.payload;
+          this.cancha.clear(); // Limpia checkboxes anteriores
+
+          this.listaCanchas.forEach(() => {
+            this.cancha.push(new FormControl(false)); // Un checkbox por cancha
+          });
         },
         error: (err) => {
           const errorDto = new MessageExceptionDto({
@@ -251,36 +265,37 @@ export class ScheduleSettingsComponent {
   }
 
   cargarEstablecimientosUsuario(): void {
-    this.autenticacionStoreService
-      .obtenerSesion$()
-      .pipe(
-        map((usuario: UsuarioResponseDto) => usuario?.id ?? 0),
-        filter((id: number) => id !== 0),
-        switchMap((id: number) =>
-          this.establishmentService.establecimientoPorUsuario(id)
-        )
-      )
-      .subscribe({
-        next: (response) => {
-          const establecimientos = response?.payload ?? [];
-          if (establecimientos) {
-            this.establishmentDto = establecimientos;
-          }
-        },
-        error: (err) => {
-          const errorDto = new MessageExceptionDto({
-            status: err.error?.status,
-            error: err.error?.error,
-            recommendation: err.error?.recommendation,
+    const authDataString = sessionStorage.getItem('authentication');
+    if (authDataString) {
+      const authData = JSON.parse(authDataString);
+      const usuarioId = authData.id;
+
+      if (usuarioId !== 0) {
+        this.establishmentService
+          .establecimientoPorUsuario(usuarioId)
+          .subscribe({
+            next: (response) => {
+              const establecimientos = response?.payload ?? [];
+              if (establecimientos) {
+                this.establishmentDto = establecimientos;
+              }
+            },
+            error: (err) => {
+              const errorDto = new MessageExceptionDto({
+                status: err.error?.status,
+                error: err.error?.error,
+                recommendation: err.error?.recommendation,
+              });
+              this.alertsService.fireError(errorDto);
+            },
           });
-          this.alertsService.fireError(errorDto);
-        },
-      });
+      }
+    }
   }
 
   generarHoras() {
     for (let h = 0; h < 24; h++) {
-      for (let m = 0; m < 60; m += 15) {
+      for (let m = 0; m < 60; m += 60) {
         const hora = this.formatearNumero(h);
         const minuto = this.formatearNumero(m);
         const horaCompleta = `${hora}:${minuto}`;
@@ -305,19 +320,17 @@ export class ScheduleSettingsComponent {
 
   alternarSeleccionDias(seleccionarTodos: boolean): void {
     if (seleccionarTodos) {
-      this.diasSeleccionados = this.diasSemana.map((dia) => dia.valor);
+      this.diasSeleccionados = this.diasSemana.map((dia) => dia.id);
     } else {
       this.diasSeleccionados = [];
     }
   }
 
-  diaCambio(valor: string, event: any): void {
+  diaCambio(id: number, event: any): void {
     if (event.checked) {
-      this.diasSeleccionados.push(valor);
+      this.diasSeleccionados.push(id);
     } else {
-      this.diasSeleccionados = this.diasSeleccionados.filter(
-        (d) => d !== valor
-      );
+      this.diasSeleccionados = this.diasSeleccionados.filter((d) => d !== id);
     }
   }
 
@@ -334,16 +347,11 @@ export class ScheduleSettingsComponent {
 
   guardarHorario() {
     if (this.formularioHorarioEstablecimiento.valid) {
-      const fechaInicio =
-        this.formularioHorarioEstablecimiento.get('fecha_inicio')?.value;
-      const fechaFin =
-        this.formularioHorarioEstablecimiento.get('fecha_fin')?.value;
-      const horaInicio =
-        this.formularioHorarioEstablecimiento.get('hora_inicio')?.value;
-      const horaFin =
-        this.formularioHorarioEstablecimiento.get('hora_fin')?.value;
+      const fechaInicio = this.fecha_inicio.value;
+      const fechaFin = this.fecha_fin.value;
+      const horaInicio = this.hora_inicio.value;
+      const horaFin = this.hora_fin.value;
 
-      // Validación fechas
       if (
         fechaInicio &&
         fechaFin &&
@@ -371,14 +379,129 @@ export class ScheduleSettingsComponent {
         }
       }
 
-      this.alertsService.toast('success', 'Horario bloqueado exitosamente.');
-      return;
+      const selectedCanchaIds = this.cancha.value
+        .map((checked: boolean, i: number) =>
+          checked ? this.listaCanchas[i].id : null
+        )
+        .filter((id: number | null): id is number => id !== null);
+
+      if (selectedCanchaIds.length === 0) {
+        this.alertsService.toast(
+          'error',
+          'Debes seleccionar al menos una cancha.'
+        );
+        return;
+      }
+
+      const diasSeleccionadosNumeros = this.diasSeleccionados.map((id) => {
+        return id;
+      });
+
+      const lockDownDays = this.calcularFechasBloqueadas(
+        fechaInicio,
+        fechaFin,
+        diasSeleccionadosNumeros,
+        horaInicio,
+        horaFin
+      );
+
+      if (lockDownDays.length === 0) {
+        this.alertsService.toast(
+          'error',
+          'No se generaron fechas bloqueadas. Verifica los días seleccionados.'
+        );
+        return;
+      }
+
+      const requestPayload = selectedCanchaIds.map((id: number) => ({
+        field_id: id,
+        lock_down_day: lockDownDays,
+      }));
+
+      console.log('Payload a enviar:', requestPayload);
+      this.busyService.busy();
+
+      this.agendaService
+        .crearBloqueo(requestPayload)
+        .pipe(
+          takeUntilDestroyed(this.destroyRef),
+          finalize(() => {
+            this.busyService.idle();
+          })
+        )
+        .subscribe({
+          next: () => {
+            this.alertsService.toast(
+              'success',
+              'Horario bloqueado exitosamente.'
+            );
+            this.limpiarFormulario();
+            this.cargarEstablecimientosUsuario();
+          },
+          error: (err) => {
+            const errorDto = new MessageExceptionDto({
+              status: err.error?.status,
+              error: err.error?.error,
+              recommendation: err.error?.recommendation,
+            });
+            this.alertsService.fireError(errorDto);
+          },
+        });
+    } else {
+      this.validarFormulario();
+    }
+  }
+
+  calcularFechasBloqueadas(
+    fechaInicio: Date,
+    fechaFin: Date,
+    diasSeleccionados: number[],
+    horaInicio: string,
+    horaFin: string
+  ) {
+    const fechasBloqueadas = [];
+    let currentFecha = new Date(fechaInicio);
+
+    currentFecha.setUTCHours(0, 0, 0, 0);
+    const fechaFinUTC = new Date(fechaFin);
+    fechaFinUTC.setUTCHours(23, 59, 59, 999);
+
+    while (currentFecha <= fechaFinUTC) {
+      const diaDeLaSemana = currentFecha.getUTCDay();
+
+      if (diasSeleccionados.includes(diaDeLaSemana)) {
+        const fechaBloqueada = {
+          day: currentFecha.toISOString().split('T')[0],
+          start_time: horaInicio,
+          end_time: horaFin,
+        };
+        fechasBloqueadas.push(fechaBloqueada);
+      }
+
+      currentFecha.setUTCDate(currentFecha.getUTCDate() + 1);
     }
 
-    Object.values(this.formularioHorarioEstablecimiento.controls).forEach(
-      (control) => control.markAsTouched()
-    );
+    return fechasBloqueadas;
+  }
 
+  // eliminarBloqueo(id: number): void {
+  //   this.alertsService.fireConfirm(
+  //     'warning',
+  //     '¿Estás seguro de que deseas eliminar este bloqueo?',
+  //     '',
+  //     () => {
+  //       this.alertsService.toast('success', 'Bloqueo eliminado exitosamente.');
+  //     }
+  //   );
+  // }
+
+  limpiarFormulario(): void {
+    this.diasSeleccionados = [];
+    this.formularioHorarioEstablecimiento.reset();
+  }
+
+  //Mensajes de error cuando los datos estan
+  validarFormulario() {
     const campo = (nombre: string) =>
       this.formularioHorarioEstablecimiento.get(nombre);
 
@@ -386,14 +509,6 @@ export class ScheduleSettingsComponent {
       this.alertsService.toast(
         'error',
         'Debes seleccionar un establecimiento.'
-      );
-      return;
-    }
-
-    if (!campo('cancha')?.value || campo('cancha')?.value.length === 0) {
-      this.alertsService.toast(
-        'error',
-        'Debes seleccionar al menos una cancha.'
       );
       return;
     }
@@ -412,7 +527,6 @@ export class ScheduleSettingsComponent {
           'error',
           'Debes seleccionar una fecha de inicio y una fecha de fin.'
         );
-
         return;
       }
     }
@@ -429,16 +543,5 @@ export class ScheduleSettingsComponent {
       this.alertsService.toast('error', 'Debes seleccionar al menos un día.');
       return;
     }
-  }
-
-  eliminarBloqueo(id: number): void {
-    this.alertsService.fireConfirm(
-      'warning',
-      '¿Estás seguro de que deseas eliminar este bloqueo?',
-      '',
-      () => {
-        this.alertsService.toast('success', 'Bloqueo eliminado exitosamente.');
-      }
-    );
   }
 }

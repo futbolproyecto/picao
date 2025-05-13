@@ -1,6 +1,5 @@
 // Dto
 import { GenericDto } from '../../core/models/generic-dto';
-import { EstablishmentRequestDto } from './establishmentRequestDto';
 
 export class FieldRequestDto extends GenericDto {
   establishment_id?: string | undefined;
