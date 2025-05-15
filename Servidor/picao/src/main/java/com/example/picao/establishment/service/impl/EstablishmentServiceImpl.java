@@ -86,5 +86,6 @@ public class EstablishmentServiceImpl implements EstablishmentService {
             throw new AppException(e.getErrorMessages(), e.getHttpStatus());
         }
     }
+
 }
 

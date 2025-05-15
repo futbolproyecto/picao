@@ -1,6 +1,5 @@
 package com.example.picao.agenda.repository;
 
-import com.example.picao.agenda.dto.AgendaResponseDTO;
 import com.example.picao.agenda.entity.Agenda;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -20,4 +19,6 @@ public interface AgendaRepository extends JpaRepository<Agenda, UUID> {
             "JOIN  f.establishment e " +
             "WHERE e.id = :establishmentId")
     List<Agenda> findByEstablishmentId(UUID establishmentId);
+
+
 }

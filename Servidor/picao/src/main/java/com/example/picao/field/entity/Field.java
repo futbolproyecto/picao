@@ -1,7 +1,6 @@
 package com.example.picao.field.entity;
 
 import com.example.picao.agenda.entity.Agenda;
-import com.example.picao.city.entity.City;
 import com.example.picao.establishment.entity.Establishment;
 import jakarta.persistence.*;
 import lombok.AccessLevel;

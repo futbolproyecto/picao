@@ -12,7 +12,6 @@ import com.example.picao.agenda.service.AgendaService;
 import com.example.picao.core.exception.AppException;
 import com.example.picao.core.util.ErrorMessages;
 import com.example.picao.field.entity.Field;
-import com.example.picao.field.mapper.FieldMapper;
 import com.example.picao.field.repository.FieldRepository;
 import lombok.RequiredArgsConstructor;
 import org.mapstruct.factory.Mappers;
@@ -37,6 +36,8 @@ public class AgendaServiceImpl implements AgendaService {
     @Override
     public String create(List<CreateAgendaRequestDTO> createAgendaRequestDTO) {
         try {
+            UUID agendaId = UUID.randomUUID();
+
             for (CreateAgendaRequestDTO request : createAgendaRequestDTO) {
 
                 Field field = fieldRepository.findById(request.fieldId())
@@ -63,6 +64,7 @@ public class AgendaServiceImpl implements AgendaService {
                                 : TimeStatus.DISPONIBLE;
 
                         Agenda agenda = new Agenda();
+                        agenda.setRecordId(agendaId);
                         agenda.setDate(date);
                         agenda.setStartTime(currentHour);
                         agenda.setEndTime(currentHour.plusHours(1));

@@ -1,5 +1,6 @@
-package com.example.picao.agenda.entity;
+package com.example.picao.blockade.entity;
 
+import com.example.picao.agenda.entity.DayOfWeek;
 import com.example.picao.field.entity.Field;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -16,26 +17,21 @@ import java.util.UUID;
 @NoArgsConstructor()
 @Getter
 @Setter
-@Table(name = "agendas")
+@Table(name = "blockades")
 @Entity
-public class Agenda {
+public class Blockade {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     UUID id;
 
-    @Column(name = "record_id")
     UUID recordId;
 
-    private LocalDate date;
+    LocalDate date;
 
-    private LocalTime startTime;
+    LocalTime startTime;
 
-    private LocalTime endTime;
-
-    @Column(length = 30)
-    @Enumerated(EnumType.STRING)
-    private TimeStatus status;
+    LocalTime endTime;
 
     @Column(name = "day_of_week",length = 10)
     @Enumerated(EnumType.STRING)
@@ -44,4 +40,6 @@ public class Agenda {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "field_id")
     private Field field;
+
+
 }
