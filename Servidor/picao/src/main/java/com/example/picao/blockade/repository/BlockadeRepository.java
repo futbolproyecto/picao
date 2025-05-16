@@ -33,4 +33,11 @@ public interface BlockadeRepository extends JpaRepository<Blockade, UUID> {
     @Query("SELECT b FROM Blockade b WHERE b.field.id = :fieldId AND b.date = :day " +
             "AND b.startTime = :startTime AND b.endTime = :endTime")
     Blockade findConflictingBlockades(UUID fieldId, LocalDate day, LocalTime startTime, LocalTime endTime);
+
+    @Query("SELECT b FROM Blockade b WHERE b.field.id = :fieldId AND b.date = :day " +
+            "AND b.startTime = :startTime AND b.endTime = :endTime AND b.recordId != :recordId")
+    Blockade findConflictingBlockadesUpdate(UUID fieldId, LocalDate day, LocalTime startTime, LocalTime endTime,
+                                            UUID recordId);
+
+    List<Blockade> findByRecordId(UUID recordId);
 }

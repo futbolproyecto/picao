@@ -3,23 +3,20 @@ package com.example.picao.blockade.entity;
 import com.example.picao.agenda.entity.DayOfWeek;
 import com.example.picao.field.entity.Field;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.UUID;
 
+@Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @NoArgsConstructor()
+@AllArgsConstructor
 @Getter
 @Setter
-@Table(name = "blockades", uniqueConstraints = @UniqueConstraint(columnNames = {
-        "field_id", "date", "start_time", "end_time"
-}))
+@Table(name = "blockades")
 @Entity
 public class Blockade {
 

@@ -74,7 +74,7 @@ public enum ErrorMessages {
             "E22"),
     DUPLICATE_BLOCKADE("Ya existe un bloqueo para la cancha %s para el dia %s entre los horarios %s y %s.",
             "Por favor, edite el bloqueo",
-            "E22");
+            "E23");
 
 
     private final String message;

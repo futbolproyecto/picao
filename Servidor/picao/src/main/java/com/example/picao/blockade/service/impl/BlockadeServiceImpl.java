@@ -3,6 +3,7 @@ package com.example.picao.blockade.service.impl;
 import com.example.picao.agenda.entity.DayOfWeek;
 import com.example.picao.blockade.dto.BlockadeRequestDTO;
 import com.example.picao.blockade.dto.BlockadeResponseDTO;
+import com.example.picao.blockade.dto.UpdateBlockadeRequest;
 import com.example.picao.blockade.dto.projection.BlockeadeByUserProjection;
 import com.example.picao.blockade.entity.Blockade;
 import com.example.picao.blockade.repository.BlockadeRepository;
@@ -18,6 +19,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.*;
 
 @RequiredArgsConstructor()
@@ -49,22 +52,18 @@ public class BlockadeServiceImpl implements BlockadeService {
                                     field.getId(), date, blockadeRequestDTO.startTime(),
                                     blockadeRequestDTO.endTime());
 
+                            validateDuplicateLock(conflicts, field.getName(), date,
+                                    blockadeRequestDTO.startTime(), blockadeRequestDTO.endTime());
 
-                            if (conflicts != null) {
-                                throw new AppException(ErrorMessages.DUPLICATE_BLOCKADE,
-                                        HttpStatus.CONFLICT, field.getName(), date, blockadeRequestDTO.startTime(),
-                                        blockadeRequestDTO.endTime());
-                            }
+                            return Blockade.builder()
+                                    .date(date)
+                                    .startTime(blockadeRequestDTO.startTime())
+                                    .endTime(blockadeRequestDTO.endTime())
+                                    .dayOfWeek(DayOfWeek.fromId(date.getDayOfWeek().getValue()))
+                                    .field(field)
+                                    .recordId(uuid)
+                                    .build();
 
-
-                            Blockade bloqueo = new Blockade();
-                            bloqueo.setDate(date);
-                            bloqueo.setStartTime(blockadeRequestDTO.startTime());
-                            bloqueo.setEndTime(blockadeRequestDTO.endTime());
-                            bloqueo.setDayOfWeek(DayOfWeek.fromId(date.getDayOfWeek().getValue()));
-                            bloqueo.setField(field);
-                            bloqueo.setRecordId(uuid);
-                            return bloqueo;
                         })
                         .toList();
 
@@ -143,4 +142,87 @@ public class BlockadeServiceImpl implements BlockadeService {
         }
 
     }
+
+    @Transactional
+    @Override
+    public String update(UpdateBlockadeRequest requestDTO) {
+        try {
+            UUID recordId = requestDTO.id();
+
+            // Obtener y validar que existen bloqueos para ese recordId
+            List<Blockade> existingBlockades = blockadeRepository.findByRecordId(recordId);
+            if (existingBlockades.isEmpty()) {
+                throw new AppException(ErrorMessages.GENERIC_NOT_EXIST, HttpStatus.NOT_FOUND, "Bloqueo");
+            }
+
+            // Eliminar todos los bloqueos actuales
+            blockadeRepository.deleteAll(existingBlockades);
+
+            List<Blockade> nuevosBloqueos = new ArrayList<>();
+
+            for (BlockadeRequestDTO blockadeRequestDTO : requestDTO.blockades()) {
+
+                Field field = fieldRepository.findById(blockadeRequestDTO.fieldId())
+                        .orElseThrow(() -> new AppException(
+                                ErrorMessages.GENERIC_NOT_EXIST, HttpStatus.NOT_FOUND, "Cancha"));
+
+                for (LocalDate date : blockadeRequestDTO.days()) {
+
+                    // Validar conflictos antes de crear
+                    Blockade conflict = blockadeRepository.findConflictingBlockadesUpdate(
+                            field.getId(), date, blockadeRequestDTO.startTime(),
+                            blockadeRequestDTO.endTime(), recordId);
+
+                    validateDuplicateLock(conflict, field.getName(), date,
+                            blockadeRequestDTO.startTime(), blockadeRequestDTO.endTime());
+
+                    // Crear nuevo bloqueo
+                    nuevosBloqueos.add(Blockade.builder()
+                            .date(date)
+                            .startTime(blockadeRequestDTO.startTime())
+                            .endTime(blockadeRequestDTO.endTime())
+                            .dayOfWeek(DayOfWeek.fromId(date.getDayOfWeek().getValue()))
+                            .recordId(recordId)
+                            .field(field)
+                            .build());
+                }
+            }
+
+            blockadeRepository.saveAll(nuevosBloqueos);
+
+            return "Bloqueos actualizados";
+
+        } catch (AppException e) {
+            throw new AppException(e.getErrorMessages(), e.getHttpStatus(), e.getArgs());
+        }
+    }
+
+    @Override
+    public String delete(UUID blockadeId) {
+
+        try {
+            List<Blockade> existingBlockades = blockadeRepository.findByRecordId(blockadeId);
+
+            if (existingBlockades.isEmpty()) {
+                throw new AppException(ErrorMessages.GENERIC_NOT_EXIST, HttpStatus.NOT_FOUND, "Bloqueo");
+            }
+            blockadeRepository.deleteAll(existingBlockades);
+
+            return "Bloqueo eliminado";
+
+        } catch (AppException e) {
+            throw new AppException(e.getErrorMessages(), e.getHttpStatus(), e.getArgs());
+        }
+    }
+
+    private void validateDuplicateLock(Blockade blockade, String fielName, LocalDate date,
+                                       LocalTime startTime, LocalTime endTime) {
+
+        if (blockade != null) {
+            throw new AppException(ErrorMessages.DUPLICATE_BLOCKADE, HttpStatus.CONFLICT,
+                    fielName, date, startTime, endTime);
+        }
+    }
+
+
 }
