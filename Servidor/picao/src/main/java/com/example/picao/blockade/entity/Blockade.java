@@ -17,7 +17,9 @@ import java.util.UUID;
 @NoArgsConstructor()
 @Getter
 @Setter
-@Table(name = "blockades")
+@Table(name = "blockades", uniqueConstraints = @UniqueConstraint(columnNames = {
+        "field_id", "date", "start_time", "end_time"
+}))
 @Entity
 public class Blockade {
 
@@ -33,7 +35,7 @@ public class Blockade {
 
     LocalTime endTime;
 
-    @Column(name = "day_of_week",length = 10)
+    @Column(name = "day_of_week", length = 10)
     @Enumerated(EnumType.STRING)
     private DayOfWeek dayOfWeek;
 

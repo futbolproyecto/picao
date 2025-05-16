@@ -43,6 +43,20 @@ public class BlockadeServiceImpl implements BlockadeService {
 
                 List<Blockade> bloqueos = blockadeRequestDTO.days().stream()
                         .map(date -> {
+
+                            // se valida si ya existe este bloqueo generado
+                            Blockade conflicts = blockadeRepository.findConflictingBlockades(
+                                    field.getId(), date, blockadeRequestDTO.startTime(),
+                                    blockadeRequestDTO.endTime());
+
+
+                            if (conflicts != null) {
+                                throw new AppException(ErrorMessages.DUPLICATE_BLOCKADE,
+                                        HttpStatus.CONFLICT, field.getName(), date, blockadeRequestDTO.startTime(),
+                                        blockadeRequestDTO.endTime());
+                            }
+
+
                             Blockade bloqueo = new Blockade();
                             bloqueo.setDate(date);
                             bloqueo.setStartTime(blockadeRequestDTO.startTime());

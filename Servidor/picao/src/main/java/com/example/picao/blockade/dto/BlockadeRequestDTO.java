@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 public record BlockadeRequestDTO(
@@ -23,6 +23,6 @@ public record BlockadeRequestDTO(
         @JsonProperty("end_time")
         LocalTime endTime,
 
-        List<LocalDate> days
+        Set<LocalDate> days
 ) {
 }

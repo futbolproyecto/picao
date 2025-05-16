@@ -1,7 +1,6 @@
 package com.example.picao.establishment.repository;
 
 import com.example.picao.establishment.entity.Establishment;
-import jakarta.persistence.Tuple;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

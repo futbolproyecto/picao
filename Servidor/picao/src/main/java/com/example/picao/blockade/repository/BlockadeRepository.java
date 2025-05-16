@@ -5,6 +5,8 @@ import com.example.picao.blockade.entity.Blockade;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -25,6 +27,10 @@ public interface BlockadeRepository extends JpaRepository<Blockade, UUID> {
                      LEFT JOIN fields f ON f.establishment_id = e.id
                      LEFT JOIN blockades a ON a.field_id = f.id
             WHERE e.owner_user_id = :userId AND a.id IS NOT NULL
-            """,nativeQuery = true)
+            """, nativeQuery = true)
     List<BlockeadeByUserProjection> findByUserId(Integer userId);
+
+    @Query("SELECT b FROM Blockade b WHERE b.field.id = :fieldId AND b.date = :day " +
+            "AND b.startTime = :startTime AND b.endTime = :endTime")
+    Blockade findConflictingBlockades(UUID fieldId, LocalDate day, LocalTime startTime, LocalTime endTime);
 }
