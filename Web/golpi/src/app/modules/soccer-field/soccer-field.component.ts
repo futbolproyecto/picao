@@ -32,7 +32,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MessageExceptionDto } from '../../data/schema/MessageExceptionDto';
 import { filter, finalize, map, switchMap } from 'rxjs';
 import { AutenticacionStoreService } from '../../core/store/auth/autenticacion-store.service';
-import { UsuarioResponseDto } from '../../data/schema/userResponseDto';
+import { UserResponseDto } from '../../data/schema/userResponseDto';
 import { EstablishmentService } from '../../core/service/establishment.service';
 import { BusyService } from '../../core/busy.service';
 
@@ -146,7 +146,7 @@ export class SoccerFieldComponent implements OnInit {
     this.autenticacionStore
       .obtenerSesion$()
       .pipe(
-        map((usuario: UsuarioResponseDto) => {
+        map((usuario: UserResponseDto) => {
           const id = usuario?.id ? Number(usuario.id) : 0;
           return id;
         }),

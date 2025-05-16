@@ -45,7 +45,7 @@ import { OtpRequestDto } from '../../data/schema/otpRequestDto';
 import { AuthRequestDto } from '../../data/schema/authRequestDto';
 import { LoginRequestDto } from '../../data/schema/loginRequestDto';
 import { MessageExceptionDto } from '../../data/schema/MessageExceptionDto';
-import { UsuarioResponseDto } from '../../data/schema/userResponseDto';
+import { UserResponseDto } from '../../data/schema/userResponseDto';
 
 @Component({
   selector: 'app-login',
@@ -219,7 +219,7 @@ export class LoginComponent {
     this.autenticacionStore
       .obtenerSesion$()
       .pipe(
-        map((usuario: UsuarioResponseDto) => usuario?.id ?? 0),
+        map((usuario: UserResponseDto) => usuario?.id ?? 0),
         filter((id: number) => id !== 0),
         switchMap((id: number) =>
           this.establishmentService.establecimientoPorUsuario(id)

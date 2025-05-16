@@ -12,7 +12,7 @@ import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
-import { UsuarioResponseDto } from '../../../../data/schema/userResponseDto';
+import { UserResponseDto } from '../../../../data/schema/userResponseDto';
 import { AutenticacionStoreService } from '../../../../core/store/auth/autenticacion-store.service';
 import { filter, map, Observable, switchMap } from 'rxjs';
 import { UserService } from '../../../../core/service/user.service';
@@ -34,7 +34,7 @@ import { UserService } from '../../../../core/service/user.service';
 export class NavbarComponent implements OnInit {
   private alertsService = inject(AlertsService);
   private autenticacionStoreService = inject(AutenticacionStoreService);
-  public usuario: UsuarioResponseDto = new UsuarioResponseDto();
+  public usuario: UserResponseDto = new UserResponseDto();
   public authService = inject(AuthService);
   private userService = inject(UserService);
 

@@ -167,6 +167,17 @@ li:hover {
   display: flex;
 }
 
+::ng-deep.ng-select-error .ng-select-container {
+  border: none !important;
+  border-bottom: 1px solid var(--color-error) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+::ng-deep.ng-select-error .ng-select-container:after {
+  content: none !important;
+}
+
 /* Reglas de medios */
 @media (max-width: 1124px) {
   .container-card {

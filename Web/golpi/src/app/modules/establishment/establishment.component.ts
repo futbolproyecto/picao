@@ -30,7 +30,7 @@ import { DataTableComponent } from '../../shared/components/custom/data-table/da
 import { CityDto } from '../../data/schema/cityDto';
 import { EstablishmentRequestDto } from '../../data/schema/establishmentRequestDto';
 import { MessageExceptionDto } from '../../data/schema/MessageExceptionDto';
-import { UsuarioResponseDto } from '../../data/schema/userResponseDto';
+import { UserResponseDto } from '../../data/schema/userResponseDto';
 import { BusyService } from '../../core/busy.service';
 
 @Component({

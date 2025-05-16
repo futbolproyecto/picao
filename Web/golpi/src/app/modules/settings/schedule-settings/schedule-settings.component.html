@@ -30,7 +30,11 @@
                 bindLabel="name"
                 bindValue="id"
                 placeholder="Establecimiento* "
+                [ngClass]="{ 'ng-select-error': validarEstablecimiento() }"
               ></ng-select>
+              <small class="text-error" *ngIf="validarEstablecimiento()">
+                {{ establishmentError }}
+              </small>
             </div>
           </div>
 
@@ -50,6 +54,9 @@
                   >
                     {{ cancha.name }}
                   </mat-checkbox>
+                  <small class="text-error" *ngIf="validarCancha()">
+                    {{ canchaError }}
+                  </small>
                 </ng-container>
               </div>
             </div>
@@ -80,6 +87,7 @@
                   matInput
                   [matDatepicker]="inicioPicker"
                   formControlName="fecha_inicio"
+                  [min]="fechaActual"
                 />
                 <mat-datepicker-toggle
                   matIconSuffix
@@ -87,6 +95,9 @@
                 ></mat-datepicker-toggle>
                 <mat-datepicker #inicioPicker></mat-datepicker>
               </mat-form-field>
+              <small class="text-error" *ngIf="validarFechaInicio()">
+                {{ fechaInicioError }}
+              </small>
             </div>
             <div class="col-md-6">
               <mat-form-field class="input-field">
@@ -95,6 +106,7 @@
                   matInput
                   [matDatepicker]="finPicker"
                   formControlName="fecha_fin"
+                  [min]="fechaActual"
                 />
                 <mat-datepicker-toggle
                   matIconSuffix
@@ -102,6 +114,9 @@
                 ></mat-datepicker-toggle>
                 <mat-datepicker #finPicker></mat-datepicker>
               </mat-form-field>
+              <small class="text-error" *ngIf="validarFechaFin()">
+                {{ fechaFinError }}
+              </small>
             </div>
           </div>
 
@@ -113,7 +128,11 @@
                 bindLabel="label"
                 bindValue="value"
                 placeholder="Hora inicio"
+                [ngClass]="{ 'ng-select-error': validarHoraInicio() }"
               ></ng-select>
+              <small class="text-error" *ngIf="validarHoraInicio()">
+                {{ horaInicioError }}
+              </small>
             </div>
             <div class="col-md-6">
               <ng-select
@@ -122,7 +141,11 @@
                 bindLabel="label"
                 bindValue="value"
                 placeholder="Hora fin"
+                [ngClass]="{ 'ng-select-error': validarHoraFin() }"
               ></ng-select>
+              <small class="text-error" *ngIf="validarHoraFin()">
+                {{ horaFinError }}
+              </small>
             </div>
           </div>
 
@@ -131,6 +154,7 @@
             <div class="col-md-6 check">
               <div class="titulo"><span>Días</span></div>
               <div class="checkbox-dias">
+                <!-- Checkbox principal -->
                 <mat-checkbox
                   [checked]="todosLosDiasSeleccionados()"
                   [indeterminate]="algunosDiasSeleccionados()"
@@ -139,16 +163,21 @@
                 >
                   Todos los días
                 </mat-checkbox>
+
+                <!-- Checkboxes individuales -->
                 <mat-checkbox
-                  formControlName="dia"
                   *ngFor="let dia of diasSemana"
-                  [checked]="diasSeleccionados.includes(dia.id)"
+                  [checked]="diaSeleccionado(dia.id)"
                   (change)="diaCambio(dia.id, $event)"
                   color="primary"
                   class="check-individual"
                 >
                   {{ dia.nombre }}
                 </mat-checkbox>
+
+                <small class="text-error" *ngIf="validarDia()">
+                  {{ diaError }}
+                </small>
               </div>
             </div>
           </div>
@@ -163,6 +192,14 @@
             >
               Guardar
             </button>
+            <!-- <button
+              mat-raised-button
+              class="btn"
+              type="button"
+              (click)="limpiarFormulario()"
+            >
+              Limpiar
+            </button> -->
           </div>
         </form>
 
@@ -170,9 +207,10 @@
           <div class="table-wrapper">
             <app-data-table
               [titulo]="horariosTitulo"
-              [tableData]="tablaEstablecimientos"
+              [tableData]="tablaHorarios"
               [columnHeader]="encabezadosEstablecimientos"
               [delete]="eliminar"
+              (id)="eliminarBloqueo($event)"
               [edit]="edit"
             >
             </app-data-table>
