@@ -2,11 +2,13 @@
 import { GenericDto } from '../../core/models/generic-dto';
 import { LockDownDayDto } from './lockDownDayDto';
 
-export class CreateAgendaRequestDto extends GenericDto {
+export class BlockadeRequestDto extends GenericDto {
   field_id?: number;
-  lock_down_day?: LockDownDayDto[];
+  start_time?: number;
+  end_time?: number;
+  days?: Date[];
 
-  constructor(init?: Partial<CreateAgendaRequestDto>) {
+  constructor(init?: Partial<BlockadeRequestDto>) {
     super();
     if (init) {
       Object.assign(this, init);

@@ -36,7 +36,7 @@ import { CardComponent } from '../../shared/components/custom/card/card.componen
 import { ChangePasswordComponent } from '../change-password/change-password.component';
 
 //Dto
-import { UsuarioResponseDto } from '../../data/schema/userResponseDto';
+import { UserResponseDto } from '../../data/schema/userResponseDto';
 import { CountryDto } from '../../data/schema/countryDto';
 import { BusyService } from '../../core/busy.service';
 
@@ -63,7 +63,7 @@ import { BusyService } from '../../core/busy.service';
 export class UpdateDataComponent {
   private formBuilder = inject(UntypedFormBuilder);
   private alertsService = inject(AlertsService);
-  public usuario: UsuarioResponseDto = new UsuarioResponseDto();
+  public usuario: UserResponseDto = new UserResponseDto();
   private userService = inject(UserService);
   private destroyRef = inject(DestroyRef);
   private countryService = inject(CountryService);

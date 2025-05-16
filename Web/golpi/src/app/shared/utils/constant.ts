@@ -22,6 +22,13 @@ export class Constant {
 
   //  Form field errors
   static ERROR_CAMPO_REQUERIDO = 'Campo requerido';
+  static ERROR_CAMPO_ESTABLECIMIENTO = 'Debes seleccionar un establecimiento.';
+  static ERROR_CAMPO_FECHA_INICIO = 'Debes seleccionar una fecha de inicio.';
+  static ERROR_CAMPO_FECHA_FIN = 'Debes seleccionar una fecha de fin.';
+  static ERROR_CAMPO_HORA_INICIO = 'Debes seleccionar una hora de inicio.';
+  static ERROR_CAMPO_HORA_FIN = 'Debes seleccionar una hora de fin.';
+  static ERROR_CAMPO_DIA = 'Debes seleccionar al menos un día.';
+  static ERROR_CAMPO_CANCHA = 'Debes seleccionar al menos una cancha';
   static ERROR_FORM_INCOMPLETO =
     'Todos los campos deben estar correctamente diligenciados.';
   static ERROR_CAMPO_REQUERIDO_CORREO = 'Ingrese su correo electrónico';

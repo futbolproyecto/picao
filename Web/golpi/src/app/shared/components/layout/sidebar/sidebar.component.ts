@@ -14,7 +14,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 // Dto
-import { UsuarioResponseDto } from '../../../../data/schema/userResponseDto';
+import { UserResponseDto } from '../../../../data/schema/userResponseDto';
 import { AuthService } from '../../../../core/service/auth.service';
 import { filter } from 'rxjs';
 
@@ -37,7 +37,7 @@ export class SidebarComponent implements OnInit {
   private router = inject(Router);
   private autenticacionStoreService = inject(AutenticacionStoreService);
   public authService = inject(AuthService);
-  public usuario: UsuarioResponseDto = new UsuarioResponseDto();
+  public usuario: UserResponseDto = new UserResponseDto();
   public menuExpandido: boolean = false;
   public menuMobile: boolean = false;
   public menuAbierto = false;

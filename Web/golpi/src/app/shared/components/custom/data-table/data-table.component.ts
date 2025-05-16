@@ -81,7 +81,7 @@ export class DataTableComponent implements OnChanges {
   }
 
   deleteId(id: number) {
-    this.item.emit(id);
+    this.id.emit(id);
   }
 
   actualizarEstado(i: number) {

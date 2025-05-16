@@ -89,10 +89,10 @@ export class AlertsService {
       icon: icon,
       reverseButtons: true,
       showCancelButton: true,
-      confirmButtonText: 'Si',
-      cancelButtonText: 'No',
-      confirmButtonColor: '#725187',
-      cancelButtonColor: '#306a42',
+      confirmButtonText: 'Aceptar',
+      cancelButtonText: 'Cancelar',
+      confirmButtonColor: '#4CAF50',
+      cancelButtonColor: '#f44336',
     }).then((result) => {
       if (result.isConfirmed) {
         myCallBack();
@@ -113,7 +113,7 @@ export class AlertsService {
       reverseButtons: true,
       showCancelButton: false,
       confirmButtonText: 'Aceptar',
-      confirmButtonColor: '#725187',
+      confirmButtonColor: '#4CAF50',
     }).then((result) => {
       if (result.isConfirmed) {
         myCallBack();
@@ -137,8 +137,8 @@ export class AlertsService {
       showCancelButton: true,
       confirmButtonText: 'Validar',
       cancelButtonText: 'Cancelar',
-      confirmButtonColor: '#725187',
-      cancelButtonColor: '#306a42',
+      confirmButtonColor: '#4CAF50',
+      cancelButtonColor: '#f44336',
       preConfirm: (correo) => {
         if (!correo) {
           Swal.showValidationMessage('Debe ingresar un correo electrónico');
@@ -172,8 +172,8 @@ export class AlertsService {
       showCancelButton: true,
       confirmButtonText: 'Verificar',
       cancelButtonText: 'Cancelar',
-      confirmButtonColor: '#725187',
-      cancelButtonColor: '#306a42',
+      confirmButtonColor: '#4CAF50',
+      cancelButtonColor: '#f44336',
       preConfirm: (otp) => {
         if (!otp) {
           Swal.showValidationMessage('Debe ingresar el código');
@@ -205,8 +205,8 @@ export class AlertsService {
       showCancelButton: true,
       confirmButtonText: 'Cambiar contraseña',
       cancelButtonText: 'Cancelar',
-      confirmButtonColor: '#725187',
-      cancelButtonColor: '#306a42',
+      confirmButtonColor: '#4CAF50',
+      cancelButtonColor: '#f44336',
       preConfirm: () => {
         const popup = Swal.getPopup();
         const password = (popup?.querySelector('#password') as HTMLInputElement)
