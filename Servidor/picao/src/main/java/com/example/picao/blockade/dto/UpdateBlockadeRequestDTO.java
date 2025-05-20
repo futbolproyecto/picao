@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import java.util.Set;
 import java.util.UUID;
 
-public record UpdateBlockadeRequest(
+public record UpdateBlockadeRequestDTO(
 
         @NotNull
         UUID id,

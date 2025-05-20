@@ -1,6 +1,6 @@
 package com.example.picao.blockade.repository;
 
-import com.example.picao.blockade.dto.projection.BlockeadeByUserProjection;
+import com.example.picao.blockade.dto.projection.BlockeadeProjection;
 import com.example.picao.blockade.entity.Blockade;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -28,7 +28,7 @@ public interface BlockadeRepository extends JpaRepository<Blockade, UUID> {
                      LEFT JOIN blockades a ON a.field_id = f.id
             WHERE e.owner_user_id = :userId AND a.id IS NOT NULL
             """, nativeQuery = true)
-    List<BlockeadeByUserProjection> findByUserId(Integer userId);
+    List<BlockeadeProjection> findByUserId(Integer userId);
 
     @Query("SELECT b FROM Blockade b WHERE b.field.id = :fieldId AND b.date = :day " +
             "AND b.startTime = :startTime AND b.endTime = :endTime")
@@ -40,4 +40,20 @@ public interface BlockadeRepository extends JpaRepository<Blockade, UUID> {
                                             UUID recordId);
 
     List<Blockade> findByRecordId(UUID recordId);
+
+    @Query(value = """
+            SELECT f.id   AS field_id,
+                   f.name AS field_name,
+                   b.id   AS agenda_id,
+                   b.date AS date,
+                   b.start_time AS startTime,
+                   b.end_time AS endTime,
+                   b.day_of_week AS dayOfWeek,
+                   b.record_id AS recordId
+            FROM  fields f
+                LEFT JOIN blockades b ON b.field_id = f.id
+                WHERE b.record_id = :recordId
+            """, nativeQuery = true)
+    List<BlockeadeProjection> findByRecordIdField(UUID recordId);
+
 }

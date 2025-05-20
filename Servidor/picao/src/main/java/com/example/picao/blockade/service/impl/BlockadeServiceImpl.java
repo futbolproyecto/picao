@@ -3,8 +3,8 @@ package com.example.picao.blockade.service.impl;
 import com.example.picao.agenda.entity.DayOfWeek;
 import com.example.picao.blockade.dto.BlockadeRequestDTO;
 import com.example.picao.blockade.dto.BlockadeResponseDTO;
-import com.example.picao.blockade.dto.UpdateBlockadeRequest;
-import com.example.picao.blockade.dto.projection.BlockeadeByUserProjection;
+import com.example.picao.blockade.dto.UpdateBlockadeRequestDTO;
+import com.example.picao.blockade.dto.projection.BlockeadeProjection;
 import com.example.picao.blockade.entity.Blockade;
 import com.example.picao.blockade.repository.BlockadeRepository;
 import com.example.picao.blockade.service.BlockadeService;
@@ -22,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor()
 @Service
@@ -82,11 +83,11 @@ public class BlockadeServiceImpl implements BlockadeService {
     @Override
     public List<EstablishmentResponseDTO> getByUserId(Integer userId) {
         try {
-            List<BlockeadeByUserProjection> data = blockadeRepository.findByUserId(userId);
+            List<BlockeadeProjection> data = blockadeRepository.findByUserId(userId);
 
             Map<UUID, EstablishmentResponseDTO> establishmentMap = new LinkedHashMap<>();
 
-            for (BlockeadeByUserProjection row : data) {
+            for (BlockeadeProjection row : data) {
 
                 // 1. Agrupar por establecimiento
                 EstablishmentResponseDTO establishment = establishmentMap.computeIfAbsent(
@@ -145,7 +146,7 @@ public class BlockadeServiceImpl implements BlockadeService {
 
     @Transactional
     @Override
-    public String update(UpdateBlockadeRequest requestDTO) {
+    public String update(UpdateBlockadeRequestDTO requestDTO) {
         try {
             UUID recordId = requestDTO.id();
 
@@ -209,6 +210,77 @@ public class BlockadeServiceImpl implements BlockadeService {
             blockadeRepository.deleteAll(existingBlockades);
 
             return "Bloqueo eliminado";
+
+        } catch (AppException e) {
+            throw new AppException(e.getErrorMessages(), e.getHttpStatus(), e.getArgs());
+        }
+    }
+
+    @Override
+    public List<FieldResponseDTO> getById(UUID blockadeId) {
+        try {
+            List<BlockeadeProjection> projections = blockadeRepository.findByRecordIdField(blockadeId);
+
+            Map<UUID, List<BlockeadeProjection>> fieldGrouped = projections.stream()
+                    .collect(Collectors.groupingBy(BlockeadeProjection::getFieldId));
+
+            List<FieldResponseDTO> result = new ArrayList<>();
+
+            for (Map.Entry<UUID, List<BlockeadeProjection>> entry : fieldGrouped.entrySet()) {
+                UUID fieldId = entry.getKey();
+                List<BlockeadeProjection> fieldProjections = entry.getValue();
+
+                String fieldName = fieldProjections.get(0).getFieldName();
+
+                // Agrupar bloqueos por hora (startTime, endTime)
+                Map<String, List<BlockeadeProjection>> blockadeGrouped = fieldProjections.stream()
+                        .collect(Collectors.groupingBy(p -> p.getStartTime() + "-" + p.getEndTime()));
+
+                List<BlockadeResponseDTO> blockades = new ArrayList<>();
+
+                for (List<BlockeadeProjection> group : blockadeGrouped.values()) {
+                    LocalTime startTime = group.get(0).getStartTime();
+                    LocalTime endTime = group.get(0).getEndTime();
+
+                    // Calcular fechas mínima y máxima
+                    LocalDate startDate = group.stream()
+                            .map(BlockeadeProjection::getDate)
+                            .min(LocalDate::compareTo)
+                            .orElse(null);
+
+                    LocalDate endDate = group.stream()
+                            .map(BlockeadeProjection::getDate)
+                            .max(LocalDate::compareTo)
+                            .orElse(null);
+
+                    // se agrupan dias
+                    List<DayOfWeek> daysOfWeek = group.stream()
+                            .map(BlockeadeProjection::getDayOfWeek)
+                            .distinct()
+                            .sorted()
+                            .toList();
+
+
+                    BlockadeResponseDTO blockade = new BlockadeResponseDTO();
+                    blockade.setId(blockadeId);
+                    blockade.setStartTime(startTime);
+                    blockade.setEndTime(endTime);
+                    blockade.setStartDate(startDate);
+                    blockade.setEndDate(endDate);
+                    blockade.setDaysOfWeek(daysOfWeek);
+
+                    blockades.add(blockade);
+                }
+
+                FieldResponseDTO fieldDTO = new FieldResponseDTO();
+                fieldDTO.setId(fieldId);
+                fieldDTO.setName(fieldName);
+                fieldDTO.setBlockades(blockades);
+
+                result.add(fieldDTO);
+            }
+
+            return result;
 
         } catch (AppException e) {
             throw new AppException(e.getErrorMessages(), e.getHttpStatus(), e.getArgs());

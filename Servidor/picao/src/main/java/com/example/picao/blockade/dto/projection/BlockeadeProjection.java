@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.UUID;
 
-public interface BlockeadeByUserProjection {
+public interface BlockeadeProjection {
     UUID getEstablishmentId();
 
     String getEstablishmentName();

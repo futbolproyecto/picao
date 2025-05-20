@@ -1,7 +1,7 @@
 package com.example.picao.blockade.controller;
 
 import com.example.picao.blockade.dto.BlockadeRequestDTO;
-import com.example.picao.blockade.dto.UpdateBlockadeRequest;
+import com.example.picao.blockade.dto.UpdateBlockadeRequestDTO;
 import com.example.picao.blockade.service.BlockadeService;
 import com.example.picao.core.util.dto.GenericResponseDTO;
 import jakarta.validation.Valid;
@@ -31,12 +31,17 @@ public class BlockadeController {
     }
 
     @PutMapping(value = "update")
-    public ResponseEntity<GenericResponseDTO> update(@RequestBody @Valid UpdateBlockadeRequest requestDTO) {
+    public ResponseEntity<GenericResponseDTO> update(@RequestBody @Valid UpdateBlockadeRequestDTO requestDTO) {
         return GenericResponseDTO.genericResponse(blockadeService.update(requestDTO));
     }
 
     @DeleteMapping(value = "delete-by-id/{blockadeId}")
     public ResponseEntity<GenericResponseDTO> delete(@PathVariable() UUID blockadeId) {
         return GenericResponseDTO.genericResponse(blockadeService.delete(blockadeId));
+    }
+
+    @GetMapping(value = "get-by-id/{id}")
+    public ResponseEntity<GenericResponseDTO> getById(@PathVariable() UUID id) {
+        return GenericResponseDTO.genericResponse(blockadeService.getById(id));
     }
 }
