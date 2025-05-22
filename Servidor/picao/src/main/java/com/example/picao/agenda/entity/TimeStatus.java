@@ -4,5 +4,7 @@ public enum TimeStatus {
     DISPONIBLE,
     AGENDADO,
     EN_PROCESO,
-    BLOQUEADO
+    BLOQUEADO,
+    PAGADO,
+    INASISTIDO,
 }

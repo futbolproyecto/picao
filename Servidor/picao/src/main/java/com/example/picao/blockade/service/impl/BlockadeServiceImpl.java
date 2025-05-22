@@ -1,6 +1,7 @@
 package com.example.picao.blockade.service.impl;
 
 import com.example.picao.agenda.entity.DayOfWeek;
+import com.example.picao.agenda.service.AgendaService;
 import com.example.picao.blockade.dto.BlockadeRequestDTO;
 import com.example.picao.blockade.dto.BlockadeResponseDTO;
 import com.example.picao.blockade.dto.UpdateBlockadeRequestDTO;
@@ -30,6 +31,7 @@ public class BlockadeServiceImpl implements BlockadeService {
 
     private final FieldRepository fieldRepository;
     private final BlockadeRepository blockadeRepository;
+    private final AgendaService agendaService;
 
     @Transactional
     @Override
@@ -45,7 +47,7 @@ public class BlockadeServiceImpl implements BlockadeService {
                         .orElseThrow(() -> new AppException(
                                 ErrorMessages.GENERIC_NOT_EXIST, HttpStatus.NOT_FOUND, "Cancha"));
 
-                List<Blockade> bloqueos = blockadeRequestDTO.days().stream()
+                List<Blockade> blockades = blockadeRequestDTO.days().stream()
                         .map(date -> {
 
                             // se valida si ya existe este bloqueo generado
@@ -68,7 +70,12 @@ public class BlockadeServiceImpl implements BlockadeService {
                         })
                         .toList();
 
-                blockadeRepository.saveAll(bloqueos);
+                blockadeRepository.saveAll(blockades);
+
+                // Generar agendas disponibles por bloqueo
+                for (Blockade blockade : blockades) {
+                    agendaService.create(blockade);
+                }
 
             }
             return "Bloqueos generados";
@@ -79,6 +86,9 @@ public class BlockadeServiceImpl implements BlockadeService {
 
     }
 
+    /*
+     * obtiene todos los bloqueos que se tienen en todos los establecimientos asociadios a un usuarios
+     * **/
     @Transactional(readOnly = true)
     @Override
     public List<EstablishmentResponseDTO> getByUserId(Integer userId) {
@@ -198,6 +208,7 @@ public class BlockadeServiceImpl implements BlockadeService {
         }
     }
 
+    @Transactional()
     @Override
     public String delete(UUID blockadeId) {
 
@@ -216,6 +227,7 @@ public class BlockadeServiceImpl implements BlockadeService {
         }
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<FieldResponseDTO> getById(UUID blockadeId) {
         try {
@@ -295,6 +307,5 @@ public class BlockadeServiceImpl implements BlockadeService {
                     fielName, date, startTime, endTime);
         }
     }
-
 
 }

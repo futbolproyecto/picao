@@ -2,18 +2,17 @@ package com.example.picao.agenda.entity;
 
 import com.example.picao.field.entity.Field;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.UUID;
 
+@Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @NoArgsConstructor()
+@AllArgsConstructor
 @Getter
 @Setter
 @Table(name = "agendas")
@@ -24,14 +23,12 @@ public class Agenda {
     @GeneratedValue(strategy = GenerationType.UUID)
     UUID id;
 
-    @Column(name = "record_id")
-    UUID recordId;
+    @Column(name = "blockade_id")
+    UUID blockadeId;
 
     private LocalDate date;
 
     private LocalTime startTime;
-
-    private LocalTime endTime;
 
     @Column(length = 30)
     @Enumerated(EnumType.STRING)
