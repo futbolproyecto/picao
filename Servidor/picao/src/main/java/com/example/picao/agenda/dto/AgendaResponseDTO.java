@@ -27,12 +27,18 @@ public class AgendaResponseDTO {
     @JsonProperty("start_time")
     LocalTime startTime;
 
-    @JsonProperty("endt_time")
-    LocalTime endTime;
-
     TimeStatus status;
 
     @JsonProperty("day_of_week")
     DayOfWeek dayOfWeek;
+
+    @JsonProperty("name_field")
+    String nameField;
+
+    @JsonProperty("name_establishment")
+    String nameEstablishment;
+
+    @JsonProperty("address_establishment")
+    String addressEstablishment;
 
 }

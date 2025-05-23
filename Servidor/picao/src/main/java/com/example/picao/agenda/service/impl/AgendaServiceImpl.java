@@ -5,6 +5,7 @@ import com.example.picao.agenda.entity.Agenda;
 import com.example.picao.agenda.entity.TimeStatus;
 import com.example.picao.agenda.mapper.AgendaMapper;
 import com.example.picao.agenda.repository.AgendaRepository;
+import com.example.picao.agenda.repository.AgendaSpecification;
 import com.example.picao.agenda.service.AgendaService;
 import com.example.picao.blockade.entity.Blockade;
 import com.example.picao.core.exception.AppException;
@@ -13,6 +14,7 @@ import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -67,6 +69,30 @@ public class AgendaServiceImpl implements AgendaService {
             throw new AppException(e.getErrorMessages(), e.getHttpStatus(), e.getArgs());
         }
 
+    }
+
+    @Override
+    public List<AgendaResponseDTO> getAgendaAvailableByParameters(String cityName, LocalDate date,
+                                                                  LocalTime hour, String establishmentName) {
+
+        try {
+
+            List<Agenda> agendas = agendaRepository.findAll(AgendaSpecification.filterBy(
+                    cityName, date, hour, establishmentName));
+
+            return agendas.stream().map(agenda -> AgendaResponseDTO.builder()
+                    .id(agenda.getId())
+                    .nameField(agenda.getField().getName())
+                    .nameEstablishment(agenda.getField().getEstablishment().getName())
+                    .startTime(agenda.getStartTime())
+                    .date(agenda.getDate())
+                    .dayOfWeek(agenda.getDayOfWeek())
+                    .addressEstablishment(agenda.getField().getEstablishment().getAddress())
+                    .build()).toList();
+
+        } catch (AppException e) {
+            throw new AppException(e.getErrorMessages(), e.getHttpStatus(), e.getArgs());
+        }
     }
 
 
