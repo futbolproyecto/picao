@@ -22,7 +22,7 @@ public class AgendaController {
         return GenericResponseDTO.genericResponse(agendaService.getByEstablishmentId(establishmentId));
     }
 
-    @GetMapping("/get-agenda-vailable")
+    @GetMapping("/get-available-by-filters")
     public ResponseEntity<GenericResponseDTO> getAgendaAvailableByParameters(
             @RequestParam(name = "city_name") String cityName,
             @RequestParam(required = false) LocalDate date,
