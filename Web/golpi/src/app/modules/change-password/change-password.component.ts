@@ -25,7 +25,9 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { UserService } from '../../core/service/user.service';
 import { SetPasswordDto } from '../../data/schema/setPasswordDto';
 import { AutenticacionStoreService } from '../../core/store/auth/autenticacion-store.service';
-import { Observable } from 'rxjs';
+import { finalize, Observable } from 'rxjs';
+import { BusyService } from '../../core/busy.service';
+import { CardComponent } from '../../shared/components/custom/card/card.component';
 
 @Component({
   selector: 'app-change-password',
@@ -36,6 +38,7 @@ import { Observable } from 'rxjs';
     MatIconModule,
     FormsModule,
     ReactiveFormsModule,
+    CardComponent,
   ],
   templateUrl: './change-password.component.html',
   styleUrl: './change-password.component.css',
@@ -57,6 +60,9 @@ export class ChangePasswordComponent implements OnInit {
   public idUser: number = 0;
   private idUser$: Observable<number>;
 
+  public nombrePestana: string = 'Actualizar datos';
+  public cambiarActivo: boolean = true;
+
   ngOnInit(): void {
     this.buildForm();
     this.idUser$.subscribe((id: number) => {
@@ -66,9 +72,17 @@ export class ChangePasswordComponent implements OnInit {
 
   constructor(
     private formBuilder: UntypedFormBuilder,
-    private userService: UserService
+    private userService: UserService,
+    private busyService: BusyService
   ) {
     this.idUser$ = this.autenticacionStoreService.obtenerId$();
+  }
+
+  activarPestana(pestana: string): void {
+    if (pestana === 'cambiar') {
+      this.cambiarActivo = true;
+      this.nombrePestana = 'Cambiar contraseña';
+    }
   }
 
   buildForm(): void {
@@ -176,7 +190,7 @@ export class ChangePasswordComponent implements OnInit {
 
   validarPasswordConfirm(): boolean {
     let status = false;
-    this.passwordConfirmError = ''; 
+    this.passwordConfirmError = '';
 
     if (this.passwordConfirm.touched || this.passwordConfirm.dirty) {
       if (this.passwordConfirm.hasError('required')) {
@@ -219,11 +233,16 @@ export class ChangePasswordComponent implements OnInit {
         new_password: this.passwordNew.value,
       };
 
+      this.busyService.busy();
+
       this.userService
         .setPassword(this.setPasswordDto)
-        .pipe(takeUntilDestroyed(this.destroyRef))
-        .subscribe(
-          () => {
+        .pipe(
+          takeUntilDestroyed(this.destroyRef),
+          finalize(() => this.busyService.idle())
+        )
+        .subscribe({
+          next: () => {
             this.alertsService.toast(
               'success',
               'Contraseña actualizada existosamente.'
@@ -231,15 +250,15 @@ export class ChangePasswordComponent implements OnInit {
 
             this.limpiarFormulario();
           },
-          (err) => {
+          error: (err) => {
             const errorDto = new MessageExceptionDto({
               status: err.error?.status,
               error: err.error?.error,
               recommendation: err.error?.recommendation,
             });
             this.alertsService.fireError(errorDto);
-          }
-        );
+          },
+        });
     } else {
       this.formularioPass.markAllAsTouched();
       this.alertsService.toast('error', Constant.ERROR_FORM_INCOMPLETO);

@@ -132,6 +132,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Restablecer contraseña"),
         "rol": MessageLookupByLibrary.simpleMessage("Rol"),
         "salir": MessageLookupByLibrary.simpleMessage("Salir"),
+        "soloNumeros":
+            MessageLookupByLibrary.simpleMessage("Solo se permiten numeros"),
         "terminos": MessageLookupByLibrary.simpleMessage("Términos"),
         "validar": MessageLookupByLibrary.simpleMessage("Validar"),
         "y": MessageLookupByLibrary.simpleMessage("y"),

@@ -13,13 +13,21 @@
 
 html,
 body {
-  overflow-x: hidden;
-  width: 100%;
 }
 
 @font-face {
   font-family: "Montserrat";
-  src: url("./assets/fonts/Montserrat-VariableFont_wght.ttf");
+  src: url("assets/fonts/Montserrat-VariableFont_wght.ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
+}
+
+html,
+body {
+  font-family: "Montserrat";
+  font-size: 20px;
+  overflow-x: hidden;
+  width: 100%;
 }
 
 /* Estilo global para la alerta */
@@ -52,7 +60,7 @@ a.router-link-active {
 :root {
   /* Colores primarios */
   --color-primary: #36cc7a;
-  --color-primary-container: #B3F1BF;
+  --color-primary-container: #b3f1bf;
   --color-on-primary-container: #0c461e;
 
   /* Colores secundarios */

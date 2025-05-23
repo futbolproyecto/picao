@@ -1,13 +1,12 @@
 .container-establecimiento {
-  padding: 16px;
+  padding: 0 16px;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
 
 h1 {
-  font: bold 20px "Montserrat";
-  color: var(--color-secondary);
+  color: var(--color-on-tertiary-container);
 }
 
 .card-soccer {
@@ -18,7 +17,7 @@ h1 {
 }
 
 .container-card {
-  padding: 10px;
+  padding: 5px;
 }
 
 .container-modulos,
@@ -28,24 +27,26 @@ ul,
   flex-direction: row;
   justify-content: flex-start;
   width: 100%;
-  padding: 10px;
 }
 
 li {
   list-style: none;
   cursor: pointer;
   text-decoration: none;
-  padding: 10px 30px;
-  font-family: "Montserrat";
-  font-size: 18px;
-  color: var(--color-outline-variant);
-  border-bottom: 2px solid var(--color-surface-dim);
+  padding: 10px 20px;
+  border-radius: 6px 6px 0 0;
+  margin-right: 5px;
+  transition: all 0.3s ease;
 }
 
-li:hover,
-.active-tab {
-  border-bottom-color: var(--color-secondary);
+li.active-tab {
+  border-bottom: 2px solid var(--color-secondary);
   color: var(--color-secondary);
+  font-weight: bold;
+}
+
+li:hover {
+  background-color: var(--color-surface-container);
 }
 
 .container-pestana {
@@ -58,25 +59,14 @@ li:hover,
   opacity: 0;
 }
 
-p {
-  font-size: 20px;
-}
-
-span {
-  font-weight: bold;
-  font-size: 24px;
-}
-
 .form-content {
   padding: 0 76px;
-}
-
-.form-group {
   display: flex;
-  gap: 20px;
+  flex-direction: column;
+  gap: 15px;
 }
 
-mat-form-field {
+.input-field {
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -88,7 +78,6 @@ mat-form-field {
   justify-content: center;
   align-items: center;
   margin-top: 30px;
-  padding-bottom: 2rem;
 }
 
 .boton .btn {
@@ -97,12 +86,6 @@ mat-form-field {
   height: 45px;
   width: 50%;
   border-radius: 10px;
-}
-
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
 }
 
 .container-tabla {
@@ -135,14 +118,6 @@ form {
 }
 
 /* Estilos para .ng-select */
-.check {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  gap: 50%;
-  flex-wrap: wrap;
-}
-
 .checkbox {
   align-content: center;
 }
@@ -161,10 +136,6 @@ form {
     padding: 0px 30px;
   }
 
-  .form-group {
-    display: contents;
-  }
-
   li {
     padding: 10px 6px;
     font-size: 12px;
@@ -173,7 +144,6 @@ form {
 
   h1 {
     padding-top: 10px;
-    font: bold 15px "Montserrat";
   }
 
   .container-tabla {
@@ -186,10 +156,6 @@ form {
   .table-wrapper {
     width: 100%;
     overflow-x: auto;
-  }
-
-  h2 {
-    display: flex;
   }
 }
 

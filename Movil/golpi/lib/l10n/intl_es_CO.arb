@@ -70,5 +70,6 @@
     "campoRequerido": "Campo requerido",
     "longitudMaximo": "Máximo {numero} caracteres",
     "longitudMinimo": "Mínimo {numero} caracteres",
-    "formatoCorreoIncorrecto": "Formato de correo incorrecto"
+    "formatoCorreoIncorrecto": "Formato de correo incorrecto",
+    "soloNumeros": "Solo se permiten numeros"
 }

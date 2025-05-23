@@ -9,7 +9,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { filter, map, switchMap } from 'rxjs/operators';
+import { filter, finalize, map, switchMap } from 'rxjs/operators';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 // Servicios
@@ -36,8 +36,9 @@ import { CardComponent } from '../../shared/components/custom/card/card.componen
 import { ChangePasswordComponent } from '../change-password/change-password.component';
 
 //Dto
-import { UsuarioResponseDto } from '../../data/schema/userResponseDto';
+import { UserResponseDto } from '../../data/schema/userResponseDto';
 import { CountryDto } from '../../data/schema/countryDto';
+import { BusyService } from '../../core/busy.service';
 
 @Component({
   selector: 'app-update-data',
@@ -62,9 +63,8 @@ import { CountryDto } from '../../data/schema/countryDto';
 export class UpdateDataComponent {
   private formBuilder = inject(UntypedFormBuilder);
   private alertsService = inject(AlertsService);
-  public usuario: UsuarioResponseDto = new UsuarioResponseDto();
+  public usuario: UserResponseDto = new UserResponseDto();
   private userService = inject(UserService);
-  private autenticacionStoreService = inject(AutenticacionStoreService);
   private destroyRef = inject(DestroyRef);
   private countryService = inject(CountryService);
   public countryDTO: Array<CountryDto> = new Array<CountryDto>();
@@ -79,6 +79,7 @@ export class UpdateDataComponent {
   public ciudadError: string = '';
   public fechaNacimientoError: string = '';
   public actualizarActivo: boolean = true;
+  public registrarActivo: boolean = false;
   public cambiarActivo: boolean = false;
   public nombrePestana: string = 'Actualizar datos';
 
@@ -86,7 +87,7 @@ export class UpdateDataComponent {
   public modoEdicion: boolean = false;
   public selected: number = 1;
 
-  constructor() {
+  constructor(private busyService: BusyService) {
     this.buildForm();
   }
 
@@ -301,47 +302,19 @@ export class UpdateDataComponent {
   }
 
   mostrarIndicativos(): void {
+    this.busyService.busy();
     this.countryService
       .getAll()
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(
-        (res: any) => {
-          this.countryDTO = res.payload as CountryDto[];
-        },
-        (err) => {
-          this.alertsService.fireError(err);
-        }
-      );
-  }
-
-  activarPestana(pestana: string): void {
-    if (pestana === 'actualizar') {
-      this.actualizarActivo = true;
-      this.cambiarActivo = false;
-      this.nombrePestana = 'Actualizar datos';
-      this.cargarDatosUsuario();
-    } else if (pestana === 'cambiar') {
-      this.actualizarActivo = false;
-      this.cambiarActivo = true;
-      this.nombrePestana = 'Cambiar contraseña';
-    }
-  }
-
-  cargarDatosUsuario(): void {
-    this.autenticacionStoreService
-      .obtenerSesion$()
       .pipe(
-        map((usuario: UsuarioResponseDto) => usuario?.id ?? 0),
-        filter((id: number) => id !== 0),
-        switchMap((id: number) => this.userService.getById(id))
+        takeUntilDestroyed(this.destroyRef),
+        finalize(() => {
+          this.busyService.idle();
+        })
       )
       .subscribe({
-        next: (response) => {
-          if (response?.payload) {
-            this.usuario = response.payload;
-            this.usuarioId = this.usuario.id ?? 0;
-            this.llenarFormulario();
-          }
+        next: (res) => {
+          const indicativos = res?.payload ?? [];
+          this.countryDTO = indicativos;
         },
         error: (err) => {
           const errorDto = new MessageExceptionDto({
@@ -352,6 +325,54 @@ export class UpdateDataComponent {
           this.alertsService.fireError(errorDto);
         },
       });
+  }
+
+  activarPestana(pestana: string): void {
+    if (pestana === 'actualizar') {
+      this.actualizarActivo = true;
+      this.cambiarActivo = false;
+      this.registrarActivo = false;
+      this.nombrePestana = 'Actualizar datos';
+      this.cargarDatosUsuario();
+    } else if (pestana === 'cambiar') {
+      this.actualizarActivo = false;
+      this.cambiarActivo = true;
+      this.registrarActivo = false;
+      this.nombrePestana = 'Cambiar contraseña';
+    } else if (pestana === 'registrar') {
+      this.actualizarActivo = false;
+      this.cambiarActivo = false;
+      this.registrarActivo = true;
+      this.nombrePestana = 'Registrar usuario';
+    }
+  }
+
+  cargarDatosUsuario(): void {
+    const authDataString = sessionStorage.getItem('authentication');
+    if (authDataString) {
+      const authData = JSON.parse(authDataString);
+      const usuarioId = authData.id;
+
+      if (usuarioId !== 0) {
+        this.userService.getById(usuarioId).subscribe({
+          next: (response) => {
+            if (response?.payload) {
+              this.usuario = response.payload;
+              this.usuarioId = this.usuario.id ?? 0;
+              this.llenarFormulario();
+            }
+          },
+          error: (err) => {
+            const errorDto = new MessageExceptionDto({
+              status: err.error?.status,
+              error: err.error?.error,
+              recommendation: err.error?.recommendation,
+            });
+            this.alertsService.fireError(errorDto);
+          },
+        });
+      }
+    }
   }
 
   llenarFormulario(): void {
@@ -407,26 +428,33 @@ export class UpdateDataComponent {
           : undefined,
       };
 
+      this.busyService.busy();
+
       this.userService
         .update(this.usuario)
-        .pipe(takeUntilDestroyed(this.destroyRef))
-        .subscribe(
-          () => {
+        .pipe(
+          takeUntilDestroyed(this.destroyRef),
+          finalize(() => {
+            this.busyService.idle();
+          })
+        )
+        .subscribe({
+          next: () => {
             this.cargarDatosUsuario();
             this.alertsService.toast(
               'success',
               'Usuario actualizado exitosamente.'
             );
           },
-          (err) => {
+          error: (err) => {
             const errorDto = new MessageExceptionDto({
               status: err.error?.status,
               error: err.error?.error,
               recommendation: err.error?.recommendation,
             });
             this.alertsService.fireError(errorDto);
-          }
-        );
+          },
+        });
     } else {
       this.formularioActualizar.markAllAsTouched();
       this.alertsService.toast('error', Constant.ERROR_FORM_INCOMPLETO);

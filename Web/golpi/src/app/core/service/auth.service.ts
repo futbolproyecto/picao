@@ -1,13 +1,13 @@
 import { inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { LoginRequestDto } from '../../data/schema/loginRequestDto';
 import { environment } from '../../../environments/environment';
-import { AuthRequestDto } from '../../data/schema/authRequestDto';
 import { ConstantesEndpoints } from '../utils/models/constantes-endpoints';
 import { AutenticacionStoreService } from '../store/auth/autenticacion-store.service';
 import { GenericDto } from '../models/generic-dto';
 import { Router } from '@angular/router';
+import { AuthRequestDto } from '../../data/schema/authRequestDto';
 
 @Injectable({
   providedIn: 'root',
@@ -19,15 +19,28 @@ export class AuthService {
   baseUrl: string = environment.BaseUrl;
 
   iniciarSesion(loginRequestDto: LoginRequestDto): Observable<GenericDto> {
-    return this.http.post<GenericDto>(
-      this.baseUrl + ConstantesEndpoints.LOGIN,
-      loginRequestDto
-    );
+    return this.http
+      .post<GenericDto>(
+        this.baseUrl + ConstantesEndpoints.LOGIN,
+        loginRequestDto
+      )
+      .pipe(
+        tap((response) => {
+          const authData = {
+            token: response.payload.token,
+            id: response.payload.id,
+            mobile_number: response.payload.mobile_number,
+          };
+          sessionStorage.setItem('authentication', JSON.stringify(authData));
+        })
+      );
   }
 
   verificarToken(): string {
-    let token = this.store.obtenerToken$();
-    return token;
+    const authString = sessionStorage.getItem('authentication');
+    if (!authString) return '';
+    const auth: AuthRequestDto = JSON.parse(authString);
+    return auth.token ?? '';
   }
 
   cerrarSesion() {

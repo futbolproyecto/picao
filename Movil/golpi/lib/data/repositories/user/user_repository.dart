@@ -1,3 +1,4 @@
+import 'package:golpi/core/models/country_model.dart';
 import 'package:golpi/core/utils/http_service.dart';
 import 'package:golpi/core/models/option_model.dart';
 import 'package:golpi/core/utils/general_model.dart';
@@ -112,8 +113,7 @@ class UserRepository {
 
   Future<List<OptionModel>> getAllCities() async {
     try {
-      final response =
-          await HttpService(ConstantEndpoints.getAllCities).get();
+      final response = await HttpService(ConstantEndpoints.getAllCities).get();
 
       return (GeneralModel().jsonStringifyToList(response))
           .map((i) => OptionModel.fromJson(i))
@@ -138,6 +138,18 @@ class UserRepository {
     try {
       await HttpService(ConstantEndpoints.updatePlayerProfile)
           .put(playerProfileRegisterModel.toJson());
+    } on Exception catch (_) {
+      rethrow;
+    }
+  }
+
+  Future<List<CountryModel>> getAllCountry() async {
+    try {
+      final response = await HttpService(ConstantEndpoints.getAllCountry).get();
+
+      return (GeneralModel().jsonStringifyToList(response))
+          .map((i) => CountryModel.fromJson(i))
+          .toList();
     } on Exception catch (_) {
       rethrow;
     }

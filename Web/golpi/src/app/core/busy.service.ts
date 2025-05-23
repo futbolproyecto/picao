@@ -5,11 +5,12 @@ import { NgxSpinnerService } from 'ngx-spinner';
   providedIn: 'root',
 })
 export class BusyService {
-  busyRequestCount = 0;
+  private busyRequestCount = 0;
 
   constructor(private spinnerService: NgxSpinnerService) {}
 
   busy() {
+    this.busyRequestCount++;
     this.spinnerService.show(undefined, {
       type: 'square-jelly-box',
       bdColor: 'rgba(0, 0, 0, 0.8)',

@@ -27,7 +27,7 @@
 .card {
   width: 100%;
   padding-bottom: 30px;
-  /* background: var(--color-surface-container--lowest); */
+  background: var(--color-surface-container--lowest);
   box-shadow: 0 3px 15px var(--color-outline-variant);
   border-radius: 10px;
 }

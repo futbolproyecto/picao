@@ -11,4 +11,6 @@ public interface FieldService {
     FieldResponseDTO create(CreateFieldRequestDTO requestDTO);
 
     List<FieldResponseDTO> getByEstablishmentId(UUID establishmentId);
+
+    List<FieldResponseDTO> getAgendasByEstablishmentId(UUID establishmentId);
 }

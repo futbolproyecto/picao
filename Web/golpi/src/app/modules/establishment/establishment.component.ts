@@ -10,7 +10,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { filter, map, switchMap } from 'rxjs';
+import { filter, finalize, map, switchMap } from 'rxjs';
 
 // Librerias
 import { MatInputModule } from '@angular/material/input';
@@ -30,7 +30,8 @@ import { DataTableComponent } from '../../shared/components/custom/data-table/da
 import { CityDto } from '../../data/schema/cityDto';
 import { EstablishmentRequestDto } from '../../data/schema/establishmentRequestDto';
 import { MessageExceptionDto } from '../../data/schema/MessageExceptionDto';
-import { UsuarioResponseDto } from '../../data/schema/userResponseDto';
+import { UserResponseDto } from '../../data/schema/userResponseDto';
+import { BusyService } from '../../core/busy.service';
 
 @Component({
   selector: 'app-establishment',
@@ -46,7 +47,7 @@ import { UsuarioResponseDto } from '../../data/schema/userResponseDto';
   templateUrl: './establishment.component.html',
   styleUrl: './establishment.component.css',
 })
-export class EstablishmentComponent {
+export class EstablishmentComponent implements OnInit {
   private formBuilder = inject(UntypedFormBuilder);
   private alertsService = inject(AlertsService);
   private cityService = inject(CityService);
@@ -70,6 +71,7 @@ export class EstablishmentComponent {
     new Array<EstablishmentRequestDto>();
   public estado: boolean = true;
   public edit: boolean = true;
+  public establecimientoTitulo: string = 'establecimientos';
 
   public encabezadosEstablecimientos = {
     name: 'Nombre establecimiento',
@@ -79,54 +81,56 @@ export class EstablishmentComponent {
     acciones: 'Acciones',
   };
 
-  constructor() {
+  constructor(private busyService: BusyService) {
+    this.buildForm();
+  }
+
+  ngOnInit() {
     this.cargarEstablecimientosUsuario();
     this.mostrarCiudades();
-    this.buildForm();
   }
 
   mostrarCiudades(): void {
     this.cityService
       .getAll()
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(
-        (res: any) => {
+      .subscribe({
+        next: (res: any) => {
           this.cityDTO = res.payload as CityDto[];
         },
-        (err) => {
+        error: (err) => {
           this.alertsService.fireError(err);
-        }
-      );
+        },
+      });
   }
 
   cargarEstablecimientosUsuario(): void {
-    this.autenticacionStoreService
-      .obtenerSesion$()
-      .pipe(
-        map((usuario: UsuarioResponseDto) => usuario?.id ?? 0),
-        filter((id: number) => id !== 0),
-        switchMap((id: number) =>
-          this.establishmentService.establecimientoPorUsuario(id)
-        )
-      )
-      .subscribe({
-        next: (response) => {
-          if (response?.payload) {
-            this.tablaEstablecimientos = response.payload.map((est: any) => ({
-              ...est,
-              cityName: est.city?.name ?? 'Sin ciudad',
-            }));
-          }
-        },
-        error: (err) => {
-          const errorDto = new MessageExceptionDto({
-            status: err.error?.status,
-            error: err.error?.error,
-            recommendation: err.error?.recommendation,
+    const authDataString = sessionStorage.getItem('authentication');
+    if (authDataString) {
+      const authData = JSON.parse(authDataString);
+      const usuarioId = authData.id;
+
+      if (usuarioId !== 0) {
+        this.establishmentService
+          .establecimientoPorUsuario(usuarioId)
+          .subscribe({
+            next: (response) => {
+              const establecimientos = response?.payload ?? [];
+              if (establecimientos) {
+                this.tablaEstablecimientos = establecimientos;
+              }
+            },
+            error: (err) => {
+              const errorDto = new MessageExceptionDto({
+                status: err.error?.status,
+                error: err.error?.error,
+                recommendation: err.error?.recommendation,
+              });
+              this.alertsService.fireError(errorDto);
+            },
           });
-          this.alertsService.fireError(errorDto);
-        },
-      });
+      }
+    }
   }
 
   buildForm(): void {
@@ -211,11 +215,18 @@ export class EstablishmentComponent {
         city_id: this.ciudad.value,
       };
 
+      this.busyService.busy();
+
       this.establishmentService
         .crearEstablecimiento(this.establecimientoDto)
-        .pipe(takeUntilDestroyed(this.destroyRef))
-        .subscribe(
-          () => {
+        .pipe(
+          takeUntilDestroyed(this.destroyRef),
+          finalize(() => {
+            this.busyService.idle();
+          })
+        )
+        .subscribe({
+          next: () => {
             this.alertsService.toast(
               'success',
               'Establecimiento registrado exitosamente.'
@@ -223,15 +234,15 @@ export class EstablishmentComponent {
             this.limpiarFormulario();
             this.cargarEstablecimientosUsuario();
           },
-          (err) => {
+          error: (err) => {
             const errorDto = new MessageExceptionDto({
               status: err.error?.status,
               error: err.error?.error,
               recommendation: err.error?.recommendation,
             });
             this.alertsService.fireError(errorDto);
-          }
-        );
+          },
+        });
     } else {
       this.formularioEstablecimiento.markAllAsTouched();
       this.alertsService.toast('error', Constant.ERROR_FORM_INCOMPLETO);

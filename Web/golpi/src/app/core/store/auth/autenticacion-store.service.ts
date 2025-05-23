@@ -2,7 +2,7 @@
 import { inject, Injectable } from '@angular/core';
 
 // Import libraries
-import { map, Observable } from 'rxjs';
+import { BehaviorSubject, map, Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 //Store
@@ -21,6 +21,8 @@ export class AutenticacionStoreService {
 
   // dispatch
   public adicionarSesion(nuevaSesion: AuthRequestDto) {
+    sessionStorage.setItem('authentication', JSON.stringify(nuevaSesion));
+
     this.store.dispatch(
       fromAutenticacionActions.adicionarSesion({
         usuarioSesion: nuevaSesion,
@@ -47,8 +49,14 @@ export class AutenticacionStoreService {
   }
 
   public obtenerId$(): Observable<number> {
-    return this.store.select(fromAutenticacionSelectors.selectId).pipe(
-      map((id) => id ?? 0)
-    );
+    return this.store
+      .select(fromAutenticacionSelectors.selectId)
+      .pipe(map((id) => id ?? 0));
+  }
+
+  private tieneEstablecimientoSubject = new BehaviorSubject<boolean>(true);
+  tieneEstablecimiento$ = this.tieneEstablecimientoSubject.asObservable();
+  setTieneEstablecimiento(valor: boolean) {
+    this.tieneEstablecimientoSubject.next(valor);
   }
 }

@@ -24,8 +24,10 @@ registerLocaleData(localeEs);
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
-    provideHttpClient(withFetch(), withInterceptors([AuthInterceptor])),
-    provideHttpClient(withInterceptors([loadingInterceptor])),
+    provideHttpClient(
+      withFetch(),
+      withInterceptors([AuthInterceptor, loadingInterceptor])
+    ),
     importProvidersFrom(
       [BrowserAnimationsModule],
       NgxSpinnerModule.forRoot({ type: 'square-jelly-box' })
@@ -33,7 +35,6 @@ export const appConfig: ApplicationConfig = {
     provideStore(),
     provideAnimationsAsync(),
     provideState({ name: 'estado', reducer: autenticacionReducer }),
-
     { provide: LOCALE_ID, useValue: 'es' },
     { provide: MAT_DATE_LOCALE, useValue: 'es-ES' },
   ],

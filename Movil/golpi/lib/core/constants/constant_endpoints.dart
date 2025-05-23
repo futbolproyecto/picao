@@ -1,5 +1,5 @@
 class ConstantEndpoints {
-  //static String baseUrl = '192.168.137.1:8092';
+  //static String baseUrl = '192.168.50.82:8092';
   static String baseUrl = 'golpipruebas.up.railway.app';
   static String login = '/authentication/login';
   static String createUser = '/user/create';
@@ -21,6 +21,7 @@ class ConstantEndpoints {
   static String getTeamByUserId = '/team/get-team-by-user-id';
   static String leaveTeam = '/team/leave-the-team';
   static String getAllCities = '/city/get-all';
+  static String getAllCountry = '/country/get-all';
 
   static List<String> get blackList => [
         ConstantEndpoints.login,
@@ -30,5 +31,6 @@ class ConstantEndpoints {
         ConstantEndpoints.validateOtp,
         ConstantEndpoints.validateOtpEmail,
         ConstantEndpoints.changePassword,
+        ConstantEndpoints.getAllCountry,
       ];
 }

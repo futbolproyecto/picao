@@ -13,9 +13,12 @@ import java.util.UUID;
 public interface EstablishmentRepository extends JpaRepository<Establishment, UUID> {
 
     Optional<Establishment> findByName(String name);
+
     Optional<Establishment> findByMobileNumber(String mobileNumber);
 
     List<Establishment> findByOwnerUserId(Integer userId);
+
+
 
 
 }

@@ -10,7 +10,6 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
-import { map, Observable, startWith } from 'rxjs';
 
 // Librerias
 import { MatInputModule } from '@angular/material/input';
@@ -30,6 +29,10 @@ import { DataTableComponent } from '../../shared/components/custom/data-table/da
 
 // Componentes
 import { ShiftsComponent } from '../shifts/shifts.component';
+import { finalize } from 'rxjs';
+import { MessageExceptionDto } from '../../data/schema/MessageExceptionDto';
+import { FieldService } from '../../core/service/field.service';
+import { BusyService } from '../../core/busy.service';
 
 @Component({
   selector: 'app-reservacion',
@@ -53,31 +56,29 @@ export class ReservationComponent implements OnInit {
   private formBuilder = inject(UntypedFormBuilder);
   public formularioReservacion: UntypedFormGroup = new UntypedFormGroup({});
   private alertsService = inject(AlertsService);
+  private fieldService = inject(FieldService);
 
   public AdministrarActivo: boolean = true;
   public nombrePestana: string = 'Administrar reservaciones';
-  public establecimientoError: string = '';
+  public canchaError: string = '';
   public fechaReservaError: string = '';
-  public horaInicialError: string = '';
+  public horaInicioError: string = '';
+  public horaFinError: string = '';
+  public celularError: string = '';
   public submitted = false;
+
+  public horas: { label: string; value: string }[] = [];
+  public listaCanchas: any[] = [];
 
   public confirm: boolean = true;
   public finish: boolean = true;
   public edit: boolean = true;
+  public tituloReservacion: string = 'reservaciones';
 
   myControl = new FormControl('');
 
   ngOnInit() {
-    this.formularioReservacion
-      .get('hora_inicial')
-      ?.valueChanges.subscribe((hora_inicial) => {
-        if (hora_inicial) {
-          const hora_final = this.calcularHoraFinal(hora_inicial);
-          this.formularioReservacion.patchValue({
-            hora_final: hora_final,
-          });
-        }
-      });
+    this.cargarCanchaEstablecimiento();
   }
 
   public encabezadosReservacion = {
@@ -112,35 +113,37 @@ export class ReservationComponent implements OnInit {
     },
   ];
 
-  constructor(private dialog: MatDialog) {
+  constructor(private dialog: MatDialog, private busyService: BusyService) {
     this.buildForm();
   }
 
   buildForm(): void {
     this.formularioReservacion = this.formBuilder.group({
-      cancha: [null, [Validators.required]],
-      cliente: [],
-      hora_inicial: ['', [Validators.required]],
-      hora_final: [{ value: '', disabled: true }],
       fecha_reserva: ['', [Validators.required]],
-      tipo_cancha: [],
+      cancha: [null, [Validators.required]],
+      celular_jugador: ['', [Validators.required]],
+      hora_inicio: ['', [Validators.required]],
+      hora_fin: ['', [Validators.required]],
     });
   }
-
-  get establecimiento(): AbstractControl {
-    return this.formularioReservacion.get('establecimiento')!;
-  }
-
   get fecha_reserva(): AbstractControl {
     return this.formularioReservacion.get('fecha_reserva')!;
   }
 
-  get hora_inicial(): AbstractControl {
-    return this.formularioReservacion.get('hora_inicial')!;
+  get cancha(): AbstractControl {
+    return this.formularioReservacion.get('cancha')!;
   }
 
-  get tipo_cancha(): AbstractControl {
-    return this.formularioReservacion.get('tipo_cancha')!;
+  get celular_jugador(): AbstractControl {
+    return this.formularioReservacion.get('celular_jugador')!;
+  }
+
+  get hora_inicio(): AbstractControl {
+    return this.formularioReservacion.get('hora_inicio')!;
+  }
+
+  get hora_fin(): AbstractControl {
+    return this.formularioReservacion.get('hora_fin')!;
   }
 
   activarPestana(pestana: string): void {
@@ -148,15 +151,6 @@ export class ReservationComponent implements OnInit {
       this.nombrePestana = 'Administrar reservaciones';
       this.AdministrarActivo = true;
     }
-  }
-
-  validarEstablecimiento(): boolean {
-    let status = false;
-    if (this.submitted && this.establecimiento.invalid) {
-      this.establecimientoError = Constant.ERROR_CAMPO_REQUERIDO;
-      status = true;
-    }
-    return status;
   }
 
   validarFechaReserva(): boolean {
@@ -168,15 +162,64 @@ export class ReservationComponent implements OnInit {
     return status;
   }
 
-  validarHoraInicial(): boolean {
+  validarCancha(): boolean {
     let status = false;
-    if (this.hora_inicial.touched) {
-      if (this.hora_inicial.hasError('required')) {
-        this.horaInicialError = Constant.ERROR_CAMPO_REQUERIDO;
+    if (this.submitted && this.cancha.invalid) {
+      this.canchaError = Constant.ERROR_CAMPO_REQUERIDO;
+      status = true;
+    }
+    return status;
+  }
+
+  validarCelular(): boolean {
+    let status = false;
+    if (this.celular_jugador.touched) {
+      if (this.celular_jugador.hasError('required')) {
+        this.celularError = Constant.ERROR_CAMPO_REQUERIDO;
         status = true;
       }
     }
     return status;
+  }
+
+  cargarCanchaEstablecimiento(): void {
+    const idEstablecimiento = localStorage.getItem(
+      'establecimientoSeleccionado'
+    );
+
+    if (!idEstablecimiento) {
+      this.alertsService.toast(
+        'error',
+        'No se ha seleccionado un establecimiento.'
+      );
+      return;
+    }
+
+    this.busyService.busy();
+
+    this.fieldService
+      .canchaPorEstablecimiento(idEstablecimiento)
+      .pipe(
+        finalize(() => {
+          this.busyService.idle();
+        })
+      )
+      .subscribe({
+        next: (response) => {
+          const canchas = response?.payload ?? [];
+          if (canchas) {
+            this.listaCanchas = canchas;
+          }
+        },
+        error: (err) => {
+          const errorDto = new MessageExceptionDto({
+            status: err.error?.status,
+            error: err.error?.error,
+            recommendation: err.error?.recommendation,
+          });
+          this.alertsService.fireError(errorDto);
+        },
+      });
   }
 
   limpiarFormulario(): void {
@@ -201,8 +244,18 @@ export class ReservationComponent implements OnInit {
     }
   }
 
-  calcularHoraFinal(horaInicial: string): string {
-    const [hora, minutos] = horaInicial.split(':').map(Number);
-    return `${hora + 1}:${minutos.toString().padStart(2, '0')}`;
+  generarHoras() {
+    for (let h = 0; h < 24; h++) {
+      for (let m = 0; m < 60; m += 15) {
+        const hora = this.formatearNumero(h);
+        const minuto = this.formatearNumero(m);
+        const horaCompleta = `${hora}:${minuto}`;
+        this.horas.push({ label: horaCompleta, value: horaCompleta });
+      }
+    }
+  }
+
+  formatearNumero(num: number): string {
+    return num < 10 ? '0' + num : num.toString();
   }
 }

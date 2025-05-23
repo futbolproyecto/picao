@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column;
   height: 100%;
+  width: 300px;
   padding: 10px;
 }
 
@@ -17,7 +18,6 @@
   font-weight: 700;
   color: var(--color-secondary);
   font-size: 1.4rem;
-  font-family: "Montserrat";
 }
 
 .logo-img img {
@@ -31,7 +31,6 @@
 
 /* Estilo enlaces */
 a {
-  font-family: "Montserrat";
   font-size: 1rem;
   color: var(--color-shadow);
   text-decoration: none;
@@ -54,7 +53,6 @@ ul {
 }
 
 .user {
-  font-family: "Montserrat";
   font-size: 1.1rem;
   cursor: pointer;
 }
@@ -90,7 +88,7 @@ ul li a p {
 
 /* Menu lateral */
 .expandido {
-  width: 100px;
+  width: 115px;
 }
 
 .expandido .logo-img img {
@@ -130,32 +128,77 @@ ul li a p {
   transform: translateX(200px);
 }
 
-.cerrar {
-  margin-top: auto; /* Esto empuja el botón de cerrar sesión al final */
-  list-style-type: none;
-  padding-left: 0;
+.hamburguer-menu.menu-abierto {
+  left: 30% !important;
+}
+
+.config {
+  font-size: 1.1rem;
   cursor: pointer;
 }
 
-.cerrar a {
+.modulo-principal {
   font-size: 1rem;
-  font-family: "Montserrat";
+  color: var(--color-outline);
   display: flex;
   align-items: center;
-  color: var(--color-shadow);
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  border-radius: 10px;
+  padding: 10px 15px;
+  transition: background-color 0.3s ease;
 }
 
-.cerrar:hover a,
-.cerrar:hover i {
-  font-weight: bold;
+.modulo-principal i.icono-menu {
+  flex: 0 0 auto;
 }
 
-.cerrar i {
-  color: var(--color-error);
+.modulo-principal:hover {
+  background-color: var(--color-surface-container);
+  border-radius: 8px;
 }
 
-.cerrar p {
-  margin: 10px;
+.modulo-principal p {
+  flex: 1;
+  margin: 0;
+  text-align: left;
+}
+
+.modulo-principal mat-icon {
+  flex: 0 0 auto;
+}
+
+.icono-menu,
+.icono-submenu {
+  font-size: 28px;
+  margin-right: 10px;
+}
+
+.submenu ul a {
+  padding-left: 25px;
+}
+
+.submenu {
+  display: flex;
+  flex-direction: column;
+  padding-left: 10px;
+}
+
+.submenu ul li a {
+  display: flex;
+  align-items: center;
+  color: var(--color-outline);
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.submenu ul li a:hover {
+  color: var(--color-secondary);
+}
+
+.submenu ul li a p {
+  margin-left: 10px;
 }
 
 @media (max-width: 1124px) {
@@ -167,7 +210,7 @@ ul li a p {
     position: fixed;
     top: 0;
     left: -100%;
-    width: 210px;
+    width: 65%;
     height: 100vh;
     background-color: var(--color-surface-container);
     transition: left 0.3s ease-in-out;
@@ -177,6 +220,7 @@ ul li a p {
 
   .container-sidemenu.mobile-menu {
     left: 0;
+    width: 300px;
   }
 
   .expandido {

@@ -71,7 +71,12 @@ public enum ErrorMessages {
             "E21"),
     GENERIC_DUPLICATE("%s ya está registrado.",
             "Por favor, elige otra opcion e intenta nuevamente",
-            "E22");
+            "E22"),
+    DUPLICATE_BLOCKADE("Ya existe un bloqueo para la cancha %s para el dia %s entre los horarios %s y %s.",
+            "Por favor, edite el bloqueo",
+            "E23");
+
+
     private final String message;
     private final String recommendation;
     private final String code;

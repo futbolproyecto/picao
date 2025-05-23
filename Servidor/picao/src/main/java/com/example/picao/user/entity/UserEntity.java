@@ -1,8 +1,6 @@
 package com.example.picao.user.entity;
 
-import com.example.picao.city.entity.City;
 import com.example.picao.country.entity.Country;
-import com.example.picao.field.entity.Field;
 import com.example.picao.player_profile.entity.PlayerProfile;
 import com.example.picao.role.entity.Role;
 import jakarta.persistence.*;
@@ -13,7 +11,6 @@ import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Set;
 
 @Getter

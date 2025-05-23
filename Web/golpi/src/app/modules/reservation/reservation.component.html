@@ -17,69 +17,17 @@
         </div>
       </div>
 
-      <div class="container-pestanas">
-        <div *ngIf="AdministrarActivo" class="container-pestana">
-          <form [formGroup]="formularioReservacion" class="form-content">
-            <div class="form-group">
-              <ng-select
-                formControlName="cancha"
-                placeholder="Cancha*"
-                class="lista"
-              >
-                <ng-option value="1">Cancha 1</ng-option>
-                <ng-option value="2">Cancha 2</ng-option>
-                <ng-option value="3">Cancha 3</ng-option>
-              </ng-select>
-              <small class="text-error" *ngIf="validarEstablecimiento()">
-                {{ establecimientoError }}
-              </small>
-
-              <div class="container-cliente">
-                <ng-select
-                  formControlName="cliente"
-                  placeholder="Cliente*"
-                  class="lista_cliente"
-                >
-                  <ng-option value="1">Andrea Isaza</ng-option>
-                  <ng-option value="2">Guillian Diosa</ng-option>
-                  <ng-option value="3">Golpi Canchas</ng-option>
-                </ng-select>
-                <small class="text-error" *ngIf="validarEstablecimiento()">
-                  {{ establecimientoError }}
-                </small>
-                <button
-                  mat-icon-button
-                  class="btn-adicionar"
-                  (click)="openDialog()"
-                >
-                  <mat-icon>add</mat-icon>
-                </button>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <ng-select
-                formControlName="tipo_cancha"
-                placeholder="Tipo cancha*"
-                class="lista"
-              >
-                <ng-option value="1">Cancha profesionales</ng-option>
-                <ng-option value="2">Cancha de fútbol sala</ng-option>
-                <ng-option value="3">Cancha de fútbol 7</ng-option>
-                <ng-option value="3">Cancha de fútbol 5</ng-option>
-                <ng-option value="3">Cancha de fútbol de playa</ng-option>
-              </ng-select>
-              <small class="text-error" *ngIf="validarEstablecimiento()">
-                {{ establecimientoError }}
-              </small>
-              <mat-form-field>
+      <div *ngIf="AdministrarActivo" class="container-pestana">
+        <form [formGroup]="formularioReservacion" class="form-content">
+          <div class="row">
+            <div class="col-md-6">
+              <mat-form-field class="input-field">
                 <mat-label>Fecha de reserva</mat-label>
                 <input
                   matInput
                   [matDatepicker]="picker"
                   formControlName="fecha_reserva"
                 />
-                <mat-hint>MM/DD/YYYY</mat-hint>
                 <mat-datepicker-toggle
                   matIconSuffix
                   [for]="picker"
@@ -91,45 +39,96 @@
               </small>
             </div>
 
-            <div class="form-group">
-              <mat-form-field>
-                <mat-label>Hora inicial</mat-label>
-                <input matInput type="time" formControlName="hora_inicial" />
-              </mat-form-field>
-              <small class="text-error" *ngIf="validarHoraInicial()">
-                {{ horaInicialError }}
+            <div class="col-md-6">
+              <ng-select
+                class="lista"
+                formControlName="cancha"
+                [items]="listaCanchas"
+                bindLabel="name"
+                bindValue="id"
+                placeholder="Cancha* "
+              ></ng-select>
+              <small class="text-error" *ngIf="validarCancha()">
+                {{ canchaError }}
               </small>
+            </div>
+          </div>
 
-              <mat-form-field>
-                <mat-label>Hora final</mat-label>
-                <input matInput type="time" formControlName="hora_final" />
+          <div class="row">
+            <div class="col-md-6">
+              <mat-form-field class="input-field">
+                <mat-label>Celular jugador</mat-label>
+                <input matInput formControlName="celular_jugador" />
+              </mat-form-field>
+              <small class="text-error" *ngIf="validarCelular()">
+                {{ celularError }}
+              </small>
+            </div>
+
+            <div class="col-md-6">
+              <div class="disponibilidad">
+                <mat-label class="titulo">Hora de reserva</mat-label>
+                <button
+                  mat-icon-button
+                  class="btn-adicionar"
+                  (click)="openDialog()"
+                >
+                  <mat-icon>schedule</mat-icon>
+                  Buscar disponibilidad
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6">
+              <mat-form-field class="input-field">
+                <mat-label>Hora inicio</mat-label>
+                <input
+                  matInput
+                  type="time"
+                  formControlName="hora_inicio"
+                  readonly
+                />
               </mat-form-field>
             </div>
 
-            <div class="boton">
-              <button
-                mat-raised-button
-                class="btn"
-                (click)="RegistrarTurno()"
-                type="button"
-              >
-                Registrar turno
-              </button>
+            <div class="col-md-6">
+              <mat-form-field class="input-field">
+                <mat-label>Hora fin</mat-label>
+                <input
+                  matInput
+                  type="time"
+                  formControlName="hora_fin"
+                  readonly
+                />
+              </mat-form-field>
             </div>
-          </form>
+          </div>
 
-          <div class="container-tabla">
-            <h2>Listado de reservas</h2>
-            <div class="table-wrapper">
-              <app-data-table
-                [tableData]="tablaReservacion"
-                [columnHeader]="encabezadosReservacion"
-                [confirm]="confirm"
-                [finish]="finish"
-                [edit]="edit"
-              >
-              </app-data-table>
-            </div>
+          <div class="boton">
+            <button
+              mat-raised-button
+              class="btn"
+              (click)="RegistrarTurno()"
+              type="button"
+            >
+              Registrar turno
+            </button>
+          </div>
+        </form>
+
+        <div class="container-tabla">
+          <div class="table-wrapper">
+            <app-data-table
+              [titulo]="tituloReservacion"
+              [tableData]="tablaReservacion"
+              [columnHeader]="encabezadosReservacion"
+              [confirm]="confirm"
+              [finish]="finish"
+              [edit]="edit"
+            >
+            </app-data-table>
           </div>
         </div>
       </div>
