@@ -243,6 +243,7 @@ public class BlockadeServiceImpl implements BlockadeService {
                 List<BlockeadeProjection> fieldProjections = entry.getValue();
 
                 String fieldName = fieldProjections.get(0).getFieldName();
+                UUID establishmentId = fieldProjections.get(0).getEstablishmentId();
 
                 // Agrupar bloqueos por hora (startTime, endTime)
                 Map<String, List<BlockeadeProjection>> blockadeGrouped = fieldProjections.stream()
@@ -283,12 +284,6 @@ public class BlockadeServiceImpl implements BlockadeService {
 
                     blockades.add(blockade);
                 }
-
-                Field field = fieldRepository.findById(fieldId)
-                        .orElseThrow(() ->  new AppException(
-                                ErrorMessages.GENERIC_NOT_EXIST, HttpStatus.NOT_FOUND, "Cancha"));
-
-                UUID establishmentId = field.getEstablishment().getId();
 
                 FieldResponseDTO fieldDTO = new FieldResponseDTO();
                 fieldDTO.setId(fieldId);

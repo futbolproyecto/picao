@@ -44,6 +44,7 @@ public interface BlockadeRepository extends JpaRepository<Blockade, UUID> {
     @Query(value = """
             SELECT f.id   AS field_id,
                    f.name AS field_name,
+                   f.establishment_id as establishment_id,
                    b.id   AS agenda_id,
                    b.date AS date,
                    b.start_time AS startTime,
