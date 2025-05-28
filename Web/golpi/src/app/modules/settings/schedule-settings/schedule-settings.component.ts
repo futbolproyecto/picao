@@ -32,6 +32,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { EstablishmentResponseDto } from '../../../data/schema/establishmentResponseDto';
 import { DatosTablaHorariosDto } from '../../../data/schema/datosTablaHorariosDto';
 import { Constant } from '../../../shared/utils/constant';
+import { UpdateBlockadeRequestDto } from '../../../data/schema/updateBlockadeRequestDto';
 
 @Component({
   selector: 'app-schedule-settings',
@@ -70,6 +71,8 @@ export class ScheduleSettingsComponent {
   public diaError: string = '';
   public canchaError: string = '';
 
+  public modoEdicion: boolean = false;
+
   //Librerias
   private formBuilder = inject(UntypedFormBuilder);
   public formularioHorarioEstablecimiento: UntypedFormGroup =
@@ -77,12 +80,14 @@ export class ScheduleSettingsComponent {
 
   //Dto
   public tablaHorarios: DatosTablaHorariosDto[] = [];
-
+  public datosTablaHorariosDto: DatosTablaHorariosDto =
+    new DatosTablaHorariosDto();
   public establishmentDto: Array<EstablishmentRequestDto> =
     new Array<EstablishmentRequestDto>();
   public blockadeRequestDto: Array<BlockadeRequestDto> =
     new Array<BlockadeRequestDto>();
-
+  public updateBlockadeRequestDto: UpdateBlockadeRequestDto =
+    new UpdateBlockadeRequestDto();
   public configuracionHorarioActivo: boolean = true;
   public nombrePestana: string = 'Configuracion de horarios';
   public listaCanchas: any[] = [];
@@ -103,6 +108,9 @@ export class ScheduleSettingsComponent {
   public eliminar: boolean = true;
   public edit: boolean = true;
   public horariosTitulo: string = 'horarios';
+  public idHorario: number = 0;
+
+  public canchaSeleccionadaNombre: string | null = null;
 
   public encabezadosEstablecimientos = {
     name: 'Establecimiento',
@@ -122,29 +130,6 @@ export class ScheduleSettingsComponent {
     this.cargarEstablecimientosUsuario();
     this.cargarCanchasEstablecimiento();
     this.cargarHorarios();
-
-    this.tipo_bloqueo.valueChanges.subscribe((valor) => {
-      if (valor === 'PERMANENTE') {
-        this.fecha_inicio.disable();
-        this.fecha_fin.disable();
-      } else {
-        this.fecha_inicio.enable();
-        this.fecha_fin.enable();
-      }
-    });
-
-    const tipoBloqueoActual = this.tipo_bloqueo.value;
-    if (tipoBloqueoActual === 'PERMANENTE') {
-      this.fecha_inicio.disable();
-      this.fecha_fin.disable();
-    }
-
-    this.tipo_bloqueo.valueChanges.subscribe((valor) => {
-      if (valor === 'PERMANENTE') {
-        this.formularioHorarioEstablecimiento.get('fecha_inicio')?.reset();
-        this.formularioHorarioEstablecimiento.get('fecha_fin')?.reset();
-      }
-    });
   }
 
   activarPestana(pestana: string): void {
@@ -158,7 +143,6 @@ export class ScheduleSettingsComponent {
     this.formularioHorarioEstablecimiento = this.formBuilder.group({
       establishment: [null, Validators.required],
       cancha: this.formBuilder.array([], Validators.required),
-      tipo_bloqueo: ['', Validators.required],
       fecha_inicio: ['', Validators.required],
       fecha_fin: ['', Validators.required],
       hora_inicio: [null, Validators.required],
@@ -173,10 +157,6 @@ export class ScheduleSettingsComponent {
 
   get cancha(): FormArray {
     return this.formularioHorarioEstablecimiento.get('cancha') as FormArray;
-  }
-
-  get tipo_bloqueo(): AbstractControl {
-    return this.formularioHorarioEstablecimiento.get('tipo_bloqueo')!;
   }
 
   get fecha_inicio(): AbstractControl {
@@ -290,16 +270,32 @@ export class ScheduleSettingsComponent {
               'error',
               'Este establecimiento no tiene canchas registradas.'
             );
-
             return;
           }
+
           this.listaCanchas = response.payload;
           this.cancha.clear();
 
           this.listaCanchas.forEach(() => {
             this.cancha.push(new FormControl(false));
           });
+
+          if (this.canchaSeleccionadaNombre) {
+            const indicesCanchasSeleccionadas = this.listaCanchas
+              .map((c, index) =>
+                c.name === this.canchaSeleccionadaNombre ? index : -1
+              )
+              .filter((index) => index !== -1);
+
+            this.cancha.controls.forEach((control, i) => {
+              control.setValue(indicesCanchasSeleccionadas.includes(i));
+            });
+
+            // Limpiar después de usar
+            this.canchaSeleccionadaNombre = null;
+          }
         },
+
         error: (err) => {
           const errorDto = new MessageExceptionDto({
             status: err.error?.status,
@@ -349,7 +345,6 @@ export class ScheduleSettingsComponent {
       if (usuarioId !== 0) {
         this.blockadeService.bloqueosPorUsuario(usuarioId).subscribe({
           next: (response) => {
-            console.log('información tabla', response);
             const establecimientos: EstablishmentResponseDto[] =
               response.payload;
             this.tablaHorarios =
@@ -390,17 +385,18 @@ export class ScheduleSettingsComponent {
         });
       });
     });
-
-    console.log('datosTabla', datosTabla);
     return datosTabla;
   }
 
   generarHoras() {
+    this.horas = [];
+    const s = 0;
     for (let h = 0; h < 24; h++) {
-      for (let m = 0; m < 60; m += 60) {
+      for (let m = 0; m < 60; m += 30) {
         const hora = this.formatearNumero(h);
         const minuto = this.formatearNumero(m);
-        const horaCompleta = `${hora}:${minuto}`;
+        const segundos = this.formatearNumero(s);
+        const horaCompleta = `${hora}:${minuto}:${segundos}`;
         this.horas.push({ label: horaCompleta, value: horaCompleta });
       }
     }
@@ -509,12 +505,6 @@ export class ScheduleSettingsComponent {
         diasSeleccionadosNumeros
       );
 
-      console.log('fechaInicio', fechaInicio);
-      console.log('fechaFin', fechaFin);
-      console.log('diasSeleccionadosNumeros', diasSeleccionadosNumeros);
-
-      console.log('lockDownDays', lockDownDays);
-
       this.blockadeRequestDto = selectedCanchaIds.map((id: number) => ({
         field_id: id,
         start_time: this.hora_inicio.value,
@@ -522,11 +512,7 @@ export class ScheduleSettingsComponent {
         days: lockDownDays,
       }));
 
-      console.log('Información a enviar', this.blockadeRequestDto);
-
       this.busyService.busy();
-
-      console.log('rango', lockDownDays.length);
 
       if (lockDownDays.length > 0) {
         this.blockadeService
@@ -567,6 +553,87 @@ export class ScheduleSettingsComponent {
     }
   }
 
+  actualizarHorario() {
+    if (!this.formularioHorarioEstablecimiento.valid) {
+      this.validarFormulario();
+      return;
+    }
+
+    const fechaInicio = this.fecha_inicio.value;
+    const fechaFin = this.fecha_fin.value;
+    const horaInicio = this.hora_inicio.value;
+    const horaFin = this.hora_fin.value;
+    const diasSeleccionadosNumeros = this.dia.value;
+
+    this.validarCancha();
+
+    const selectedCanchaIds = this.cancha.value
+      .map((checked: boolean, i: number) =>
+        checked ? this.listaCanchas[i].id : null
+      )
+      .filter((id: string | null): id is string => id !== null);
+
+    if (selectedCanchaIds.length === 0) {
+      this.alertsService.toast(
+        'error',
+        'Debes seleccionar al menos una cancha.'
+      );
+      return;
+    }
+
+    const fechasBloqueadas = this.calcularFechasBloqueadasActualizar(
+      fechaInicio,
+      fechaFin,
+      diasSeleccionadosNumeros
+    );
+
+    if (fechasBloqueadas.length === 0) {
+      this.busyService.idle();
+      this.alertsService.toast(
+        'error',
+        'El rango de fechas no incluye ninguno de los días seleccionados.'
+      );
+      return;
+    }
+
+    this.updateBlockadeRequestDto = {
+      id: this.idHorario,
+      blockades: selectedCanchaIds.map((id: number) => ({
+        field_id: id,
+        start_time: horaInicio,
+        end_time: horaFin,
+        days: fechasBloqueadas,
+      })),
+    };
+
+    this.busyService.busy();
+
+    this.blockadeService
+      .updateHorario(this.updateBlockadeRequestDto)
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        finalize(() => this.busyService.idle())
+      )
+      .subscribe({
+        next: () => {
+          this.alertsService.toast(
+            'success',
+            'Horario actualizado exitosamente.'
+          );
+          this.limpiarFormulario();
+          this.cargarHorarios();
+        },
+        error: (err) => {
+          const errorDto = new MessageExceptionDto({
+            status: err.error?.status,
+            error: err.error?.error,
+            recommendation: err.error?.recommendation,
+          });
+          this.alertsService.fireError(errorDto);
+        },
+      });
+  }
+
   calcularFechasBloqueadas(
     fechaInicio: Date,
     fechaFin: Date,
@@ -575,12 +642,12 @@ export class ScheduleSettingsComponent {
     const fechasBloqueadas: string[] = [];
     let currentFecha = new Date(fechaInicio);
 
-    currentFecha.setHours(0, 0, 0, 0); // <-- usar hora local
+    currentFecha.setHours(0, 0, 0, 0);
     const fechaFinLocal = new Date(fechaFin);
     fechaFinLocal.setHours(23, 59, 59, 999);
 
     while (currentFecha <= fechaFinLocal) {
-      const diaDeLaSemana = currentFecha.getDay(); // <-- día local
+      const diaDeLaSemana = currentFecha.getDay();
 
       if (diasSeleccionados.includes(diaDeLaSemana)) {
         fechasBloqueadas.push(currentFecha.toISOString().split('T')[0]);
@@ -592,8 +659,29 @@ export class ScheduleSettingsComponent {
     return fechasBloqueadas;
   }
 
-  eliminarBloqueo(id: number): void {
-    console.log(id);
+  calcularFechasBloqueadasActualizar(
+    fechaInicio: Date,
+    fechaFin: Date,
+    diasSeleccionados: number[]
+  ): string[] {
+    const fechasBloqueadas: string[] = [];
+    let currentFecha = new Date(fechaInicio);
+    currentFecha.setHours(0, 0, 0, 0);
+    const fechaFinLocal = new Date(fechaFin);
+    fechaFinLocal.setHours(23, 59, 59, 999);
+
+    while (currentFecha <= fechaFinLocal) {
+      const diaDeLaSemana = currentFecha.getDay();
+      if (diasSeleccionados.includes(diaDeLaSemana)) {
+        fechasBloqueadas.push(currentFecha.toISOString().split('T')[0]);
+      }
+      currentFecha.setDate(currentFecha.getDate() + 1);
+    }
+
+    return fechasBloqueadas;
+  }
+
+  eliminarBloqueo(id: string): void {
     this.alertsService.fireConfirm(
       'warning',
       '¿Estás seguro de que deseas eliminar este bloqueo?',
@@ -631,9 +719,72 @@ export class ScheduleSettingsComponent {
     );
   }
 
+  completarHora(hora: string): string {
+    const [h, m] = hora.split(':').map(Number);
+    return `${this.formatearNumero(h)}:${this.formatearNumero(m)}`;
+  }
+
+  cargarInformacionBloqueo(blockadeId: number): void {
+    this.blockadeService.bloqueosPorUsuarioId(blockadeId).subscribe({
+      next: (response) => {
+        this.limpiarFormulario();
+        this.modoEdicion = true;
+
+        const payload =
+          Array.isArray(response.payload) && response.payload.length > 0
+            ? response.payload[0]
+            : null;
+
+        const bloqueo = payload.blockades[0];
+
+        this.idHorario = blockadeId;
+        this.canchaSeleccionadaNombre = payload.name;
+        this.formularioHorarioEstablecimiento.patchValue({
+          establishment: payload.establishment_id,
+          fecha_inicio: this.parseFechaSinZona(bloqueo.start_date),
+          fecha_fin: this.parseFechaSinZona(bloqueo.end_date),
+          hora_inicio: bloqueo.start_time,
+          hora_fin: bloqueo.end_time,
+        });
+
+        function normalizarTexto(text: string): string {
+          return text
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '')
+            .toUpperCase()
+            .trim();
+        }
+
+        this.dia.clear();
+
+        if (Array.isArray(bloqueo.days_of_week)) {
+          bloqueo.days_of_week.forEach((diaStr: string) => {
+            const diaObj = this.diasSemana.find(
+              (d) => normalizarTexto(d.nombre) === normalizarTexto(diaStr)
+            );
+            if (diaObj) {
+              this.dia.push(new FormControl(diaObj.id));
+            }
+          });
+        }
+      },
+
+      error: (err) => {
+        const errorDto = new MessageExceptionDto({
+          status: err.error?.status,
+          error: err.error?.error,
+          recommendation: err.error?.recommendation,
+        });
+        this.alertsService.fireError(errorDto);
+      },
+    });
+  }
+
   limpiarFormulario(): void {
-    this.dia.clear(); // limpia checkboxes
-    this.formularioHorarioEstablecimiento.reset(); // limpia el resto
+    this.dia.clear();
+    this.listaCanchas = [];
+    this.formularioHorarioEstablecimiento.reset();
+    this.modoEdicion = false;
   }
 
   //Mensajes de error cuando los datos estan
@@ -651,5 +802,45 @@ export class ScheduleSettingsComponent {
 
     this.formularioHorarioEstablecimiento.markAllAsTouched();
     this.alertsService.toast('error', Constant.ERROR_FORM_INCOMPLETO);
+  }
+
+  validacionesCampos() {
+    const fechaInicio = this.fecha_inicio.value;
+    const fechaFin = this.fecha_fin.value;
+    const horaInicio = this.hora_inicio.value;
+    const horaFin = this.hora_fin.value;
+    const fechaInicioDate = new Date(fechaInicio);
+    const fechaFinDate = new Date(fechaFin);
+
+    if (fechaFinDate <= fechaInicioDate) {
+      this.alertsService.toast(
+        'error',
+        'La fecha de fin debe ser posterior a la fecha de inicio.'
+      );
+      return;
+    }
+
+    if (horaInicio && horaFin) {
+      const [hInicio, mInicio] = horaInicio.split(':').map(Number);
+      const [hFin, mFin] = horaFin.split(':').map(Number);
+      const inicio = hInicio * 60 + mInicio;
+      const fin = hFin * 60 + mFin;
+
+      if (fin <= inicio) {
+        this.alertsService.toast(
+          'error',
+          'La hora de fin debe ser posterior a la hora de inicio.'
+        );
+        return;
+      }
+    }
+  }
+
+  parseFechaSinZona(fecha: string): Date {
+    const partes = fecha.split('-');
+    const year = Number(partes[0]);
+    const month = Number(partes[1]) - 1;
+    const day = Number(partes[2]);
+    return new Date(year, month, day);
   }
 }

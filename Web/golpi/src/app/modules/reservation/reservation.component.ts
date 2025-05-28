@@ -69,10 +69,6 @@ export class ReservationComponent implements OnInit {
 
   public horas: { label: string; value: string }[] = [];
   public listaCanchas: any[] = [];
-
-  public confirm: boolean = true;
-  public finish: boolean = true;
-  public edit: boolean = true;
   public tituloReservacion: string = 'reservaciones';
 
   myControl = new FormControl('');
@@ -89,7 +85,6 @@ export class ReservationComponent implements OnInit {
     cancha: 'Cancha',
     cliente: 'Cliente',
     estado: 'Estado',
-    acciones: 'Acciones',
   };
 
   tablaReservacion = [

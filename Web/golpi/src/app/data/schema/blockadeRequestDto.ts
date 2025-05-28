@@ -1,6 +1,5 @@
 // Dto
 import { GenericDto } from '../../core/models/generic-dto';
-import { LockDownDayDto } from './lockDownDayDto';
 
 export class BlockadeRequestDto extends GenericDto {
   field_id?: number;

@@ -7,7 +7,6 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatTableDataSource } from '@angular/material/table';
-import { ChangeDetectorRef } from '@angular/core';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
@@ -30,15 +29,10 @@ export class DataTableComponent implements OnChanges {
   @Input() titulo: string = '';
   @Input() columnHeader: any;
   @Input() edit: boolean = false;
-  @Input() estado: boolean = false;
-  @Input() confirm: boolean = false;
-  @Input() finish: boolean = false;
   @Input() delete: boolean = false;
-  @Input() visualizarInfo: boolean = false; //Visualizar informacion completa del cliente
 
-  @Output() id: EventEmitter<number> = new EventEmitter<number>();
-  @Output() item: EventEmitter<number> = new EventEmitter<number>();
-  @Output() idCliente: EventEmitter<number>;
+  @Output() id: EventEmitter<string> = new EventEmitter<string>();
+  @Output() item: EventEmitter<any> = new EventEmitter<any>();
 
   objectKeys = Object.keys;
 
@@ -50,7 +44,6 @@ export class DataTableComponent implements OnChanges {
   constructor() {
     this.id = new EventEmitter();
     this.item = new EventEmitter();
-    this.idCliente = new EventEmitter();
   }
 
   ngOnChanges(): void {
@@ -68,27 +61,11 @@ export class DataTableComponent implements OnChanges {
     this.dataSource.filter = inputValue.trim().toLowerCase();
   }
 
-  editar(id: number) {
-    this.item.emit(id);
+  editar(element: any) {
+    this.item.emit(element);
   }
 
-  confirmar(id: number) {
-    this.item.emit(id);
-  }
-
-  finalizar(id: number) {
-    this.item.emit(id);
-  }
-
-  deleteId(id: number) {
+  deleteId(id: string) {
     this.id.emit(id);
-  }
-
-  actualizarEstado(i: number) {
-    this.id.emit(i);
-  }
-
-  visualizar(id: number) {
-    this.idCliente.emit(id);
   }
 }

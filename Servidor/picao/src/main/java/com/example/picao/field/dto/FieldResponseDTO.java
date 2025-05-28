@@ -31,6 +31,9 @@ public class FieldResponseDTO {
 
     List<AgendaResponseDTO> agendas;
 
+    @JsonProperty("establishment_id")
+    UUID establishmentId;
+
     List<BlockadeResponseDTO> blockades;
 
     public FieldResponseDTO(UUID id, String name, Integer capacity, Boolean isAvailable, Boolean isRoofed) {
