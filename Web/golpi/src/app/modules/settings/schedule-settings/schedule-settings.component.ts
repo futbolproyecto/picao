@@ -280,7 +280,6 @@ export class ScheduleSettingsComponent {
             this.cancha.push(new FormControl(false));
           });
 
-          // ✅ Seleccionar cancha si hay una guardada
           if (this.canchaSeleccionadaNombre) {
             const indicesCanchasSeleccionadas = this.listaCanchas
               .map((c, index) =>
@@ -785,6 +784,7 @@ export class ScheduleSettingsComponent {
     this.dia.clear();
     this.listaCanchas = [];
     this.formularioHorarioEstablecimiento.reset();
+    this.modoEdicion = false;
   }
 
   //Mensajes de error cuando los datos estan

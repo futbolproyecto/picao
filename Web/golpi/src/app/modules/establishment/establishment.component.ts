@@ -110,10 +110,14 @@ export class EstablishmentComponent implements OnInit {
           .establecimientoPorUsuario(usuarioId)
           .subscribe({
             next: (response) => {
-              const establecimientos = response?.payload ?? [];
-              if (establecimientos) {
-                this.tablaEstablecimientos = establecimientos;
-              }
+              console.log('response', response);
+
+              this.tablaEstablecimientos = (
+                response.payload as EstablishmentRequestDto[]
+              ).map((e) => ({
+                ...e,
+                cityName: e.city?.name,
+              }));
             },
             error: (err) => {
               const errorDto = new MessageExceptionDto({
