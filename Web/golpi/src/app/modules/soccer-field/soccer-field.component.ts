@@ -76,9 +76,6 @@ export class SoccerFieldComponent implements OnInit {
   public cantidadJugadoresError: string = '';
   public tipoCanchaError: string = '';
   public establecimientoError: string = '';
-
-  public estado: boolean = true;
-  public edit: boolean = true;
   public canchasTitulo: string = 'canchas';
 
   public encabezadosCanchas = {
@@ -86,7 +83,6 @@ export class SoccerFieldComponent implements OnInit {
     capacity: 'Cant. jugadores',
     is_available: 'Disponible',
     is_roofed: 'Techado',
-    acciones: 'Acciones',
   };
 
   constructor(private busyService: BusyService) {

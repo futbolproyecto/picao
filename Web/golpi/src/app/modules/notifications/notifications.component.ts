@@ -12,10 +12,7 @@ import { DataTableComponent } from '../../shared/components/custom/data-table/da
   styleUrl: './notifications.component.css',
 })
 export class NotificationsComponent {
-  // private notificacionService = inject(NotificationService);
-
   public solicitudes: WritableSignal<any[]> = signal([]);
-  public visualizarInfo: boolean = true;
 
   public encabezadosSolicitud = {
     fecha_reserva: 'Fecha de reserva',
@@ -24,7 +21,6 @@ export class NotificationsComponent {
     celular: 'Celular',
     correo: 'Correo electrónico',
     cancha: 'Cancha',
-    acciones: 'Acciones',
   };
 
   tablaSolicitud = [
@@ -46,9 +42,5 @@ export class NotificationsComponent {
     },
   ];
 
-  ngOnInit() {
-    // this.notificacionService.obtenerSolicitudes().subscribe((solicitudes) => {
-    //   this.solicitudes.set(solicitudes);
-    // });
-  }
+  ngOnInit() {}
 }

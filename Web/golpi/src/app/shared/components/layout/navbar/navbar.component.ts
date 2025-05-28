@@ -14,7 +14,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { UserResponseDto } from '../../../../data/schema/userResponseDto';
 import { AutenticacionStoreService } from '../../../../core/store/auth/autenticacion-store.service';
-import { filter, map, Observable, switchMap } from 'rxjs';
 import { UserService } from '../../../../core/service/user.service';
 
 @Component({
@@ -54,9 +53,7 @@ export class NavbarComponent implements OnInit {
             this.nombreMostrar = `${this.usuario.name} ${this.usuario.last_name}`;
           }
         },
-        error: (err) => {
-          console.error('Error al obtener los detalles del usuario', err);
-        },
+        error: () => {},
       });
     }
 

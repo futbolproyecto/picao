@@ -243,6 +243,7 @@ public class BlockadeServiceImpl implements BlockadeService {
                 List<BlockeadeProjection> fieldProjections = entry.getValue();
 
                 String fieldName = fieldProjections.get(0).getFieldName();
+                UUID establishmentId = fieldProjections.get(0).getEstablishmentId();
 
                 // Agrupar bloqueos por hora (startTime, endTime)
                 Map<String, List<BlockeadeProjection>> blockadeGrouped = fieldProjections.stream()
@@ -287,6 +288,7 @@ public class BlockadeServiceImpl implements BlockadeService {
                 FieldResponseDTO fieldDTO = new FieldResponseDTO();
                 fieldDTO.setId(fieldId);
                 fieldDTO.setName(fieldName);
+                fieldDTO.setEstablishmentId(establishmentId);
                 fieldDTO.setBlockades(blockades);
 
                 result.add(fieldDTO);
