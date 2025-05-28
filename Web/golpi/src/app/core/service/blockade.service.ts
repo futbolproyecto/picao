@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { GenericDto } from '../models/generic-dto';
 import { BlockadeRequestDto } from '../../data/schema/blockadeRequestDto';
-import { Router } from 'express';
+import { UpdateBlockadeRequestDto } from '../../data/schema/updateBlockadeRequestDto';
 
 @Injectable({
   providedIn: 'root',
@@ -25,10 +25,22 @@ export class BlockadeService {
     );
   }
 
-  eliminarHorario(id: number) {
-    return this.http.put<GenericDto>(
-      this.baseUrl + `blockade/get-by-user-id/${id}`,
-      ''
+  eliminarHorario(blockadeId: string) {
+    return this.http.delete<GenericDto>(
+      this.baseUrl + `blockade/delete-by-id/${blockadeId}`
+    );
+  }
+
+  updateHorario(updateBlockadeRequestDto: UpdateBlockadeRequestDto) {
+    return this.http.put(
+      this.baseUrl + 'blockade/update',
+      updateBlockadeRequestDto
+    );
+  }
+
+  bloqueosPorUsuarioId(blockadeId: number) {
+    return this.http.get<GenericDto>(
+      this.baseUrl + `blockade/get-by-id/${blockadeId}`
     );
   }
 }

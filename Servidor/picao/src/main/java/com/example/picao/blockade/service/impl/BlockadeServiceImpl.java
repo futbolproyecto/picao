@@ -284,9 +284,16 @@ public class BlockadeServiceImpl implements BlockadeService {
                     blockades.add(blockade);
                 }
 
+                Field field = fieldRepository.findById(fieldId)
+                        .orElseThrow(() ->  new AppException(
+                                ErrorMessages.GENERIC_NOT_EXIST, HttpStatus.NOT_FOUND, "Cancha"));
+
+                UUID establishmentId = field.getEstablishment().getId();
+
                 FieldResponseDTO fieldDTO = new FieldResponseDTO();
                 fieldDTO.setId(fieldId);
                 fieldDTO.setName(fieldName);
+                fieldDTO.setEstablishmentId(establishmentId);
                 fieldDTO.setBlockades(blockades);
 
                 result.add(fieldDTO);

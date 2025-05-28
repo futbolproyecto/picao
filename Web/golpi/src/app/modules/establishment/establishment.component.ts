@@ -69,8 +69,6 @@ export class EstablishmentComponent implements OnInit {
 
   public tablaEstablecimientos: Array<EstablishmentRequestDto> =
     new Array<EstablishmentRequestDto>();
-  public estado: boolean = true;
-  public edit: boolean = true;
   public establecimientoTitulo: string = 'establecimientos';
 
   public encabezadosEstablecimientos = {
@@ -78,7 +76,6 @@ export class EstablishmentComponent implements OnInit {
     address: 'Dirección',
     mobileNumber: 'Teléfono',
     cityName: 'Ciudad',
-    acciones: 'Acciones',
   };
 
   constructor(private busyService: BusyService) {

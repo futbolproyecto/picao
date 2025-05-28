@@ -62,22 +62,6 @@
             </div>
           </div>
 
-          <div class="row">
-            <div class="col-md-6">
-              <mat-radio-group
-                formControlName="tipo_bloqueo"
-                class="tipo-bloqueo"
-                color="primary"
-              >
-                <mat-label class="titulo">Tipo bloqueo </mat-label>
-                <mat-radio-button value="PERMANENTE"
-                  >Permanente</mat-radio-button
-                >
-                <mat-radio-button value="TEMPORAL">Temporal</mat-radio-button>
-              </mat-radio-group>
-            </div>
-          </div>
-
           <!-- Fechas -->
           <div class="row">
             <div class="col-md-6">
@@ -188,18 +172,10 @@
               mat-raised-button
               class="btn"
               type="button"
-              (click)="guardarHorario()"
+              (click)="modoEdicion ? actualizarHorario() : guardarHorario()"
             >
-              Guardar
+              {{ modoEdicion ? "Actualizar" : "Guardar" }}
             </button>
-            <!-- <button
-              mat-raised-button
-              class="btn"
-              type="button"
-              (click)="limpiarFormulario()"
-            >
-              Limpiar
-            </button> -->
           </div>
         </form>
 
@@ -212,6 +188,7 @@
               [delete]="eliminar"
               (id)="eliminarBloqueo($event)"
               [edit]="edit"
+              (item)="cargarInformacionBloqueo($event)"
             >
             </app-data-table>
           </div>

@@ -9,14 +9,13 @@ import {
   Validators,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { filter, finalize, map, switchMap } from 'rxjs/operators';
+import { finalize } from 'rxjs/operators';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 // Servicios
 import { CountryService } from '../../core/service/country.service';
 import { UserService } from '../../core/service/user.service';
 import { AlertsService } from '../../core/service/alerts.service';
-import { AutenticacionStoreService } from '../../core/store/auth/autenticacion-store.service';
 
 // Librerias
 import { MatNativeDateModule } from '@angular/material/core';
@@ -140,7 +139,6 @@ export class UpdateDataComponent {
       indicador: [
         '',
         [
-          //     Validators.required
         ],
       ],
       celular: [

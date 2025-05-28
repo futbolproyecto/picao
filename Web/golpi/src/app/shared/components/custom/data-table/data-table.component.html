@@ -28,7 +28,7 @@
               <div class="example-flex-container">
                 <button
                   *ngIf="edit"
-                  (click)="editar(element)"
+                  (click)="editar(element.id)"
                   mat-mini-fab
                   aria-label="Editar"
                   type="button"
@@ -38,30 +38,8 @@
                   <i class="material-icons">edit</i>
                 </button>
                 <button
-                  *ngIf="confirm"
-                  (click)="confirmar(element)"
-                  mat-mini-fab
-                  aria-label="Confirmar"
-                  type="button"
-                  class="mx-1"
-                  title="Confirmar"
-                >
-                  <i class="material-icons">check_circle</i>
-                </button>
-                <button
-                  *ngIf="finish"
-                  (click)="finalizar(element)"
-                  mat-mini-fab
-                  aria-label="Finalizar"
-                  type="button"
-                  class="mx-1"
-                  title="Cancelar"
-                >
-                  <i class="material-icons">cancel</i>
-                </button>
-                <button
                   *ngIf="delete"
-                  (click)="deleteId(element)"
+                  (click)="deleteId(element.id)"
                   mat-mini-fab
                   aria-label="Eliminar"
                   type="button"
@@ -69,28 +47,6 @@
                   title="Eliminar"
                 >
                   <i class="material-icons">delete</i>
-                </button>
-                <button
-                  *ngIf="visualizarInfo"
-                  (click)="visualizar(element)"
-                  mat-mini-fab
-                  aria-label="Ver"
-                  type="button"
-                  class="mx-1"
-                  title="Ver"
-                >
-                  <i class="material-icons">visibility</i>
-                </button>
-                <button
-                  *ngIf="estado"
-                  (click)="actualizarEstado(element.id)"
-                  mat-mini-fab
-                  type="button"
-                  class="mx-1"
-                >
-                  <span
-                    *ngIf="element.activo; then thenActivo; else elseActivo"
-                  ></span>
                 </button>
               </div>
             </div>
