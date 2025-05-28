@@ -14,7 +14,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { UserResponseDto } from '../../../../data/schema/userResponseDto';
 import { AutenticacionStoreService } from '../../../../core/store/auth/autenticacion-store.service';
-import { filter, map, Observable, switchMap } from 'rxjs';
 import { UserService } from '../../../../core/service/user.service';
 
 @Component({

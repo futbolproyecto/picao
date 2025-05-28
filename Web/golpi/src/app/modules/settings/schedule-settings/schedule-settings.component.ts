@@ -33,7 +33,6 @@ import { EstablishmentResponseDto } from '../../../data/schema/establishmentResp
 import { DatosTablaHorariosDto } from '../../../data/schema/datosTablaHorariosDto';
 import { Constant } from '../../../shared/utils/constant';
 import { UpdateBlockadeRequestDto } from '../../../data/schema/updateBlockadeRequestDto';
-import { s } from '@fullcalendar/core/internal-common';
 
 @Component({
   selector: 'app-schedule-settings',

@@ -10,7 +10,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { filter, finalize, map, switchMap } from 'rxjs';
+import { finalize } from 'rxjs';
 
 // Librerias
 import { MatInputModule } from '@angular/material/input';
@@ -30,7 +30,6 @@ import { DataTableComponent } from '../../shared/components/custom/data-table/da
 import { CityDto } from '../../data/schema/cityDto';
 import { EstablishmentRequestDto } from '../../data/schema/establishmentRequestDto';
 import { MessageExceptionDto } from '../../data/schema/MessageExceptionDto';
-import { UserResponseDto } from '../../data/schema/userResponseDto';
 import { BusyService } from '../../core/busy.service';
 
 @Component({
@@ -52,7 +51,6 @@ export class EstablishmentComponent implements OnInit {
   private alertsService = inject(AlertsService);
   private cityService = inject(CityService);
   private establishmentService = inject(EstablishmentService);
-  private autenticacionStoreService = inject(AutenticacionStoreService);
   private destroyRef = inject(DestroyRef);
 
   public establecimientoDto: EstablishmentRequestDto =
