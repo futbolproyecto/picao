@@ -54,9 +54,7 @@ export class NavbarComponent implements OnInit {
             this.nombreMostrar = `${this.usuario.name} ${this.usuario.last_name}`;
           }
         },
-        error: (err) => {
-          console.error('Error al obtener los detalles del usuario', err);
-        },
+        error: () => {},
       });
     }
 

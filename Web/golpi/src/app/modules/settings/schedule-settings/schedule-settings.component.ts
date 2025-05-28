@@ -732,8 +732,6 @@ export class ScheduleSettingsComponent {
         this.limpiarFormulario();
         this.modoEdicion = true;
 
-        console.log('Informacion al cargar: ', response);
-
         const payload =
           Array.isArray(response.payload) && response.payload.length > 0
             ? response.payload[0]
