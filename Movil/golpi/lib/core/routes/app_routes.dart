@@ -9,6 +9,7 @@ abstract class Routes {
   static const profile = _Paths.profile;
   static const registerTeam = _Paths.registerTeam;
   static const manageTeam = _Paths.manageTeam;
+  static const reservationField = _Paths.reservationField;
 }
 
 abstract class _Paths {
@@ -20,4 +21,5 @@ abstract class _Paths {
   static const profile = '/profile';
   static const registerTeam = '/register-team';
   static const manageTeam = '/manage-team';
+  static const reservationField = '/reservation-field';
 }

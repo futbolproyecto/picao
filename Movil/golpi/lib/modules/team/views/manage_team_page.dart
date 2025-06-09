@@ -18,6 +18,7 @@ class ManageTeamPage extends StatelessWidget {
     final HomeController homeController = Get.find<HomeController>();
 
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
       body: Stack(
         children: [
           CurvedBackground(
@@ -36,7 +37,7 @@ class ManageTeamPage extends StatelessWidget {
                   alignment: Alignment.topCenter,
                   child: Card(
                     elevation: 3,
-                    color: Theme.of(context).colorScheme.surfaceContainer,
+                    color: Theme.of(context).colorScheme.surface,
                     child: SizedBox(
                       width: screenSize.width * 0.8,
                       child: Column(
@@ -106,6 +107,8 @@ class ManageTeamPage extends StatelessWidget {
                                   width: 60,
                                   height: 70,
                                   decoration: BoxDecoration(
+                                    color:
+                                        Theme.of(context).colorScheme.surface,
                                     border: Border.all(
                                       color: Colors.grey.shade300,
                                       width: 2.0,
@@ -134,9 +137,7 @@ class ManageTeamPage extends StatelessWidget {
                                 width: 60,
                                 height: 70,
                                 decoration: BoxDecoration(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .surfaceContainer,
+                                  color: Theme.of(context).colorScheme.surface,
                                   border: Border.all(
                                     color: Colors.grey.shade300,
                                     width: 2.0,

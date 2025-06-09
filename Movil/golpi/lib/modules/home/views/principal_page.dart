@@ -7,6 +7,7 @@ import 'package:golpi/modules/home/views/home_page.dart';
 import 'package:golpi/modules/team/views/team_page.dart';
 import 'package:golpi/modules/home/controller/home_controller.dart';
 import 'package:contained_tab_bar_view/contained_tab_bar_view.dart';
+import 'package:golpi/modules/reservations/views/reservation_page.dart';
 
 class PrincipalPage extends StatelessWidget {
   const PrincipalPage({super.key});
@@ -139,7 +140,7 @@ class PrincipalPage extends StatelessWidget {
                   views: [
                     HomePage(),
                     const TeamPage(),
-                    Container(color: Colors.amber),
+                    MatchesPage(),
                     Container(color: Colors.blue)
                   ],
                   tabBarProperties: TabBarProperties(

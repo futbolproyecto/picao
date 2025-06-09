@@ -35,8 +35,7 @@ class TeamPlayers extends StatelessWidget {
                               horizontal: 10, vertical: 5),
                           child: Card(
                             elevation: 3,
-                            color:
-                                Theme.of(context).colorScheme.surfaceContainer,
+                            color: Theme.of(context).colorScheme.surface,
                             child: ListTile(
                               leading: Container(
                                 width: 80,

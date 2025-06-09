@@ -47,6 +47,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "apellidos": MessageLookupByLibrary.simpleMessage("Apellidos"),
         "bienvenido": MessageLookupByLibrary.simpleMessage("Bienvenido"),
         "buscar": MessageLookupByLibrary.simpleMessage("Buscar"),
+        "buscarEstablecimiento":
+            MessageLookupByLibrary.simpleMessage("Buscar establecimiento"),
         "campoRequerido":
             MessageLookupByLibrary.simpleMessage("Campo requerido"),
         "cancelar": MessageLookupByLibrary.simpleMessage("Cancelar"),
@@ -74,6 +76,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "encuentros": MessageLookupByLibrary.simpleMessage("Encuentros"),
         "equipo": MessageLookupByLibrary.simpleMessage("Equipo"),
         "equipos": MessageLookupByLibrary.simpleMessage("Equipos"),
+        "establecimiento":
+            MessageLookupByLibrary.simpleMessage("Establecimiento"),
         "estaturaCm": MessageLookupByLibrary.simpleMessage("Estatura (CM)"),
         "exitoActualizarClave": MessageLookupByLibrary.simpleMessage(
             "La clave se actualizó correctamente"),
@@ -82,9 +86,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "exitoSalirEquipo": m1,
         "fechaNacimiento":
             MessageLookupByLibrary.simpleMessage("Fecha de nacimiento"),
+        "fechaReserva":
+            MessageLookupByLibrary.simpleMessage("Fecha de reserva"),
         "formatoCorreoIncorrecto": MessageLookupByLibrary.simpleMessage(
             "Formato de correo incorrecto"),
         "guardar": MessageLookupByLibrary.simpleMessage("Guardar"),
+        "horaFin": MessageLookupByLibrary.simpleMessage("Hora fin"),
+        "horaInicio": MessageLookupByLibrary.simpleMessage("Hora inicio"),
         "ingresaDatosSesion":
             MessageLookupByLibrary.simpleMessage("Ingresa tus datos de sesión"),
         "ingresar": MessageLookupByLibrary.simpleMessage("Ingresar"),
@@ -135,6 +143,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "soloNumeros":
             MessageLookupByLibrary.simpleMessage("Solo se permiten numeros"),
         "terminos": MessageLookupByLibrary.simpleMessage("Términos"),
+        "ubicacion": MessageLookupByLibrary.simpleMessage("Ubicación"),
         "validar": MessageLookupByLibrary.simpleMessage("Validar"),
         "y": MessageLookupByLibrary.simpleMessage("y"),
         "zona": MessageLookupByLibrary.simpleMessage("Zona")

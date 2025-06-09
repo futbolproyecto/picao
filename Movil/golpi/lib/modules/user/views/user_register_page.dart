@@ -134,78 +134,20 @@ class RegisterUserPage extends StatelessWidget {
                                 () => Row(
                                   children: [
                                     Expanded(
-                                      flex: 3,
-                                      child: userController.isLoading.value
-                                          ? LinearProgressIndicator()
-                                          : ReactiveDropdownField<String>(
-                                              formControlName: 'cell_prefix',
-                                              decoration: InputDecoration(
+                                        flex: 3,
+                                        child: userController.isLoading.value
+                                            ? LinearProgressIndicator()
+                                            : UiTextFiel().dropDownCountry(
+                                                formControlName: 'cell_prefix',
                                                 labelText: 'Indicativo',
-                                                filled: true,
-                                                fillColor: Colors.white,
-                                                contentPadding:
-                                                    const EdgeInsets.symmetric(
-                                                        vertical: 16.0,
-                                                        horizontal: 16.0),
-                                                labelStyle: const TextStyle(
-                                                  color: Colors.black54,
-                                                  fontFamily: 'Montserrat',
-                                                ),
-                                                border: OutlineInputBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          15.0),
-                                                ),
-                                                focusedBorder:
-                                                    OutlineInputBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          15.0),
-                                                  borderSide: BorderSide(
-                                                      color: Colors.grey[300]!,
-                                                      width: 1),
-                                                ),
-                                                enabledBorder:
-                                                    OutlineInputBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          15.0),
-                                                  borderSide: BorderSide(
-                                                      color: Colors.grey[200]!),
-                                                ),
-                                              ),
-                                              items: userController.listContries
-                                                  .map((country) {
-                                                return DropdownMenuItem<String>(
-                                                  value: country.cellPrefix,
-                                                  child: Row(
-                                                    children: [
-                                                      Image.asset(
-                                                        country.flagAsset,
-                                                        width: 24,
-                                                        height: 18,
-                                                        package:
-                                                            'country_icons',
-                                                        errorBuilder:
-                                                            (_, __, ___) =>
-                                                                Icon(Icons.flag,
-                                                                    size: 16),
-                                                      ),
-                                                      SizedBox(width: 6),
-                                                      Text(
-                                                          '${country.cellPrefix}'),
-                                                    ],
-                                                  ),
-                                                );
-                                              }).toList(),
-                                              validationMessages: {
-                                                ValidationMessage.required:
-                                                    (error) => S
-                                                        .of(context)
-                                                        .campoRequerido,
-                                              },
-                                            ),
-                                    ),
+                                                items:
+                                                    userController.listContries,
+                                                validationMessages: {
+                                                    ValidationMessage.required:
+                                                        (error) => S
+                                                            .of(context)
+                                                            .campoRequerido,
+                                                  })),
                                     SizedBox(width: 8),
                                     Expanded(
                                       flex: 7,

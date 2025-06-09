@@ -1,17 +1,19 @@
 import 'package:get/get.dart';
 import 'package:golpi/core/bindings/initial_binding.dart';
-import 'package:golpi/modules/home/views/principal_page.dart';
 import 'package:golpi/modules/login/views/login_page.dart';
+import 'package:golpi/modules/user/views/profile_page.dart';
 import 'package:golpi/modules/splash/views/splash_page.dart';
+import 'package:golpi/modules/home/views/principal_page.dart';
+import 'package:golpi/modules/user/bindings/user_binding.dart';
 import 'package:golpi/modules/home/bindings/home_bindigs.dart';
 import 'package:golpi/modules/team/bindings/team_binding.dart';
 import 'package:golpi/modules/team/views/manage_team_page.dart';
 import 'package:golpi/modules/team/views/register_team_page.dart';
-import 'package:golpi/modules/user/bindings/user_binding.dart';
-import 'package:golpi/modules/user/views/profile_page.dart';
 import 'package:golpi/modules/user/views/user_register_page.dart';
 import 'package:golpi/modules/splash/bindings/splash_bindings.dart';
 import 'package:golpi/modules/user/views/recover_password_page.dart';
+import 'package:golpi/modules/reservations/views/reservation_field.dart';
+import 'package:golpi/modules/reservations/bindings/reservation_binding.dart';
 
 part 'app_routes.dart';
 
@@ -24,6 +26,7 @@ class AppPages {
   static const profile = Routes.profile;
   static const registerTeam = Routes.registerTeam;
   static const manageTeam = Routes.manageTeam;
+  static const reservationField = Routes.reservationField;
 
   static final routes = [
     GetPage(
@@ -65,6 +68,11 @@ class AppPages {
       name: _Paths.manageTeam,
       page: () => const ManageTeamPage(),
       binding: TeamBinding(),
+    ),
+    GetPage(
+      name: _Paths.reservationField,
+      page: () => const ReservationFieldPage(),
+      binding: ReservationBinding(),
     ),
   ];
 }

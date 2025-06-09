@@ -1,6 +1,6 @@
 class ConstantEndpoints {
-  //static String baseUrl = '192.168.50.82:8092';
-  static String baseUrl = 'golpipruebas.up.railway.app';
+  static String baseUrl = '192.168.0.20:8092';
+  //static String baseUrl = 'golpipruebas.up.railway.app';
   static String login = '/authentication/login';
   static String createUser = '/user/create';
   static String sendOtpMobileNumber = '/otp/send-mobilenumber';
@@ -22,6 +22,7 @@ class ConstantEndpoints {
   static String leaveTeam = '/team/leave-the-team';
   static String getAllCities = '/city/get-all';
   static String getAllCountry = '/country/get-all';
+  static String getFieldAvailable = '/agenda/get-available-by-filters';
 
   static List<String> get blackList => [
         ConstantEndpoints.login,
