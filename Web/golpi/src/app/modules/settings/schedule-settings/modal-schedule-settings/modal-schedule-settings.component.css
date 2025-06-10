@@ -1,0 +1,100 @@
+::ng-deep.ng-select-error .ng-select-container {
+  border: none !important;
+  border-bottom: 1px solid var(--color-error) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+::ng-deep.ng-select-error .ng-select-container:after {
+  content: none !important;
+}
+
+.lista {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+.canchas {
+  display: flex;
+}
+
+.checkbox-canchas {
+  gap: 5px;
+}
+
+.titulo {
+  border-radius: 10px;
+  font-weight: 500;
+  display: flex;
+  padding: 10px 0;
+  color: var(--color-scrim);
+}
+
+.input-field {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.boton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30px;
+}
+
+.boton .btn {
+  background-color: var(--color-primary);
+  color: var(--color-surface-container--lowest);
+}
+
+::ng-deep.mdc-text-field--filled:not(.mdc-text-field--disabled) {
+  padding: 0;
+}
+
+:host ::ng-deep .fc-timegrid-slot {
+  height: 60px !important;
+  min-height: 60px !important;
+  max-height: 60px !important;
+}
+
+:host ::ng-deep .fc-timegrid {
+  max-height: 960px;
+  overflow-y: auto;
+}
+
+.container-titulo {
+  display: flex;
+  padding-top: 15px;
+  padding-left: 20px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+h1 {
+  font-weight: 500;
+  color: var(--color-on-tertiary-container);
+}
+
+.checkbox-dias {
+  color: black;
+  align-items: center;
+  gap: 10px;
+  display: flex;
+}
+
+.checkbox-individual {
+  display: flex;
+  gap: 5px;
+}
+
+.label-dia {
+  padding: 5px;
+}
+
+.cerrar {
+  cursor: pointer;
+}

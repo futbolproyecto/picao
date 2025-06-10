@@ -1,14 +1,14 @@
 // Dto
 import { GenericDto } from '../../core/models/generic-dto';
 
-export class BlockadeRequestDto extends GenericDto {
+export class ScheduleRequestDto extends GenericDto {
   field_id?: number;
   start_time?: number;
   end_time?: number;
-  days?: Date[];
+  fee?: number;
   day?: Date;
 
-  constructor(init?: Partial<BlockadeRequestDto>) {
+  constructor(init?: Partial<ScheduleRequestDto>) {
     super();
     if (init) {
       Object.assign(this, init);
