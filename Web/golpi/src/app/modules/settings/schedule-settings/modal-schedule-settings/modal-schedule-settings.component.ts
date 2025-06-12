@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import {
-  AfterViewInit,
   Component,
   DestroyRef,
+  ElementRef,
   inject,
   Inject,
   OnInit,
@@ -11,6 +11,7 @@ import {
   AbstractControl,
   FormArray,
   FormControl,
+  FormGroup,
   ReactiveFormsModule,
   UntypedFormBuilder,
   UntypedFormGroup,
@@ -30,10 +31,13 @@ import { EstablishmentRequestDto } from '../../../../data/schema/establishmentRe
 import { EstablishmentService } from '../../../../core/service/establishment.service';
 import { MessageExceptionDto } from '../../../../data/schema/MessageExceptionDto';
 import { AlertsService } from '../../../../core/service/alerts.service';
-import { filter, switchMap } from 'rxjs';
+import { filter, finalize, switchMap } from 'rxjs';
 import { FieldService } from '../../../../core/service/field.service';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { MatCheckboxModule } from '@angular/material/checkbox';
+import {
+  MatCheckboxChange,
+  MatCheckboxModule,
+} from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { BlockadeService } from '../../../../core/service/blockade.service';
@@ -41,6 +45,13 @@ import { BusyService } from '../../../../core/busy.service';
 import { ScheduleRequestDto } from '../../../../data/schema/scheduleRequestDto';
 
 import * as rrule from 'rrule';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { MatIcon } from '@angular/material/icon';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { ValidatorsCustom } from '../../../../shared/utils/validators';
+import { MatCard, MatCardTitle } from '@angular/material/card';
 
 type FrecuenciaTipo = 'DAILY' | 'WEEKLY' | 'MONTHLY' | 'YEARLY';
 
@@ -66,11 +77,17 @@ const frecuenciaMap: Record<FrecuenciaTipo, rrule.Frequency> = {
     MatCheckboxModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatTableModule,
+    MatSortModule,
+    MatInputModule,
+    MatTooltipModule,
+    MatIcon,
+    MatCard,
   ],
   templateUrl: './modal-schedule-settings.component.html',
   styleUrl: './modal-schedule-settings.component.css',
 })
-export class ModalScheduleSettingsComponent implements OnInit, AfterViewInit {
+export class ModalScheduleSettingsComponent implements OnInit {
   private formBuilder = inject(UntypedFormBuilder);
   public formularioHorarios: UntypedFormGroup = new UntypedFormGroup({});
   public establishmentError: string = '';
@@ -83,6 +100,9 @@ export class ModalScheduleSettingsComponent implements OnInit, AfterViewInit {
   private blockadeService = inject(BlockadeService);
   private destroyRef = inject(DestroyRef);
   private busyService = inject(BusyService);
+  public fechaInicio: Date = new Date();
+  public fechaFin: Date = new Date();
+  private element = inject(ElementRef);
 
   public diasSemana = [
     { codigo: 'MO', nombre: 'L' },
@@ -96,13 +116,21 @@ export class ModalScheduleSettingsComponent implements OnInit, AfterViewInit {
 
   public diasSeleccionados: string[] = [];
   public mostrarDiasPersonalizados = false;
-  valorFormateado = '$0';
+  public mostrarFechaFin = false;
+  public tarifaFormateado = '$0';
 
   public listaCanchas: any[] = [];
   public establishmentDto: Array<EstablishmentRequestDto> =
     new Array<EstablishmentRequestDto>();
   public scheduleRequestDto: Array<ScheduleRequestDto> =
     new Array<ScheduleRequestDto>();
+
+  public horasDisponibles: string[] = [];
+  public horariosValor: any[] = [];
+  public dataSource = new MatTableDataSource<any>();
+
+  //Tabla seguimiento agregado
+  public columnas: string[] = ['hora_inicio', 'hora_fin', 'tarifa', 'acciones'];
 
   constructor(
     private dialogRef: MatDialogRef<ModalScheduleSettingsComponent>,
@@ -121,6 +149,7 @@ export class ModalScheduleSettingsComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.cargarEstablecimientosUsuario();
     this.cargarCanchasEstablecimiento();
+    this.generarHoras();
 
     this.diaSemana = this.data.dayName;
 
@@ -132,18 +161,41 @@ export class ModalScheduleSettingsComponent implements OnInit, AfterViewInit {
 
     this.formularioHorarios.get('fecha_inicio')?.setValue(fecha_inicio);
     this.formularioHorarios.get('fecha_fin')?.setValue(fecha_fin);
-    this.formularioHorarios.get('hora_inicio')?.setValue(this.data.startTime);
-    this.formularioHorarios.get('hora_fin')?.setValue(this.data.endTime);
 
-    const valorInicial = this.formularioHorarios.get('valor')?.value || 0;
-    this.valorFormateado = this.formatearNumero(valorInicial);
+    this.fechaInicio = fecha_inicio;
+    this.fechaFin = fecha_fin;
+
+    this.formularioHorarios
+      .get('fecha_inicio')
+      ?.valueChanges.subscribe((valor: Date) => {
+        this.fechaInicio = valor;
+      });
+
+    this.formularioHorarios
+      .get('fecha_fin')
+      ?.valueChanges.subscribe((valor: Date) => {
+        this.fechaFin = valor;
+      });
+
+    this.formularioHorarios.get('formularioValores')?.patchValue({
+      hora_inicio: this.data.startTime,
+      hora_fin: this.data.endTime,
+    });
+
+    this.formularioHorarios.get('establishment')?.setValue(0);
+
+    const tarifaInicial = this.formularioHorarios.get('tarifa')?.value || 0;
+    this.tarifaFormateado = this.formatearNumero(tarifaInicial);
   }
 
-  ngAfterViewInit() {
-    const control = this.formularioHorarios.get('valor');
-    if (control && (control.value === null || control.value === 0)) {
-      control.setValue(0);
+  generarHoras(): void {
+    const horas = [];
+    for (let i = 0; i < 24; i++) {
+      const hora = i.toString().padStart(2, '0');
+      const horaFormateada = `${hora}:00:00`;
+      horas.push(horaFormateada);
     }
+    this.horasDisponibles = horas;
   }
 
   cargarEstablecimientosUsuario(): void {
@@ -157,10 +209,14 @@ export class ModalScheduleSettingsComponent implements OnInit, AfterViewInit {
           .establecimientoPorUsuario(usuarioId)
           .subscribe({
             next: (response) => {
-              const establecimientos = response?.payload ?? [];
-              if (establecimientos) {
-                this.establishmentDto = establecimientos;
-              }
+              const opcionDefault = { id: 0, name: 'Seleccione...' };
+
+              this.establishmentDto = [
+                opcionDefault,
+                ...(response?.payload as EstablishmentRequestDto[]),
+              ];
+
+              //this.formularioHorarios.get('establishment')?.setValue(0);
             },
             error: (err) => {
               const errorDto = new MessageExceptionDto({
@@ -218,14 +274,16 @@ export class ModalScheduleSettingsComponent implements OnInit, AfterViewInit {
 
   buildForm(): void {
     this.formularioHorarios = this.formBuilder.group({
-      establishment: [null, Validators.required],
+      establishment: [Validators.required],
       cancha: this.formBuilder.array([], Validators.required),
-      valor: [0, Validators.required],
       repetir: ['NONE', Validators.required],
-      fecha_inicio: [],
-      fecha_fin: [],
-      hora_inicio: [],
-      hora_fin: [],
+      fecha_inicio: [Validators.required],
+      fecha_fin: [Validators.required],
+      formularioValores: this.formBuilder.group({
+        hora_inicio: [Validators.required],
+        hora_fin: [Validators.required],
+        tarifa: [0, Validators.required],
+      }),
     });
   }
 
@@ -235,10 +293,6 @@ export class ModalScheduleSettingsComponent implements OnInit, AfterViewInit {
 
   get cancha(): FormArray {
     return this.formularioHorarios.get('cancha') as FormArray;
-  }
-
-  get valor(): AbstractControl {
-    return this.formularioHorarios.get('valor')!;
   }
 
   get repetir(): AbstractControl {
@@ -254,11 +308,15 @@ export class ModalScheduleSettingsComponent implements OnInit, AfterViewInit {
   }
 
   get hora_inicio(): AbstractControl {
-    return this.formularioHorarios.get('hora_inicio')!;
+    return this.formularioHorarios.get('formularioValores.hora_inicio')!;
   }
 
   get hora_fin(): AbstractControl {
-    return this.formularioHorarios.get('hora_fin')!;
+    return this.formularioHorarios.get('formularioValores.hora_fin')!;
+  }
+
+  get tarifa(): AbstractControl {
+    return this.formularioHorarios.get('formularioValores.tarifa')!;
   }
 
   validarEstablecimiento(): boolean {
@@ -280,7 +338,7 @@ export class ModalScheduleSettingsComponent implements OnInit, AfterViewInit {
     return false;
   }
 
-  guardar() {
+  guardarRegistro() {
     if (this.formularioHorarios.valid) {
       const selectedCanchaIds = this.cancha.value
         .map((checked: boolean, i: number) =>
@@ -299,7 +357,9 @@ export class ModalScheduleSettingsComponent implements OnInit, AfterViewInit {
       let rruleString: string | null = null;
       const repetir = this.formularioHorarios.get('repetir')?.value as string;
       const startDate = this.formularioHorarios.get('fecha_inicio')?.value;
-      const horaInicio = this.formularioHorarios.get('hora_inicio')?.value;
+      const horaInicio = this.formularioHorarios.get(
+        'formularioValores.hora_inicio'
+      )?.value;
       const [hour, minute] = horaInicio.split(':').map((v: string) => +v);
       const dtstart = new Date(startDate);
       dtstart.setHours(hour, minute, 0, 0);
@@ -354,52 +414,54 @@ export class ModalScheduleSettingsComponent implements OnInit, AfterViewInit {
         if (repetir && repetir !== 'NONE') {
           return {
             field_id: id,
-            start_time: this.hora_inicio.value,
-            end_time: this.hora_fin.value,
-            fee: this.valor.value,
+            information_schedule: this.horariosValor.map((horarios) => ({
+              start_date: horarios.hora_inicio,
+              end_date: horarios.hora_fin,
+              fee: horarios.tarifa,
+            })),
             day: this.formatDate(this.fecha_inicio.value),
             rrule: rruleString,
           };
         } else {
           return {
             field_id: id,
-            start_time: this.hora_inicio.value,
-            end_time: this.hora_fin.value,
-            fee: this.valor.value,
             start_date: this.formatDate(this.fecha_inicio.value),
             end_date: this.formatDate(this.fecha_fin.value),
+            information_schedule: this.horariosValor.map((horarios) => ({
+              start_date: horarios.hora_inicio,
+              end_date: horarios.hora_fin,
+              fee: horarios.tarifa,
+            })),
           };
         }
       });
 
       console.log('Información: ', this.scheduleRequestDto);
 
-      //this.busyService.busy();
-
-      // this.blockadeService
-      //   .crearBloqueo(this.scheduleRequestDto)
-      //   .pipe(
-      //     takeUntilDestroyed(this.destroyRef),
-      //     finalize(() => {
-      //       this.busyService.idle();
-      //     })
-      //   )
-      //   .subscribe({
-      //     next: () => {
-      //       this.alertsService.toast(
-      //         'success',
-      //         'Horario configurado exitosamente.'
-      //       );
-      //     },
-      //     error: (err) => {
-      //       const errorDto = new MessageExceptionDto({
-      //         status: err.error?.status,
-      //         error: err.error?.error,
-      //         recommendation: err.error?.recommendation,
-      //       });
-      //       this.alertsService.fireError(errorDto);
-      //     },
-      //   });
+      this.blockadeService
+        .crearBloqueo(this.scheduleRequestDto)
+        .pipe(
+          takeUntilDestroyed(this.destroyRef),
+          finalize(() => {
+            this.busyService.idle();
+          })
+        )
+        .subscribe({
+          next: () => {
+            this.alertsService.toast(
+              'success',
+              'La disponibilidad fue registrada correctamente.'
+            );
+          },
+          error: (err) => {
+            const errorDto = new MessageExceptionDto({
+              status: err.error?.status,
+              error: err.error?.error,
+              recommendation: err.error?.recommendation,
+            });
+            this.alertsService.fireError(errorDto);
+          },
+        });
 
       this.dialogRef.close();
     } else {
@@ -413,7 +475,14 @@ export class ModalScheduleSettingsComponent implements OnInit, AfterViewInit {
   }
 
   cerrar() {
-    this.dialogRef.close();
+    this.alertsService.fireConfirm(
+      'warning',
+      '',
+      '¿Deseas cerrar este formulario sin guardar los cambios?',
+      () => {
+        this.dialogRef.close();
+      }
+    );
   }
 
   actualizarValorMoneda(event: any) {
@@ -424,37 +493,124 @@ export class ModalScheduleSettingsComponent implements OnInit, AfterViewInit {
     }
 
     const numericValue = parseFloat(raw) || 0;
-    this.formularioHorarios.get('valor')?.setValue(numericValue);
-    this.valorFormateado = event.target.value;
+
+    this.formularioHorarios
+      .get('formularioValores.tarifa')
+      ?.setValue(numericValue);
+
+    this.tarifaFormateado = this.formatearNumero(numericValue);
   }
 
   formatearValor() {
-    const valor = this.formularioHorarios.get('valor')?.value || 0;
-    this.valorFormateado = this.formatearNumero(valor);
+    const tarifa =
+      this.formularioHorarios.get('formularioValores.tarifa')?.value || 0;
+    this.tarifaFormateado = this.formatearNumero(tarifa);
   }
 
-  formatearNumero(valor: number | string): string {
-    if (!valor) return '$0';
-    const stringValue = valor.toString().replace(/[^\d]/g, '');
-    const formatted = stringValue.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-    return `$${formatted}`;
+  formatearNumero(tarifa: number | string): string {
+    const valorNumerico = Number(tarifa.toString().replace(/[^\d]/g, '')) || 0;
+
+    return new Intl.NumberFormat('es-CO', {
+      style: 'currency',
+      currency: 'COP',
+      currencyDisplay: 'narrowSymbol',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    }).format(valorNumerico);
+  }
+
+  bloquearCaracteresInvalidos(event: KeyboardEvent) {
+    const key = event.key;
+
+    const controlKeys = [
+      'Backspace',
+      'Tab',
+      'ArrowLeft',
+      'ArrowRight',
+      'Delete',
+      'Home',
+      'End',
+    ];
+
+    if (!/^\d$/.test(key) && !controlKeys.includes(key)) {
+      event.preventDefault();
+    }
   }
 
   onRepetirChange(valor: string) {
+    this.mostrarFechaFin = valor !== 'NONE';
+
+    if (!this.mostrarFechaFin) {
+      this.formularioHorarios.get('fecha_fin')?.setValue(null);
+    }
+
     this.mostrarDiasPersonalizados = valor === 'CUSTOM';
     if (valor !== 'CUSTOM') {
       this.diasSeleccionados = [];
     }
   }
 
-  toggleDiaSeleccionado(codigo: string, event: Event) {
-    const checked = (event.target as HTMLInputElement).checked;
-    if (checked) {
+  toggleDiaSeleccionado(codigo: string, event: MatCheckboxChange): void {
+    if (event.checked) {
       this.diasSeleccionados.push(codigo);
     } else {
       this.diasSeleccionados = this.diasSeleccionados.filter(
         (d) => d !== codigo
       );
     }
+  }
+
+  agregarHorarios(): void {
+    const seguimientoGroup = this.formularioHorarios.get(
+      'formularioValores'
+    ) as FormGroup;
+
+    if (seguimientoGroup.valid) {
+      const tarifaValor = this.tarifa?.value;
+
+      if (tarifaValor === 0) {
+        this.alertsService.toast('error', 'Debe asignar una tarifa válida.');
+        return;
+      }
+
+      const horaInicio = this.hora_inicio?.value;
+      const horaFin = this.hora_fin?.value;
+
+      if (this.validarHorarios(horaInicio, horaFin)) {
+        this.alertsService.toast('error', 'Ya existe un horario en ese rango.');
+        return;
+      }
+
+      const nuevoRegistro = {
+        hora_inicio: horaInicio,
+        hora_fin: horaFin,
+        tarifa: tarifaValor,
+      };
+
+      this.horariosValor.push(nuevoRegistro);
+      this.dataSource.data = [...this.horariosValor];
+    } else {
+      ValidatorsCustom.validateAllFormFields(seguimientoGroup, this.element);
+      this.alertsService.toast('error', Constant.ERROR_FORM_INCOMPLETO);
+    }
+  }
+
+  eliminarHorario(element: any): void {
+    this.horariosValor = this.horariosValor.filter(
+      (horario) => horario !== element
+    );
+    this.dataSource.data = [...this.horariosValor];
+  }
+
+  private validarHorarios(horaInicio: string, horaFin: string): boolean {
+    const nuevaInicio = horaInicio;
+    const nuevaFin = horaFin;
+
+    return this.horariosValor.some((horario) => {
+      const existenteInicio = horario.hora_inicio;
+      const existenteFin = horario.hora_fin;
+
+      return nuevaInicio < existenteFin && nuevaFin > existenteInicio;
+    });
   }
 }

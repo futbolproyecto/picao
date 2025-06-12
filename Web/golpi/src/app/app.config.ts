@@ -41,7 +41,7 @@ export const appConfig: ApplicationConfig = {
     provideStore(),
     provideAnimationsAsync(),
     provideState({ name: 'estado', reducer: autenticacionReducer }),
-    { provide: LOCALE_ID, useValue: 'es' },
-    { provide: MAT_DATE_LOCALE, useValue: 'es-ES' },
+    { provide: LOCALE_ID, useValue: 'es-CO' },
+    { provide: MAT_DATE_LOCALE, useValue: 'es-CO' },
   ],
 };

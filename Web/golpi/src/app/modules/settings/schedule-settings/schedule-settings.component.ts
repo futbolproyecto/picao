@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import interactionPlugin from '@fullcalendar/interaction';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -8,6 +8,8 @@ import esLocale from '@fullcalendar/core/locales/es';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { ModalScheduleSettingsComponent } from './modal-schedule-settings/modal-schedule-settings.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ScheduleService } from '../../../core/service/schedule.service';
+import { AlertsService } from '../../../core/service/alerts.service';
 
 @Component({
   selector: 'app-schedule-settings',
@@ -22,8 +24,41 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   templateUrl: './schedule-settings.component.html',
   styleUrl: './schedule-settings.component.css',
 })
-export class ScheduleSettingsComponent {
+export class ScheduleSettingsComponent implements OnInit {
+  private scheduleService = inject(ScheduleService);
+  private alertsService = inject(AlertsService);
+
   constructor(private dialog: MatDialog) {}
+
+  ngOnInit() {
+    this.obtenerEventos();
+  }
+
+  obtenerEventos() {
+    const idEstablecimiento = localStorage.getItem(
+      'establecimientoSeleccionado'
+    );
+
+    if (!idEstablecimiento) {
+      this.alertsService.toast(
+        'error',
+        'No se ha seleccionado un establecimiento.'
+      );
+      return;
+    }
+
+    this.scheduleService
+      .obtenerEventosPorEstablecimiento(idEstablecimiento)
+      .subscribe((eventos) => {
+        this.calendarOptions.events = eventos.map((e) => ({
+          title: e.titulo,
+          start: `${e.fecha}T${e.hora_inicio}`,
+          end: `${e.fecha}T${e.hora_fin}`,
+          color: '#4caf50',
+          textColor: 'white',
+        }));
+      });
+  }
 
   calendarOptions = {
     plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
@@ -46,8 +81,8 @@ export class ScheduleSettingsComponent {
     events: [
       {
         title: 'Disponible',
-        start: '2025-06-01T09:00:00',
-        end: '2025-06-01T10:00:00',
+        start: '2025-06-10T09:00:00',
+        end: '2025-06-10T10:00:00',
         color: '#4caf50',
         textColor: 'white',
       },
@@ -84,6 +119,7 @@ export class ScheduleSettingsComponent {
     const dayName = daysOfWeek[startDate.getDay()];
 
     const dialogRef = this.dialog.open(ModalScheduleSettingsComponent, {
+      disableClose: true,
       width: '700px',
       data: {
         startDate: formatDate(startDate),
