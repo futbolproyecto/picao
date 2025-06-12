@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:golpi/modules/widgets/ui_alert_message.dart';
 import 'package:reactive_forms/reactive_forms.dart';
@@ -25,8 +26,8 @@ class ReservationController extends GetxController {
 
   var formSearchField = FormGroup({
     'date': FormControl<DateTime>(),
-    'hora_inicio': FormControl<int>(),
-    'hora_fin': FormControl<int>(),
+    'hora_inicio': FormControl<TimeOfDay>(),
+    'hora_fin': FormControl<TimeOfDay>(),
     'tipo': FormControl<OptionModel>(),
     'ubicacion': FormControl<OptionModel>(),
   });
@@ -55,10 +56,10 @@ class ReservationController extends GetxController {
         isLoading.value = true;
 
         await reservationRepository.getFieldAvailable(
-          'Cali',
-          '2025-05-29',
-          1,
-          'GolpiGroup',
+          cityName: 'Cali',
+          date: '2025-05-29',
+          hour: '00:00',
+          //establishmentName: 'GolpiGroup',
         );
 
         fieldAvailableList.value = [

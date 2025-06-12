@@ -57,7 +57,8 @@ class ReservationFieldPage extends StatelessWidget {
                                   prefixIcon: Icons.access_time_outlined,
                                   colorPrefixIcon:
                                       Theme.of(context).colorScheme.primary,
-                                  items: [1, 2],
+                                  context: context,
+                                  form: reactiveFormUserRegistrer,
                                   validationMessages: {
                                     ValidationMessage.required: (error) =>
                                         S.of(context).campoRequerido,
@@ -72,7 +73,8 @@ class ReservationFieldPage extends StatelessWidget {
                                   prefixIcon: Icons.access_time_outlined,
                                   colorPrefixIcon:
                                       Theme.of(context).colorScheme.primary,
-                                  items: [1, 2],
+                                  context: context,
+                                  form: reactiveFormUserRegistrer,
                                   validationMessages: {
                                     ValidationMessage.required: (error) =>
                                         S.of(context).campoRequerido,

@@ -5,20 +5,22 @@ import 'package:golpi/core/constants/constant_endpoints.dart';
 import 'package:golpi/modules/reservations/models/field_available_model.dart';
 
 class ReservationRepository {
-  Future<List<FieldAvailableModel>> getFieldAvailable(
-    String cityName,
-    String date,
-    int hour,
-    String establishmentName,
-  ) async {
+  Future<List<FieldAvailableModel>> getFieldAvailable({
+    required String cityName,
+    String? date,
+    String? hour,
+    String? establishmentName,
+  }) async {
     try {
+      Map<String, dynamic> requestParam = {
+        'city_name': cityName,
+        'date': date,
+        'hour': hour,
+        'establishment_name': establishmentName,
+      }..removeWhere((key, value) => value == null);
+
       final response = await HttpService(ConstantEndpoints.getFieldAvailable)
-          .getRequesParam({
-        "city_name": cityName,
-        "date": date,
-        "hour": "$hour",
-        "establishment_name": establishmentName,
-      });
+          .getRequesParam(requestParam);
 
       return (GeneralModel().jsonStringifyToList(response))
           .map((i) => FieldAvailableModel.fromJson(i))
