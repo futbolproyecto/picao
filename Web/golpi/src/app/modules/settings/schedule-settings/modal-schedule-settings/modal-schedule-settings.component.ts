@@ -52,6 +52,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ValidatorsCustom } from '../../../../shared/utils/validators';
 import { MatCard, MatCardTitle } from '@angular/material/card';
+import { AgendaService } from '../../../../core/service/agenda.service';
 
 type FrecuenciaTipo = 'DAILY' | 'WEEKLY' | 'MONTHLY' | 'YEARLY';
 
@@ -97,7 +98,7 @@ export class ModalScheduleSettingsComponent implements OnInit {
   private establishmentService = inject(EstablishmentService);
   private alertsService = inject(AlertsService);
   private fieldService = inject(FieldService);
-  private blockadeService = inject(BlockadeService);
+  private agendaService = inject(AgendaService);
   private destroyRef = inject(DestroyRef);
   private busyService = inject(BusyService);
   public fechaInicio: Date = new Date();
@@ -149,7 +150,7 @@ export class ModalScheduleSettingsComponent implements OnInit {
     this.cargarEstablecimientosUsuario();
     this.cargarCanchasEstablecimiento();
     this.generarHoras();
-    
+
     this.diaSemana = this.data.dayName;
 
     const [day, month, year] = this.data.startDate.split('-');
@@ -436,8 +437,34 @@ export class ModalScheduleSettingsComponent implements OnInit {
         };
       }
 
-      console.log('Información: ', this.scheduleRequestDto);
-      // this.dialogRef.close();
+      this.busyService.busy();
+
+      this.agendaService
+        .crearAgenda(this.scheduleRequestDto)
+        .pipe(
+          takeUntilDestroyed(this.destroyRef),
+          finalize(() => {
+            this.busyService.idle();
+          })
+        )
+        .subscribe({
+          next: () => {
+            this.alertsService.toast(
+              'success',
+              'La disponibilidad fue registrada correctamente.'
+            );
+
+            this.dialogRef.close();
+          },
+          error: (err) => {
+            const errorDto = new MessageExceptionDto({
+              status: err.error?.status,
+              error: err.error?.error,
+              recommendation: err.error?.recommendation,
+            });
+            this.alertsService.fireError(errorDto);
+          },
+        });
     } else {
       this.formularioHorarios.markAllAsTouched();
       this.alertsService.toast('error', Constant.ERROR_FORM_INCOMPLETO);

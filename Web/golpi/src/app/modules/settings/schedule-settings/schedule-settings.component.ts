@@ -51,9 +51,9 @@ export class ScheduleSettingsComponent implements OnInit {
       .obtenerEventosPorEstablecimiento(idEstablecimiento)
       .subscribe((eventos) => {
         this.calendarOptions.events = eventos.map((e) => ({
-          title: e.titulo,
-          start: `${e.fecha}T${e.hora_inicio}`,
-          end: `${e.fecha}T${e.hora_fin}`,
+          title: `Disponible - $${e.fee}`,
+          start: `${e.fecha_inicio}T${e.hora_inicio}`,
+          end: `${e.fecha_fin}T${e.hora_fin}`,
           color: '#4caf50',
           textColor: 'white',
         }));
