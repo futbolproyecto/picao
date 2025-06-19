@@ -3,13 +3,13 @@ package com.example.picao.agenda.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotNull;
 
-import java.time.LocalDate;
+import java.math.BigDecimal;
 import java.time.LocalTime;
 
-public record LockDownDayDTO(
+public record InformationSchedule(
 
         @NotNull
-        LocalDate day,
+        BigDecimal fee,
 
         @NotNull
         @JsonProperty("start_time")

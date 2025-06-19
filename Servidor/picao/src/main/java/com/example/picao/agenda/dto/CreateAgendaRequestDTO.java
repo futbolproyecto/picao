@@ -3,18 +3,30 @@ package com.example.picao.agenda.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotNull;
 
-import java.util.List;
+import java.time.LocalDate;
+import java.util.Set;
 import java.util.UUID;
 
 public record CreateAgendaRequestDTO(
 
         @NotNull
-        @JsonProperty("lock_down_day")
-        List<LockDownDayDTO> lockDownDay,
+        @JsonProperty("field_ids")
+        Set<UUID> fieldIds,
 
         @NotNull
-        @JsonProperty("field_id")
-        UUID fieldId
+        @JsonProperty("start_date")
+        LocalDate startDate,
+
+        @NotNull
+        @JsonProperty("end_date")
+        LocalDate endDate,
+
+        String rule,
+
+        @NotNull
+        @JsonProperty("information_schedules")
+        Set<InformationSchedule> informationSchedules
+
 
 ) {
 }
