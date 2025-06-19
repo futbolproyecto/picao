@@ -88,12 +88,7 @@
     </div>
 
     <div class="row">
-      <div
-        [ngClass]="{
-          'col-md-6': !mostrarFechaFin,
-          'col-md-12': mostrarFechaFin
-        }"
-      >
+      <div class="col-md-6">
         <mat-form-field class="input-field w-100">
           <mat-label>Fecha inicio*</mat-label>
           <input
@@ -111,7 +106,7 @@
         </mat-form-field>
       </div>
 
-      <div class="col-md-6" *ngIf="!mostrarFechaFin">
+      <div class="col-md-6">
         <mat-form-field class="input-field w-100">
           <mat-label>Fecha fin*</mat-label>
           <input
@@ -119,7 +114,7 @@
             [matDatepicker]="pickerFechaFin"
             formControlName="fecha_fin"
             [min]="fechaInicio"
-            readonly
+            [readonly]="bloquearFechaFin"
           />
           <mat-datepicker-toggle
             matSuffix
