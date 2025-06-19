@@ -1,0 +1,251 @@
+<div class="container-titulo">
+  <h1>Configuración de horario</h1>
+  <span
+    ngClass="m-3 d-flex justify-content-end cerrar"
+    (click)="cerrar()"
+    (keyup.enter)="cerrar()"
+    tabindex="0"
+    role="button"
+    aria-label="Cerrar"
+  >
+    <i class="material-icons">close</i>
+  </span>
+</div>
+
+<mat-dialog-content class="form-content">
+  <form [formGroup]="formularioHorarios">
+    <div class="row">
+      <div class="col-md-12">
+        <ng-select
+          formControlName="establishment"
+          [items]="establishmentDto"
+          bindLabel="name"
+          bindValue="id"
+          placeholder="Establecimiento* "
+          [ngClass]="{ 'ng-select-error': validarEstablecimiento() }"
+        ></ng-select>
+        <small class="text-error" *ngIf="validarEstablecimiento()">
+          {{ establishmentError }}
+        </small>
+      </div>
+    </div>
+
+    <div class="row">
+      <div *ngIf="listaCanchas.length > 0" class="col-md-6 canchas">
+        <div>
+          <span class="titulo">Canchas: </span>
+        </div>
+
+        <div class="checkbox-canchas">
+          <ng-container formArrayName="cancha">
+            <mat-checkbox
+              *ngFor="let cancha of listaCanchas; let i = index"
+              [formControlName]="i"
+              color="primary"
+            >
+              {{ cancha.name }}
+            </mat-checkbox>
+            <small class="text-error" *ngIf="validarCancha()">
+              {{ canchaError }}
+            </small>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <ng-select
+          formControlName="repetir"
+          placeholder="Repetir*"
+          appendTo="body"
+          (change)="onRepetirChange($event)"
+        >
+          <ng-option [value]="'NONE'">No se repite</ng-option>
+          <ng-option [value]="'WEEKLY'"
+            >Cada semana, el {{ diaSemana }}</ng-option
+          >
+          <ng-option [value]="'WEEKDAY'"
+            >Todos los días hábiles (lunes a viernes)</ng-option
+          >
+          <ng-option [value]="'CUSTOM'">Personalizar...</ng-option>
+        </ng-select>
+      </div>
+
+      <div *ngIf="mostrarDiasPersonalizados" class="col-md-12 checkbox-dias">
+        <span class="titulo">Repite el:</span>
+        <div class="checkbox-individual d-flex flex-wrap gap-3">
+          <div *ngFor="let dia of diasSemana" class="dia-checkbox">
+            <mat-checkbox
+              (change)="toggleDiaSeleccionado(dia.codigo, $event)"
+              [checked]="diasSeleccionados.includes(dia.codigo)"
+            >
+              {{ dia.nombre }}
+            </mat-checkbox>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <mat-form-field class="input-field w-100">
+          <mat-label>Fecha inicio*</mat-label>
+          <input
+            matInput
+            [matDatepicker]="pickerFechaInicio"
+            formControlName="fecha_inicio"
+            [max]="fechaFin"
+            readonly
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="pickerFechaInicio"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #pickerFechaInicio></mat-datepicker>
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-6">
+        <mat-form-field class="input-field w-100">
+          <mat-label>Fecha fin*</mat-label>
+          <input
+            matInput
+            [matDatepicker]="pickerFechaFin"
+            formControlName="fecha_fin"
+            [min]="fechaInicio"
+            [readonly]="bloquearFechaFin"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="pickerFechaFin"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #pickerFechaFin></mat-datepicker>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div formGroupName="formularioValores">
+      <div class="row">
+        <div class="col-md-6">
+          <mat-form-field class="input-field">
+            <mat-label>Hora inicio* </mat-label>
+            <mat-select formControlName="hora_inicio">
+              <mat-option *ngFor="let hora of horasDisponibles" [value]="hora">
+                {{ hora }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="col-md-6">
+          <mat-form-field class="input-field">
+            <mat-label>Hora fin* </mat-label>
+            <mat-select formControlName="hora_fin">
+              <mat-option *ngFor="let hora of horasDisponibles" [value]="hora">
+                {{ hora }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <mat-form-field class="input-field">
+            <mat-label
+              >Tarifa*
+              <mat-icon
+                matTooltip="Valor que se cobrará por el uso de la cancha durante este horario."
+                >info</mat-icon
+              >
+            </mat-label>
+
+            <input
+              matInput
+              [value]="tarifaFormateado"
+              (blur)="formatearValor()"
+              (input)="actualizarValorMoneda($event)"
+              (keydown)="bloquearCaracteresInvalidos($event)"
+            />
+          </mat-form-field>
+        </div>
+        <div class="col-md-6 container-boton">
+          <div class="boton-agregar">
+            <button
+              class="btn-agregar"
+              type="button"
+              mat-flat-button
+              (click)="agregarHorarios()"
+            >
+              <mat-icon>add</mat-icon> Agregar horario
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 datos">
+        <mat-card *ngIf="horariosValor.length > 0" class="tabla-card">
+          <div class="tabla-wrapper">
+            <table
+              mat-table
+              [dataSource]="dataSource"
+              class="mat-elevation-z8 custom-table"
+            >
+              <ng-container matColumnDef="hora_inicio">
+                <th mat-header-cell *matHeaderCellDef>Hora inicio</th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.hora_inicio }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="hora_fin">
+                <th mat-header-cell *matHeaderCellDef>Hora fin</th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.hora_fin }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="tarifa">
+                <th mat-header-cell *matHeaderCellDef>Tarifa</th>
+                <td mat-cell *matCellDef="let element">
+                  {{ formatearNumero(element.tarifa) }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="acciones">
+                <th mat-header-cell *matHeaderCellDef>Acciones</th>
+                <td mat-cell *matCellDef="let element">
+                  <button
+                    mat-icon-button
+                    color="warn"
+                    (click)="eliminarHorario(element)"
+                    aria-label="Eliminar"
+                  >
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="columnas"></tr>
+              <tr mat-row *matRowDef="let row; columns: columnas"></tr>
+            </table>
+          </div>
+        </mat-card>
+      </div>
+    </div>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <div class="boton">
+    <button
+      mat-flat-button
+      class="btn"
+      type="button"
+      (click)="guardarRegistro()"
+    >
+      Guardar
+    </button>
+  </div>
+</mat-dialog-actions>
