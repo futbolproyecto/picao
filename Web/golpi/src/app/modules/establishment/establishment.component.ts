@@ -20,7 +20,6 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { AlertsService } from '../../core/service/alerts.service';
 import { CityService } from '../../core/service/city.service';
 import { EstablishmentService } from '../../core/service/establishment.service';
-import { AutenticacionStoreService } from '../../core/store/auth/autenticacion-store.service';
 
 // Compartidos
 import { Constant } from '../../shared/utils/constant';

@@ -9,10 +9,11 @@ import { SoccerFieldComponent } from './modules/soccer-field/soccer-field.compon
 import { DashboardComponent } from './modules/dashboard/dashboard.component';
 import { ReservationComponent } from './modules/reservation/reservation.component';
 import { NotificationsComponent } from './modules/notifications/notifications.component';
-import { ScheduleSettingsComponent } from './modules/settings/schedule-settings/schedule-settings.component';
 import { UserComponent } from './modules/settings/user/user.component';
 import { ChangePasswordComponent } from './modules/change-password/change-password.component';
 import { LoginComponent } from './modules/login/login.component';
+import { LockSettingsComponent } from './modules/settings/lock-settings/lock-settings.component';
+import { ScheduleSettingsComponent } from './modules/settings/schedule-settings/schedule-settings.component';
 
 export const routes: Routes = [
   {
@@ -69,14 +70,14 @@ export const routes: Routes = [
             component: UserComponent,
           },
           {
-            path: 'schedule-settings',
+            path: 'lock-settings',
             title: 'Bloqueo de Horarios',
-            component: ScheduleSettingsComponent,
+            component: LockSettingsComponent,
           },
           {
-            path: '',
-            redirectTo: 'usuario',
-            pathMatch: 'full',
+            path: 'schedule-settings',
+            title: 'Configuración de horarios',
+            component: ScheduleSettingsComponent,
           },
         ],
       },

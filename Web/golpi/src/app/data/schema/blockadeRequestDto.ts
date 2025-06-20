@@ -6,6 +6,7 @@ export class BlockadeRequestDto extends GenericDto {
   start_time?: number;
   end_time?: number;
   days?: Date[];
+  day?: Date;
 
   constructor(init?: Partial<BlockadeRequestDto>) {
     super();
