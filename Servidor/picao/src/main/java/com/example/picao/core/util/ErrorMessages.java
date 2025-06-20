@@ -72,8 +72,8 @@ public enum ErrorMessages {
     GENERIC_DUPLICATE("%s ya está registrado.",
             "Por favor, elige otra opcion e intenta nuevamente",
             "E22"),
-    DUPLICATE_BLOCKADE("Ya existe un bloqueo para la cancha %s para el dia %s entre los horarios %s y %s.",
-            "Por favor, edite el bloqueo",
+    FIELD_NOT_FOUND("No se encontraron canchas con los parametros de busqueda ingresados",
+            "Verifique la informacion ingresada",
             "E23");
 
 

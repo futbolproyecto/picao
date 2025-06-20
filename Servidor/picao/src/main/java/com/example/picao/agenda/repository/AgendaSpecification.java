@@ -23,7 +23,8 @@ public class AgendaSpecification {
     public static Specification<Agenda> filterBy(
             String city,
             LocalDate date,
-            LocalTime hour,
+            LocalTime startTime,
+            LocalTime endTime,
             String establishment) {
 
         return (agenda, query, cb) -> {
@@ -50,8 +51,13 @@ public class AgendaSpecification {
             }
 
             // hora opcional
-            if (hour != null) {
-                predicates.add(cb.equal(agenda.get("startTime"), hour));
+            // filtro por rango de horas
+            if (startTime != null && endTime != null) {
+                predicates.add(cb.between(agenda.get("startTime"), startTime, endTime));
+            } else if (startTime != null) {
+                predicates.add(cb.equal(agenda.get("startTime"), startTime));
+            } else if (endTime != null) {
+                predicates.add(cb.lessThanOrEqualTo(agenda.get("startTime"), endTime));
             }
 
             // nombre del establecimiento opcional

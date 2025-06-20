@@ -100,12 +100,17 @@ public class AgendaServiceImpl implements AgendaService {
 
     @Override
     public List<AgendaResponseDTO> getAgendaAvailableByParameters(String cityName, LocalDate date,
-                                                                  LocalTime hour, String establishmentName) {
+                                                                  LocalTime startTime, LocalTime endTime,
+                                                                  String establishmentName) {
 
         try {
 
             List<Agenda> agendas = agendaRepository.findAll(AgendaSpecification.filterBy(
-                    cityName, date, hour, establishmentName));
+                    cityName, date, startTime, endTime, establishmentName));
+
+            if (agendas.isEmpty()) {
+                throw new AppException(ErrorMessages.FIELD_NOT_FOUND, HttpStatus.NOT_FOUND);
+            }
 
             return agendas.stream().map(agenda -> AgendaResponseDTO.builder()
                     .id(agenda.getId())
@@ -115,6 +120,7 @@ public class AgendaServiceImpl implements AgendaService {
                     .date(agenda.getDate())
                     .dayOfWeek(agenda.getDayOfWeek())
                     .addressEstablishment(agenda.getField().getEstablishment().getAddress())
+                    .fee(agenda.getFee())
                     .build()).toList();
 
         } catch (AppException e) {

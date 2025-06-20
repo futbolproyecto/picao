@@ -14,6 +14,6 @@ public interface AgendaService {
 
     List<AgendaResponseDTO> getByEstablishmentId(UUID establishmentId);
 
-    List<AgendaResponseDTO> getAgendaAvailableByParameters(String cityName, LocalDate date, LocalTime hour,
-                                                           String establishmentName);
+    List<AgendaResponseDTO> getAgendaAvailableByParameters(String cityName, LocalDate date, LocalTime startTime,
+                                                           LocalTime endTime, String establishmentName);
 }

@@ -30,12 +30,13 @@ public class AgendaController {
 
     @GetMapping("/get-available-by-filters")
     public ResponseEntity<GenericResponseDTO> getAgendaAvailableByParameters(
-            @RequestParam(name = "city_name") String cityName,
+            @RequestParam(name = "city-name") String cityName,
             @RequestParam(required = false) LocalDate date,
-            @RequestParam(required = false) LocalTime hour,
-            @RequestParam(name = "establishment_name", required = false) String establishmentName) {
+            @RequestParam(name = "start-time", required = false) LocalTime startTime,
+            @RequestParam(name = "end-time",required = false) LocalTime endTime,
+            @RequestParam(name = "establishment-name", required = false) String establishmentName) {
 
         return GenericResponseDTO.genericResponse(
-                agendaService.getAgendaAvailableByParameters(cityName, date, hour, establishmentName));
+                agendaService.getAgendaAvailableByParameters(cityName, date, startTime, endTime, establishmentName));
     }
 }
