@@ -18,6 +18,7 @@ class TeamPage extends StatelessWidget {
     final TeamController teamController = Get.find<TeamController>();
 
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
       body: Stack(
         children: [
           Positioned(
@@ -47,7 +48,7 @@ class TeamPage extends StatelessWidget {
                 alignment: Alignment.topCenter,
                 child: Card(
                   elevation: 3,
-                  color: Theme.of(context).colorScheme.surfaceContainer,
+                  color: Theme.of(context).colorScheme.surface,
                   child: SizedBox(
                     width: screenSize.width * 0.9,
                     height: 150,
@@ -63,11 +64,11 @@ class TeamPage extends StatelessWidget {
                       itemCount: homeController.listTeams.toList().length,
                       itemBuilder: (context, index) {
                         return Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 5),
                           child: Card(
                             elevation: 3,
-                            color:
-                                Theme.of(context).colorScheme.surfaceContainer,
+                            color: Theme.of(context).colorScheme.surface,
                             child: Padding(
                               padding: const EdgeInsets.symmetric(vertical: 10),
                               child: ListTile(

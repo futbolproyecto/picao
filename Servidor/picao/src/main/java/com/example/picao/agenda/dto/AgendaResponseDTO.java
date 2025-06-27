@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.UUID;
@@ -40,5 +41,7 @@ public class AgendaResponseDTO {
 
     @JsonProperty("address_establishment")
     String addressEstablishment;
+
+    BigDecimal fee;
 
 }

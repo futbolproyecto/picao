@@ -1,7 +1,6 @@
 package com.example.picao.field.dto;
 
 import com.example.picao.agenda.dto.AgendaResponseDTO;
-import com.example.picao.blockade.dto.BlockadeResponseDTO;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
@@ -34,7 +33,6 @@ public class FieldResponseDTO {
     @JsonProperty("establishment_id")
     UUID establishmentId;
 
-    List<BlockadeResponseDTO> blockades;
 
     public FieldResponseDTO(UUID id, String name, Integer capacity, Boolean isAvailable, Boolean isRoofed) {
         this.id = id;
@@ -44,9 +42,5 @@ public class FieldResponseDTO {
         this.isRoofed = isRoofed;
     }
 
-    public FieldResponseDTO(UUID id, String name, List<BlockadeResponseDTO> blockades) {
-        this.id = id;
-        this.name = name;
-        this.blockades = blockades;
-    }
+
 }

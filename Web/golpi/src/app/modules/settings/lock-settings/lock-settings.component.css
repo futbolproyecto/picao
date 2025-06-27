@@ -1,0 +1,223 @@
+.container-horarios {
+  padding: 16px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+h1 {
+  color: var(--color-on-tertiary-container);
+}
+
+.card-soccer {
+  padding-bottom: 30px;
+  background: var(--color-surface-container--lowest);
+  box-shadow: 0 3px 15px var(--color-outline-variant);
+  border-radius: 15px;
+}
+
+.container-card {
+  padding: 5px;
+}
+
+.container-modulos,
+ul,
+.lista {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+.hora {
+  width: 100%;
+}
+
+li {
+  list-style: none;
+  cursor: pointer;
+  text-decoration: none;
+  padding: 10px 20px;
+  border-radius: 6px 6px 0 0;
+  margin-right: 5px;
+  transition: all 0.3s ease;
+}
+
+li.active-tab {
+  border-bottom: 2px solid var(--color-secondary);
+  color: var(--color-secondary);
+  font-weight: bold;
+}
+
+li:hover {
+  background-color: var(--color-surface-container);
+}
+
+.container-pestana {
+  text-align: center;
+  color: var(--color-secondary);
+  transition: opacity 0.3s ease-in-out;
+}
+
+.container-pestana.ng-leave-active {
+  opacity: 0;
+}
+
+.form-content {
+  padding: 0 50px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.input-field {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.boton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30px;
+}
+
+.boton .btn {
+  background-color: var(--color-primary);
+  color: var(--color-on-primary-container);
+  height: 45px;
+  width: 45%;
+  border-radius: 15px;
+  font-size: 18px;
+  transition: background-color 0.3s ease;
+}
+
+.boton .btn:hover {
+  background-color: var(--color-inverse-primary);
+}
+
+/* Estilos para .ng-select */
+.ng-select,
+.ng-select div,
+::ng-deep.ng-select input,
+.ng-select span,
+::ng-deep.ng-select .ng-select-container .ng-value-label,
+::ng-deep.ng-select .ng-arrow-wrapper {
+  font-size: 17px;
+  font-weight: 400;
+}
+
+::ng-deep.ng-select .ng-select-container .ng-placeholder {
+  padding-left: 17px;
+}
+
+::ng-deep.ng-select .ng-select-container .ng-value-label {
+  font-size: 15px;
+  padding-left: 15px;
+  padding-bottom: 20px;
+}
+
+::ng-deep.ng-select .ng-arrow-wrapper {
+  padding-right: 13px;
+}
+
+/* Checks */
+.checkbox-canchas {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.checkbox-dias {
+  display: flex;
+  text-align: justify;
+  gap: 5px;
+  flex-direction: column;
+}
+
+.check {
+  display: ruby;
+  text-align: justify;
+}
+
+.check-individual {
+  margin-left: 30px;
+}
+
+.titulo {
+  border-radius: 10px;
+  font-weight: bold;
+  align-items: center;
+  font-size: 16px;
+  display: flex;
+  padding: 10px;
+}
+
+.canchas {
+  display: flex;
+}
+
+.container-tabla {
+  padding: 20px;
+}
+
+.tipo-bloqueo {
+  display: flex;
+}
+
+::ng-deep.ng-select-error .ng-select-container { 
+  border: none !important;
+  border-bottom: 1px solid var(--color-error) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+::ng-deep.ng-select-error .ng-select-container:after {
+  content: none !important;
+}
+
+/* Reglas de medios */
+@media (max-width: 1124px) {
+  .container-card {
+    padding: 0;
+  }
+
+  .form-content {
+    padding: 0 15px;
+  }
+
+  li {
+    padding: 10px 6px;
+    font-size: 12px;
+    font-weight: bold;
+  }
+
+  h1 {
+    padding-top: 10px;
+  }
+
+  .boton .btn {
+    width: 60%;
+    height: 40px;
+  }
+
+  .container-tabla {
+    width: 98vw;
+    overflow-x: auto;
+    padding: 10px;
+    box-sizing: border-box;
+  }
+
+  .table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+  }
+}
+
+@media (max-width: 698px) {
+  .container-tabla {
+    width: 95vw;
+  }
+}

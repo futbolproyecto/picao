@@ -1,7 +1,7 @@
 package com.example.picao.agenda.service;
 
 import com.example.picao.agenda.dto.AgendaResponseDTO;
-import com.example.picao.blockade.entity.Blockade;
+import com.example.picao.agenda.dto.CreateAgendaRequestDTO;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -10,10 +10,10 @@ import java.util.UUID;
 
 public interface AgendaService {
 
-    void create(Blockade bloqueo);
+    String create(CreateAgendaRequestDTO request);
 
     List<AgendaResponseDTO> getByEstablishmentId(UUID establishmentId);
 
-    List<AgendaResponseDTO> getAgendaAvailableByParameters(String cityName, LocalDate date, LocalTime hour,
-                                                           String establishmentName);
+    List<AgendaResponseDTO> getAgendaAvailableByParameters(String cityName, LocalDate date, LocalTime startTime,
+                                                           LocalTime endTime, String establishmentName);
 }

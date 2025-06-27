@@ -18,24 +18,30 @@ import { LOCALE_ID } from '@angular/core';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { registerLocaleData } from '@angular/common';
 import localeEs from '@angular/common/locales/es';
+import { FullCalendarModule } from '@fullcalendar/angular';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 registerLocaleData(localeEs);
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
+    importProvidersFrom(FullCalendarModule),
     provideHttpClient(
       withFetch(),
       withInterceptors([AuthInterceptor, loadingInterceptor])
     ),
     importProvidersFrom(
-      [BrowserAnimationsModule],
+      MatDatepickerModule,
+      MatNativeDateModule,
+      BrowserAnimationsModule,
       NgxSpinnerModule.forRoot({ type: 'square-jelly-box' })
     ),
     provideStore(),
     provideAnimationsAsync(),
     provideState({ name: 'estado', reducer: autenticacionReducer }),
-    { provide: LOCALE_ID, useValue: 'es' },
-    { provide: MAT_DATE_LOCALE, useValue: 'es-ES' },
+    { provide: LOCALE_ID, useValue: 'es-CO' },
+    { provide: MAT_DATE_LOCALE, useValue: 'es-CO' },
   ],
 };

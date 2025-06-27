@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.UUID;
@@ -23,20 +24,22 @@ public class Agenda {
     @GeneratedValue(strategy = GenerationType.UUID)
     UUID id;
 
-    @Column(name = "blockade_id")
-    UUID blockadeId;
-
     private LocalDate date;
 
     private LocalTime startTime;
+
+    private LocalTime endTime;
 
     @Column(length = 30)
     @Enumerated(EnumType.STRING)
     private TimeStatus status;
 
-    @Column(name = "day_of_week",length = 10)
+    @Column(name = "day_of_week", length = 10)
     @Enumerated(EnumType.STRING)
     private DayOfWeek dayOfWeek;
+
+    @Column(precision = 15, scale = 2)
+    private BigDecimal fee;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "field_id")

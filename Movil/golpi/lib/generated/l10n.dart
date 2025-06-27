@@ -720,6 +720,66 @@ class S {
     );
   }
 
+  /// `Fecha de reserva`
+  String get fechaReserva {
+    return Intl.message(
+      'Fecha de reserva',
+      name: 'fechaReserva',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Hora inicio`
+  String get horaInicio {
+    return Intl.message(
+      'Hora inicio',
+      name: 'horaInicio',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Hora fin`
+  String get horaFin {
+    return Intl.message(
+      'Hora fin',
+      name: 'horaFin',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Ubicación`
+  String get ubicacion {
+    return Intl.message(
+      'Ubicación',
+      name: 'ubicacion',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Establecimiento`
+  String get establecimiento {
+    return Intl.message(
+      'Establecimiento',
+      name: 'establecimiento',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Buscar establecimiento`
+  String get buscarEstablecimiento {
+    return Intl.message(
+      'Buscar establecimiento',
+      name: 'buscarEstablecimiento',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `--------------------------------------------`
   String get mensajesErrorFormularios {
     return Intl.message(

@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:golpi/core/models/country_model.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:diacritic/diacritic.dart';
@@ -75,7 +76,7 @@ class UiTextFiel {
     required String formControlName,
     required Map<String, String Function(Object)> validationMessages,
     required String labelText,
-    required IconData prefixIcon,
+    IconData? prefixIcon,
     required Color colorPrefixIcon,
     required DateTime firstDate,
     required DateTime lastDate,
@@ -226,6 +227,166 @@ class UiTextFiel {
                 borderRadius: BorderRadius.circular(15.0),
                 borderSide: BorderSide(color: Colors.grey[100]!),
               )),
+        ),
+      ),
+    );
+  }
+
+  Widget dropDownCountry({
+    required String formControlName,
+    required Map<String, String Function(Object)> validationMessages,
+    required String labelText,
+    IconData? prefixIcon,
+    Color? colorPrefixIcon,
+    required List<CountryModel> items,
+    IconData? suffixIcon,
+    Color? colorSuffixIcon,
+    bool obscureText = false,
+    VoidCallback? onChangeFuncion,
+  }) {
+    return Container(
+      decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 6,
+            offset: Offset(0, 3),
+          ),
+        ],
+      ),
+      child: ReactiveDropdownField<String>(
+        formControlName: formControlName,
+        items: items.map((country) {
+          return DropdownMenuItem<String>(
+            value: country.cellPrefix,
+            child: Row(
+              children: [
+                Image.asset(
+                  country.flagAsset,
+                  width: 24,
+                  height: 18,
+                  package: 'country_icons',
+                  errorBuilder: (_, __, ___) => Icon(Icons.flag, size: 16),
+                ),
+                SizedBox(width: 6),
+                Text('${country.cellPrefix}'),
+              ],
+            ),
+          );
+        }).toList(),
+        validationMessages: validationMessages,
+        decoration: InputDecoration(
+          labelText: labelText,
+          filled: true,
+          fillColor: Colors.white,
+          contentPadding:
+              const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
+          labelStyle: const TextStyle(
+            color: Colors.black54,
+            fontFamily: 'Montserrat',
+          ),
+          prefixIcon: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Icon(prefixIcon, color: colorPrefixIcon),
+          ),
+          suffixIcon: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Icon(suffixIcon, color: colorSuffixIcon),
+          ),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(15.0),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(15.0),
+            borderSide: BorderSide(color: Colors.grey[300]!, width: 1),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(15.0),
+            borderSide: BorderSide(color: Colors.grey[200]!),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget dropDownHora({
+    required String formControlName,
+    required Map<String, String Function(Object)> validationMessages,
+    required String labelText,
+    required BuildContext context,
+    required FormGroup form,
+    IconData? prefixIcon,
+    Color? colorPrefixIcon,
+    IconData? suffixIcon,
+    Color? colorSuffixIcon,
+    bool obscureText = false,
+    VoidCallback? onChangeFuncion,
+  }) {
+    return GestureDetector(
+      onTap: () async {
+        final hour = await showModalBottomSheet<int>(
+          context: context,
+          builder: (_) {
+            return ListView.builder(
+              itemCount: 24,
+              itemBuilder: (_, index) => ListTile(
+                title: Text('${index.toString().padLeft(2, '0')}:00'),
+                onTap: () => Navigator.pop(context, index),
+              ),
+            );
+          },
+        );
+        if (hour != null) {
+          form.control(formControlName).value =
+              TimeOfDay(hour: hour, minute: 0);
+        }
+      },
+      child: AbsorbPointer(
+        child: Container(
+          decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.1),
+                blurRadius: 6,
+                offset: Offset(0, 3),
+              ),
+            ],
+          ),
+          child: ReactiveTextField<TimeOfDay>(
+            formControlName: formControlName,
+            valueAccessor: TimeOfDayValueAccessor(),
+            validationMessages: validationMessages,
+            decoration: InputDecoration(
+              labelText: labelText,
+              filled: true,
+              fillColor: Colors.white,
+              contentPadding:
+                  const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
+              labelStyle: const TextStyle(
+                color: Colors.black54,
+                fontFamily: 'Montserrat',
+              ),
+              prefixIcon: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Icon(prefixIcon, color: colorPrefixIcon),
+              ),
+              suffixIcon: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Icon(suffixIcon, color: colorSuffixIcon),
+              ),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(15.0),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(15.0),
+                borderSide: BorderSide(color: Colors.grey[300]!, width: 1),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(15.0),
+                borderSide: BorderSide(color: Colors.grey[200]!),
+              ),
+            ),
+          ),
         ),
       ),
     );
