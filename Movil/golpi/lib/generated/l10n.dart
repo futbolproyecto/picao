@@ -780,6 +780,56 @@ class S {
     );
   }
 
+  /// `Dirección`
+  String get direccion {
+    return Intl.message(
+      'Dirección',
+      name: 'direccion',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fecha`
+  String get fecha {
+    return Intl.message(
+      'Fecha',
+      name: 'fecha',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Dia`
+  String get dia {
+    return Intl.message(
+      'Dia',
+      name: 'dia',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Hora`
+  String get hora {
+    return Intl.message(
+      'Hora',
+      name: 'hora',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Tarifa`
+  String get Tarifa {
+    return Intl.message(
+      'Tarifa',
+      name: 'Tarifa',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `--------------------------------------------`
   String get mensajesErrorFormularios {
     return Intl.message(

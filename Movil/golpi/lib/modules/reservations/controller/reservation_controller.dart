@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:golpi/core/utils/utility.dart';
 import 'package:golpi/modules/widgets/ui_alert_message.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:golpi/core/models/option_model.dart';
@@ -29,7 +30,7 @@ class ReservationController extends GetxController {
     'hora_inicio': FormControl<TimeOfDay>(),
     'hora_fin': FormControl<TimeOfDay>(),
     'tipo': FormControl<OptionModel>(),
-    'ubicacion': FormControl<OptionModel>(),
+    'ubicacion': FormControl<OptionModel>(validators: [Validators.required]),
   });
 
   Future<void> loadData() async {
@@ -55,19 +56,21 @@ class ReservationController extends GetxController {
       if (formSearchField.valid) {
         isLoading.value = true;
 
-        await reservationRepository.getFieldAvailable(
-          cityName: 'Cali',
-          date: '2025-05-29',
-          hour: '00:00',
-          //establishmentName: 'GolpiGroup',
+        final cityName = listCitiesOption.firstWhere(
+          (element) {
+            return element.id == formSearchField.control('ubicacion').value.id;
+          },
         );
 
-        fieldAvailableList.value = [
-          FieldAvailableModel(
-              nameEstablishment: 'GolpiGroup',
-              addressEstablishment: 'Cll 56',
-              startTime: '--')
-        ];
+        fieldAvailableList.value =
+            await reservationRepository.getFieldAvailable(
+          cityName: cityName.name ?? '',
+          date: Utility().formatDate(formSearchField.control('date').value),
+          startTime:
+              Utility().formatHour(formSearchField.control('hora_inicio').value),
+          endTime:
+              Utility().formatHour(formSearchField.control('hora_fin').value),
+        );
 
         isLoading.value = false;
       } else {
@@ -78,6 +81,7 @@ class ReservationController extends GetxController {
       UiAlertMessage(Get.context!)
           .error(message: '${e.error.error}\n${e.error.recommendation}');
     } on Exception catch (_) {
+      isLoading.value = false;
       UiAlertMessage(Get.context!).error(
           message:
               '${ErrorModel().uncontrolledError().error!}\n${ErrorModel().uncontrolledError().recommendation!}');

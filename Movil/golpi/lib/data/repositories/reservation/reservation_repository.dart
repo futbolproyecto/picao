@@ -8,15 +8,15 @@ class ReservationRepository {
   Future<List<FieldAvailableModel>> getFieldAvailable({
     required String cityName,
     String? date,
-    String? hour,
-    String? establishmentName,
+    String? startTime,
+    String? endTime,
   }) async {
     try {
       Map<String, dynamic> requestParam = {
-        'city_name': cityName,
+        'city-name': cityName,
         'date': date,
-        'hour': hour,
-        'establishment_name': establishmentName,
+        'start-time': startTime,
+        'end-time': endTime,
       }..removeWhere((key, value) => value == null);
 
       final response = await HttpService(ConstantEndpoints.getFieldAvailable)

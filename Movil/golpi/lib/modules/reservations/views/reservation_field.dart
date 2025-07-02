@@ -83,19 +83,6 @@ class ReservationFieldPage extends StatelessWidget {
                               ),
                             ],
                           ),
-                          /* const SizedBox(height: 20),
-                          UiTextFiel().dropDownSearch(
-                            formControlName: 'tipo',
-                            labelText: S.of(context).ubicacion,
-                            prefixIcon: Icons.access_time_outlined,
-                            colorPrefixIcon:
-                                Theme.of(context).colorScheme.primary,
-                            items: [],
-                            validationMessages: {
-                              ValidationMessage.required: (error) =>
-                                  S.of(context).campoRequerido,
-                            },
-                          ), */
                           const SizedBox(height: 20),
                           UiTextFiel().dropDownSearch(
                             formControlName: 'ubicacion',
@@ -118,6 +105,7 @@ class ReservationFieldPage extends StatelessWidget {
                       ),
                     );
                   }),
+              SizedBox(height: 20),
               Obx(
                 () => reservationController.isLoading.value
                     ? Center(child: LinearProgressIndicator())
@@ -155,10 +143,18 @@ class ReservationFieldPage extends StatelessWidget {
                                         .phraseSemiBold(),
                                     subtitle: Column(
                                       children: [
-                                        _buildInfoRow('${S.of(context).alias}:',
+                                        _buildInfoRow(
+                                            '${S.of(context).direccion}:',
                                             '${reservationController.fieldAvailableList[index].addressEstablishment}'),
-                                        _buildInfoRow('${S.of(context).rol}:',
+                                        _buildInfoRow('${S.of(context).fecha}:',
+                                            '${reservationController.fieldAvailableList[index].date}'),
+                                        _buildInfoRow('${S.of(context).dia}:',
+                                            '${reservationController.fieldAvailableList[index].dayOfWeek}'),
+                                        _buildInfoRow('${S.of(context).hora}:',
                                             '${reservationController.fieldAvailableList[index].startTime}'),
+                                        _buildInfoRow(
+                                            '${S.of(context).Tarifa}:',
+                                            '${reservationController.fieldAvailableList[index].fee}'),
                                       ],
                                     ),
                                   ),

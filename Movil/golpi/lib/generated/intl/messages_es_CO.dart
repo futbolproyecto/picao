@@ -36,6 +36,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "Tarifa": MessageLookupByLibrary.simpleMessage("Tarifa"),
         "aceptarTerminos": MessageLookupByLibrary.simpleMessage(
             "Debes aceptar los términos y condiciones"),
         "administrarEquipo":
@@ -73,6 +74,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Por favor, introduce el correo electrónico asociado a tu cuenta para recuperar tu contraseña."),
         "correoCelular":
             MessageLookupByLibrary.simpleMessage("Correo o celular"),
+        "dia": MessageLookupByLibrary.simpleMessage("Dia"),
+        "direccion": MessageLookupByLibrary.simpleMessage("Dirección"),
         "encuentros": MessageLookupByLibrary.simpleMessage("Encuentros"),
         "equipo": MessageLookupByLibrary.simpleMessage("Equipo"),
         "equipos": MessageLookupByLibrary.simpleMessage("Equipos"),
@@ -84,6 +87,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "exitoRegistrar": MessageLookupByLibrary.simpleMessage(
             "La información se registró de manera exitosa"),
         "exitoSalirEquipo": m1,
+        "fecha": MessageLookupByLibrary.simpleMessage("Fecha"),
         "fechaNacimiento":
             MessageLookupByLibrary.simpleMessage("Fecha de nacimiento"),
         "fechaReserva":
@@ -91,6 +95,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "formatoCorreoIncorrecto": MessageLookupByLibrary.simpleMessage(
             "Formato de correo incorrecto"),
         "guardar": MessageLookupByLibrary.simpleMessage("Guardar"),
+        "hora": MessageLookupByLibrary.simpleMessage("Hora"),
         "horaFin": MessageLookupByLibrary.simpleMessage("Hora fin"),
         "horaInicio": MessageLookupByLibrary.simpleMessage("Hora inicio"),
         "ingresaDatosSesion":
