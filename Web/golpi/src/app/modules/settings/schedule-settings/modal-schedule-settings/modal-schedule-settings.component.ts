@@ -150,6 +150,7 @@ export class ModalScheduleSettingsComponent implements OnInit {
     this.cargarEstablecimientosUsuario();
     this.cargarCanchasEstablecimiento();
     this.generarHoras();
+    this.escucharCambiosFechaInicio();
 
     this.diaSemana = this.data.dayName;
 
@@ -256,6 +257,18 @@ export class ModalScheduleSettingsComponent implements OnInit {
         },
       });
   }
+
+  escucharCambiosFechaInicio(): void {
+  this.formularioHorarios.get('fecha_inicio')?.valueChanges.subscribe((fechaInicio: Date) => {
+    const fechaFinControl = this.formularioHorarios.get('fecha_fin');
+    const fechaFin = fechaFinControl?.value;
+
+    if (fechaInicio && fechaFin && fechaInicio > fechaFin) {
+      fechaFinControl?.setValue(fechaInicio);
+    }
+  });
+}
+
 
   buildForm(): void {
     this.formularioHorarios = this.formBuilder.group({
@@ -397,12 +410,17 @@ export class ModalScheduleSettingsComponent implements OnInit {
               .split('\n')
               .find((line) => line.startsWith('RRULE:'))
               ?.replace('RRULE:', '') || 'NONE';
-        } else if (['DAILY', 'WEEKLY', 'MONTHLY', 'YEARLY'].includes(repetir)) {
-          const frecuencia = frecuenciaMap[repetir as FrecuenciaTipo];
+        } else if (repetir === 'WEEKLY') {
+          const dias = ['SU', 'MO', 'TU', 'WE', 'TH', 'FR', 'SA'];
+          const weekdayString = dias[dtstart.getDay()];
+          const weekday = diasMap[weekdayString];
+
           const ruleObject = new rrule.RRule({
-            freq: frecuencia,
+            freq: rrule.RRule.WEEKLY,
+            byweekday: [weekday],
             dtstart,
           });
+
           rruleString =
             ruleObject
               .toString()
