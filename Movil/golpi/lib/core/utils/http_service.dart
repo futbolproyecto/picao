@@ -145,7 +145,7 @@ class HttpService {
     }
   }
 
-  Future<Object?> getRequesParam(Map<String, String>? parameters) async {
+  Future<Object?> getRequesParam(Map<String, dynamic>? parameters) async {
     try {
       final response = await http
           .get(

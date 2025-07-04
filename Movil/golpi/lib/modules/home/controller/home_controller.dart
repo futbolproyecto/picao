@@ -38,15 +38,58 @@ class HomeController extends GetxController {
               },
               backgroundColor:
                   Theme.of(Get.context!).colorScheme.secondaryContainer,
-              child: Icon(
-                Icons.group_add_outlined,
-                size: 30,
-                color: Theme.of(Get.context!).colorScheme.secondary,
+              child: Stack(
+                children: [
+                  Center(
+                    child: Icon(
+                      Icons.groups_outlined,
+                      size: 30,
+                      color: Theme.of(Get.context!).colorScheme.secondary,
+                    ),
+                  ),
+                  Positioned(
+                    top: 3,
+                    right: 3,
+                    child: Icon(
+                      Icons.add_circle_sharp,
+                      size: 20,
+                      color: Theme.of(Get.context!).colorScheme.primary,
+                    ),
+                  ),
+                ],
               ),
             ));
         break;
       case 2:
-        floatingActionButton.value = null;
+        floatingActionButton.value = floatingActionButton.value = Padding(
+            padding: const EdgeInsets.only(bottom: 100),
+            child: FloatingActionButton(
+              onPressed: () {
+                Get.toNamed(AppPages.reservationField);
+              },
+              backgroundColor:
+                  Theme.of(Get.context!).colorScheme.secondaryContainer,
+              child: Stack(
+                children: [
+                  Center(
+                    child: Icon(
+                      Icons.event_available_outlined,
+                      size: 30,
+                      color: Theme.of(Get.context!).colorScheme.secondary,
+                    ),
+                  ),
+                  Positioned(
+                    top: 3,
+                    right: 3,
+                    child: Icon(
+                      Icons.add_circle_sharp,
+                      size: 20,
+                      color: Theme.of(Get.context!).colorScheme.primary,
+                    ),
+                  ),
+                ],
+              ),
+            ));
         break;
       case 3:
         floatingActionButton.value = null;

@@ -42,4 +42,9 @@ public class EstablishmentResponseDTO {
         this.name = name;
         this.fields = fields;
     }
+
+    public EstablishmentResponseDTO(UUID id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 }

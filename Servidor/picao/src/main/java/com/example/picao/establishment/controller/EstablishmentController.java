@@ -25,4 +25,11 @@ public class EstablishmentController {
     public ResponseEntity<GenericResponseDTO> getByOwnerUserId(@PathVariable() int userId) {
         return GenericResponseDTO.genericResponse(establishmentService.getByOwnerUserId(userId));
     }
+
+    @GetMapping("/get-by-city/{cityId}")
+    public ResponseEntity<GenericResponseDTO> getByCity(@PathVariable Integer cityId) {
+
+        return GenericResponseDTO.genericResponse(
+                establishmentService.getByCity(cityId));
+    }
 }

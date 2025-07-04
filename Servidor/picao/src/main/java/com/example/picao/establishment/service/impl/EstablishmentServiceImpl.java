@@ -87,5 +87,16 @@ public class EstablishmentServiceImpl implements EstablishmentService {
         }
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public List<EstablishmentResponseDTO> getByCity(Integer cityId) {
+        try {
+            return establishmentRepository.findByCityId(cityId);
+
+        } catch (AppException e) {
+            throw new AppException(e.getErrorMessages(), e.getHttpStatus());
+        }
+    }
+
 }
 

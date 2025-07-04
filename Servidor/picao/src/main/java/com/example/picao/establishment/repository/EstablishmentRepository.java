@@ -1,7 +1,9 @@
 package com.example.picao.establishment.repository;
 
+import com.example.picao.establishment.dto.EstablishmentResponseDTO;
 import com.example.picao.establishment.entity.Establishment;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -18,7 +20,10 @@ public interface EstablishmentRepository extends JpaRepository<Establishment, UU
 
     List<Establishment> findByOwnerUserId(Integer userId);
 
-
+    @Query(value = "SELECT new com.example.picao.establishment.dto.EstablishmentResponseDTO(" +
+            " e.id, e.name) FROM Establishment e " +
+            "WHERE e.city.id = :cityId")
+    List<EstablishmentResponseDTO> findByCityId(Integer cityId);
 
 
 }

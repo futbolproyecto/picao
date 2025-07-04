@@ -11,6 +11,6 @@ public interface EstablishmentService {
 
     List<EstablishmentResponseDTO> getByOwnerUserId(Integer userId);
 
-
+    List<EstablishmentResponseDTO> getByCity(Integer cityId);
 
 }

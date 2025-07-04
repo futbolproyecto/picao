@@ -20,5 +20,4 @@ public interface EstablishmentMapper {
     EstablishmentResponseDTO toEstablishmentResponseDTO(Establishment establishment);
 
 
-
 }
