@@ -5,7 +5,6 @@ import com.example.picao.city.repository.CityRepository;
 import com.example.picao.core.exception.AppException;
 import com.example.picao.core.util.ErrorMessages;
 import com.example.picao.establishment.dto.CreateEstablishmentRequestDTO;
-import com.example.picao.establishment.dto.EstablishmentOptionDTO;
 import com.example.picao.establishment.dto.EstablishmentResponseDTO;
 import com.example.picao.establishment.entity.Establishment;
 import com.example.picao.establishment.mapper.EstablishmentMapper;
@@ -90,12 +89,9 @@ public class EstablishmentServiceImpl implements EstablishmentService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<EstablishmentOptionDTO> getByCity(Integer cityId) {
+    public List<EstablishmentResponseDTO> getByCity(Integer cityId) {
         try {
-            return establishmentRepository.findByCityId(cityId)
-                    .stream()
-                    .map(
-                            MAPPER::toEstablishmentOptionDTO).toList();
+            return establishmentRepository.findByCityId(cityId);
 
         } catch (AppException e) {
             throw new AppException(e.getErrorMessages(), e.getHttpStatus());

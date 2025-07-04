@@ -3,7 +3,6 @@ package com.example.picao.establishment.mapper;
 import com.example.picao.city.mapper.CityMapper;
 import com.example.picao.department.mapper.DepartmentMapper;
 import com.example.picao.establishment.dto.CreateEstablishmentRequestDTO;
-import com.example.picao.establishment.dto.EstablishmentOptionDTO;
 import com.example.picao.establishment.dto.EstablishmentResponseDTO;
 import com.example.picao.establishment.entity.Establishment;
 import com.example.picao.user.mapper.UserMapper;
@@ -19,8 +18,6 @@ public interface EstablishmentMapper {
     @Mapping(target = "users", ignore = true)
     @Mapping(target = "department.cities", ignore = true)
     EstablishmentResponseDTO toEstablishmentResponseDTO(Establishment establishment);
-
-    EstablishmentOptionDTO toEstablishmentOptionDTO(Establishment establishment);
 
 
 }
