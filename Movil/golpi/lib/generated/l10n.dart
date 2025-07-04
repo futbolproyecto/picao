@@ -821,10 +821,30 @@ class S {
   }
 
   /// `Tarifa`
-  String get Tarifa {
+  String get tarifa {
     return Intl.message(
       'Tarifa',
-      name: 'Tarifa',
+      name: 'tarifa',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cancha`
+  String get cancha {
+    return Intl.message(
+      'Cancha',
+      name: 'cancha',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Filtros`
+  String get filtros {
+    return Intl.message(
+      'Filtros',
+      name: 'filtros',
       desc: '',
       args: [],
     );

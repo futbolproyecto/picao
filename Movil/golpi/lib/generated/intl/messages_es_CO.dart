@@ -36,7 +36,6 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
-        "Tarifa": MessageLookupByLibrary.simpleMessage("Tarifa"),
         "aceptarTerminos": MessageLookupByLibrary.simpleMessage(
             "Debes aceptar los términos y condiciones"),
         "administrarEquipo":
@@ -53,6 +52,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "campoRequerido":
             MessageLookupByLibrary.simpleMessage("Campo requerido"),
         "cancelar": MessageLookupByLibrary.simpleMessage("Cancelar"),
+        "cancha": MessageLookupByLibrary.simpleMessage("Cancha"),
         "cantidadJugadores":
             MessageLookupByLibrary.simpleMessage("Cantidad jugadores"),
         "caracteresEspeciales":
@@ -92,6 +92,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Fecha de nacimiento"),
         "fechaReserva":
             MessageLookupByLibrary.simpleMessage("Fecha de reserva"),
+        "filtros": MessageLookupByLibrary.simpleMessage("Filtros"),
         "formatoCorreoIncorrecto": MessageLookupByLibrary.simpleMessage(
             "Formato de correo incorrecto"),
         "guardar": MessageLookupByLibrary.simpleMessage("Guardar"),
@@ -147,6 +148,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "salir": MessageLookupByLibrary.simpleMessage("Salir"),
         "soloNumeros":
             MessageLookupByLibrary.simpleMessage("Solo se permiten numeros"),
+        "tarifa": MessageLookupByLibrary.simpleMessage("Tarifa"),
         "terminos": MessageLookupByLibrary.simpleMessage("Términos"),
         "ubicacion": MessageLookupByLibrary.simpleMessage("Ubicación"),
         "validar": MessageLookupByLibrary.simpleMessage("Validar"),

@@ -25,6 +25,7 @@ class ReservationController extends GetxController {
   var fieldAvailableList = <FieldAvailableModel>[].obs;
   var listCitiesOption = [OptionModel()].obs;
   var lisEstablishmentsOptions = [OptionModel()].obs;
+  var isExpanded = true.obs;
 
   var formSearchField = FormGroup({
     'date': FormControl<DateTime>(),
@@ -34,6 +35,8 @@ class ReservationController extends GetxController {
     'ubicacion': FormControl<OptionModel>(validators: [Validators.required]),
     'establecimiento': FormControl<OptionModel>(),
   });
+
+  void toggle() => isExpanded.value = !isExpanded.value;
 
   Future<void> loadData() async {
     try {
@@ -60,7 +63,7 @@ class ReservationController extends GetxController {
       final cityId = formSearchField.control('ubicacion').value.id;
 
       if (cityId != null) {
-        listCitiesOption.value =
+        lisEstablishmentsOptions.value =
             await reservationRepository.getEstablishmentsByCity(
                 formSearchField.control('ubicacion').value.id);
       }
@@ -88,10 +91,10 @@ class ReservationController extends GetxController {
           },
         );
 
-        final establishmentName = lisEstablishmentsOptions.firstWhere(
+        final establishmentName = lisEstablishmentsOptions.firstWhereOrNull(
           (element) {
             return element.id ==
-                formSearchField.control('establecimiento').value.id;
+                formSearchField.control('establecimiento').value?.id;
           },
         );
 
@@ -99,7 +102,7 @@ class ReservationController extends GetxController {
             await reservationRepository.getFieldAvailable(
           cityName: cityName.name ?? '',
           date: Utility().formatDate(formSearchField.control('date').value),
-          establishmentName: establishmentName.name,
+          establishmentName: establishmentName?.name,
           startTime: Utility()
               .formatHour(formSearchField.control('hora_inicio').value),
           endTime:
@@ -107,6 +110,7 @@ class ReservationController extends GetxController {
         );
 
         isLoading.value = false;
+        isExpanded.value = false;
       } else {
         formSearchField.markAllAsTouched();
       }
