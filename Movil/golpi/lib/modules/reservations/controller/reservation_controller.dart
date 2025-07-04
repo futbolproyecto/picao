@@ -24,6 +24,7 @@ class ReservationController extends GetxController {
   var errorModel = Rx<ErrorModel?>(null);
   var fieldAvailableList = <FieldAvailableModel>[].obs;
   var listCitiesOption = [OptionModel()].obs;
+  var lisEstablishmentsOptions = [OptionModel()].obs;
 
   var formSearchField = FormGroup({
     'date': FormControl<DateTime>(),
@@ -31,6 +32,7 @@ class ReservationController extends GetxController {
     'hora_fin': FormControl<TimeOfDay>(),
     'tipo': FormControl<OptionModel>(),
     'ubicacion': FormControl<OptionModel>(validators: [Validators.required]),
+    'establecimiento': FormControl<OptionModel>(),
   });
 
   Future<void> loadData() async {
@@ -38,6 +40,30 @@ class ReservationController extends GetxController {
       isLoading.value = true;
 
       listCitiesOption.value = await reservationRepository.getCities();
+
+      isLoading.value = false;
+    } on CustomException catch (e) {
+      isLoading.value = false;
+      UiAlertMessage(Get.context!)
+          .error(message: '${e.error.error}\n${e.error.recommendation}');
+    } on Exception catch (_) {
+      UiAlertMessage(Get.context!).error(
+          message:
+              '${ErrorModel().uncontrolledError().error!}\n${ErrorModel().uncontrolledError().recommendation!}');
+    }
+  }
+
+  Future<void> loadEstablishment() async {
+    try {
+      isLoading.value = true;
+
+      final cityId = formSearchField.control('ubicacion').value.id;
+
+      if (cityId != null) {
+        listCitiesOption.value =
+            await reservationRepository.getEstablishmentsByCity(
+                formSearchField.control('ubicacion').value.id);
+      }
 
       isLoading.value = false;
     } on CustomException catch (e) {
@@ -62,12 +88,20 @@ class ReservationController extends GetxController {
           },
         );
 
+        final establishmentName = lisEstablishmentsOptions.firstWhere(
+          (element) {
+            return element.id ==
+                formSearchField.control('establecimiento').value.id;
+          },
+        );
+
         fieldAvailableList.value =
             await reservationRepository.getFieldAvailable(
           cityName: cityName.name ?? '',
           date: Utility().formatDate(formSearchField.control('date').value),
-          startTime:
-              Utility().formatHour(formSearchField.control('hora_inicio').value),
+          establishmentName: establishmentName.name,
+          startTime: Utility()
+              .formatHour(formSearchField.control('hora_inicio').value),
           endTime:
               Utility().formatHour(formSearchField.control('hora_fin').value),
         );

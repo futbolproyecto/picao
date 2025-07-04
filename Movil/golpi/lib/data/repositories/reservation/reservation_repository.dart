@@ -8,6 +8,7 @@ class ReservationRepository {
   Future<List<FieldAvailableModel>> getFieldAvailable({
     required String cityName,
     String? date,
+    String? establishmentName,
     String? startTime,
     String? endTime,
   }) async {
@@ -15,6 +16,7 @@ class ReservationRepository {
       Map<String, dynamic> requestParam = {
         'city-name': cityName,
         'date': date,
+        'establishment-name': establishmentName,
         'start-time': startTime,
         'end-time': endTime,
       }..removeWhere((key, value) => value == null);
@@ -33,6 +35,20 @@ class ReservationRepository {
   Future<List<OptionModel>> getCities() async {
     try {
       final response = await HttpService(ConstantEndpoints.getAllCities).get();
+
+      return (GeneralModel().jsonStringifyToList(response))
+          .map((i) => OptionModel.fromJson(i))
+          .toList();
+    } on Exception catch (_) {
+      rethrow;
+    }
+  }
+
+  Future<List<OptionModel>> getEstablishmentsByCity(int cityId) async {
+    try {
+      final response = await HttpService(
+              '${ConstantEndpoints.getEstablishmentByCity}/$cityId')
+          .get();
 
       return (GeneralModel().jsonStringifyToList(response))
           .map((i) => OptionModel.fromJson(i))
