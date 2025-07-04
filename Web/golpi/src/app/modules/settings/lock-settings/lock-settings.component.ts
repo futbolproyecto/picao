@@ -682,7 +682,6 @@ export class LockSettingsComponent implements OnInit {
   }
 
   eliminarBloqueo(id: string): void {
-    console.log(id);
     this.alertsService.fireConfirm(
       'warning',
       '¿Estás seguro de que deseas eliminar este bloqueo?',

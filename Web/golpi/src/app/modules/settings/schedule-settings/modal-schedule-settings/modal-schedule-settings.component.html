@@ -128,26 +128,21 @@
     <div formGroupName="formularioValores">
       <div class="row">
         <div class="col-md-6">
-          <mat-form-field class="input-field">
-            <mat-label>Hora inicio* </mat-label>
-            <mat-select formControlName="hora_inicio">
-              <mat-option *ngFor="let hora of horasDisponibles" [value]="hora">
-                {{ hora }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-
+          <ng-select
+            formControlName="hora_inicio"
+            [items]="horasDisponibles"
+            bindValue="hora"
+            placeholder="Hora inicio* "
+          ></ng-select>
         </div>
 
         <div class="col-md-6">
-          <mat-form-field class="input-field">
-            <mat-label>Hora fin* </mat-label>
-            <mat-select formControlName="hora_fin">
-              <mat-option *ngFor="let hora of horasDisponibles" [value]="hora">
-                {{ hora }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
+          <ng-select
+            formControlName="hora_fin"
+            [items]="horasFinDisponibles"
+            bindValue="hora"
+            placeholder="Hora fin* "
+          ></ng-select>
         </div>
       </div>
       <div class="row">
