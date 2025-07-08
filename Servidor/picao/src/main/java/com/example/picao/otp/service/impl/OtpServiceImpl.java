@@ -76,6 +76,9 @@ public class OtpServiceImpl implements OtpService {
 
     }
 
+    /**
+     * metodo para enviar otp por numero de celular, se usa al momento de crear un usuario o realizar una reserva
+     **/
     @Transactional
     @Override
     public String sendMobileNumber(String mobileNumber, Boolean isReserve) {
