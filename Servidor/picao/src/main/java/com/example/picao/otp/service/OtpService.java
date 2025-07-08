@@ -6,7 +6,7 @@ public interface OtpService {
 
     String resendMobileNumber(String mobileNumber);
 
-    String sendMobileNumber(String mobileNumber);
+    String sendMobileNumber(String mobileNumber, Boolean isReserve);
 
     String sendEmail(String emailUser);
 

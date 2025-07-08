@@ -3,6 +3,7 @@ package com.example.picao.agenda.service.impl;
 import com.example.picao.agenda.dto.AgendaResponseDTO;
 import com.example.picao.agenda.dto.CreateAgendaRequestDTO;
 import com.example.picao.agenda.dto.InformationSchedule;
+import com.example.picao.agenda.dto.ReserveRequestDTO;
 import com.example.picao.agenda.entity.Agenda;
 import com.example.picao.agenda.entity.DayOfWeek;
 import com.example.picao.agenda.entity.TimeStatus;
@@ -12,8 +13,12 @@ import com.example.picao.agenda.repository.AgendaSpecification;
 import com.example.picao.agenda.service.AgendaService;
 import com.example.picao.core.exception.AppException;
 import com.example.picao.core.util.ErrorMessages;
+import com.example.picao.core.util.UsefulMethods;
 import com.example.picao.field.entity.Field;
 import com.example.picao.field.repository.FieldRepository;
+import com.example.picao.otp.service.OtpService;
+import com.example.picao.user.entity.UserEntity;
+import com.example.picao.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.mapstruct.factory.Mappers;
 import org.springframework.http.HttpStatus;
@@ -32,6 +37,9 @@ public class AgendaServiceImpl implements AgendaService {
     private static final AgendaMapper MAPPER = Mappers.getMapper(AgendaMapper.class);
     private final AgendaRepository agendaRepository;
     private final FieldRepository fieldRepository;
+    private final OtpService otpService;
+    private final UserRepository userRepository;
+
 
     @Transactional
     @Override
@@ -127,6 +135,43 @@ public class AgendaServiceImpl implements AgendaService {
             throw new AppException(e.getErrorMessages(), e.getHttpStatus(), e.getArgs());
         }
     }
+
+    @Transactional
+    @Override
+    public String reserve(ReserveRequestDTO requestDTO) {
+
+        UserEntity user = userRepository.findByEmail(UsefulMethods.getLoggedUsername()).orElseThrow(
+                () -> new AppException(ErrorMessages.USER_NOT_EXIST, HttpStatus.NOT_FOUND));
+        try {
+
+            if (Boolean.TRUE.equals(otpService.validateMobileNumber(requestDTO.otp(), user.getMobileNumber()))) {
+                List<Agenda> agendas = requestDTO.agendaId().stream()
+                        .map(uuid -> agendaRepository.findById(uuid)
+                                .orElseThrow(() -> new AppException(
+                                        ErrorMessages.GENERIC_NOT_EXIST, HttpStatus.NOT_FOUND, "Agenda")))
+                        .toList();
+
+                for (Agenda agenda : agendas) {
+                    if (!TimeStatus.DISPONIBLE.equals(agenda.getStatus())) {
+                        throw new AppException(ErrorMessages.AGENDA_NOT_AVAILABLE, HttpStatus.CONFLICT);
+                    }
+                    agenda.setStatus(TimeStatus.RESERVADO);
+                    agenda.setUser(user);
+                }
+
+                agendaRepository.saveAll(agendas);
+            }
+
+            return "Reservas realizadas con éxito";
+
+        } catch (AppException e) {
+            throw new AppException(e.getErrorMessages(), e.getHttpStatus(), e.getArgs());
+        }
+    }
+
+    /**
+     * genera las fechas en las cuales se deben hacer la creacion de agendas
+     **/
 
     private Set<LocalDate> generateRecurringDates(LocalDate startDate, LocalDate endDate, String rule) {
         Set<LocalDate> date = new HashSet<>();

@@ -2,9 +2,10 @@ package com.example.picao.agenda.entity;
 
 public enum TimeStatus {
     DISPONIBLE,
-    AGENDADO,
-    EN_PROCESO,
+    RESERVADO,
+    CONFIRMADO,
     BLOQUEADO,
     PAGADO,
     INASISTIDO,
+    NO_PAGADO
 }

@@ -1,6 +1,7 @@
 package com.example.picao.agenda.entity;
 
 import com.example.picao.field.entity.Field;
+import com.example.picao.user.entity.UserEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -44,4 +45,9 @@ public class Agenda {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "field_id")
     private Field field;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private UserEntity user;
+
 }

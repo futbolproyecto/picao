@@ -78,12 +78,15 @@ public class OtpServiceImpl implements OtpService {
 
     @Transactional
     @Override
-    public String sendMobileNumber(String mobileNumber) {
+    public String sendMobileNumber(String mobileNumber, Boolean isReserve) {
 
-        userRepository.findByMobileNumber(mobileNumber).ifPresent(
-                user -> {
-                    throw new AppException(ErrorMessages.DUPLICATE_PHONE_NUMBER, HttpStatus.BAD_REQUEST);
-                });
+        if (Boolean.FALSE.equals(isReserve)) {
+            userRepository.findByMobileNumber(mobileNumber).ifPresent(
+                    user -> {
+                        throw new AppException(ErrorMessages.DUPLICATE_PHONE_NUMBER, HttpStatus.BAD_REQUEST);
+                    });
+        }
+
 
         otpRepository.findByMobileNumber(mobileNumber).ifPresent(
                 otpBD -> {

@@ -2,6 +2,7 @@ package com.example.picao.agenda.service;
 
 import com.example.picao.agenda.dto.AgendaResponseDTO;
 import com.example.picao.agenda.dto.CreateAgendaRequestDTO;
+import com.example.picao.agenda.dto.ReserveRequestDTO;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -16,4 +17,6 @@ public interface AgendaService {
 
     List<AgendaResponseDTO> getAgendaAvailableByParameters(String cityName, LocalDate date, LocalTime startTime,
                                                            LocalTime endTime, String establishmentName);
+
+    String reserve(ReserveRequestDTO requestDTO);
 }
