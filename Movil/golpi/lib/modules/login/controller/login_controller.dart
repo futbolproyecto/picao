@@ -48,6 +48,9 @@ class LoginController extends GetxController {
       SecureStorage().addNewItem(
           ConstantSecureStorage.idUsuer, sesionModel.idUsuer.toString());
 
+      SecureStorage().addNewItem(
+          ConstantSecureStorage.mobileNumber, sesionModel.mobileNumber);
+
       Get.back();
       Get.deleteAll();
       Get.toNamed(AppPages.home);

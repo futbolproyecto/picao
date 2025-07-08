@@ -360,16 +360,18 @@ class RegisterUserPage extends StatelessWidget {
                                       UiButtoms(
                                               onPressed: () {},
                                               title: S.of(context).terminos)
-                                          .textButtom(Theme.of(context)
-                                              .colorScheme
-                                              .onSurface),
+                                          .textButtom(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .onSurface),
                                       Text(S.of(context).y),
                                       UiButtoms(
                                               onPressed: () {},
                                               title: S.of(context).condiciones)
-                                          .textButtom(Theme.of(context)
-                                              .colorScheme
-                                              .onSurface),
+                                          .textButtom(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .onSurface),
                                     ],
                                   ),
                                   Obx(() {

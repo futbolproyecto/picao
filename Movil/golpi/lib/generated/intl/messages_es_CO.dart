@@ -20,19 +20,26 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'es_CO';
 
-  static String m0(equipo) =>
+  static String m0(establecimiento, cancha, fecha, horario) =>
+      "¿Deseas confirmar la reserva en ${establecimiento} ${cancha}, para la fecha ${fecha} ${horario}";
+
+  static String m1(equipo) =>
       "¿Está seguro que desea salir del equipo ${equipo} Perderás acceso a sus actividades y notificaciones?";
 
-  static String m1(equipo) => "Has salido exitosamente del equipo ${equipo}";
+  static String m2(equipo) => "Has salido exitosamente del equipo ${equipo}";
 
-  static String m2(jugador) =>
+  static String m3(jugador) =>
       "${jugador} ha sido agregado exitosamente al equipo";
 
-  static String m3(numero) => "Máximo ${numero} caracteres";
+  static String m4(numero) => "Máximo ${numero} caracteres";
 
-  static String m4(numero) => "Mínimo ${numero} caracteres";
+  static String m5(numero) => "Mínimo ${numero} caracteres";
 
-  static String m5(numero) => "${numero} caracteres";
+  static String m6(hora) => "a la(s) ${hora}";
+
+  static String m7(hora1, hora2) => "desde la(s) ${hora1} hasta la(s) ${hora2}";
+
+  static String m8(numero) => "${numero} caracteres";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -53,6 +60,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Campo requerido"),
         "cancelar": MessageLookupByLibrary.simpleMessage("Cancelar"),
         "cancha": MessageLookupByLibrary.simpleMessage("Cancha"),
+        "canchasDistintas": MessageLookupByLibrary.simpleMessage(
+            "Solo puedes seleccionar horarios de la misma cancha"),
         "cantidadJugadores":
             MessageLookupByLibrary.simpleMessage("Cantidad jugadores"),
         "caracteresEspeciales":
@@ -66,7 +75,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "claveNoCoincide":
             MessageLookupByLibrary.simpleMessage("La contraseña no coincide"),
         "condiciones": MessageLookupByLibrary.simpleMessage("Condiciones"),
-        "confirmacionSalirEquipo": m0,
+        "confirmacionReserva": m0,
+        "confirmacionSalirEquipo": m1,
+        "confirmar": MessageLookupByLibrary.simpleMessage("Confirmar"),
         "confirmarClave":
             MessageLookupByLibrary.simpleMessage("Confirmar clave"),
         "correo": MessageLookupByLibrary.simpleMessage("Correo"),
@@ -81,21 +92,27 @@ class MessageLookup extends MessageLookupByLibrary {
         "equipos": MessageLookupByLibrary.simpleMessage("Equipos"),
         "establecimiento":
             MessageLookupByLibrary.simpleMessage("Establecimiento"),
+        "establecimientosDistintos": MessageLookupByLibrary.simpleMessage(
+            "Solo puedes seleccionar canchas del mismo establecimiento."),
         "estaturaCm": MessageLookupByLibrary.simpleMessage("Estatura (CM)"),
         "exitoActualizarClave": MessageLookupByLibrary.simpleMessage(
             "La clave se actualizó correctamente"),
         "exitoRegistrar": MessageLookupByLibrary.simpleMessage(
             "La información se registró de manera exitosa"),
-        "exitoSalirEquipo": m1,
+        "exitoSalirEquipo": m2,
         "fecha": MessageLookupByLibrary.simpleMessage("Fecha"),
         "fechaNacimiento":
             MessageLookupByLibrary.simpleMessage("Fecha de nacimiento"),
         "fechaReserva":
             MessageLookupByLibrary.simpleMessage("Fecha de reserva"),
+        "fechasDistintas": MessageLookupByLibrary.simpleMessage(
+            "Solo puedes seleccionar horarios de la misma fecha."),
         "filtros": MessageLookupByLibrary.simpleMessage("Filtros"),
         "formatoCorreoIncorrecto": MessageLookupByLibrary.simpleMessage(
             "Formato de correo incorrecto"),
         "guardar": MessageLookupByLibrary.simpleMessage("Guardar"),
+        "harariosDistintos": MessageLookupByLibrary.simpleMessage(
+            "Solo puedes seleccionar horas consecutivas."),
         "hora": MessageLookupByLibrary.simpleMessage("Hora"),
         "horaFin": MessageLookupByLibrary.simpleMessage("Hora fin"),
         "horaInicio": MessageLookupByLibrary.simpleMessage("Hora inicio"),
@@ -109,15 +126,17 @@ class MessageLookup extends MessageLookupByLibrary {
             "Hola, quiero invitarte a que descargues Golpi, una app para organizar partidos de fútbol. Descarga aquí: https://golpi.com"),
         "invitarJugador":
             MessageLookupByLibrary.simpleMessage("Invitar jugador"),
-        "jugadorAgregadoEquipo": m2,
-        "longitudMaximo": m3,
-        "longitudMinimo": m4,
+        "jugadorAgregadoEquipo": m3,
+        "longitudMaximo": m4,
+        "longitudMinimo": m5,
         "mayuscula": MessageLookupByLibrary.simpleMessage("Mayúscula"),
+        "mensajeHorario1": m6,
+        "mensajeHorario2": m7,
         "mensajesErrorFormularios": MessageLookupByLibrary.simpleMessage(
             "--------------------------------------------"),
         "miPerfil": MessageLookupByLibrary.simpleMessage("Mi perfil"),
         "minuscula": MessageLookupByLibrary.simpleMessage("Minúscula"),
-        "nCaracteres": m5,
+        "nCaracteres": m8,
         "nombreEquipo":
             MessageLookupByLibrary.simpleMessage("Nombre del equipo"),
         "nombres": MessageLookupByLibrary.simpleMessage("Nombres"),
@@ -142,10 +161,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "registroInformacion":
             MessageLookupByLibrary.simpleMessage("Registro de información"),
         "representante": MessageLookupByLibrary.simpleMessage("Representante"),
+        "reservar": MessageLookupByLibrary.simpleMessage("Reservar"),
         "restablecerClave":
             MessageLookupByLibrary.simpleMessage("Restablecer contraseña"),
         "rol": MessageLookupByLibrary.simpleMessage("Rol"),
         "salir": MessageLookupByLibrary.simpleMessage("Salir"),
+        "seleccionCanchaVacia": MessageLookupByLibrary.simpleMessage(
+            "Solo puedes seleccionar canchas del mismo establecimiento."),
         "soloNumeros":
             MessageLookupByLibrary.simpleMessage("Solo se permiten numeros"),
         "tarifa": MessageLookupByLibrary.simpleMessage("Tarifa"),

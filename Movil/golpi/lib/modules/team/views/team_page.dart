@@ -39,8 +39,8 @@ class TeamPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     UiText(text: 'Top equipos').phrase(),
-                    UiButtoms(onPressed: () {}, title: 'Ver todo')
-                        .textButtom(Theme.of(context).colorScheme.onSurface)
+                    UiButtoms(onPressed: () {}, title: 'Ver todo').textButtom(
+                        color: Theme.of(context).colorScheme.primaryContainer)
                   ],
                 ),
               ),
@@ -57,7 +57,9 @@ class TeamPage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 20),
-              Center(child: UiText(text: 'Mis equipos').phrase()),
+              Center(
+                  child: UiText(text: 'Mis equipos')
+                      .phrase(color: Theme.of(context).colorScheme.primary)),
               Expanded(
                 child: Obx(
                   () => ListView.builder(
@@ -70,33 +72,13 @@ class TeamPage extends StatelessWidget {
                             elevation: 3,
                             color: Theme.of(context).colorScheme.surface,
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              padding: const EdgeInsets.symmetric(vertical: 5),
                               child: ListTile(
-                                leading: Container(
-                                    decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        border: Border.all(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .secondary,
-                                          width: 3,
-                                        )),
-                                    child: Container(
-                                      width: 70,
-                                      height: 70,
-                                      decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          border: Border.all(
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .secondary,
-                                            width: 3,
-                                          )),
-                                      child: ClipOval(
-                                        child: Image.asset(
-                                            'assets/img/teamicon.jpg'),
-                                      ),
-                                    )),
+                                leading: ClipOval(
+                                  child: Image.asset(
+                                      homeController.listTeams[index].image ??
+                                          'asset/img/teamicon.jpg'),
+                                ),
                                 title: UiText(
                                         text: homeController
                                                 .listTeams[index].name ??

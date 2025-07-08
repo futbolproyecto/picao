@@ -17,14 +17,14 @@ class UiText {
     );
   }
 
-  Widget phraseSemiBold() {
+  Widget phraseSemiBold({Color? color}) {
     return Text(
       text,
-      style: const TextStyle(
-        fontFamily: 'Montserrat',
-        fontSize: 16,
-        fontWeight: FontWeight.w900,
-      ),
+      style: TextStyle(
+          fontFamily: 'Montserrat',
+          fontSize: 16,
+          fontWeight: FontWeight.w900,
+          color: color ?? Theme.of(Get.context!).colorScheme.onSurface),
     );
   }
 
