@@ -85,13 +85,16 @@ public class OtpServiceImpl implements OtpService {
                     user -> {
                         throw new AppException(ErrorMessages.DUPLICATE_PHONE_NUMBER, HttpStatus.BAD_REQUEST);
                     });
+
+            otpRepository.findByMobileNumber(mobileNumber).ifPresent(
+                    otpBD -> {
+                        throw new AppException(ErrorMessages.GENERATED_OTP, HttpStatus.BAD_REQUEST);
+                    });
+
+        } else {
+            otpRepository.deleteOtpByNumber(mobileNumber);
         }
 
-
-        otpRepository.findByMobileNumber(mobileNumber).ifPresent(
-                otpBD -> {
-                    throw new AppException(ErrorMessages.GENERATED_OTP, HttpStatus.BAD_REQUEST);
-                });
 
         String otp = generateOTP();
 
