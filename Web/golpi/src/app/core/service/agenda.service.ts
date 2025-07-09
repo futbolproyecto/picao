@@ -17,4 +17,10 @@ export class AgendaService {
       scheduleRequestDto
     );
   }
+
+  cargarDisponibilidad(establishmentId: string) {
+    return this.http.get<GenericDto>(
+      this.baseUrl + `agenda/get-by-establishment-id/${establishmentId}`
+    );
+  }
 }

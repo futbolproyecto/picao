@@ -11,9 +11,14 @@ h1 {
   color: var(--color-on-tertiary-container);
 }
 
+p {
+  font-size: 20px;
+  font-weight: 500;
+}
+
 /* Estilo de tarjetas */
 .card-agenda {
-  padding-bottom: 30px;
+  padding-bottom: 15px;
   background: var(--color-surface-container--lowest);
   box-shadow: 0 3px 15px var(--color-outline-variant);
   border-radius: 10px;
@@ -66,155 +71,93 @@ li:hover {
   opacity: 0;
 }
 
-/* Formulario */
-.form-content {
-  padding: 0 76px;
+.summary-cards {
   display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
-.input-field {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
-
-.boton {
   display: flex;
   justify-content: center;
+  gap: 10px;
+}
+
+.summary-item {
+  display: flex;
   align-items: center;
+  gap: 10px;
 }
 
-.boton .btn {
-  background-color: var(--color-primary);
-  font-size: 16px;
-  color: var(--color-on-primary-container);
-  height: 45px;
-  width: 50%;
-  border-radius: 10px;
-  margin-left: 15px;
+.color-box {
+  width: 16px;
+  height: 16px;
+  border-radius: 3px;
 }
 
-.boton .btn:hover {
-  box-shadow: 0 3px 15px var(--color-outline-variant);
-}
-
-/* Tabla */
-.container-tabla {
-  padding: 20px;
-}
-
-/* Select */
-.ng-select,
-.ng-select div,
-.ng-select input,
-.ng-select span {
-  margin-top: 4px !important;
-  font-weight: 400 !important;
-  font-size: 17px !important;
-}
-
-.ng-select .ng-select-container .ng-placeholder {
-  padding-left: 17px !important;
-}
-
-.ng-select .ng-select-container .ng-value-label {
-  font-size: 15px !important;
-  padding-left: 15px !important;
-  padding-bottom: 20px !important;
-}
-
-.ng-select .ng-arrow-wrapper {
-  padding-right: 13px !important;
-}
-
-/* Lista */
-.lista {
+.calendar-section {
+  display: flex;
+  justify-content: center;
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  margin-top: 20px;
 }
 
-.btn-adicionar {
-  background-color: var(--color-primary-container);
-  color: var(--color-on-primary-container);
-  height: 40px;
-  width: auto;
-  border-radius: 7px;
-  border: none;
-  padding: 10px;
-  display: flex;
-  align-items: anchor-center;
-  gap: 0.5rem;
-}
-
-.btn-adicionar:hover {
+.card {
+  width: 100%;
+  padding-bottom: 15px;
+  background: var(--color-surface-container--lowest);
   box-shadow: 0 3px 15px var(--color-outline-variant);
+  border-radius: 10px;
 }
 
-.titulo {
-  display: flex;
-  align-items: anchor-center;
-  /* font-weight: bold; */
+.reservada {
+  background-color: #5bc0de;
 }
 
-.disponibilidad {
-  display: flex;
-  gap: 2rem;
-  align-items: center;
+.confirmado {
+  background-color: #5cb85c;
 }
 
-/* Reglas de medios */
-@media (max-width: 1124px) {
-  .container-agenda {
-    padding: 10px;
-  }
-
-  .container-card {
-    padding: 0;
-  }
-
-  .form-content {
-    padding: 0px 30px;
-  }
-
-  li {
-    padding: 10px 6px;
-    font-size: 12px;
-    font-weight: bold;
-  }
-
-  h1 {
-    padding-top: 10px;
-  }
-
-  .container-tabla {
-    width: 98vw;
-    overflow-x: auto;
-    padding: 10px;
-    box-sizing: border-box;
-  }
-
-  .table-wrapper {
-    width: 100%;
-    overflow-x: auto;
-  }
-
-  .boton .btn {
-    width: 70%;
-  }
-
-  .boton {
-    margin: 0;
-    padding-bottom: 10px;
-  }
+.pagada {
+  background-color: #f0ad4e;
 }
 
-@media (max-width: 698px) {
-  .container-tabla {
-    width: 95vw;
-  }
+.sin_pagar {
+  background-color: #d9534f;
+}
+
+.ausente {
+  background-color: #999999;
+}
+
+/* Contenedor del calendario */
+.container-card {
+  width: 90%;
+  max-width: 1200px;
+  padding: 20px;
+  text-align: center;
+}
+
+.fullcalendar {
+  width: 100%;
+  height: 90%;
+  padding: 15px;
+  border-radius: 35px;
+}
+
+::ng-deep.mdc-dialog--open .mat-mdc-dialog-surface,
+.mdc-dialog--closing .mat-mdc-dialog-surface {
+  padding: 15px;
+  border-radius: 35px;
+}
+
+:host ::ng-deep .fc-timegrid-slot {
+  height: 45px !important;
+  min-height: 60px !important;
+  max-height: 60px !important;
+}
+
+:host ::ng-deep .fc-timegrid {
+  max-height: 750px;
+  overflow-y: auto;
+}
+
+span {
+  color: black;
+  font-weight: 500;
 }

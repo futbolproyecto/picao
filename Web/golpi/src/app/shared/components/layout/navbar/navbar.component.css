@@ -2,7 +2,7 @@ nav {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  padding: 8px 20px;
+  padding: 0px 20px;
   background-color: white;
   border-radius: 50px;
   gap: 20px;

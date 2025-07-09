@@ -1,145 +1,43 @@
 // Core
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {
-  AbstractControl,
-  FormControl,
-  FormsModule,
-  ReactiveFormsModule,
-  UntypedFormBuilder,
-  UntypedFormGroup,
-  Validators,
-} from '@angular/forms';
 
 // Librerias
-import { MatInputModule } from '@angular/material/input';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
-import { MatIconModule } from '@angular/material/icon';
-import { NgSelectModule } from '@ng-select/ng-select';
 import { MatDialog } from '@angular/material/dialog';
 
-// Servicios
-import { AlertsService } from '../../core/service/alerts.service';
-
 // Compatidos
-import { Constant } from '../../shared/utils/constant';
 import { CardComponent } from '../../shared/components/custom/card/card.component';
-import { DataTableComponent } from '../../shared/components/custom/data-table/data-table.component';
 
 // Componentes
-import { ShiftsComponent } from '../shifts/shifts.component';
-import { finalize } from 'rxjs';
-import { MessageExceptionDto } from '../../data/schema/MessageExceptionDto';
-import { FieldService } from '../../core/service/field.service';
-import { BusyService } from '../../core/busy.service';
+import { FullCalendarModule } from '@fullcalendar/angular';
+import { MatCardModule } from '@angular/material/card';
+
+import dayGridPlugin from '@fullcalendar/daygrid';
+import timeGridPlugin from '@fullcalendar/timegrid';
+import interactionPlugin from '@fullcalendar/interaction';
+import esLocale from '@fullcalendar/core/locales/es';
+import { ReservaModalComponent } from '../reserva-modal/reserva-modal.component';
+import { AgendaService } from '../../core/service/agenda.service';
+import { AlertsService } from '../../core/service/alerts.service';
+import { DateSelectArg, EventClickArg } from '@fullcalendar/core';
 
 @Component({
   selector: 'app-reservacion',
   standalone: true,
-  imports: [
-    CardComponent,
-    MatIconModule,
-    CommonModule,
-    MatInputModule,
-    ReactiveFormsModule,
-    FormsModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    DataTableComponent,
-    NgSelectModule,
-  ],
+  imports: [CardComponent, CommonModule, FullCalendarModule, MatCardModule],
   templateUrl: './reservation.component.html',
   styleUrl: './reservation.component.css',
 })
 export class ReservationComponent implements OnInit {
-  private formBuilder = inject(UntypedFormBuilder);
-  public formularioReservacion: UntypedFormGroup = new UntypedFormGroup({});
-  private alertsService = inject(AlertsService);
-  private fieldService = inject(FieldService);
-
   public AdministrarActivo: boolean = true;
   public nombrePestana: string = 'Administrar reservaciones';
-  public canchaError: string = '';
-  public fechaReservaError: string = '';
-  public horaInicioError: string = '';
-  public horaFinError: string = '';
-  public celularError: string = '';
-  public submitted = false;
+  private alertsService = inject(AlertsService);
 
-  public horas: { label: string; value: string }[] = [];
-  public listaCanchas: any[] = [];
-  public tituloReservacion: string = 'reservaciones';
-
-  myControl = new FormControl('');
-
-  ngOnInit() {
-    this.cargarCanchaEstablecimiento();
-  }
-
-  public encabezadosReservacion = {
-    id: 'ID',
-    fecha: 'fecha',
-    hora_inicio: 'Hora inicio',
-    hora_fin: 'Hora fin',
-    cancha: 'Cancha',
-    cliente: 'Cliente',
-    estado: 'Estado',
-  };
-
-  tablaReservacion = [
-    {
-      id: '1',
-      fecha: '2024-12-19',
-      hora_inicio: '13:00',
-      hora_fin: '14:00',
-      cancha: '1',
-      cliente: 'Andrea Isaza',
-      estado: 'Pendiente',
-    },
-    {
-      id: '1',
-      fecha: '2024-12-19',
-      hora_inicio: '14:00',
-      hora_fin: '15:00',
-      cancha: '2',
-      cliente: 'Alejandro Mira',
-      estado: 'Confirmado',
-    },
-  ];
-
-  constructor(private dialog: MatDialog, private busyService: BusyService) {
-    this.buildForm();
-  }
-
-  buildForm(): void {
-    this.formularioReservacion = this.formBuilder.group({
-      fecha_reserva: ['', [Validators.required]],
-      cancha: [null, [Validators.required]],
-      celular_jugador: ['', [Validators.required]],
-      hora_inicio: ['', [Validators.required]],
-      hora_fin: ['', [Validators.required]],
-    });
-  }
-  get fecha_reserva(): AbstractControl {
-    return this.formularioReservacion.get('fecha_reserva')!;
-  }
-
-  get cancha(): AbstractControl {
-    return this.formularioReservacion.get('cancha')!;
-  }
-
-  get celular_jugador(): AbstractControl {
-    return this.formularioReservacion.get('celular_jugador')!;
-  }
-
-  get hora_inicio(): AbstractControl {
-    return this.formularioReservacion.get('hora_inicio')!;
-  }
-
-  get hora_fin(): AbstractControl {
-    return this.formularioReservacion.get('hora_fin')!;
-  }
+  public totalTurnos = 50;
+  public turnosPendientes = 15;
+  public turnosConfirmados = 35;
+  public turnosFinalizados = 10;
+  public turnosSinConfirmar = 5;
 
   activarPestana(pestana: string): void {
     if (pestana === 'administrar') {
@@ -148,36 +46,166 @@ export class ReservationComponent implements OnInit {
     }
   }
 
-  validarFechaReserva(): boolean {
-    let status = false;
-    if (this.submitted && this.fecha_reserva.invalid) {
-      this.fechaReservaError = Constant.ERROR_CAMPO_REQUERIDO;
-      status = true;
-    }
-    return status;
+  ngOnInit(): void {
+    // this.cargarReservas();
+    this.cargarDisponibilidad();
   }
 
-  validarCancha(): boolean {
-    let status = false;
-    if (this.submitted && this.cancha.invalid) {
-      this.canchaError = Constant.ERROR_CAMPO_REQUERIDO;
-      status = true;
-    }
-    return status;
-  }
+  constructor(
+    private dialog: MatDialog,
+    private reservaService: AgendaService
+  ) {}
 
-  validarCelular(): boolean {
-    let status = false;
-    if (this.celular_jugador.touched) {
-      if (this.celular_jugador.hasError('required')) {
-        this.celularError = Constant.ERROR_CAMPO_REQUERIDO;
-        status = true;
-      }
-    }
-    return status;
-  }
+  // calendarOptions = {
+  //   plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
+  //   initialView: 'timeGridWeek',
+  //   locale: esLocale,
+  //   headerToolbar: {
+  //     left: 'prev,next today',
+  //     center: 'title',
+  //     right: 'dayGridMonth,timeGridWeek,timeGridDay',
+  //   },
+  //   allDaySlot: false,
+  //   events: [
+  //     {
+  //       title: 'Cancha 1 - Confirmado',
+  //       start: '2025-03-10T13:00:00',
+  //       end: '2025-03-10T14:00:00',
+  //       color: '#4caf50',
+  //       textColor: 'black',
+  //       extendedProps: {
+  //         cancha: 'Cancha 1',
+  //         tipo: 'Sintética',
+  //         cliente: 'Juan Pérez',
+  //         estado: 'Confirmado',
+  //       },
+  //     },
+  //     {
+  //       title: 'Cancha 2 - Reservado',
+  //       start: '2025-03-11T09:00:00',
+  //       end: '2025-03-11T10:00:00',
+  //       color: '#ff9800',
+  //       textColor: 'black',
+  //       extendedProps: {
+  //         cancha: 'Cancha 2',
+  //         tipo: 'Césped natural',
+  //         cliente: 'Carlos Gómez',
+  //         estado: 'Reservado',
+  //       },
+  //     },
+  //     {
+  //       title: 'Cancha 3 - Pendiente',
+  //       start: '2025-03-12T10:00:00',
+  //       end: '2025-03-11T11:00:00',
+  //       color: '#ffff00',
+  //       textColor: 'black',
+  //       extendedProps: {
+  //         cancha: 'Cancha 3',
+  //         tipo: 'Cemento',
+  //         cliente: 'Andrea Isaza',
+  //         estado: 'Pendiente',
+  //       },
+  //     },
+  //   ],
+  //   eventClick: this.abrirModal.bind(this),
+  // };
 
-  cargarCanchaEstablecimiento(): void {
+  // abrirModal(eventInfo: any) {
+  //   const turno = eventInfo.event.extendedProps;
+  //   this.dialog.open(ReservaModalComponent, {
+  //     data: {
+  //       cancha: turno.cancha,
+  //       tipo: turno.tipo,
+  //       cliente: turno.cliente,
+  //       estado: turno.estado,
+  //       hora: eventInfo.event.start,
+  //     },
+  //   });
+  // }
+
+  // Tu calendario
+
+  calendarOptions: any = {
+    plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
+    initialView: 'timeGridWeek',
+    locale: esLocale,
+    headerToolbar: {
+      left: 'prev,next today',
+      center: 'title',
+      right: 'dayGridMonth,timeGridWeek,timeGridDay',
+    },
+    allDaySlot: false,
+    slotMinTime: '00:00:00',
+    slotMaxTime: '23:00:00',
+    slotDuration: '01:00:00',
+    snapDuration: '01:00:00',
+    events: [],
+    selectable: true,
+    selectMirror: true,
+
+    // Prevenir clic en eventos "No disponible"
+    eventClick: (info: EventClickArg) => {
+      if (info.event.extendedProps['isBackground']) return;
+      this.abrirModal(info);
+    },
+
+    // Evitar selección encima de rangos no disponibles
+    selectAllow: (selectInfo: DateSelectArg) => {
+      const seleccionInicio = selectInfo.start;
+      const seleccionFin = selectInfo.end;
+
+      return !this.bloquesNoDisponibles.some((bloque) => {
+        return seleccionInicio < bloque.end && seleccionFin > bloque.start;
+      });
+    },
+  };
+
+  // cargarReservas() {
+  //   const idEstablecimiento = localStorage.getItem(
+  //     'establecimientoSeleccionado'
+  //   );
+
+  //   if (!idEstablecimiento) {
+  //     this.alertsService.toast(
+  //       'error',
+  //       'No se ha seleccionado un establecimiento.'
+  //     );
+  //     return;
+  //   }
+
+  //   this.reservaService
+  //     .cargarAgenda(idEstablecimiento)
+  //     .subscribe((response) => {
+  //       console.log(response);
+  //       const reservas = response.payload;
+  //       const eventos = reservas.map((reserva: any) => {
+  //         const startDateTime = `${reserva.date}T${reserva.start_time}`;
+
+  //         return {
+  //           title: `${reserva.start_time} - ${reserva.status}`,
+  //           start: startDateTime,
+  //           end: startDateTime, // si no tienes una hora de fin, usa la misma o calcula duración estimada
+  //           color: this.obtenerColorPorEstado(reserva.status),
+  //           textColor: 'black',
+  //           extendedProps: {
+  //             fee: reserva.fee,
+  //             dia: reserva.day_of_week,
+  //             id: reserva.id,
+  //             estado: reserva.status,
+  //           },
+  //         };
+  //       });
+
+  //       this.calendarOptions.events = [
+  //         ...this.calendarOptions.events,
+  //         ...eventos,
+  //       ];
+  //     });
+  // }
+
+  bloquesNoDisponibles: { start: Date; end: Date }[] = [];
+
+  cargarDisponibilidad() {
     const idEstablecimiento = localStorage.getItem(
       'establecimientoSeleccionado'
     );
@@ -190,67 +218,127 @@ export class ReservationComponent implements OnInit {
       return;
     }
 
-    this.busyService.busy();
+    this.reservaService
+      .cargarDisponibilidad(idEstablecimiento)
+      .subscribe((response) => {
+        const bloquesDisponibles = response.payload;
 
-    this.fieldService
-      .canchaPorEstablecimiento(idEstablecimiento)
-      .pipe(
-        finalize(() => {
-          this.busyService.idle();
-        })
-      )
-      .subscribe({
-        next: (response) => {
-          const canchas = response?.payload ?? [];
-          if (canchas) {
-            this.listaCanchas = canchas;
+        // Agrupar disponibilidad por fecha
+        const disponibilidadPorDia: { [fecha: string]: string[] } = {};
+
+        bloquesDisponibles.forEach((bloque: any) => {
+          const fecha = bloque.date;
+          if (!disponibilidadPorDia[fecha]) disponibilidadPorDia[fecha] = [];
+          disponibilidadPorDia[fecha].push(bloque.start_time);
+        });
+
+        const eventosNoDisponibles: any[] = [];
+
+        const generarHoras = (start: string, end: string): string[] => {
+          const horas: string[] = [];
+          let hora = new Date(`1970-01-01T${start}`);
+          const fin = new Date(`1970-01-01T${end}`);
+
+          while (hora < fin) {
+            horas.push(hora.toTimeString().substring(0, 8)); // HH:mm:ss
+            hora = new Date(hora.getTime() + 60 * 60 * 1000); // sumar 1 hora
           }
-        },
-        error: (err) => {
-          const errorDto = new MessageExceptionDto({
-            status: err.error?.status,
-            error: err.error?.error,
-            recommendation: err.error?.recommendation,
-          });
-          this.alertsService.fireError(errorDto);
-        },
+
+          return horas;
+        };
+
+        Object.entries(disponibilidadPorDia).forEach(
+          ([fecha, horasDisponibles]) => {
+            const todasLasHoras = generarHoras('00:00:00', '23:00:00');
+
+            const horasNoDisponibles = todasLasHoras.filter(
+              (hora) => !horasDisponibles.includes(hora)
+            );
+
+            horasNoDisponibles.forEach((hora) => {
+              const start = `${fecha}T${hora}`;
+              const end = new Date(
+                new Date(start).getTime() + 60 * 60 * 1000
+              ).toISOString();
+
+              eventosNoDisponibles.push({
+                title: 'No disponible',
+                start,
+                end,
+                display: 'background', // correcto en FullCalendar v5+
+                color: '#e0e0e0',
+                overlap: false,
+                extendedProps: {
+                  isBackground: true,
+                },
+              });
+            });
+          }
+        );
+
+        // Guardar los rangos no disponibles para bloquear selección
+        this.bloquesNoDisponibles = eventosNoDisponibles.map((e) => ({
+          start: new Date(e.start),
+          end: new Date(e.end),
+        }));
+
+        // Añadir al calendario
+        this.calendarOptions.events = [
+          ...this.calendarOptions.events,
+          ...eventosNoDisponibles,
+        ];
       });
   }
 
-  limpiarFormulario(): void {
-    this.formularioReservacion.reset();
+  obtenerColorPorEstado(estado: string): string {
+    switch (estado) {
+      case 'DISPONIBLE':
+        return '#ff9800';
+      case 'confirmada':
+        return '#4caf50';
+      case 'pagada':
+        return '#2196f3';
+      case 'ausente':
+        return '#f44336';
+      case 'no pagada':
+      case 'sin pagar':
+        return '#9e9e9e';
+      default:
+        return '#000';
+    }
   }
 
-  openDialog(): void {
-    this.dialog.open(ShiftsComponent, {
-      width: '800px',
-      height: '60%',
+  abrirModal(eventInfo: any) {
+    const turno = eventInfo.event.extendedProps;
+    this.dialog.open(ReservaModalComponent, {
+      data: {
+        cancha: turno.cancha,
+        tipo: turno.tipo,
+        cliente: turno.cliente,
+        estado: turno.estado,
+        hora: eventInfo.event.start,
+      },
     });
-    this.limpiarFormulario();
   }
 
-  RegistrarTurno(): void {
-    if (this.formularioReservacion.valid) {
-      console.log('Formulario enviado con éxito');
-      this.limpiarFormulario();
-    } else {
-      this.formularioReservacion.markAllAsTouched();
-      this.alertsService.toast('error', Constant.ERROR_FORM_INCOMPLETO);
-    }
-  }
+  // abrirModalNuevaReserva(selectInfo: any) {
+  //   const estaDisponible = this.verificarDisponibilidad(
+  //     selectInfo.start,
+  //     selectInfo.end
+  //   );
 
-  generarHoras() {
-    for (let h = 0; h < 24; h++) {
-      for (let m = 0; m < 60; m += 15) {
-        const hora = this.formatearNumero(h);
-        const minuto = this.formatearNumero(m);
-        const horaCompleta = `${hora}:${minuto}`;
-        this.horas.push({ label: horaCompleta, value: horaCompleta });
-      }
-    }
-  }
+  //   if (estaDisponible) {
+  //     this.dialog.open(ModalCrearReservaComponent, {
+  //       data: {
+  //         fechaInicio: selectInfo.start,
+  //         fechaFin: selectInfo.end,
+  //       },
+  //     });
+  //   }
+  // }
 
-  formatearNumero(num: number): string {
-    return num < 10 ? '0' + num : num.toString();
+  verificarDisponibilidad(start: Date, end: Date): boolean {
+    // Aquí podrías verificar contra la disponibilidad cargada previamente (opcional)
+    return true; // Lógica más específica puede ser agregada
   }
 }
