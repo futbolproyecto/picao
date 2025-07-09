@@ -36,6 +36,9 @@ public class AgendaResponseDTO {
     @JsonProperty("name_field")
     String nameField;
 
+    @JsonProperty("field_id")
+    UUID fieldId;
+
     @JsonProperty("name_establishment")
     String nameEstablishment;
 
@@ -44,4 +47,32 @@ public class AgendaResponseDTO {
 
     BigDecimal fee;
 
+    @JsonProperty("user_id")
+    Integer userId;
+
+    @JsonProperty("user_name")
+    String userName;
+
+    @JsonProperty("user_last_name")
+    String userLastName;
+
+    @JsonProperty("mobile_number")
+    String mobileNumber;
+
+
+    public AgendaResponseDTO(UUID id, LocalDate date, LocalTime startTime, TimeStatus status, DayOfWeek dayOfWeek,
+                             String nameField, UUID fieldId, Integer userId, String userName, String userLastName,
+                             String mobileNumber) {
+        this.id = id;
+        this.date = date;
+        this.startTime = startTime;
+        this.status = status;
+        this.dayOfWeek = dayOfWeek;
+        this.nameField = nameField;
+        this.fieldId = fieldId;
+        this.userName = userName;
+        this.userLastName = userLastName;
+        this.mobileNumber = mobileNumber;
+        this.userId = userId;
+    }
 }

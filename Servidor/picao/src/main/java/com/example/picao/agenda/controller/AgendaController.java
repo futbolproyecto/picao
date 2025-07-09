@@ -47,4 +47,9 @@ public class AgendaController {
             @RequestBody ReserveRequestDTO request) {
         return GenericResponseDTO.genericResponse(agendaService.reserve(request));
     }
+
+    @GetMapping(value = "get-reserve-by-establishment-id/{establishmentId}")
+    public ResponseEntity<GenericResponseDTO> getReserveByEstablishmentId(@PathVariable() UUID establishmentId) {
+        return GenericResponseDTO.genericResponse(agendaService.getReserveByEstablishmentIdId(establishmentId));
+    }
 }

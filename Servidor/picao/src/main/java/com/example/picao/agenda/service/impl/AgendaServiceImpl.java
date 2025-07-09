@@ -169,6 +169,16 @@ public class AgendaServiceImpl implements AgendaService {
         }
     }
 
+    @Override
+    public Set<AgendaResponseDTO> getReserveByEstablishmentIdId(UUID establishmentId) {
+
+        try {
+            return agendaRepository.findByReserveByEstablishmentId(establishmentId);
+        } catch (AppException e) {
+            throw new AppException(e.getErrorMessages(), e.getHttpStatus(), e.getArgs());
+        }
+    }
+
     /**
      * genera las fechas en las cuales se deben hacer la creacion de agendas
      **/

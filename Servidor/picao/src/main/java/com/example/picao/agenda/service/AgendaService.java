@@ -7,6 +7,7 @@ import com.example.picao.agenda.dto.ReserveRequestDTO;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 public interface AgendaService {
@@ -19,4 +20,6 @@ public interface AgendaService {
                                                            LocalTime endTime, String establishmentName);
 
     String reserve(ReserveRequestDTO requestDTO);
+
+    Set<AgendaResponseDTO> getReserveByEstablishmentIdId(UUID establishmentIdId);
 }
