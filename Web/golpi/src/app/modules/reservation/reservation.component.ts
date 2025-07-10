@@ -1,5 +1,5 @@
 // Core
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DateSelectArg, EventClickArg } from '@fullcalendar/core';
 
@@ -12,7 +12,7 @@ import { MatCardModule } from '@angular/material/card';
 import { CardComponent } from '../../shared/components/custom/card/card.component';
 
 // Componentes
-import { ReservaModalComponent } from '../reserva-modal/reserva-modal.component';
+import { ReservaModalComponent } from './reserva-modal/reserva-modal.component';
 import { ModalReservationComponent } from './modal-reservation/modal-reservation.component';
 
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -27,7 +27,7 @@ import esLocale from '@fullcalendar/core/locales/es';
   templateUrl: './reservation.component.html',
   styleUrl: './reservation.component.css',
 })
-export class ReservationComponent {
+export class ReservationComponent implements OnInit {
   public AdministrarActivo: boolean = true;
   public nombrePestana: string = 'Administrar reservaciones';
 
@@ -44,7 +44,38 @@ export class ReservationComponent {
     }
   }
 
+  ngOnInit(): void {
+    this.calendarEvents.push(
+      {
+        title: 'Reserva Cancha 1',
+        start: '2025-07-12T10:00:00',
+        end: '2025-07-12T11:00:00',
+        color: '#5bc0de',
+        extendedProps: {
+          cancha: 'Cancha 1',
+          tipo: 'Fútbol 5',
+          cliente: 'Juan',
+          estado: 'Reservada',
+        },
+      },
+      {
+        title: 'Reserva Cancha 2',
+        start: '2025-07-12T12:00:00',
+        end: '2025-07-12T13:00:00',
+        color: '#5cb85c',
+        extendedProps: {
+          cancha: 'Cancha 2',
+          tipo: 'Fútbol 7',
+          cliente: 'Andrea',
+          estado: 'Confirmada',
+        },
+      }
+    );
+  }
+
   constructor(private dialog: MatDialog) {}
+
+  calendarEvents: any[] = [];
 
   calendarOptions: any = {
     plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
@@ -60,7 +91,7 @@ export class ReservationComponent {
     slotMaxTime: '23:00:00',
     slotDuration: '01:00:00',
     snapDuration: '01:00:00',
-    events: [],
+    events: this.calendarEvents,
     selectable: true,
     selectMirror: true,
 
