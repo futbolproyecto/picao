@@ -2,6 +2,7 @@
 import { GenericDto } from '../../core/models/generic-dto';
 
 export class InformacionReservaDto extends GenericDto {
+  id?: string;
   nombreEstablecimiento?: string;
   direccion?: string;
   tipoCancha?: string;

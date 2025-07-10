@@ -27,6 +27,11 @@
   color: var(--color-surface-container--lowest);
 }
 
+.boton .btn-reserva {
+  background-color: var(--color-secondary);
+  color: var(--color-surface-container--lowest);
+}
+
 ::ng-deep.mdc-text-field--filled:not(.mdc-text-field--disabled) {
   padding: 0;
 }
@@ -57,4 +62,36 @@ h1 {
 
 .cerrar {
   cursor: pointer;
+}
+
+.mat-mdc-card {
+  gap: 10px;
+}
+
+.mat-mdc-card-title {
+  text-align: center;
+  color: var(--color-secondary);
+}
+
+.mat-mdc-card-content {
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 3px 15px var(--color-outline-variant);
+}
+
+.card-content-clickable {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* cursor: pointer; */
+}
+
+.info-texto {
+  flex: 1;
+}
+
+.check-container {
+  display: flex;
+  align-items: center;
+  padding-left: 1rem;
 }

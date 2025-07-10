@@ -1,10 +1,6 @@
+// Core
 import { Component, DestroyRef, Inject, inject, OnInit } from '@angular/core';
-import { AlertsService } from '../../../core/service/alerts.service';
-import {
-  MAT_DIALOG_DATA,
-  MatDialogModule,
-  MatDialogRef,
-} from '@angular/material/dialog';
+import { CommonModule } from '@angular/common';
 import {
   AbstractControl,
   ReactiveFormsModule,
@@ -12,21 +8,35 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { finalize } from 'rxjs';
+
+// Librerias
+import {
+  MAT_DIALOG_DATA,
+  MatDialogModule,
+  MatDialogRef,
+} from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatCard, MatCardContent, MatCardTitle } from '@angular/material/card';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatCheckbox } from '@angular/material/checkbox';
+
+// Compatidos
+import { Constant } from '../../../shared/utils/constant';
+
+// Servicios
+import { AlertsService } from '../../../core/service/alerts.service';
 import { EstablishmentService } from '../../../core/service/establishment.service';
 import { BusyService } from '../../../core/busy.service';
+import { AgendaService } from '../../../core/service/agenda.service';
+
+// Dto
 import { EstablishmentRequestDto } from '../../../data/schema/establishmentRequestDto';
 import { MessageExceptionDto } from '../../../data/schema/MessageExceptionDto';
-import { Constant } from '../../../shared/utils/constant';
-import { MatCard, MatCardContent, MatCardTitle } from '@angular/material/card';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { finalize } from 'rxjs';
-import { AgendaService } from '../../../core/service/agenda.service';
 import { AgendaDto } from '../../../data/schema/agendaDto';
 import { InformacionReservaDto } from '../../../data/schema/informacionReservaDto';
 
@@ -45,29 +55,30 @@ import { InformacionReservaDto } from '../../../data/schema/informacionReservaDt
     MatCard,
     MatCardTitle,
     MatCardContent,
+    MatCheckbox,
   ],
   templateUrl: './modal-reservation.component.html',
   styleUrl: './modal-reservation.component.css',
 })
 export class ModalReservationComponent implements OnInit {
-  private alertsService = inject(AlertsService);
-  public formularioReserva: UntypedFormGroup = new UntypedFormGroup({});
-  private formBuilder = inject(UntypedFormBuilder);
   private establishmentService = inject(EstablishmentService);
   private destroyRef = inject(DestroyRef);
   private busyService = inject(BusyService);
   private agendaService = inject(AgendaService);
+  private alertsService = inject(AlertsService);
+
+  public formularioReserva: UntypedFormGroup = new UntypedFormGroup({});
+  private formBuilder = inject(UntypedFormBuilder);
 
   public agendaDto: AgendaDto = new AgendaDto();
+  public establishmentDto: Array<EstablishmentRequestDto> =
+    new Array<EstablishmentRequestDto>();
+  public informacionReserva: InformacionReservaDto[] = [];
+  public horariosSeleccionados: InformacionReservaDto[] = [];
 
   public establishmentError: string = '';
   public ciudadEstablecimiento: string = '';
-
   public horasDisponibles: string[] = [];
-
-  public establishmentDto: Array<EstablishmentRequestDto> =
-    new Array<EstablishmentRequestDto>();
-  public informacionReserva: InformacionReservaDto | null = null;
 
   constructor(
     private dialogRef: MatDialogRef<ModalReservationComponent>,
@@ -79,7 +90,6 @@ export class ModalReservationComponent implements OnInit {
       endTime: string;
     }
   ) {
-    console.log(data);
     this.buildForm();
   }
 
@@ -180,11 +190,19 @@ export class ModalReservationComponent implements OnInit {
 
   private formatDateToISO(date: Date): string {
     if (!date) return '';
-    return date.toISOString().split('T')[0]; // "2025-07-09"
+    return date.toISOString().split('T')[0];
   }
 
   buscarDisponibilidad() {
     if (this.formularioReserva.valid) {
+      if (this.establishment.value == 'Seleccione...') {
+        this.alertsService.toast(
+          'error',
+          'Debes seleccionar un establecimiento'
+        );
+        return;
+      }
+
       this.agendaDto = {
         establishmentName: this.establishment.value,
         fecha: this.formatDateToISO(this.fecha.value),
@@ -192,8 +210,6 @@ export class ModalReservationComponent implements OnInit {
         endTime: this.hora_fin.value,
         cityName: this.ciudadEstablecimiento,
       };
-
-      console.log(this.agendaDto);
 
       this.busyService.busy();
       this.agendaService
@@ -206,17 +222,17 @@ export class ModalReservationComponent implements OnInit {
         )
         .subscribe({
           next: (res) => {
-            console.log(res);
             const payload = res?.payload;
             if (Array.isArray(payload) && payload.length > 0) {
-              const primerElemento = payload[0];
-
-              this.informacionReserva = new InformacionReservaDto({
-                nombreEstablecimiento: primerElemento.name_establishment,
-                direccion: primerElemento.address_establishment,
-                tipoCancha: primerElemento.name_field,
-                horarioDisponible: `${primerElemento.start_time} - ${primerElemento.end_time}`,
-                precioPorHora: primerElemento.fee,
+              this.informacionReserva = payload.map((elemento: any) => {
+                return new InformacionReservaDto({
+                  id: elemento.id,
+                  nombreEstablecimiento: elemento.name_establishment,
+                  direccion: elemento.address_establishment,
+                  tipoCancha: elemento.name_field,
+                  horarioDisponible: elemento.start_time,
+                  precioPorHora: elemento.fee,
+                });
               });
             }
           },
@@ -244,5 +260,33 @@ export class ModalReservationComponent implements OnInit {
         this.dialogRef.close();
       }
     );
+  }
+
+  horarioSeleccionado(horario: InformacionReservaDto) {
+    const index = this.horariosSeleccionados.findIndex(
+      (h) => h.id === horario.id
+    );
+
+    if (index > -1) {
+      this.horariosSeleccionados.splice(index, 1);
+    } else {
+      this.horariosSeleccionados.push(horario);
+    }
+  }
+
+  esHorarioSeleccionado(id: string): boolean {
+    return this.horariosSeleccionados.some((h) => h.id === id);
+  }
+
+  agendarReserva() {
+    if (this.horariosSeleccionados.length === 0) {
+      this.alertsService.toast(
+        'error',
+        'Debes seleccionar al menos un horario para agendar.'
+      );
+      return;
+    }
+
+    console.log('Reservar estos horarios:', this.horariosSeleccionados);
   }
 }
