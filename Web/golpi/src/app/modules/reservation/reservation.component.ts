@@ -20,6 +20,7 @@ import { ReservaModalComponent } from '../reserva-modal/reserva-modal.component'
 import { AgendaService } from '../../core/service/agenda.service';
 import { AlertsService } from '../../core/service/alerts.service';
 import { DateSelectArg, EventClickArg } from '@fullcalendar/core';
+import { ModalReservationComponent } from './modal-reservation/modal-reservation.component';
 
 @Component({
   selector: 'app-reservacion',
@@ -143,13 +144,15 @@ export class ReservationComponent implements OnInit {
     selectable: true,
     selectMirror: true,
 
-    // Prevenir clic en eventos "No disponible"
+    select: (selectInfo: DateSelectArg) => {
+      this.abrirModalNuevaReserva(selectInfo);
+    },
+
     eventClick: (info: EventClickArg) => {
       if (info.event.extendedProps['isBackground']) return;
       this.abrirModal(info);
     },
 
-    // Evitar selección encima de rangos no disponibles
     selectAllow: (selectInfo: DateSelectArg) => {
       const seleccionInicio = selectInfo.start;
       const seleccionFin = selectInfo.end;
@@ -221,6 +224,7 @@ export class ReservationComponent implements OnInit {
     this.reservaService
       .cargarDisponibilidad(idEstablecimiento)
       .subscribe((response) => {
+        console.log(response);
         const bloquesDisponibles = response.payload;
 
         // Agrupar disponibilidad por fecha
@@ -321,21 +325,35 @@ export class ReservationComponent implements OnInit {
     });
   }
 
-  // abrirModalNuevaReserva(selectInfo: any) {
-  //   const estaDisponible = this.verificarDisponibilidad(
-  //     selectInfo.start,
-  //     selectInfo.end
-  //   );
+  abrirModalNuevaReserva(selectInfo: any) {
+    const startDate = new Date(selectInfo.startStr);
+    const endDate = new Date(selectInfo.endStr);
 
-  //   if (estaDisponible) {
-  //     this.dialog.open(ModalCrearReservaComponent, {
-  //       data: {
-  //         fechaInicio: selectInfo.start,
-  //         fechaFin: selectInfo.end,
-  //       },
-  //     });
-  //   }
-  // }
+    const formatDate = (date: Date): string => {
+      const day = String(date.getDate()).padStart(2, '0');
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const year = date.getFullYear();
+      return `${day}-${month}-${year}`;
+    };
+
+    const formatTime = (date: Date): string => {
+      const hours = String(date.getHours()).padStart(2, '0');
+      const minutes = String(date.getMinutes()).padStart(2, '0');
+      const seconds = String(date.getSeconds()).padStart(2, '0');
+      return `${hours}:${minutes}:${seconds}`;
+    };
+
+    const dialogRef = this.dialog.open(ModalReservationComponent, {
+      disableClose: true,
+      width: '700px',
+      data: {
+        startDate: formatDate(startDate),
+        endDate: formatDate(endDate),
+        startTime: formatTime(startDate),
+        endTime: formatTime(endDate),
+      },
+    });
+  }
 
   verificarDisponibilidad(start: Date, end: Date): boolean {
     // Aquí podrías verificar contra la disponibilidad cargada previamente (opcional)
