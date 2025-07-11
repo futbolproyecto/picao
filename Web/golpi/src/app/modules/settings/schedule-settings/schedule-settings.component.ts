@@ -237,7 +237,7 @@ export class ScheduleSettingsComponent implements OnInit {
           return {
             title: `Cancha: ${reserva.status}`,
             start: startDateTime,
-            color: '#5b3a70',
+            color: '#5cb85c',
             textColor: 'white',
             extendedProps: {
               date: reserva.date,
@@ -275,8 +275,8 @@ export class ScheduleSettingsComponent implements OnInit {
           return {
             title: `Cancha: ${reserva.status}`,
             start: startDateTime,
-            color: '#5b3a70',
-            textColor: 'white',
+            color: '#5cb85c',
+            textColor: 'black',
             extendedProps: {
               date: reserva.date,
               fee: reserva.fee,

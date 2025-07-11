@@ -51,10 +51,10 @@ h1 {
 .boton .btn {
   background-color: var(--color-primary);
   font-size: 16px;
-  color: var(--color-on-primary-container);
+  color: var(--color-surface-container--lowest);
   height: 45px;
-  width: 50%;
-  border-radius: 10px;
+  width: 30%;
+  border-radius: 30px;
 }
 
 a {

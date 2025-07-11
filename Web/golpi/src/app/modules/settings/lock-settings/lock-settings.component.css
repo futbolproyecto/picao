@@ -86,10 +86,10 @@ li:hover {
 
 .boton .btn {
   background-color: var(--color-primary);
-  color: var(--color-on-primary-container);
-  height: 45px;
-  width: 45%;
-  border-radius: 15px;
+  color: var(--color-surface-container--lowest);
+  height: 40px;
+  width: 25%;
+  border-radius: 30px;
   font-size: 18px;
   transition: background-color 0.3s ease;
 }
@@ -167,7 +167,7 @@ li:hover {
   display: flex;
 }
 
-::ng-deep.ng-select-error .ng-select-container { 
+::ng-deep.ng-select-error .ng-select-container {
   border: none !important;
   border-bottom: 1px solid var(--color-error) !important;
   border-radius: 0 !important;
