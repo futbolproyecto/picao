@@ -12,8 +12,11 @@
   </span>
 </div>
 <mat-dialog-content>
-  <p><strong>Cancha:</strong> {{ data.cancha }}</p>
-  <p><strong>Cliente:</strong> {{ data.cliente }}</p>
+  <p><strong>Cancha:</strong> {{ data.name_field }}</p>
+  <p>
+    <strong>Cliente:</strong> {{ data.user_name }} {{ data.user_last_name }}
+  </p>
+  <p><strong>Número celular:</strong> {{ data.mobile_number }}</p>
   <p><strong>Estado:</strong> {{ data.estado }}</p>
   <p><strong>Fecha - Hora:</strong> {{ data.fecha }} {{ data.hora }}</p>
 

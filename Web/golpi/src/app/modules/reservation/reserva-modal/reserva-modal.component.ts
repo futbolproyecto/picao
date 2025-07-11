@@ -1,5 +1,11 @@
 // Core
-import { Component, inject, Inject, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  Inject,
+  OnInit,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 // Librerias
@@ -23,6 +29,7 @@ import { AlertsService } from '../../../core/service/alerts.service';
   imports: [CommonModule, MatDialogModule, NgSelectModule, ReactiveFormsModule],
   templateUrl: './reserva-modal.component.html',
   styleUrls: ['./reserva-modal.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ReservaModalComponent implements OnInit {
   public formularioInformacion: UntypedFormGroup = new UntypedFormGroup({});

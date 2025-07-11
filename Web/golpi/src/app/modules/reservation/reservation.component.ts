@@ -1,5 +1,5 @@
 // Core
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DateSelectArg, EventClickArg } from '@fullcalendar/core';
 
@@ -19,6 +19,8 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import esLocale from '@fullcalendar/core/locales/es';
+import { AlertsService } from '../../core/service/alerts.service';
+import { AgendaService } from '../../core/service/agenda.service';
 
 @Component({
   selector: 'app-reservacion',
@@ -30,6 +32,7 @@ import esLocale from '@fullcalendar/core/locales/es';
 export class ReservationComponent implements OnInit {
   public AdministrarActivo: boolean = true;
   public nombrePestana: string = 'Administrar reservaciones';
+  private alertsService = inject(AlertsService);
 
   public totalTurnos = 50;
   public turnosPendientes = 15;
@@ -45,35 +48,13 @@ export class ReservationComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.calendarEvents.push(
-      {
-        title: 'Reserva Cancha 1',
-        start: '2025-07-12T10:00:00',
-        end: '2025-07-12T11:00:00',
-        color: '#5bc0de',
-        extendedProps: {
-          cancha: 'Cancha 1',
-          tipo: 'Fútbol 5',
-          cliente: 'Juan',
-          estado: 'Reservada',
-        },
-      },
-      {
-        title: 'Reserva Cancha 2',
-        start: '2025-07-12T12:00:00',
-        end: '2025-07-12T13:00:00',
-        color: '#5cb85c',
-        extendedProps: {
-          cancha: 'Cancha 2',
-          tipo: 'Fútbol 7',
-          cliente: 'Andrea',
-          estado: 'Confirmada',
-        },
-      }
-    );
+    this.cargarReservas();
   }
 
-  constructor(private dialog: MatDialog) {}
+  constructor(
+    private dialog: MatDialog,
+    private reservaService: AgendaService
+  ) {}
 
   calendarEvents: any[] = [];
 
@@ -113,12 +94,13 @@ export class ReservationComponent implements OnInit {
       disableClose: true,
       width: '700px',
       data: {
-        cancha: turno.cancha,
-        tipo: turno.tipo,
-        cliente: turno.cliente,
-        estado: turno.estado,
         fecha: this.formatDate(startDate),
         hora: this.formatTime(startDate),
+        user_name: turno.user_name,
+        user_last_name: turno.user_last_name,
+        mobile_number: turno.mobile_number,
+        id: turno.id,
+        estado: turno.estado,
       },
     });
   }
@@ -152,4 +134,48 @@ export class ReservationComponent implements OnInit {
     const seconds = String(date.getSeconds()).padStart(2, '0');
     return `${hours}:${minutes}:${seconds}`;
   };
+
+  cargarReservas() {
+    const idEstablecimiento = localStorage.getItem(
+      'establecimientoSeleccionado'
+    );
+
+    this.reservaService
+      .cargarReservas(idEstablecimiento!)
+      .subscribe((response) => {
+        console.log(response);
+        const reservas = response.payload;
+        const eventos = reservas.map((reserva: any) => {
+          const startDateTime = `${reserva.date}T${reserva.start_time}`;
+
+          return {
+            title: `${reserva.name_field} - ${reserva.status}`,
+            start: startDateTime,
+            color: this.obtenerColorPorEstado(reserva.status),
+            textColor: 'black',
+            extendedProps: {
+              user_name: reserva.user_name,
+              user_last_name: reserva.user_last_name,
+              mobile_number: reserva.mobile_number,
+              id: reserva.id,
+              estado: reserva.status,
+            },
+          };
+        });
+
+        this.calendarOptions.events = [
+          ...this.calendarOptions.events,
+          ...eventos,
+        ];
+      });
+  }
+
+  obtenerColorPorEstado(estado: string): string {
+    switch (estado) {
+      case 'RESERVADO':
+        return '#5bc0de';
+      default:
+        return '#000';
+    }
+  }
 }

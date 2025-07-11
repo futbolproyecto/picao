@@ -46,4 +46,10 @@ export class AgendaService {
       { params }
     );
   }
+
+  cargarReservas(establishmentId: string) {
+    return this.http.get<GenericDto>(
+      this.baseUrl + `agenda/get-reserve-by-establishment-id/${establishmentId}`
+    );
+  }
 }
