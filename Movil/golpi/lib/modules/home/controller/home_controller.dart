@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
@@ -61,35 +63,7 @@ class HomeController extends GetxController {
             ));
         break;
       case 2:
-        floatingActionButton.value = floatingActionButton.value = Padding(
-            padding: const EdgeInsets.only(bottom: 100),
-            child: FloatingActionButton(
-              onPressed: () {
-                Get.toNamed(AppPages.reservationField);
-              },
-              backgroundColor:
-                  Theme.of(Get.context!).colorScheme.secondaryContainer,
-              child: Stack(
-                children: [
-                  Center(
-                    child: Icon(
-                      Icons.event_available_outlined,
-                      size: 30,
-                      color: Theme.of(Get.context!).colorScheme.secondary,
-                    ),
-                  ),
-                  Positioned(
-                    top: 3,
-                    right: 3,
-                    child: Icon(
-                      Icons.add_circle_sharp,
-                      size: 20,
-                      color: Theme.of(Get.context!).colorScheme.primary,
-                    ),
-                  ),
-                ],
-              ),
-            ));
+        floatingActionButton.value = null;
         break;
       case 3:
         floatingActionButton.value = null;
@@ -111,8 +85,22 @@ class HomeController extends GetxController {
 
       final idUsuer = await SecureStorage().read(ConstantSecureStorage.idUsuer);
 
+      final images = [
+        'assets/img/equipo1.jpg',
+        'assets/img/equipo2.jpg',
+        'assets/img/equipo3.jpg',
+        'assets/img/equipo4.jpg',
+      ];
+
+      final random = Random();
+
       listTeams.value =
-          await teamRepository.getTeamByUserId(int.parse(idUsuer!));
+          (await teamRepository.getTeamByUserId(int.parse(idUsuer!)))
+              .map((team) {
+        team.image = images[random.nextInt(images.length)];
+        return team;
+      }).toList();
+
       Get.back();
     } on CustomException catch (e) {
       listTeams.value = [];

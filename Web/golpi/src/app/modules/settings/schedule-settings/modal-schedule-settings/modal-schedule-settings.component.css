@@ -151,3 +151,7 @@ h2 {
   align-self: center;
   color: var(--color-primary);
 }
+
+.cerrar:focus {
+  outline: none;
+}

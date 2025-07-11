@@ -22,6 +22,7 @@
           bindLabel="name"
           bindValue="id"
           placeholder="Establecimiento* "
+          appendTo="body"
           [ngClass]="{ 'ng-select-error': validarEstablecimiento() }"
         ></ng-select>
         <small class="text-error" *ngIf="validarEstablecimiento()">
@@ -133,6 +134,7 @@
             [items]="horasDisponibles"
             bindValue="hora"
             placeholder="Hora inicio* "
+            appendTo="body"
           ></ng-select>
         </div>
 
@@ -142,6 +144,7 @@
             [items]="horasFinDisponibles"
             bindValue="hora"
             placeholder="Hora fin* "
+            appendTo="body"
           ></ng-select>
         </div>
       </div>
@@ -151,7 +154,7 @@
             <mat-label
               >Tarifa*
               <mat-icon
-                matTooltip="Valor que se cobrará por el uso de la cancha durante este horario."
+                matTooltip="Valor que se cobrará por el uso de la cancha durante una hora."
                 >info</mat-icon
               >
             </mat-label>

@@ -36,15 +36,20 @@ class UiButtoms {
     );
   }
 
-  Widget textButtom(Color color) {
+  Widget textButtom({Color? color}) {
     return TextButton(
-      child: Text(title!,
-          style: TextStyle(
-            color: color,
-            decoration: TextDecoration.underline,
-            fontFamily: 'Helvetica',
-            fontSize: 16,
-          )),
+      child: Container(
+        padding: EdgeInsets.all(2),
+        decoration: BoxDecoration(
+            color: color ?? Colors.red[100],
+            borderRadius: BorderRadius.circular(5)),
+        child: Text(title!,
+            style: TextStyle(
+              decoration: TextDecoration.none,
+              fontFamily: 'Helvetica',
+              fontSize: 16,
+            )),
+      ),
       onPressed: () => onPressed!(),
     );
   }

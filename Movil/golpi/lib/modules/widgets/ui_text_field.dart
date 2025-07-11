@@ -174,7 +174,7 @@ class UiTextFiel {
         dropdownBuilder: _customDropDown,
         showClearButton: true,
         filterFn: (item, filter) {
-          return _normalizeText(item.name!).contains(filter.toLowerCase());
+          return _normalizeText(item.name ?? '').contains(filter.toLowerCase());
         },
         validationMessages: validationMessages,
         popupProps: PopupProps.dialog(

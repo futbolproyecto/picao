@@ -1,6 +1,6 @@
 <div class="container-agenda">
   <h1>
-    <h1>Reservación / {{ nombrePestana }}</h1>
+    <p>Reservación / {{ nombrePestana }}</p>
   </h1>
   <div class="card-agenda">
     <app-card>
@@ -18,114 +18,35 @@
       </div>
 
       <div *ngIf="AdministrarActivo" class="container-pestana">
-        <form [formGroup]="formularioReservacion" class="form-content">
-          <div class="row">
-            <div class="col-md-6">
-              <mat-form-field class="input-field">
-                <mat-label>Fecha de reserva</mat-label>
-                <input
-                  matInput
-                  [matDatepicker]="picker"
-                  formControlName="fecha_reserva"
-                />
-                <mat-datepicker-toggle
-                  matIconSuffix
-                  [for]="picker"
-                ></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
-              </mat-form-field>
-              <small class="text-error" *ngIf="validarFechaReserva()">
-                {{ fechaReservaError }}
-              </small>
-            </div>
-
-            <div class="col-md-6">
-              <ng-select
-                class="lista"
-                formControlName="cancha"
-                [items]="listaCanchas"
-                bindLabel="name"
-                bindValue="id"
-                placeholder="Cancha* "
-              ></ng-select>
-              <small class="text-error" *ngIf="validarCancha()">
-                {{ canchaError }}
-              </small>
-            </div>
+        <div class="summary-cards">
+          <div class="summary-item">
+            <div class="color-box reservada"></div>
+            <span>Reservada</span>
           </div>
-
-          <div class="row">
-            <div class="col-md-6">
-              <mat-form-field class="input-field">
-                <mat-label>Celular jugador</mat-label>
-                <input matInput formControlName="celular_jugador" />
-              </mat-form-field>
-              <small class="text-error" *ngIf="validarCelular()">
-                {{ celularError }}
-              </small>
-            </div>
-
-            <div class="col-md-6">
-              <div class="disponibilidad">
-                <mat-label class="titulo">Hora de reserva</mat-label>
-                <button
-                  mat-icon-button
-                  class="btn-adicionar"
-                  (click)="openDialog()"
-                >
-                  <mat-icon>schedule</mat-icon>
-                  Buscar disponibilidad
-                </button>
-              </div>
-            </div>
+          <div class="summary-item">
+            <div class="color-box confirmado"></div>
+            <span>Confirmada</span>
           </div>
-
-          <div class="row">
-            <div class="col-md-6">
-              <mat-form-field class="input-field">
-                <mat-label>Hora inicio</mat-label>
-                <input
-                  matInput
-                  type="time"
-                  formControlName="hora_inicio"
-                  readonly
-                />
-              </mat-form-field>
-            </div>
-
-            <div class="col-md-6">
-              <mat-form-field class="input-field">
-                <mat-label>Hora fin</mat-label>
-                <input
-                  matInput
-                  type="time"
-                  formControlName="hora_fin"
-                  readonly
-                />
-              </mat-form-field>
-            </div>
+          <div class="summary-item">
+            <div class="color-box pagada"></div>
+            <span>Pagada</span>
           </div>
-
-          <div class="boton">
-            <button
-              mat-raised-button
-              class="btn"
-              (click)="RegistrarTurno()"
-              type="button"
-            >
-              Registrar turno
-            </button>
+          <div class="summary-item">
+            <div class="color-box ausente"></div>
+            <span>Ausente</span>
           </div>
-        </form>
+          <div class="summary-item">
+            <div class="color-box sin_pagar"></div>
+            <span>No pagada</span>
+          </div>
+        </div>
 
-        <div class="container-tabla">
-          <div class="table-wrapper">
-            <app-data-table
-              [titulo]="tituloReservacion"
-              [tableData]="tablaReservacion"
-              [columnHeader]="encabezadosReservacion"
-            >
-            </app-data-table>
+        <div class="calendar-section">
+          <div class="container-card">
+            <full-calendar
+              class="fullcalendar"
+              [options]="calendarOptions"
+            ></full-calendar>
           </div>
         </div>
       </div>

@@ -10,7 +10,7 @@ h1 {
 }
 
 .card-soccer {
-  padding-bottom: 30px;
+  padding-bottom: 15px;
   background: var(--color-surface-container--lowest);
   box-shadow: 0 3px 15px var(--color-outline-variant);
   border-radius: 15px;

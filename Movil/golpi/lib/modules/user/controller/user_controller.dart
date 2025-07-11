@@ -130,13 +130,13 @@ class UserController extends GetxController {
                       await validateOtp();
                     },
                     title: S().validar)
-                .textButtom(Theme.of(Get.context!).colorScheme.primary),
+                .textButtom(color: Theme.of(Get.context!).colorScheme.primaryContainer),
             UiButtoms(
                     onPressed: () {
                       Get.back();
                     },
                     title: S().cerrar)
-                .textButtom(Colors.black),
+                .textButtom(),
           ]);
     } on CustomException catch (e) {
       Get.back();
@@ -179,13 +179,13 @@ class UserController extends GetxController {
                       await validateOtpEmail();
                     },
                     title: S().validar)
-                .textButtom(Theme.of(Get.context!).colorScheme.primary),
+                .textButtom(color: Theme.of(Get.context!).colorScheme.primaryContainer),
             UiButtoms(
                     onPressed: () {
                       Get.back();
                     },
                     title: S().cerrar)
-                .textButtom(Colors.black),
+                .textButtom(),
           ]);
     } on CustomException catch (e) {
       Get.back();
