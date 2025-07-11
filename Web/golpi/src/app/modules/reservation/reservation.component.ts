@@ -94,11 +94,12 @@ export class ReservationComponent implements OnInit {
       disableClose: true,
       width: '700px',
       data: {
-        fecha: this.formatDate(startDate),
+        fecha: this.formatDate2(startDate),
         hora: this.formatTime(startDate),
         user_name: turno.user_name,
         user_last_name: turno.user_last_name,
         mobile_number: turno.mobile_number,
+        name_field: turno.name_field,
         id: turno.id,
         estado: turno.estado,
       },
@@ -109,7 +110,7 @@ export class ReservationComponent implements OnInit {
     const startDate = new Date(selectInfo.start);
     const endDate = new Date(selectInfo.end);
 
-    this.dialog.open(ModalReservationComponent, {
+    const dialogRef = this.dialog.open(ModalReservationComponent, {
       disableClose: true,
       width: '700px',
       data: {
@@ -119,6 +120,10 @@ export class ReservationComponent implements OnInit {
         endTime: this.formatTime(endDate),
       },
     });
+
+    dialogRef.afterClosed().subscribe(() => {
+      this.cargarReservas();
+    });
   }
 
   formatDate = (date: Date): string => {
@@ -126,6 +131,13 @@ export class ReservationComponent implements OnInit {
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const year = date.getFullYear();
     return `${day}-${month}-${year}`;
+  };
+
+  formatDate2 = (date: Date): string => {
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    return `${year}-${month}-${day}`;
   };
 
   formatTime = (date: Date): string => {
@@ -143,13 +155,12 @@ export class ReservationComponent implements OnInit {
     this.reservaService
       .cargarReservas(idEstablecimiento!)
       .subscribe((response) => {
-        console.log(response);
         const reservas = response.payload;
         const eventos = reservas.map((reserva: any) => {
           const startDateTime = `${reserva.date}T${reserva.start_time}`;
 
           return {
-            title: `${reserva.name_field} - ${reserva.status}`,
+            title: `${reserva.name_field}`,
             start: startDateTime,
             color: this.obtenerColorPorEstado(reserva.status),
             textColor: 'black',
@@ -157,16 +168,14 @@ export class ReservationComponent implements OnInit {
               user_name: reserva.user_name,
               user_last_name: reserva.user_last_name,
               mobile_number: reserva.mobile_number,
+              name_field: reserva.name_field,
               id: reserva.id,
               estado: reserva.status,
             },
           };
         });
 
-        this.calendarOptions.events = [
-          ...this.calendarOptions.events,
-          ...eventos,
-        ];
+        this.calendarOptions.events = eventos;
       });
   }
 

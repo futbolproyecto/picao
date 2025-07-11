@@ -62,3 +62,23 @@ p {
 ::ng-deep .fc-timegrid-slot {
   cursor: pointer;
 }
+
+.list-establishment {
+  padding: 35px 0 0 85px;
+}
+
+.boton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.boton .btn {
+  background-color: var(--color-primary);
+  font-size: 16px;
+  color: var(--color-on-primary-container);
+  height: 45px;
+  width: 50%;
+  border-radius: 10px;
+}

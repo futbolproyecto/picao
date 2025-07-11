@@ -109,8 +109,6 @@ export class EstablishmentComponent implements OnInit {
           .establecimientoPorUsuario(usuarioId)
           .subscribe({
             next: (response) => {
-              console.log('response', response);
-
               this.tablaEstablecimientos = (
                 response.payload as EstablishmentRequestDto[]
               ).map((e) => ({

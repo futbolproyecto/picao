@@ -235,4 +235,36 @@ export class AlertsService {
       },
     });
   }
+
+  fireConfirmCodeNumber(
+    icon: SweetAlertIcon,
+    title: string,
+    text: string,
+    callback: (otp: string) => void
+  ) {
+    Swal.fire({
+      title: title,
+      text: text,
+      icon: icon,
+      input: 'text',
+      inputPlaceholder: 'Ingrese el código recibido',
+      reverseButtons: true,
+      showCancelButton: true,
+      confirmButtonText: 'Verificar',
+      cancelButtonText: 'Cancelar',
+      confirmButtonColor: '#4CAF50',
+      cancelButtonColor: '#f44336',
+      preConfirm: (otp) => {
+        if (!otp) {
+          Swal.showValidationMessage('Debe ingresar el código');
+          return false;
+        }
+        callback(otp);
+        return { otp };
+      },
+      customClass: {
+        popup: 'custom-popup',
+      },
+    });
+  }
 }

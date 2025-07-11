@@ -41,7 +41,6 @@ public class AgendaController {
                 agendaService.getAgendaAvailableByParameters(cityName, date, startTime, endTime, establishmentName));
     }
 
-
     @PostMapping("/reserve")
     public ResponseEntity<GenericResponseDTO> reserve(
             @RequestBody ReserveRequestDTO request) {

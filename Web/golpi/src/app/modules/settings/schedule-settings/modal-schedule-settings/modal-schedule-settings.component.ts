@@ -136,15 +136,29 @@ export class ModalScheduleSettingsComponent implements OnInit {
   constructor(
     private dialogRef: MatDialogRef<ModalScheduleSettingsComponent>,
     @Inject(MAT_DIALOG_DATA)
-    public data: {
-      startDate: string;
-      endDate: string;
-      startTime: string;
-      endTime: string;
-      dayName: string;
-    }
+    public data: any
   ) {
     this.buildForm();
+
+    if (data.fee) {
+      this.tarifaFormateado = data.fee;
+    }
+
+    if (data.cancha) {
+      this.marcarCancha(data.cancha);
+    }
+  }
+
+  marcarCancha(nombreCancha: string) {
+    const canchaArray = this.formularioHorarios.get('cancha') as FormArray;
+
+    if (canchaArray) {
+      this.listaCanchas.forEach((cancha, index) => {
+        if (cancha.name === nombreCancha) {
+          canchaArray.controls[index].setValue(true);
+        }
+      });
+    }
   }
 
   ngOnInit() {

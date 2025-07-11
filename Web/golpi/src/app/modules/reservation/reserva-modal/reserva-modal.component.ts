@@ -40,7 +40,6 @@ export class ReservaModalComponent implements OnInit {
     public dialogRef: MatDialogRef<ReservaModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
-    console.log(data);
     this.buildForm();
   }
 

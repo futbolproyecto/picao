@@ -4,6 +4,7 @@ import { environment } from '../../../environments/environment';
 import { GenericDto } from '../models/generic-dto';
 import { ScheduleRequestDto } from '../../data/schema/scheduleRequestDto';
 import { AgendaDto } from '../../data/schema/agendaDto';
+import { ReserveRequestDto } from '../../data/schema/reserveRequestDto';
 
 @Injectable({
   providedIn: 'root',
@@ -50,6 +51,13 @@ export class AgendaService {
   cargarReservas(establishmentId: string) {
     return this.http.get<GenericDto>(
       this.baseUrl + `agenda/get-reserve-by-establishment-id/${establishmentId}`
+    );
+  }
+
+  reservar(reserveRequestDto: ReserveRequestDto) {
+    return this.http.post<GenericDto>(
+      this.baseUrl + `agenda/reserve`,
+      reserveRequestDto
     );
   }
 }

@@ -16,9 +16,9 @@
   <p>
     <strong>Cliente:</strong> {{ data.user_name }} {{ data.user_last_name }}
   </p>
-  <p><strong>Número celular:</strong> {{ data.mobile_number }}</p>
+  <p><strong>Número celular:</strong> +{{ data.mobile_number }}</p>
   <p><strong>Estado:</strong> {{ data.estado }}</p>
-  <p><strong>Fecha - Hora:</strong> {{ data.fecha }} {{ data.hora }}</p>
+  <p><strong>Fecha - Hora:</strong> {{ data.fecha }} ({{ data.hora }})</p>
 
   <form [formGroup]="formularioInformacion">
     <div class="row">

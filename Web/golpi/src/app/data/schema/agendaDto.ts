@@ -7,6 +7,7 @@ export class AgendaDto extends GenericDto {
   cityName?: string;
   fecha?: string;
   establishmentName?: string;
+  establishment?: string;
 
   constructor(init?: Partial<AgendaDto>) {
     super();
