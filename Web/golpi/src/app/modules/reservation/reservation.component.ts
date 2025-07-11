@@ -87,7 +87,7 @@ export class ReservationComponent implements OnInit {
       right: 'dayGridMonth,timeGridWeek,timeGridDay',
     },
     allDaySlot: false,
-    slotMinTime: '00:00:00',
+    slotMinTime: '06:00:00',
     slotMaxTime: '23:00:00',
     slotDuration: '01:00:00',
     snapDuration: '01:00:00',
@@ -106,45 +106,50 @@ export class ReservationComponent implements OnInit {
   };
 
   abrirModal(eventInfo: any) {
+    const startDate = new Date(eventInfo.event.start);
+
     const turno = eventInfo.event.extendedProps;
     this.dialog.open(ReservaModalComponent, {
+      disableClose: true,
+      width: '700px',
       data: {
         cancha: turno.cancha,
         tipo: turno.tipo,
         cliente: turno.cliente,
         estado: turno.estado,
-        hora: eventInfo.event.start,
+        fecha: this.formatDate(startDate),
+        hora: this.formatTime(startDate),
       },
     });
   }
 
   abrirModalNuevaReserva(selectInfo: any) {
-    const startDate = new Date(selectInfo.startStr);
-    const endDate = new Date(selectInfo.endStr);
-
-    const formatDate = (date: Date): string => {
-      const day = String(date.getDate()).padStart(2, '0');
-      const month = String(date.getMonth() + 1).padStart(2, '0');
-      const year = date.getFullYear();
-      return `${day}-${month}-${year}`;
-    };
-
-    const formatTime = (date: Date): string => {
-      const hours = String(date.getHours()).padStart(2, '0');
-      const minutes = String(date.getMinutes()).padStart(2, '0');
-      const seconds = String(date.getSeconds()).padStart(2, '0');
-      return `${hours}:${minutes}:${seconds}`;
-    };
+    const startDate = new Date(selectInfo.start);
+    const endDate = new Date(selectInfo.end);
 
     this.dialog.open(ModalReservationComponent, {
       disableClose: true,
       width: '700px',
       data: {
-        startDate: formatDate(startDate),
-        endDate: formatDate(endDate),
-        startTime: formatTime(startDate),
-        endTime: formatTime(endDate),
+        startDate: this.formatDate(startDate),
+        endDate: this.formatDate(endDate),
+        startTime: this.formatTime(startDate),
+        endTime: this.formatTime(endDate),
       },
     });
   }
+
+  formatDate = (date: Date): string => {
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    return `${day}-${month}-${year}`;
+  };
+
+  formatTime = (date: Date): string => {
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const seconds = String(date.getSeconds()).padStart(2, '0');
+    return `${hours}:${minutes}:${seconds}`;
+  };
 }

@@ -1,9 +1,13 @@
-.boton .btn {
+.boton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 15px 15px;
+}
+
+.boton .btn-continuar {
   background-color: var(--color-primary);
-  font-size: 16px;
-  color: var(--color-on-primary-container);
-  height: 45px;
-  border-radius: 10px;
+  color: var(--color-surface-container--lowest);
 }
 
 h2 {
@@ -12,8 +16,26 @@ h2 {
 }
 
 .container-titulo {
+  height: 55px;
+  align-items: center;
   display: flex;
   justify-content: space-between;
   background: var(--color-secondary);
   color: var(--color-surface-container--lowest);
+}
+
+::ng-deep .mdc-dialog--open .mat-mdc-dialog-surface {
+  padding: 0px !important;
+}
+
+.cerrar {
+  align-items: center;
+}
+
+::ng-deep .mat-mdc-dialog-container-with-actions .mat-mdc-dialog-content {
+  padding-bottom: 0px !important;
+}
+
+.cerrar:focus {
+  outline: none;
 }

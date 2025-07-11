@@ -56,3 +56,9 @@ p {
   max-height: 750px;
   overflow-y: auto;
 }
+
+::ng-deep .fc-event,
+::ng-deep .fc-daygrid-day-frame,
+::ng-deep .fc-timegrid-slot {
+  cursor: pointer;
+}

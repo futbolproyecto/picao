@@ -161,3 +161,9 @@ span {
   color: black;
   font-weight: 500;
 }
+
+::ng-deep .fc-event,
+::ng-deep .fc-daygrid-day-frame,
+::ng-deep .fc-timegrid-slot {
+  cursor: pointer;
+}

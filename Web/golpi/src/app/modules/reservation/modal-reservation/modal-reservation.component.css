@@ -95,3 +95,7 @@ h1 {
   align-items: center;
   padding-left: 1rem;
 }
+
+.cerrar:focus {
+  outline: none;
+}
