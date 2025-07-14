@@ -28,11 +28,13 @@ import { AgendaService } from '../../../core/service/agenda.service';
 import { BusyService } from '../../../core/busy.service';
 import { AgendaDto } from '../../../data/schema/agendaDto';
 import { DateSelectArg, EventClickArg } from '@fullcalendar/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-schedule-settings',
   standalone: true,
   imports: [
+    CommonModule,
     FullCalendarModule,
     CardComponent,
     MatDialogModule,
