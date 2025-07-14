@@ -31,12 +31,16 @@ class GeneralModel {
       throw CustomException(ErrorModel().uncontrolledError());
     }
 
+    if (object is String) {
+      object = {"response": object};
+    }
+
     return jsonDecode(jsonEncode(object).toString());
   }
 
   List<dynamic> jsonStringifyToList(Object? object) {
     if (object == null) {
-       throw CustomException(ErrorModel().uncontrolledError());
+      throw CustomException(ErrorModel().uncontrolledError());
     }
 
     return json.decode(jsonEncode(object).toString());

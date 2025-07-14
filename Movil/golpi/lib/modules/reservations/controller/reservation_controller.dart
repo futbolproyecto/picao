@@ -302,7 +302,9 @@ class ReservationController extends GetxController {
           barrierDismissible: false,
           disableBackBtn: true,
         );
-
+        
+        Get.back();
+        
         await reservationRepository.reserve(ReserveRequestModel(
             agendaId: listAgenda,
             otp: formOtpConfirmation.control('otp_number').value));
