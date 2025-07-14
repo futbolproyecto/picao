@@ -89,6 +89,7 @@
     "mensajeHorario1": "a la(s) {hora}",
     "mensajeHorario2": "desde la(s) {hora1} hasta la(s) {hora2}",
     "reservar": "Reservar",
+    "exitoReserva": "Tu reserva ha sido guardada. Puedes verla en la sección Mis Encuentros",
     "mensajesErrorFormularios": "--------------------------------------------",
     "campoRequerido": "Campo requerido",
     "longitudMaximo": "Máximo {numero} caracteres",

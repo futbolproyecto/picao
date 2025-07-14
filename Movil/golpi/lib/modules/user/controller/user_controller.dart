@@ -115,7 +115,8 @@ class UserController extends GetxController {
       );
 
       await userRepository.sendOtpMobileNumber(
-          '${formUserRegistrer.control('cell_prefix').value}${formUserRegistrer.control('mobile_number').value}');
+          mobileNumber:
+              '${formUserRegistrer.control('cell_prefix').value}${formUserRegistrer.control('mobile_number').value}');
 
       Get.back();
       UiAlertMessage(Get.context!).custom(
@@ -130,7 +131,8 @@ class UserController extends GetxController {
                       await validateOtp();
                     },
                     title: S().validar)
-                .textButtom(color: Theme.of(Get.context!).colorScheme.primaryContainer),
+                .textButtom(
+                    color: Theme.of(Get.context!).colorScheme.primaryContainer),
             UiButtoms(
                     onPressed: () {
                       Get.back();
@@ -179,7 +181,8 @@ class UserController extends GetxController {
                       await validateOtpEmail();
                     },
                     title: S().validar)
-                .textButtom(color: Theme.of(Get.context!).colorScheme.primaryContainer),
+                .textButtom(
+                    color: Theme.of(Get.context!).colorScheme.primaryContainer),
             UiButtoms(
                     onPressed: () {
                       Get.back();

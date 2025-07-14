@@ -4,6 +4,7 @@ import 'package:golpi/core/constants/constant_secure_storage.dart';
 import 'package:golpi/core/utils/utility.dart';
 import 'package:golpi/data/service/secure_storage.dart';
 import 'package:golpi/generated/l10n.dart';
+import 'package:golpi/modules/team/models/reserve_request_model.dart';
 import 'package:golpi/modules/widgets/modal_otp_validation.dart';
 import 'package:golpi/modules/widgets/ui_buttoms.dart';
 import 'package:quickalert/models/quickalert_type.dart';
@@ -35,6 +36,7 @@ class ReservationController extends GetxController {
   var lisEstablishmentsOptions = <OptionModel>[].obs;
   var isExpanded = true.obs;
   var selectedItems = <int>{}.obs;
+  var listAgenda = <String>[].obs;
 
   var formSearchField = FormGroup({
     'date': FormControl<DateTime>(),
@@ -199,6 +201,8 @@ class ReservationController extends GetxController {
           return;
         }
       }
+
+      listAgenda.add(fieldAvailableList[index].id!);
     }
 
     String mensajeHorario = S().mensajeHorario1('${hours[0]}:00');
@@ -244,23 +248,26 @@ class ReservationController extends GetxController {
         disableBackBtn: true,
       );
 
-      /* await userRepository.sendOtpMobileNumber(
-          '${formUserRegistrer.control('cell_prefix').value}${formUserRegistrer.control('mobile_number').value}');
- */
-
       final mobileNumber =
           await SecureStorage().read(ConstantSecureStorage.mobileNumber);
+
+      await reservationRepository.sendOtpMobileNumber(
+        mobileNumber: mobileNumber!,
+        isReserve: true,
+      );
+
       Get.back();
+
       UiAlertMessage(Get.context!).custom(
           child: ModalOtpValidation().validateOtp(
             context: Get.context!,
             formOtpConfirmation: formOtpConfirmation,
-            mobileNumber: mobileNumber ?? '¡Error!',
+            mobileNumber: mobileNumber,
           ),
           actions: [
             UiButtoms(
                     onPressed: () async {
-                      await validateOtp();
+                      await confirmReserve();
                     },
                     title: S().validar)
                 .textButtom(
@@ -284,26 +291,29 @@ class ReservationController extends GetxController {
     }
   }
 
-  Future<void> validateOtp() async {
+  Future<void> confirmReserve() async {
     try {
       if (formOtpConfirmation.valid) {
         QuickAlert.show(
           context: Get.context!,
           type: QuickAlertType.loading,
           title: 'Cargando...',
-          text: 'Validando otp',
+          text: 'Confirmado reserva',
           barrierDismissible: false,
           disableBackBtn: true,
         );
 
-        /* await userRepository.validateOtp(
-            formOtpConfirmation.control('otp_number').value,
-            formUserRegistrer.control('mobile_number').value); */
+        await reservationRepository.reserve(ReserveRequestModel(
+            agendaId: listAgenda,
+            otp: formOtpConfirmation.control('otp_number').value));
 
-        Get.back();
         formOtpConfirmation.reset();
-        // registerUser();
         getFieldsAvailable();
+        Get.back();
+        UiAlertMessage(Get.context!).success(
+          message: S().exitoReserva,
+          actionButtom: () => Get.back(),
+        );
       } else {
         formOtpConfirmation.markAllAsTouched();
       }

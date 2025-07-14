@@ -99,6 +99,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "La clave se actualizó correctamente"),
         "exitoRegistrar": MessageLookupByLibrary.simpleMessage(
             "La información se registró de manera exitosa"),
+        "exitoReserva": MessageLookupByLibrary.simpleMessage(
+            "Tu reserva ha sido guardada. Puedes verla en la sección Mis Encuentros"),
         "exitoSalirEquipo": m2,
         "fecha": MessageLookupByLibrary.simpleMessage("Fecha"),
         "fechaNacimiento":

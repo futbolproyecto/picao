@@ -951,6 +951,16 @@ class S {
     );
   }
 
+  /// `Tu reserva ha sido guardada. Puedes verla en la sección Mis Encuentros`
+  String get exitoReserva {
+    return Intl.message(
+      'Tu reserva ha sido guardada. Puedes verla en la sección Mis Encuentros',
+      name: 'exitoReserva',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `--------------------------------------------`
   String get mensajesErrorFormularios {
     return Intl.message(

@@ -9,10 +9,13 @@ import 'package:golpi/modules/user/models/change_password_model.dart';
 import 'package:golpi/modules/user/models/player_profile_register_model.dart';
 
 class UserRepository {
-  Future<void> sendOtpMobileNumber(String mobileNumber) async {
+  Future<void> sendOtpMobileNumber({
+    required String mobileNumber,
+    bool isReserve = false,
+  }) async {
     try {
-      await HttpService(ConstantEndpoints.sendOtpMobileNumber)
-          .postRequesParam({'mobile_number': mobileNumber});
+      await HttpService(ConstantEndpoints.sendOtpMobileNumber).postRequesParam(
+          {'mobile_number': mobileNumber, 'is_reserve': isReserve.toString()});
     } on Exception catch (_) {
       rethrow;
     }

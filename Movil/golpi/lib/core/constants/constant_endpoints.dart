@@ -24,6 +24,7 @@ class ConstantEndpoints {
   static String getAllCountry = '/country/get-all';
   static String getFieldAvailable = '/agenda/get-available-by-filters';
   static String getEstablishmentByCity = '/establishment/get-by-city';
+  static String agendaRerve = '/agenda/reserve';
 
   static List<String> get blackList => [
         ConstantEndpoints.login,

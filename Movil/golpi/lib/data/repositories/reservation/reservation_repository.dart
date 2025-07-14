@@ -3,6 +3,7 @@ import 'package:golpi/core/utils/general_model.dart';
 import 'package:golpi/core/models/option_model.dart';
 import 'package:golpi/core/constants/constant_endpoints.dart';
 import 'package:golpi/modules/reservations/models/field_available_model.dart';
+import 'package:golpi/modules/team/models/reserve_request_model.dart';
 
 class ReservationRepository {
   Future<List<FieldAvailableModel>> getFieldAvailable({
@@ -53,6 +54,27 @@ class ReservationRepository {
       return (GeneralModel().jsonStringifyToList(response))
           .map((i) => OptionModel.fromJson(i))
           .toList();
+    } on Exception catch (_) {
+      rethrow;
+    }
+  }
+
+  Future<void> sendOtpMobileNumber({
+    required String mobileNumber,
+    bool isReserve = false,
+  }) async {
+    try {
+      await HttpService(ConstantEndpoints.sendOtpMobileNumber).postRequesParam(
+          {'mobile_number': mobileNumber, 'is_reserve': isReserve.toString()});
+    } on Exception catch (_) {
+      rethrow;
+    }
+  }
+
+  Future<void> reserve(ReserveRequestModel reserveRequestModel) async {
+    try {
+      await HttpService(ConstantEndpoints.agendaRerve)
+          .post(reserveRequestModel.toJson());
     } on Exception catch (_) {
       rethrow;
     }
