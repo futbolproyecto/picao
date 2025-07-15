@@ -138,18 +138,19 @@ public class AgendaServiceImpl implements AgendaService {
 
     @Transactional
     @Override
-    public String reserve(ReserveRequestDTO requestDTO) {
+    public Set<AgendaResponseDTO> reserve(ReserveRequestDTO requestDTO) {
 
         UserEntity user = userRepository.findByEmail(UsefulMethods.getLoggedUsername()).orElseThrow(
                 () -> new AppException(ErrorMessages.USER_NOT_EXIST, HttpStatus.NOT_FOUND));
-        try {
 
+        List<Agenda> agendas = requestDTO.agendaId().stream()
+                .map(uuid -> agendaRepository.findById(uuid)
+                        .orElseThrow(() -> new AppException(
+                                ErrorMessages.GENERIC_NOT_EXIST, HttpStatus.NOT_FOUND, "Agenda")))
+                .toList();
+
+        try {
             if (Boolean.TRUE.equals(otpService.validateMobileNumber(requestDTO.otp(), user.getMobileNumber()))) {
-                List<Agenda> agendas = requestDTO.agendaId().stream()
-                        .map(uuid -> agendaRepository.findById(uuid)
-                                .orElseThrow(() -> new AppException(
-                                        ErrorMessages.GENERIC_NOT_EXIST, HttpStatus.NOT_FOUND, "Agenda")))
-                        .toList();
 
                 for (Agenda agenda : agendas) {
                     if (!TimeStatus.DISPONIBLE.equals(agenda.getStatus())) {
@@ -159,10 +160,11 @@ public class AgendaServiceImpl implements AgendaService {
                     agenda.setUser(user);
                 }
 
-                agendaRepository.saveAll(agendas);
+                agendas = agendaRepository.saveAll(agendas);
             }
 
-            return "Reservas realizadas con éxito";
+            return agendas.stream().map(
+                    MAPPER::toAgendaResponseDTO).collect(Collectors.toSet());
 
         } catch (AppException e) {
             throw new AppException(e.getErrorMessages(), e.getHttpStatus(), e.getArgs());

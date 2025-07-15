@@ -19,7 +19,7 @@ public interface AgendaService {
     List<AgendaResponseDTO> getAgendaAvailableByParameters(String cityName, LocalDate date, LocalTime startTime,
                                                            LocalTime endTime, String establishmentName);
 
-    String reserve(ReserveRequestDTO requestDTO);
+    Set<AgendaResponseDTO> reserve(ReserveRequestDTO requestDTO);
 
     Set<AgendaResponseDTO> getReserveByEstablishmentIdId(UUID establishmentIdId);
 }

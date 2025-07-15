@@ -45,6 +45,8 @@ public class AgendaSpecification {
             // estado DISPONIBLE obligatorio
             predicates.add(cb.equal(agenda.get("status"), TimeStatus.DISPONIBLE));
 
+            predicates.add(cb.greaterThanOrEqualTo(agenda.get("date"), LocalDate.now()));
+
             // fecha opcional
             if (date != null) {
                 predicates.add(cb.equal(agenda.get("date"), date));
