@@ -239,4 +239,14 @@ public class AgendaServiceImpl implements AgendaService {
         };
     }
 
+    public List<String> obtenerEstadosAgenda() {
+        try {
+            return Arrays.stream(AgendaStatus.values())
+                    .map(Enum::name)
+                    .collect(Collectors.toList());
+        } catch (AppException e) {
+            throw new AppException(e.getErrorMessages(), e.getHttpStatus(), e.getArgs());
+        }
+    }
+
 }

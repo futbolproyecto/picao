@@ -58,4 +58,10 @@ public class AgendaController {
             @RequestBody() ChangeReservationStatusRequestDTO requestDTO) {
         return GenericResponseDTO.genericResponse(agendaService.changeReservationStatus(requestDTO));
     }
+
+    @GetMapping("agenda-status")
+    public ResponseEntity<GenericResponseDTO> obtenerEstadosAgenda() {
+        return GenericResponseDTO.genericResponse(agendaService.obtenerEstadosAgenda());
+    }
+
 }

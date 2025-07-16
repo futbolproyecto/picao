@@ -32,7 +32,6 @@ import { AgendaService } from '../../core/service/agenda.service';
 export class ReservationComponent implements OnInit {
   public AdministrarActivo: boolean = true;
   public nombrePestana: string = 'Administrar reservaciones';
-  private alertsService = inject(AlertsService);
 
   public totalTurnos = 50;
   public turnosPendientes = 15;
@@ -90,7 +89,7 @@ export class ReservationComponent implements OnInit {
     const startDate = new Date(eventInfo.event.start);
 
     const turno = eventInfo.event.extendedProps;
-    this.dialog.open(ReservaModalComponent, {
+    const dialogRef = this.dialog.open(ReservaModalComponent, {
       disableClose: true,
       width: '700px',
       data: {
@@ -103,6 +102,10 @@ export class ReservationComponent implements OnInit {
         id: turno.id,
         estado: turno.estado,
       },
+    });
+
+    dialogRef.afterClosed().subscribe(() => {
+      this.cargarReservas();
     });
   }
 
@@ -181,10 +184,24 @@ export class ReservationComponent implements OnInit {
 
   obtenerColorPorEstado(estado: string): string {
     switch (estado) {
+      case 'DISPONIBLE':
+        return '#17a2b8';
       case 'RESERVADO':
-        return '#5bc0de';
+        return '#0275d8';
+      case 'CONFIRMADO':
+        return '#28a745';
+      case 'BLOQUEADO':
+        return '#6f42c1';
+      case 'PAGADO':
+        return '#ffc107';
+      case 'INASISTIDO':
+        return '#6c757d';
+      case 'NO_PAGADO':
+        return '#fd7e14';
+      case 'CANCELADO':
+        return '#dc3545';
       default:
-        return '#000';
+        return '#343a40';
     }
   }
 }

@@ -5,6 +5,7 @@ import { GenericDto } from '../models/generic-dto';
 import { ScheduleRequestDto } from '../../data/schema/scheduleRequestDto';
 import { AgendaDto } from '../../data/schema/agendaDto';
 import { ReserveRequestDto } from '../../data/schema/reserveRequestDto';
+import { ChangeReservationStatusRequestDto } from '../../data/schema/changeReservationStatusRequestDto';
 
 @Injectable({
   providedIn: 'root',
@@ -58,6 +59,19 @@ export class AgendaService {
     return this.http.post<GenericDto>(
       this.baseUrl + `agenda/reserve`,
       reserveRequestDto
+    );
+  }
+
+  obtenerEstadosAgenda() {
+    return this.http.get<GenericDto>(this.baseUrl + `agenda/agenda-status`);
+  }
+
+  cambiarEstadosAgenda(
+    changeReservationStatusRequestDto: ChangeReservationStatusRequestDto
+  ) {
+    return this.http.put<GenericDto>(
+      this.baseUrl + `agenda/change-reservation-status`,
+      changeReservationStatusRequestDto
     );
   }
 }

@@ -13,6 +13,7 @@ public record ChangeReservationStatusRequestDTO(
         UUID agendaId,
 
         @NotBlank
+        @JsonProperty("agenda_status")
         AgendaStatus status
 ) {
 

@@ -24,26 +24,13 @@
     <div class="row">
       <div class="col-md-12 mt-2">
         <ng-select
+          [items]="estadoAgendaOptions"
+          bindLabel="label"
+          bindValue="value"
           formControlName="estado"
-          placeholder="Estado "
+          placeholder="Estado"
           appendTo="body"
         >
-          <ng-option [value]="0">Seleccione...</ng-option>
-          <ng-option [value]="1" *ngIf="data.estado !== 'Confirmada'"
-            >Confirmada</ng-option
-          >
-          <ng-option [value]="2" *ngIf="data.estado !== 'Pagada'"
-            >Pagada</ng-option
-          >
-          <ng-option [value]="3" *ngIf="data.estado !== 'No pagada'"
-            >No pagada</ng-option
-          >
-          <ng-option [value]="4" *ngIf="data.estado !== 'Ausente'"
-            >Ausente</ng-option
-          >
-          <ng-option [value]="5" *ngIf="data.estado !== 'Cancelado'"
-            >Cancelado</ng-option
-          >
         </ng-select>
       </div>
     </div>
