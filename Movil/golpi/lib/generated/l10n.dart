@@ -951,11 +951,51 @@ class S {
     );
   }
 
-  /// `Tu reserva ha sido guardada. Puedes verla en la sección Mis Encuentros`
+  /// `Tu reserva ha sido guardada. Puedes verla en la sección Mis reservas`
   String get exitoReserva {
     return Intl.message(
-      'Tu reserva ha sido guardada. Puedes verla en la sección Mis Encuentros',
+      'Tu reserva ha sido guardada. Puedes verla en la sección Mis reservas',
       name: 'exitoReserva',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Se ha enviado un codigo OTP al numero {mobileNumber}, ingresalo para continuar`
+  String menesajeConfirmarOtp(Object mobileNumber) {
+    return Intl.message(
+      'Se ha enviado un codigo OTP al numero $mobileNumber, ingresalo para continuar',
+      name: 'menesajeConfirmarOtp',
+      desc: '',
+      args: [mobileNumber],
+    );
+  }
+
+  /// `Hemos enviado un código OTP a tu WhatsApp ({mobileNumber}). Ingrésalo para confirmar la reserva.`
+  String mensajeOtpReserva(Object mobileNumber) {
+    return Intl.message(
+      'Hemos enviado un código OTP a tu WhatsApp ($mobileNumber). Ingrésalo para confirmar la reserva.',
+      name: 'mensajeOtpReserva',
+      desc: '',
+      args: [mobileNumber],
+    );
+  }
+
+  /// `Crear reserva`
+  String get crearReserva {
+    return Intl.message(
+      'Crear reserva',
+      name: 'crearReserva',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Mis reservas`
+  String get misReservas {
+    return Intl.message(
+      'Mis reservas',
+      name: 'misReservas',
       desc: '',
       args: [],
     );

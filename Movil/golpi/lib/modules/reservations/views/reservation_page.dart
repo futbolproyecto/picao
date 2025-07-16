@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:golpi/core/routes/app_pages.dart';
+import 'package:golpi/generated/l10n.dart';
 import 'package:golpi/modules/widgets/ui_text.dart';
 import 'package:golpi/modules/widgets/curved_background.dart';
 
@@ -60,7 +61,7 @@ class MatchesPage extends StatelessWidget {
                                   color: Theme.of(context).colorScheme.primary,
                                   size: 60,
                                 )),
-                            UiText(text: 'Crear evento').paragraphSemiBold(
+                            UiText(text: S.of(context).crearReserva).paragraphSemiBold(
                                 color: Theme.of(context).colorScheme.primary)
                           ],
                         ),
@@ -92,7 +93,7 @@ class MatchesPage extends StatelessWidget {
                                   color: Theme.of(context).colorScheme.primary,
                                   size: 60,
                                 )),
-                            UiText(text: 'Ver eventos').paragraphSemiBold(
+                            UiText(text: S.of(context).misReservas).paragraphSemiBold(
                                 color: Theme.of(context).colorScheme.primary)
                           ],
                         ),

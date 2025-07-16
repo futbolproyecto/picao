@@ -262,7 +262,7 @@ class ReservationController extends GetxController {
           child: ModalOtpValidation().validateOtp(
             context: Get.context!,
             formOtpConfirmation: formOtpConfirmation,
-            mobileNumber: mobileNumber,
+            message: S().mensajeOtpReserva(mobileNumber),
           ),
           actions: [
             UiButtoms(
@@ -302,16 +302,21 @@ class ReservationController extends GetxController {
           barrierDismissible: false,
           disableBackBtn: true,
         );
-        
+
         Get.back();
-        
+
         await reservationRepository.reserve(ReserveRequestModel(
             agendaId: listAgenda,
             otp: formOtpConfirmation.control('otp_number').value));
 
         formOtpConfirmation.reset();
         getFieldsAvailable();
+        
+        listAgenda.value = [];
+        selectedItems = <int>{}.obs;
+
         Get.back();
+
         UiAlertMessage(Get.context!).success(
           message: S().exitoReserva,
           actionButtom: () => Get.back(),

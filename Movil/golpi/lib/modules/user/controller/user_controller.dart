@@ -123,7 +123,8 @@ class UserController extends GetxController {
           child: ModalOtpValidation().validateOtp(
             context: Get.context!,
             formOtpConfirmation: formOtpConfirmation,
-            mobileNumber: formUserRegistrer.control('mobile_number').value,
+            message: S().menesajeConfirmarOtp(
+                formUserRegistrer.control('mobile_number').value),
           ),
           actions: [
             UiButtoms(

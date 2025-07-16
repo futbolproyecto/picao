@@ -35,11 +35,17 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m5(numero) => "Mínimo ${numero} caracteres";
 
-  static String m6(hora) => "a la(s) ${hora}";
+  static String m6(mobileNumber) =>
+      "Se ha enviado un codigo OTP al numero ${mobileNumber}, ingresalo para continuar";
 
-  static String m7(hora1, hora2) => "desde la(s) ${hora1} hasta la(s) ${hora2}";
+  static String m7(hora) => "a la(s) ${hora}";
 
-  static String m8(numero) => "${numero} caracteres";
+  static String m8(hora1, hora2) => "desde la(s) ${hora1} hasta la(s) ${hora2}";
+
+  static String m9(mobileNumber) =>
+      "Hemos enviado un código OTP a tu WhatsApp (${mobileNumber}). Ingrésalo para confirmar la reserva.";
+
+  static String m10(numero) => "${numero} caracteres";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -85,6 +91,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Por favor, introduce el correo electrónico asociado a tu cuenta para recuperar tu contraseña."),
         "correoCelular":
             MessageLookupByLibrary.simpleMessage("Correo o celular"),
+        "crearReserva": MessageLookupByLibrary.simpleMessage("Crear reserva"),
         "dia": MessageLookupByLibrary.simpleMessage("Dia"),
         "direccion": MessageLookupByLibrary.simpleMessage("Dirección"),
         "encuentros": MessageLookupByLibrary.simpleMessage("Encuentros"),
@@ -100,7 +107,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "exitoRegistrar": MessageLookupByLibrary.simpleMessage(
             "La información se registró de manera exitosa"),
         "exitoReserva": MessageLookupByLibrary.simpleMessage(
-            "Tu reserva ha sido guardada. Puedes verla en la sección Mis Encuentros"),
+            "Tu reserva ha sido guardada. Puedes verla en la sección Mis reservas"),
         "exitoSalirEquipo": m2,
         "fecha": MessageLookupByLibrary.simpleMessage("Fecha"),
         "fechaNacimiento":
@@ -132,13 +139,16 @@ class MessageLookup extends MessageLookupByLibrary {
         "longitudMaximo": m4,
         "longitudMinimo": m5,
         "mayuscula": MessageLookupByLibrary.simpleMessage("Mayúscula"),
-        "mensajeHorario1": m6,
-        "mensajeHorario2": m7,
+        "menesajeConfirmarOtp": m6,
+        "mensajeHorario1": m7,
+        "mensajeHorario2": m8,
+        "mensajeOtpReserva": m9,
         "mensajesErrorFormularios": MessageLookupByLibrary.simpleMessage(
             "--------------------------------------------"),
         "miPerfil": MessageLookupByLibrary.simpleMessage("Mi perfil"),
         "minuscula": MessageLookupByLibrary.simpleMessage("Minúscula"),
-        "nCaracteres": m8,
+        "misReservas": MessageLookupByLibrary.simpleMessage("Mis reservas"),
+        "nCaracteres": m10,
         "nombreEquipo":
             MessageLookupByLibrary.simpleMessage("Nombre del equipo"),
         "nombres": MessageLookupByLibrary.simpleMessage("Nombres"),
