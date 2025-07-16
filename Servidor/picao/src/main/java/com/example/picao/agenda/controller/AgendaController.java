@@ -1,5 +1,6 @@
 package com.example.picao.agenda.controller;
 
+import com.example.picao.agenda.dto.ChangeReservationStatusRequestDTO;
 import com.example.picao.agenda.dto.CreateAgendaRequestDTO;
 import com.example.picao.agenda.dto.ReserveRequestDTO;
 import com.example.picao.agenda.service.AgendaService;
@@ -50,5 +51,11 @@ public class AgendaController {
     @GetMapping(value = "get-reserve-by-establishment-id/{establishmentId}")
     public ResponseEntity<GenericResponseDTO> getReserveByEstablishmentId(@PathVariable() UUID establishmentId) {
         return GenericResponseDTO.genericResponse(agendaService.getReserveByEstablishmentIdId(establishmentId));
+    }
+
+    @PutMapping(value = "change-reservation-status")
+    public ResponseEntity<GenericResponseDTO> getReserveByEstablishmentId(
+            @RequestBody() ChangeReservationStatusRequestDTO requestDTO) {
+        return GenericResponseDTO.genericResponse(agendaService.changeReservationStatus(requestDTO));
     }
 }

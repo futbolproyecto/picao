@@ -1,6 +1,7 @@
 package com.example.picao.agenda.service;
 
 import com.example.picao.agenda.dto.AgendaResponseDTO;
+import com.example.picao.agenda.dto.ChangeReservationStatusRequestDTO;
 import com.example.picao.agenda.dto.CreateAgendaRequestDTO;
 import com.example.picao.agenda.dto.ReserveRequestDTO;
 
@@ -22,4 +23,6 @@ public interface AgendaService {
     Set<AgendaResponseDTO> reserve(ReserveRequestDTO requestDTO);
 
     Set<AgendaResponseDTO> getReserveByEstablishmentIdId(UUID establishmentIdId);
+
+    AgendaResponseDTO changeReservationStatus(ChangeReservationStatusRequestDTO requestDTO);
 }

@@ -33,7 +33,7 @@ public class Agenda {
 
     @Column(length = 30)
     @Enumerated(EnumType.STRING)
-    private TimeStatus status;
+    private AgendaStatus status;
 
     @Column(name = "day_of_week", length = 10)
     @Enumerated(EnumType.STRING)

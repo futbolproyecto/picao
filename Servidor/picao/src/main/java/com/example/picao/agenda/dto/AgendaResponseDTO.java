@@ -1,7 +1,7 @@
 package com.example.picao.agenda.dto;
 
 import com.example.picao.agenda.entity.DayOfWeek;
-import com.example.picao.agenda.entity.TimeStatus;
+import com.example.picao.agenda.entity.AgendaStatus;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
@@ -28,7 +28,7 @@ public class AgendaResponseDTO {
     @JsonProperty("start_time")
     LocalTime startTime;
 
-    TimeStatus status;
+    AgendaStatus status;
 
     @JsonProperty("day_of_week")
     DayOfWeek dayOfWeek;
@@ -60,7 +60,7 @@ public class AgendaResponseDTO {
     String mobileNumber;
 
 
-    public AgendaResponseDTO(UUID id, LocalDate date, LocalTime startTime, TimeStatus status, DayOfWeek dayOfWeek,
+    public AgendaResponseDTO(UUID id, LocalDate date, LocalTime startTime, AgendaStatus status, DayOfWeek dayOfWeek,
                              String nameField, UUID fieldId, Integer userId, String userName, String userLastName,
                              String mobileNumber) {
         this.id = id;

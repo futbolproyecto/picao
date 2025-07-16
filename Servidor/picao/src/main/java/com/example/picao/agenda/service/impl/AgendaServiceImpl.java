@@ -1,12 +1,9 @@
 package com.example.picao.agenda.service.impl;
 
-import com.example.picao.agenda.dto.AgendaResponseDTO;
-import com.example.picao.agenda.dto.CreateAgendaRequestDTO;
-import com.example.picao.agenda.dto.InformationSchedule;
-import com.example.picao.agenda.dto.ReserveRequestDTO;
+import com.example.picao.agenda.dto.*;
 import com.example.picao.agenda.entity.Agenda;
 import com.example.picao.agenda.entity.DayOfWeek;
-import com.example.picao.agenda.entity.TimeStatus;
+import com.example.picao.agenda.entity.AgendaStatus;
 import com.example.picao.agenda.mapper.AgendaMapper;
 import com.example.picao.agenda.repository.AgendaRepository;
 import com.example.picao.agenda.repository.AgendaSpecification;
@@ -70,7 +67,7 @@ public class AgendaServiceImpl implements AgendaService {
                                     .date(date)
                                     .startTime(currentTime)
                                     .endTime(nextTime)
-                                    .status(TimeStatus.DISPONIBLE)
+                                    .status(AgendaStatus.DISPONIBLE)
                                     .dayOfWeek(DayOfWeek.fromId(date.getDayOfWeek().getValue()))
                                     .fee(schedule.fee())
                                     .field(field)
@@ -153,10 +150,10 @@ public class AgendaServiceImpl implements AgendaService {
             if (Boolean.TRUE.equals(otpService.validateMobileNumber(requestDTO.otp(), user.getMobileNumber()))) {
 
                 for (Agenda agenda : agendas) {
-                    if (!TimeStatus.DISPONIBLE.equals(agenda.getStatus())) {
+                    if (!AgendaStatus.DISPONIBLE.equals(agenda.getStatus())) {
                         throw new AppException(ErrorMessages.AGENDA_NOT_AVAILABLE, HttpStatus.CONFLICT);
                     }
-                    agenda.setStatus(TimeStatus.RESERVADO);
+                    agenda.setStatus(AgendaStatus.RESERVADO);
                     agenda.setUser(user);
                 }
 
@@ -176,6 +173,26 @@ public class AgendaServiceImpl implements AgendaService {
 
         try {
             return agendaRepository.findByReserveByEstablishmentId(establishmentId);
+        } catch (AppException e) {
+            throw new AppException(e.getErrorMessages(), e.getHttpStatus(), e.getArgs());
+        }
+    }
+
+    @Override
+    public AgendaResponseDTO changeReservationStatus(ChangeReservationStatusRequestDTO requestDTO) {
+        try {
+            Agenda agenda = agendaRepository.findById(requestDTO.agendaId())
+                    .orElseThrow(() -> new AppException(
+                            ErrorMessages.GENERIC_NOT_EXIST, HttpStatus.NOT_FOUND, "Agenda"));
+
+            if (requestDTO.status() == AgendaStatus.CANCELADO) {
+                agenda.setStatus(AgendaStatus.DISPONIBLE);
+            } else {
+                agenda.setStatus(requestDTO.status());
+            }
+
+            return MAPPER.toAgendaResponseDTO(agendaRepository.save(agenda));
+
         } catch (AppException e) {
             throw new AppException(e.getErrorMessages(), e.getHttpStatus(), e.getArgs());
         }
