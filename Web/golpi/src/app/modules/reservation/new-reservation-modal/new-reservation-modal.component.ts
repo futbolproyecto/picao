@@ -33,6 +33,8 @@ import { AlertsService } from '../../../core/service/alerts.service';
 import { EstablishmentService } from '../../../core/service/establishment.service';
 import { BusyService } from '../../../core/busy.service';
 import { AgendaService } from '../../../core/service/agenda.service';
+import { UserService } from '../../../core/service/user.service';
+import { OtpService } from '../../../core/service/otp.service';
 
 // Dto
 import { EstablishmentRequestDto } from '../../../data/schema/establishmentRequestDto';
@@ -40,13 +42,11 @@ import { MessageExceptionDto } from '../../../data/schema/MessageExceptionDto';
 import { AgendaDto } from '../../../data/schema/agendaDto';
 import { InformacionReservaDto } from '../../../data/schema/informacionReservaDto';
 import { ReserveRequestDto } from '../../../data/schema/reserveRequestDto';
-import { OtpService } from '../../../core/service/otp.service';
 import { OtpRequestDto } from '../../../data/schema/otpRequestDto';
 import { UserResponseDto } from '../../../data/schema/userResponseDto';
-import { UserService } from '../../../core/service/user.service';
 
 @Component({
-  selector: 'app-modal-reservation',
+  selector: 'app-new-reservation-modal',
   standalone: true,
   imports: [
     CommonModule,
@@ -62,10 +62,10 @@ import { UserService } from '../../../core/service/user.service';
     MatCardContent,
     MatCheckbox,
   ],
-  templateUrl: './modal-reservation.component.html',
-  styleUrl: './modal-reservation.component.css',
+  templateUrl: './new-reservation-modal.component.html',
+  styleUrl: './new-reservation-modal.component.css',
 })
-export class ModalReservationComponent implements OnInit {
+export class NewReservationModalComponent implements OnInit {
   private establishmentService = inject(EstablishmentService);
   private destroyRef = inject(DestroyRef);
   private busyService = inject(BusyService);
@@ -92,7 +92,7 @@ export class ModalReservationComponent implements OnInit {
   public numeroCelularUsuario: string = '';
 
   constructor(
-    private dialogRef: MatDialogRef<ModalReservationComponent>,
+    private dialogRef: MatDialogRef<NewReservationModalComponent>,
     @Inject(MAT_DIALOG_DATA)
     public data: {
       startDate: string;

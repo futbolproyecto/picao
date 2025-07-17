@@ -12,15 +12,16 @@ import { MatCardModule } from '@angular/material/card';
 import { CardComponent } from '../../shared/components/custom/card/card.component';
 
 // Componentes
-import { ReservaModalComponent } from './reserva-modal/reserva-modal.component';
-import { ModalReservationComponent } from './modal-reservation/modal-reservation.component';
+import { NewReservationModalComponent } from './new-reservation-modal/new-reservation-modal.component';
+import { ReservationInformationModalComponent } from './reservation-information-modal/reservation-information-modal.component';
+
+// Services
+import { AgendaService } from '../../core/service/agenda.service';
 
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import esLocale from '@fullcalendar/core/locales/es';
-import { AlertsService } from '../../core/service/alerts.service';
-import { AgendaService } from '../../core/service/agenda.service';
 
 @Component({
   selector: 'app-reservacion',
@@ -32,12 +33,6 @@ import { AgendaService } from '../../core/service/agenda.service';
 export class ReservationComponent implements OnInit {
   public AdministrarActivo: boolean = true;
   public nombrePestana: string = 'Administrar reservaciones';
-
-  public totalTurnos = 50;
-  public turnosPendientes = 15;
-  public turnosConfirmados = 35;
-  public turnosFinalizados = 10;
-  public turnosSinConfirmar = 5;
 
   activarPestana(pestana: string): void {
     if (pestana === 'administrar') {
@@ -89,7 +84,7 @@ export class ReservationComponent implements OnInit {
     const startDate = new Date(eventInfo.event.start);
 
     const turno = eventInfo.event.extendedProps;
-    const dialogRef = this.dialog.open(ReservaModalComponent, {
+    const dialogRef = this.dialog.open(ReservationInformationModalComponent, {
       disableClose: true,
       width: '700px',
       data: {
@@ -113,7 +108,7 @@ export class ReservationComponent implements OnInit {
     const startDate = new Date(selectInfo.start);
     const endDate = new Date(selectInfo.end);
 
-    const dialogRef = this.dialog.open(ModalReservationComponent, {
+    const dialogRef = this.dialog.open(NewReservationModalComponent, {
       disableClose: true,
       width: '700px',
       data: {

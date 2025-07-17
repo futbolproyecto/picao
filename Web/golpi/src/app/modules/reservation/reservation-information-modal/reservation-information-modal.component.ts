@@ -8,6 +8,14 @@ import {
   OnInit,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import {
+  AbstractControl,
+  ReactiveFormsModule,
+  UntypedFormBuilder,
+  UntypedFormGroup,
+} from '@angular/forms';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { finalize } from 'rxjs';
 
 // Librerias
 import {
@@ -16,29 +24,25 @@ import {
   MatDialogRef,
 } from '@angular/material/dialog';
 import { NgSelectModule } from '@ng-select/ng-select';
-import {
-  AbstractControl,
-  ReactiveFormsModule,
-  UntypedFormBuilder,
-  UntypedFormGroup,
-} from '@angular/forms';
+
+// Services
 import { AlertsService } from '../../../core/service/alerts.service';
 import { AgendaService } from '../../../core/service/agenda.service';
-import { MessageExceptionDto } from '../../../data/schema/MessageExceptionDto';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { finalize } from 'rxjs';
 import { BusyService } from '../../../core/busy.service';
+
+// Dto
+import { MessageExceptionDto } from '../../../data/schema/MessageExceptionDto';
 import { ChangeReservationStatusRequestDto } from '../../../data/schema/changeReservationStatusRequestDto';
 
 @Component({
-  selector: 'app-reserva-modal',
+  selector: 'app-reservation-information-modal',
   standalone: true,
   imports: [CommonModule, MatDialogModule, NgSelectModule, ReactiveFormsModule],
-  templateUrl: './reserva-modal.component.html',
-  styleUrls: ['./reserva-modal.component.css'],
+  templateUrl: './reservation-information-modal.component.html',
+  styleUrls: ['./reservation-information-modal.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ReservaModalComponent implements OnInit {
+export class ReservationInformationModalComponent implements OnInit {
   public formularioInformacion: UntypedFormGroup = new UntypedFormGroup({});
   private formBuilder = inject(UntypedFormBuilder);
   private alertsService = inject(AlertsService);
@@ -51,7 +55,7 @@ export class ReservaModalComponent implements OnInit {
     new ChangeReservationStatusRequestDto();
 
   constructor(
-    public dialogRef: MatDialogRef<ReservaModalComponent>,
+    public dialogRef: MatDialogRef<ReservationInformationModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     console.log(this.data);

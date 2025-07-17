@@ -16,24 +16,27 @@ export class AlertsService {
 
     const calculateWidth = (title: string): string => {
       const baseCharWidth = 15;
-      const padding = 50;
+      const padding = 20;
       const maxWidth =
-        screenWidth < 768 ? screenWidth * 0.9 : screenWidth * 0.4;
-      const minWidth = 200;
+        screenWidth < 750 ? screenWidth * 0.9 : screenWidth * 0.4;
+      const minWidth = 150;
       const calculated = title.length * baseCharWidth + padding;
-
       return Math.min(Math.max(calculated, minWidth), maxWidth) + 'px';
     };
 
     const toastWidth = calculateWidth(title);
 
     const Toast = Swal.mixin({
+      showCloseButton: true,
       width: toastWidth,
       toast: true,
       position: 'bottom-end',
       showConfirmButton: false,
       timer: timer,
       timerProgressBar: true,
+      customClass: {
+        popup: 'custom-popup toast-popup',
+      },
       didOpen: (toast) => {
         toast.addEventListener('mouseenter', Swal.stopTimer);
         toast.addEventListener('mouseleave', Swal.resumeTimer);
@@ -57,16 +60,30 @@ export class AlertsService {
       hideClass: {
         popup: 'animate__animated animate__fadeOutUp',
       },
+      customClass: {
+        popup: 'custom-popup toast-popup',
+        confirmButton: 'rounded-btn',
+        cancelButton: 'rounded-btn',
+      },
+      showCloseButton: true,
     });
   }
 
   fireError2(errorDto: MessageExceptionDto, retryCallback: () => void) {
     Swal.fire({
       title: `Error [${errorDto.status}]`,
-      html: `<b>Descripción:</b> ${errorDto.error}   </br>  <b>Recomendaciones:</b> ${errorDto.recommendation} `,
+      html: `
+        <div style="text-align: left;">
+          <b>Descripción:</b> ${errorDto.error}<br/>
+          <b>Recomendaciones:</b> ${errorDto.recommendation}
+        </div>
+      `,
       icon: 'error',
-      showClass: {
-        popup: 'animate__animated animate__fadeInDown',
+      showCloseButton: true,
+      customClass: {
+        popup: 'custom-popup toast-popup',
+        confirmButton: 'rounded-btn',
+        cancelButton: 'rounded-btn',
       },
       hideClass: {
         popup: 'animate__animated animate__fadeOutUp',
@@ -87,12 +104,18 @@ export class AlertsService {
       title: title,
       text: text,
       icon: icon,
+      showCloseButton: true,
       reverseButtons: true,
       showCancelButton: true,
       confirmButtonText: 'Aceptar',
       cancelButtonText: 'Cancelar',
       confirmButtonColor: '#4CAF50',
       cancelButtonColor: '#f44336',
+      customClass: {
+        popup: 'custom-popup toast-popup',
+        confirmButton: 'rounded-btn',
+        cancelButton: 'rounded-btn',
+      },
     }).then((result) => {
       if (result.isConfirmed) {
         myCallBack();
@@ -110,10 +133,16 @@ export class AlertsService {
       title: title,
       text: text,
       icon: icon,
+      showCloseButton: true,
       reverseButtons: true,
       showCancelButton: false,
       confirmButtonText: 'Aceptar',
       confirmButtonColor: '#4CAF50',
+      customClass: {
+        popup: 'custom-popup toast-popup',
+        confirmButton: 'rounded-btn',
+        cancelButton: 'rounded-btn',
+      },
     }).then((result) => {
       if (result.isConfirmed) {
         myCallBack();
@@ -132,6 +161,7 @@ export class AlertsService {
       text: text,
       icon: icon,
       input: 'text',
+      showCloseButton: true,
       inputPlaceholder: 'Ingrese correo electrónico',
       reverseButtons: true,
       showCancelButton: true,
@@ -139,6 +169,7 @@ export class AlertsService {
       cancelButtonText: 'Cancelar',
       confirmButtonColor: '#4CAF50',
       cancelButtonColor: '#f44336',
+
       preConfirm: (correo) => {
         if (!correo) {
           Swal.showValidationMessage('Debe ingresar un correo electrónico');
@@ -150,7 +181,9 @@ export class AlertsService {
         });
       },
       customClass: {
-        popup: 'custom-popup',
+        popup: 'custom-popup toast-popup',
+        confirmButton: 'rounded-btn',
+        cancelButton: 'rounded-btn',
       },
     });
   }
@@ -167,6 +200,7 @@ export class AlertsService {
       text: text,
       icon: icon,
       input: 'text',
+      showCloseButton: true,
       inputPlaceholder: 'Ingrese el código recibido',
       reverseButtons: true,
       showCancelButton: true,
@@ -183,7 +217,9 @@ export class AlertsService {
         return { correo, otp };
       },
       customClass: {
-        popup: 'custom-popup',
+        popup: 'custom-popup toast-popup',
+        confirmButton: 'rounded-btn',
+        cancelButton: 'rounded-btn',
       },
     });
   }
@@ -203,6 +239,7 @@ export class AlertsService {
       `,
       reverseButtons: true,
       showCancelButton: true,
+      showCloseButton: true,
       confirmButtonText: 'Cambiar contraseña',
       cancelButtonText: 'Cancelar',
       confirmButtonColor: '#4CAF50',
@@ -231,7 +268,9 @@ export class AlertsService {
         return { password, confirmPassword };
       },
       customClass: {
-        popup: 'custom-popup',
+        popup: 'custom-popup toast-popup',
+        confirmButton: 'rounded-btn',
+        cancelButton: 'rounded-btn',
       },
     });
   }
@@ -247,6 +286,7 @@ export class AlertsService {
       text: text,
       icon: icon,
       input: 'text',
+      showCloseButton: true,
       inputPlaceholder: 'Ingrese el código recibido',
       reverseButtons: true,
       showCancelButton: true,
@@ -263,7 +303,9 @@ export class AlertsService {
         return { otp };
       },
       customClass: {
-        popup: 'custom-popup',
+        popup: 'custom-popup toast-popup',
+        confirmButton: 'rounded-btn',
+        cancelButton: 'rounded-btn',
       },
     });
   }

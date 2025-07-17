@@ -1,12 +1,6 @@
+// Core
+import { CommonModule } from '@angular/common';
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
-import { FullCalendarModule } from '@fullcalendar/angular';
-import interactionPlugin from '@fullcalendar/interaction';
-import dayGridPlugin from '@fullcalendar/daygrid';
-import timeGridPlugin from '@fullcalendar/timegrid';
-import { CardComponent } from '../../../shared/components/custom/card/card.component';
-import esLocale from '@fullcalendar/core/locales/es';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { ModalScheduleSettingsComponent } from './modal-schedule-settings/modal-schedule-settings.component';
 import {
   AbstractControl,
   FormsModule,
@@ -15,20 +9,38 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
-import { ScheduleService } from '../../../core/service/schedule.service';
-import { AlertsService } from '../../../core/service/alerts.service';
-import { Constant } from '../../../shared/utils/constant';
-import { EstablishmentRequestDto } from '../../../data/schema/establishmentRequestDto';
-import { MessageExceptionDto } from '../../../data/schema/MessageExceptionDto';
-import { EstablishmentService } from '../../../core/service/establishment.service';
-import { NgSelectModule } from '@ng-select/ng-select';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { finalize } from 'rxjs';
+
+// Librerias
+import { FullCalendarModule } from '@fullcalendar/angular';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { DateSelectArg, EventClickArg } from '@fullcalendar/core';
+
+import interactionPlugin from '@fullcalendar/interaction';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import timeGridPlugin from '@fullcalendar/timegrid';
+import esLocale from '@fullcalendar/core/locales/es';
+
+// Compartidos
+import { CardComponent } from '../../../shared/components/custom/card/card.component';
+import { Constant } from '../../../shared/utils/constant';
+
+// Services
+import { ScheduleService } from '../../../core/service/schedule.service';
+import { AlertsService } from '../../../core/service/alerts.service';
+import { EstablishmentService } from '../../../core/service/establishment.service';
 import { AgendaService } from '../../../core/service/agenda.service';
 import { BusyService } from '../../../core/busy.service';
+
+// Componentes
+import { ModalScheduleSettingsComponent } from './modal-schedule-settings/modal-schedule-settings.component';
+
+// Dto
+import { EstablishmentRequestDto } from '../../../data/schema/establishmentRequestDto';
+import { MessageExceptionDto } from '../../../data/schema/MessageExceptionDto';
 import { AgendaDto } from '../../../data/schema/agendaDto';
-import { DateSelectArg, EventClickArg } from '@fullcalendar/core';
-import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-schedule-settings',
@@ -159,6 +171,10 @@ export class ScheduleSettingsComponent implements OnInit {
 
     eventClick: (info: EventClickArg) => {
       if (info.event.extendedProps['isBackground']) return;
+
+      const estado = info.event.extendedProps['estado'];
+      if (estado !== 'DISPONIBLE') return;
+
       this.abrirModal(info);
     },
   };
@@ -204,19 +220,11 @@ export class ScheduleSettingsComponent implements OnInit {
       },
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this.calendarOptions.events = [
-          ...this.calendarOptions.events,
-          {
-            title: 'Nuevo horario',
-            start: selectInfo.startStr,
-            end: selectInfo.endStr,
-            color: '#2196f3',
-            textColor: 'white',
-          },
-        ];
-      }
+    dialogRef.afterClosed().subscribe(() => {
+      const idEstablecimiento = localStorage.getItem(
+        'establecimientoSeleccionado'
+      );
+      this.cargarDisponibilidad(idEstablecimiento!);
     });
   }
 
@@ -239,7 +247,7 @@ export class ScheduleSettingsComponent implements OnInit {
           return {
             title: `Cancha: ${reserva.status}`,
             start: startDateTime,
-            color: '#5cb85c',
+            color: this.obtenerColorPorEstado(reserva.status),
             textColor: 'white',
             extendedProps: {
               date: reserva.date,
@@ -347,5 +355,14 @@ export class ScheduleSettingsComponent implements OnInit {
       );
       this.cargarDisponibilidad(idEstablecimiento!);
     });
+  }
+
+  obtenerColorPorEstado(estado: string): string {
+    switch (estado) {
+      case 'DISPONIBLE':
+        return '#28a745';
+      default:
+        return '#6c757d';
+    }
   }
 }

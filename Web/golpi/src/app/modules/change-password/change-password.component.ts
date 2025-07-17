@@ -9,25 +9,27 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
+import { finalize, Observable } from 'rxjs';
 
 // Librerias
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 // Servicios
 import { AlertsService } from '../../core/service/alerts.service';
+import { BusyService } from '../../core/busy.service';
+import { UserService } from '../../core/service/user.service';
+import { AutenticacionStoreService } from '../../core/store/auth/autenticacion-store.service';
 
-// Comparitdos
+// Compartidos
 import { Constant } from '../../shared/utils/constant';
 import { ValidatorsCustom } from '../../shared/utils/validators';
-import { MessageExceptionDto } from '../../data/schema/MessageExceptionDto';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { UserService } from '../../core/service/user.service';
-import { SetPasswordDto } from '../../data/schema/setPasswordDto';
-import { AutenticacionStoreService } from '../../core/store/auth/autenticacion-store.service';
-import { finalize, Observable } from 'rxjs';
-import { BusyService } from '../../core/busy.service';
 import { CardComponent } from '../../shared/components/custom/card/card.component';
+
+// Dto
+import { MessageExceptionDto } from '../../data/schema/MessageExceptionDto';
+import { SetPasswordDto } from '../../data/schema/setPasswordDto';
 
 @Component({
   selector: 'app-change-password',
