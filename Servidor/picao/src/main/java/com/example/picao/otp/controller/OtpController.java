@@ -17,8 +17,11 @@ public class OtpController {
 
     @PostMapping(value = "send-mobilenumber")
     public ResponseEntity<GenericResponseDTO> sendOtp(
-            @RequestParam("mobile_number") String mobileNumber) {
-        return GenericResponseDTO.genericResponse(otpService.sendMobileNumber(mobileNumber));
+            @RequestParam("mobile_number") String mobileNumber,
+            @RequestParam(value = "is_reserve", required = false) Boolean isReserve
+
+    ) {
+        return GenericResponseDTO.genericResponse(otpService.sendMobileNumber(mobileNumber, isReserve));
     }
 
 

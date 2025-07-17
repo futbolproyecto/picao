@@ -48,6 +48,8 @@
 .boton .btn {
   background-color: var(--color-primary);
   color: var(--color-surface-container--lowest);
+  width: 100%;
+  border-radius: 30px;
 }
 
 ::ng-deep.mdc-text-field--filled:not(.mdc-text-field--disabled) {
@@ -71,11 +73,12 @@
   padding-left: 20px;
   justify-content: space-between;
   align-items: center;
+  color: var(--color-secondary);
 }
 
 h1 {
   font-weight: 500;
-  color: var(--color-on-tertiary-container);
+  color: var(--color-secondary);
 }
 
 .checkbox-dias {
@@ -107,6 +110,8 @@ h1 {
 .boton-agregar .btn-agregar {
   background-color: var(--color-secondary);
   color: var(--color-surface-container--lowest);
+  width: 100%;
+  border-radius: 30px;
 }
 
 .container-boton {
@@ -126,7 +131,8 @@ h1 {
 
 .custom-table {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0;
 }
 
 .custom-table th {
@@ -146,8 +152,25 @@ h1 {
   color: #333;
 }
 
+th.th-left {
+  border-top-left-radius: 12px;
+}
+
+th.th-right {
+  border-top-right-radius: 12px;
+}
+
 h2 {
   padding-top: 15px;
   align-self: center;
   color: var(--color-primary);
+}
+
+.cerrar:focus {
+  outline: none;
+}
+
+.tabla-card {
+  overflow: visible;
+  border-radius: 12px; /* o el valor que desees */
 }

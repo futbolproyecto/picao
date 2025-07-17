@@ -821,10 +821,181 @@ class S {
   }
 
   /// `Tarifa`
-  String get Tarifa {
+  String get tarifa {
     return Intl.message(
       'Tarifa',
-      name: 'Tarifa',
+      name: 'tarifa',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cancha`
+  String get cancha {
+    return Intl.message(
+      'Cancha',
+      name: 'cancha',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Filtros`
+  String get filtros {
+    return Intl.message(
+      'Filtros',
+      name: 'filtros',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirmar`
+  String get confirmar {
+    return Intl.message(
+      'Confirmar',
+      name: 'confirmar',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `¿Deseas confirmar la reserva en {establecimiento} {cancha}, para la fecha {fecha} {horario}`
+  String confirmacionReserva(
+      Object establecimiento, Object cancha, Object fecha, Object horario) {
+    return Intl.message(
+      '¿Deseas confirmar la reserva en $establecimiento $cancha, para la fecha $fecha $horario',
+      name: 'confirmacionReserva',
+      desc: '',
+      args: [establecimiento, cancha, fecha, horario],
+    );
+  }
+
+  /// `Solo puedes seleccionar canchas del mismo establecimiento.`
+  String get seleccionCanchaVacia {
+    return Intl.message(
+      'Solo puedes seleccionar canchas del mismo establecimiento.',
+      name: 'seleccionCanchaVacia',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Solo puedes seleccionar canchas del mismo establecimiento.`
+  String get establecimientosDistintos {
+    return Intl.message(
+      'Solo puedes seleccionar canchas del mismo establecimiento.',
+      name: 'establecimientosDistintos',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Solo puedes seleccionar horarios de la misma fecha.`
+  String get fechasDistintas {
+    return Intl.message(
+      'Solo puedes seleccionar horarios de la misma fecha.',
+      name: 'fechasDistintas',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Solo puedes seleccionar horarios de la misma cancha`
+  String get canchasDistintas {
+    return Intl.message(
+      'Solo puedes seleccionar horarios de la misma cancha',
+      name: 'canchasDistintas',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Solo puedes seleccionar horas consecutivas.`
+  String get harariosDistintos {
+    return Intl.message(
+      'Solo puedes seleccionar horas consecutivas.',
+      name: 'harariosDistintos',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `a la(s) {hora}`
+  String mensajeHorario1(Object hora) {
+    return Intl.message(
+      'a la(s) $hora',
+      name: 'mensajeHorario1',
+      desc: '',
+      args: [hora],
+    );
+  }
+
+  /// `desde la(s) {hora1} hasta la(s) {hora2}`
+  String mensajeHorario2(Object hora1, Object hora2) {
+    return Intl.message(
+      'desde la(s) $hora1 hasta la(s) $hora2',
+      name: 'mensajeHorario2',
+      desc: '',
+      args: [hora1, hora2],
+    );
+  }
+
+  /// `Reservar`
+  String get reservar {
+    return Intl.message(
+      'Reservar',
+      name: 'reservar',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Tu reserva ha sido guardada. Puedes verla en la sección Mis reservas`
+  String get exitoReserva {
+    return Intl.message(
+      'Tu reserva ha sido guardada. Puedes verla en la sección Mis reservas',
+      name: 'exitoReserva',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Se ha enviado un codigo OTP al numero {mobileNumber}, ingresalo para continuar`
+  String menesajeConfirmarOtp(Object mobileNumber) {
+    return Intl.message(
+      'Se ha enviado un codigo OTP al numero $mobileNumber, ingresalo para continuar',
+      name: 'menesajeConfirmarOtp',
+      desc: '',
+      args: [mobileNumber],
+    );
+  }
+
+  /// `Hemos enviado un código OTP a tu WhatsApp ({mobileNumber}). Ingrésalo para confirmar la reserva.`
+  String mensajeOtpReserva(Object mobileNumber) {
+    return Intl.message(
+      'Hemos enviado un código OTP a tu WhatsApp ($mobileNumber). Ingrésalo para confirmar la reserva.',
+      name: 'mensajeOtpReserva',
+      desc: '',
+      args: [mobileNumber],
+    );
+  }
+
+  /// `Crear reserva`
+  String get crearReserva {
+    return Intl.message(
+      'Crear reserva',
+      name: 'crearReserva',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Mis reservas`
+  String get misReservas {
+    return Intl.message(
+      'Mis reservas',
+      name: 'misReservas',
       desc: '',
       args: [],
     );

@@ -9,24 +9,39 @@ h1 {
   color: var(--color-on-tertiary-container);
 }
 
+p {
+  font-size: 20px;
+  font-weight: 500;
+}
+
 .card-soccer {
-  padding-bottom: 30px;
+  padding-bottom: 15px;
   background: var(--color-surface-container--lowest);
   box-shadow: 0 3px 15px var(--color-outline-variant);
-  border-radius: 10px;
+  border-radius: 25px;
 }
 
 .container-card {
   padding: 5px;
 }
 
-.container-modulos,
+.container-modulos {
+  padding-left: 25px;
+  padding-right: 25px;
+}
+
+ul {
+  padding-left: 50px;
+  border-bottom: 1px solid #e8e9e7;
+}
+
 ul,
 .lista {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   width: 100%;
+  padding: 0px;
 }
 
 li {
@@ -82,10 +97,11 @@ li:hover {
 
 .boton .btn {
   background-color: var(--color-primary);
-  font: 16px var(--color-on-primary-container);
-  height: 45px;
-  width: 50%;
-  border-radius: 10px;
+  color: var(--color-surface-container--lowest);
+  font-size: 16px;
+  height: 40px;
+  width: 25%;
+  border-radius: 30px;
 }
 
 .container-tabla {

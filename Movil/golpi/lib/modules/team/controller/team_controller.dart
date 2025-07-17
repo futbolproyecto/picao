@@ -146,13 +146,13 @@ class TeamController extends GetxController {
                       }
                     },
                     title: S().buscar)
-                .textButtom(Theme.of(Get.context!).colorScheme.primary),
+                .textButtom(color: Theme.of(Get.context!).colorScheme.primaryContainer),
             UiButtoms(
                     onPressed: () {
                       Get.back();
                     },
                     title: S().cerrar)
-                .textButtom(Colors.black),
+                .textButtom(),
           ]);
     } on CustomException catch (e) {
       Get.back();
@@ -194,13 +194,13 @@ class TeamController extends GetxController {
                           '${response.name} ${response.lastName}');
                     },
                     title: S().agregarJugador)
-                .textButtom(Theme.of(Get.context!).colorScheme.primary),
+                .textButtom(color: Theme.of(Get.context!).colorScheme.primaryContainer),
             UiButtoms(
                     onPressed: () {
                       Get.back();
                     },
                     title: S().cancelar)
-                .textButtom(Colors.black),
+                .textButtom(),
           ]);
     } on CustomException catch (e) {
       Get.back();
@@ -213,13 +213,13 @@ class TeamController extends GetxController {
                     openWhatsApp(formMobileNumer.control('mobile_phone').value);
                   },
                   title: S().invitarJugador)
-              .textButtom(Theme.of(Get.context!).colorScheme.primary),
+              .textButtom(color: Theme.of(Get.context!).colorScheme.primaryContainer),
           UiButtoms(
                   onPressed: () {
                     Get.back();
                   },
                   title: S().cerrar)
-              .textButtom(Colors.black),
+              .textButtom(),
         ]);
       } else {
         UiAlertMessage(Get.context!)
@@ -310,13 +310,13 @@ class TeamController extends GetxController {
                       leaveTeam(homeController);
                     },
                     title: S().salir)
-                .textButtom(Theme.of(Get.context!).colorScheme.primary),
+                .textButtom(color: Theme.of(Get.context!).colorScheme.primaryContainer),
             UiButtoms(
                     onPressed: () {
                       Get.back();
                     },
                     title: S().cerrar)
-                .textButtom(Colors.black),
+                .textButtom(),
           ]);
     } on CustomException catch (e) {
       Get.back();

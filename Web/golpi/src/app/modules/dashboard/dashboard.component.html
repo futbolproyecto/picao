@@ -1,34 +1,8 @@
 <div class="dashboard-container">
+  <h1>
+    <p>Dashboard</p>
+  </h1>
   <div class="card">
-    <app-card>
-      <div class="summary-cards">
-        <mat-card class="summary-card separados">
-          <p>Turnos separados</p>
-          <mat-card-content>{{ totalTurnos }}</mat-card-content>
-        </mat-card>
-        <mat-card class="summary-card confirmados">
-          <p>Turnos confirmados</p>
-          <mat-card-content>{{ turnosConfirmados }}</mat-card-content>
-        </mat-card>
-        <mat-card class="summary-card finalizados">
-          <p>Turnos finalizados</p>
-          <mat-card-content>{{ turnosFinalizados }}</mat-card-content>
-        </mat-card>
-        <mat-card class="summary-card sin_confirmar">
-          <p>Turnos sin confirmar</p>
-          <mat-card-content>{{ turnosSinConfirmar }}</mat-card-content>
-        </mat-card>
-      </div>
-
-      <!-- Sección del calendario centrada -->
-      <div class="calendar-section">
-        <div class="container-card">
-          <full-calendar
-            class="fullcalendar"
-            [options]="calendarOptions"
-          ></full-calendar>
-        </div>
-      </div>
-    </app-card>
+    <app-card></app-card>
   </div>
 </div>

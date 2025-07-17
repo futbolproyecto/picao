@@ -96,7 +96,7 @@ class UiAlertMessage {
             ),
             actions: [
               UiButtoms(onPressed: () => actionButtom(), title: 'Cerrar')
-                  .textButtom(Colors.black),
+                  .textButtom(),
             ],
           );
         });

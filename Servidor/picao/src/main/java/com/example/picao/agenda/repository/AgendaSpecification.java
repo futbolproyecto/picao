@@ -1,7 +1,7 @@
 package com.example.picao.agenda.repository;
 
 import com.example.picao.agenda.entity.Agenda;
-import com.example.picao.agenda.entity.TimeStatus;
+import com.example.picao.agenda.entity.AgendaStatus;
 import com.example.picao.city.entity.City;
 import com.example.picao.establishment.entity.Establishment;
 import com.example.picao.field.entity.Field;
@@ -43,7 +43,9 @@ public class AgendaSpecification {
             predicates.add(cb.equal(cb.lower(cityJoin.get("name")), city.toLowerCase()));
 
             // estado DISPONIBLE obligatorio
-            predicates.add(cb.equal(agenda.get("status"), TimeStatus.DISPONIBLE));
+            predicates.add(cb.equal(agenda.get("status"), AgendaStatus.DISPONIBLE));
+
+            predicates.add(cb.greaterThanOrEqualTo(agenda.get("date"), LocalDate.now()));
 
             // fecha opcional
             if (date != null) {

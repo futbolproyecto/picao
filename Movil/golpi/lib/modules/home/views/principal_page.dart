@@ -171,8 +171,10 @@ class PrincipalPage extends StatelessWidget {
               Positioned(
                   top: 35,
                   left: 10,
-                  child: UiText(text: 'Golpi').title(
-                      color: Theme.of(context).colorScheme.primaryContainer)),
+                  child: Image.asset(
+                    'assets/img/golpilogo.png',
+                    width: 30,
+                  )),
               Positioned(
                 top: 35,
                 right: 0,

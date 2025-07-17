@@ -13,6 +13,11 @@
 
 html,
 body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+  font-family: sans-serif;
 }
 
 @font-face {
@@ -25,7 +30,7 @@ body {
 html,
 body {
   font-family: "Montserrat";
-  font-size: 20px;
+  font-size: 18px;
   overflow-x: hidden;
   width: 100%;
 }
@@ -104,4 +109,43 @@ a.router-link-active {
   /* Otros colores */
   --color-scrim: #000000;
   --color-shadow: #000000;
+}
+
+.cdk-overlay-container {
+  z-index: 1050 !important;
+}
+
+/* Popup redondeado */
+.custom-popup {
+  border-radius: 15px !important;
+}
+
+/* Botones redondeados */
+.rounded-btn {
+  border-radius: 25px !important;
+  padding: 8px 20px !important;
+}
+
+/* Estilo para el botón de cierre (X) */
+.swal2-close {
+  font-size: 1.4rem;
+  color: #444;
+  opacity: 0.8;
+  transition: opacity 0.3s;
+  top: 10px !important;
+  right: 10px !important;
+}
+
+.swal2-close:hover {
+  opacity: 1;
+  color: #000;
+}
+
+/* Clase para el toast redondito con texto adaptable */
+.toast-popup {
+  max-width: 100% !important;
+  padding: 10px 15px !important;
+  word-wrap: break-word !important;
+  white-space: normal !important;
+  border-radius: 40px !important;
 }

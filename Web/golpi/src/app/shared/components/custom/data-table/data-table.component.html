@@ -10,14 +10,18 @@
     <table mat-table [dataSource]="dataSource" matSort class="table-hover">
       <ng-container
         [matColumnDef]="tableData"
-        *ngFor="let tableData of objectKeys(columnHeader)"
+        *ngFor="let tableData of objectKeys(columnHeader); let i = index"
       >
         <th
           mat-header-cell
           *matHeaderCellDef
           mat-sort-header
           class="columnas"
-          [ngClass]="{ acciones: tableData === 'acciones' }"
+          [ngClass]="{
+            acciones: tableData === 'acciones',
+            'th-left': i === 0,
+            'th-right': i === objectKeys(columnHeader).length - 1
+          }"
         >
           {{ columnHeader[tableData] }}
         </th>

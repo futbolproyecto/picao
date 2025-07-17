@@ -8,22 +8,25 @@
 
 /* Estilos para encabezados */
 h1 {
-  font-weight: bold;
+  color: var(--color-on-tertiary-container);
+}
+
+p {
   font-size: 20px;
-  color: var(--color-secondary);
+  font-weight: 500;
 }
 
 /* Estilo de tarjetas */
 .card-solicitudes {
-  padding-bottom: 30px;
+  padding-bottom: 15px;
   background: var(--color-surface-container--lowest);
   box-shadow: 0 3px 15px var(--color-outline-variant);
-  border-radius: 10px;
+  border-radius: 25px;
 }
 
 /* Contenedores internos */
 .container-card {
-  padding: 10px;
+  padding: 5px;
 }
 
 .container-modulos,

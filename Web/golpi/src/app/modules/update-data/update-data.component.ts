@@ -16,6 +16,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CountryService } from '../../core/service/country.service';
 import { UserService } from '../../core/service/user.service';
 import { AlertsService } from '../../core/service/alerts.service';
+import { BusyService } from '../../core/busy.service';
 
 // Librerias
 import { MatNativeDateModule } from '@angular/material/core';
@@ -28,7 +29,6 @@ import { NgSelectModule } from '@ng-select/ng-select';
 
 // Compartidos
 import { Constant } from '../../shared/utils/constant';
-import { MessageExceptionDto } from '../../data/schema/MessageExceptionDto';
 import { CardComponent } from '../../shared/components/custom/card/card.component';
 
 // Componentes
@@ -37,7 +37,7 @@ import { ChangePasswordComponent } from '../change-password/change-password.comp
 //Dto
 import { UserResponseDto } from '../../data/schema/userResponseDto';
 import { CountryDto } from '../../data/schema/countryDto';
-import { BusyService } from '../../core/busy.service';
+import { MessageExceptionDto } from '../../data/schema/MessageExceptionDto';
 
 @Component({
   selector: 'app-update-data',
@@ -136,11 +136,7 @@ export class UpdateDataComponent {
           Validators.pattern(Constant.PATTERN_CORREO),
         ],
       ],
-      indicador: [
-        '',
-        [
-        ],
-      ],
+      indicador: ['', []],
       celular: [
         '',
         [

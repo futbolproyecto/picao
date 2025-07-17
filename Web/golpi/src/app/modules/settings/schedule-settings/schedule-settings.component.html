@@ -1,6 +1,39 @@
 <div class="container-horarios">
-  <h1>Configuración / Configuración de horarios</h1>
+  <h1>
+    <p>Configuración / Configuración de horarios</p>
+  </h1>
   <div class="card">
+    <form [formGroup]="formularioAgenda" class="list-establishment">
+      <div class="row">
+        <div class="col-md-6">
+          <ng-select
+            formControlName="establishment"
+            [items]="establishmentDto"
+            bindLabel="name"
+            bindValue="id"
+            placeholder="Establecimiento* "
+            appendTo="body"
+            [ngClass]="{ 'ng-select-error': validarEstablecimiento() }"
+          ></ng-select>
+          <small class="text-error" *ngIf="validarEstablecimiento()">
+            {{ establishmentError }}
+          </small>
+        </div>
+        <div class="col-md-6">
+          <div class="boton">
+            <button
+              mat-raised-button
+              class="btn"
+              type="button"
+              (click)="buscarDisponibilidad()"
+            >
+              Buscar
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+
     <app-card>
       <div class="calendar-section">
         <div class="container-card">

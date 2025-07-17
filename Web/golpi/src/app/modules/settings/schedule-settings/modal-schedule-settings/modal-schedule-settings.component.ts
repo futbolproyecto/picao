@@ -1,3 +1,4 @@
+// Core
 import { CommonModule } from '@angular/common';
 import {
   Component,
@@ -17,6 +18,9 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
+import { filter, finalize, switchMap } from 'rxjs';
+
+// Librerias
 import { MatButtonModule } from '@angular/material/button';
 import {
   MAT_DIALOG_DATA,
@@ -26,13 +30,6 @@ import {
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { Constant } from '../../../../shared/utils/constant';
-import { EstablishmentRequestDto } from '../../../../data/schema/establishmentRequestDto';
-import { EstablishmentService } from '../../../../core/service/establishment.service';
-import { MessageExceptionDto } from '../../../../data/schema/MessageExceptionDto';
-import { AlertsService } from '../../../../core/service/alerts.service';
-import { filter, finalize, switchMap } from 'rxjs';
-import { FieldService } from '../../../../core/service/field.service';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
   MatCheckboxChange,
@@ -40,28 +37,32 @@ import {
 } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
-import { BlockadeService } from '../../../../core/service/blockade.service';
-import { BusyService } from '../../../../core/busy.service';
-import { ScheduleRequestDto } from '../../../../data/schema/scheduleRequestDto';
-
-import * as rrule from 'rrule';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatIcon } from '@angular/material/icon';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatCard } from '@angular/material/card';
+
+import * as rrule from 'rrule';
+
+// Compartidos
+import { Constant } from '../../../../shared/utils/constant';
 import { ValidatorsCustom } from '../../../../shared/utils/validators';
-import { MatCard, MatCardTitle } from '@angular/material/card';
+
+// Services
+import { EstablishmentService } from '../../../../core/service/establishment.service';
+import { AlertsService } from '../../../../core/service/alerts.service';
+import { FieldService } from '../../../../core/service/field.service';
+import { BusyService } from '../../../../core/busy.service';
 import { AgendaService } from '../../../../core/service/agenda.service';
 
-type FrecuenciaTipo = 'DAILY' | 'WEEKLY' | 'MONTHLY' | 'YEARLY';
+// Componentes
 
-const frecuenciaMap: Record<FrecuenciaTipo, rrule.Frequency> = {
-  DAILY: rrule.RRule.DAILY,
-  WEEKLY: rrule.RRule.WEEKLY,
-  MONTHLY: rrule.RRule.MONTHLY,
-  YEARLY: rrule.RRule.YEARLY,
-};
+// Dto
+import { EstablishmentRequestDto } from '../../../../data/schema/establishmentRequestDto';
+import { MessageExceptionDto } from '../../../../data/schema/MessageExceptionDto';
+import { ScheduleRequestDto } from '../../../../data/schema/scheduleRequestDto';
 
 @Component({
   selector: 'app-modal-schedule-settings',
@@ -125,6 +126,7 @@ export class ModalScheduleSettingsComponent implements OnInit {
   public scheduleRequestDto: ScheduleRequestDto = new ScheduleRequestDto();
 
   public horasDisponibles: string[] = [];
+  public horasFinDisponibles: string[] = [];
   public horariosValor: any[] = [];
   public dataSource = new MatTableDataSource<any>();
 
@@ -135,22 +137,35 @@ export class ModalScheduleSettingsComponent implements OnInit {
   constructor(
     private dialogRef: MatDialogRef<ModalScheduleSettingsComponent>,
     @Inject(MAT_DIALOG_DATA)
-    public data: {
-      startDate: string;
-      endDate: string;
-      startTime: string;
-      endTime: string;
-      dayName: string;
-    }
+    public data: any
   ) {
     this.buildForm();
+
+    if (data.fee) {
+      this.tarifaFormateado = data.fee;
+    }
+
+    if (data.cancha) {
+      this.marcarCancha(data.cancha);
+    }
+  }
+
+  marcarCancha(nombreCancha: string) {
+    const canchaArray = this.formularioHorarios.get('cancha') as FormArray;
+
+    if (canchaArray) {
+      this.listaCanchas.forEach((cancha, index) => {
+        if (cancha.name === nombreCancha) {
+          canchaArray.controls[index].setValue(true);
+        }
+      });
+    }
   }
 
   ngOnInit() {
     this.cargarEstablecimientosUsuario();
     this.cargarCanchasEstablecimiento();
     this.generarHoras();
-    this.escucharCambiosFechaInicio();
 
     this.diaSemana = this.data.dayName;
 
@@ -174,6 +189,44 @@ export class ModalScheduleSettingsComponent implements OnInit {
     fechaFinControl?.disable();
 
     this.formularioHorarios.get('establishment')?.setValue(0);
+
+    const horaInicio = this.formularioHorarios.get(
+      'formularioValores.hora_inicio'
+    )?.value;
+    this.actualizarHorasFinDisponibles(horaInicio);
+
+    this.formularioHorarios
+      .get('formularioValores.hora_inicio')
+      ?.valueChanges.subscribe((horaInicio: string) => {
+        this.actualizarHorasFinDisponibles(horaInicio);
+      });
+
+    this.formularioHorarios.get('fecha_inicio')?.valueChanges.subscribe(() => {
+      this.verificarHorasFin();
+    });
+
+    this.formularioHorarios
+      .get('fecha_inicio')
+      ?.valueChanges.subscribe((nuevaFechaInicio) => {
+        this.fechaInicio = nuevaFechaInicio;
+        this.verificarHorasFin();
+        this.ajustarFechaFin();
+      });
+  }
+
+  ajustarFechaFin() {
+    const fechaInicioControl = this.formularioHorarios.get('fecha_inicio');
+    const fechaFinControl = this.formularioHorarios.get('fecha_fin');
+
+    if (fechaInicioControl && fechaFinControl) {
+      const fechaInicio = new Date(fechaInicioControl.value);
+      const fechaFin = new Date(fechaFinControl.value);
+
+      if (fechaInicio > fechaFin) {
+        fechaFinControl.setValue(fechaInicio);
+        this.fechaFin = fechaInicio;
+      }
+    }
   }
 
   generarHoras(): void {
@@ -184,6 +237,46 @@ export class ModalScheduleSettingsComponent implements OnInit {
       horas.push(horaFormateada);
     }
     this.horasDisponibles = horas;
+    this.horasFinDisponibles = horas;
+  }
+
+  actualizarHorasFinDisponibles(horaInicio: string) {
+    if (!horaInicio) {
+      this.horasFinDisponibles = this.horasDisponibles;
+      return;
+    }
+
+    const fechaInicio = this.formularioHorarios.get('fecha_inicio')?.value;
+    const fechaFin = this.formularioHorarios.get('fecha_fin')?.value;
+
+    if (
+      fechaInicio &&
+      fechaFin &&
+      this.validacionFechas(fechaInicio, fechaFin)
+    ) {
+      this.horasFinDisponibles = this.horasDisponibles.filter(
+        (hora) => hora > horaInicio
+      );
+    } else {
+      this.horasFinDisponibles = this.horasDisponibles;
+    }
+  }
+
+  verificarHorasFin() {
+    const horaInicio = this.formularioHorarios.get(
+      'formularioValores.hora_inicio'
+    )?.value;
+    this.actualizarHorasFinDisponibles(horaInicio);
+  }
+
+  validacionFechas(fecha1: Date | string, fecha2: Date | string): boolean {
+    const f1 = new Date(fecha1);
+    const f2 = new Date(fecha2);
+    return (
+      f1.getFullYear() === f2.getFullYear() &&
+      f1.getMonth() === f2.getMonth() &&
+      f1.getDate() === f2.getDate()
+    );
   }
 
   cargarEstablecimientosUsuario(): void {
@@ -257,18 +350,6 @@ export class ModalScheduleSettingsComponent implements OnInit {
         },
       });
   }
-
-  escucharCambiosFechaInicio(): void {
-  this.formularioHorarios.get('fecha_inicio')?.valueChanges.subscribe((fechaInicio: Date) => {
-    const fechaFinControl = this.formularioHorarios.get('fecha_fin');
-    const fechaFin = fechaFinControl?.value;
-
-    if (fechaInicio && fechaFin && fechaInicio > fechaFin) {
-      fechaFinControl?.setValue(fechaInicio);
-    }
-  });
-}
-
 
   buildForm(): void {
     this.formularioHorarios = this.formBuilder.group({
@@ -348,6 +429,14 @@ export class ModalScheduleSettingsComponent implements OnInit {
         this.alertsService.toast(
           'error',
           'Debes seleccionar al menos una cancha.'
+        );
+        return;
+      }
+
+      if (this.dataSource.data.length == 0) {
+        this.alertsService.toast(
+          'error',
+          'Debes agregar por lo menos un horario.'
         );
         return;
       }
@@ -456,7 +545,6 @@ export class ModalScheduleSettingsComponent implements OnInit {
       }
 
       this.busyService.busy();
-
       this.agendaService
         .crearAgenda(this.scheduleRequestDto)
         .pipe(

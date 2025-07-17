@@ -115,14 +115,16 @@ class UserController extends GetxController {
       );
 
       await userRepository.sendOtpMobileNumber(
-          '${formUserRegistrer.control('cell_prefix').value}${formUserRegistrer.control('mobile_number').value}');
+          mobileNumber:
+              '${formUserRegistrer.control('cell_prefix').value}${formUserRegistrer.control('mobile_number').value}');
 
       Get.back();
       UiAlertMessage(Get.context!).custom(
           child: ModalOtpValidation().validateOtp(
             context: Get.context!,
             formOtpConfirmation: formOtpConfirmation,
-            mobileNumber: formUserRegistrer.control('mobile_number').value,
+            message: S().menesajeConfirmarOtp(
+                formUserRegistrer.control('mobile_number').value),
           ),
           actions: [
             UiButtoms(
@@ -130,13 +132,14 @@ class UserController extends GetxController {
                       await validateOtp();
                     },
                     title: S().validar)
-                .textButtom(Theme.of(Get.context!).colorScheme.primary),
+                .textButtom(
+                    color: Theme.of(Get.context!).colorScheme.primaryContainer),
             UiButtoms(
                     onPressed: () {
                       Get.back();
                     },
                     title: S().cerrar)
-                .textButtom(Colors.black),
+                .textButtom(),
           ]);
     } on CustomException catch (e) {
       Get.back();
@@ -179,13 +182,14 @@ class UserController extends GetxController {
                       await validateOtpEmail();
                     },
                     title: S().validar)
-                .textButtom(Theme.of(Get.context!).colorScheme.primary),
+                .textButtom(
+                    color: Theme.of(Get.context!).colorScheme.primaryContainer),
             UiButtoms(
                     onPressed: () {
                       Get.back();
                     },
                     title: S().cerrar)
-                .textButtom(Colors.black),
+                .textButtom(),
           ]);
     } on CustomException catch (e) {
       Get.back();

@@ -22,6 +22,7 @@
           bindLabel="name"
           bindValue="id"
           placeholder="Establecimiento* "
+          appendTo="body"
           [ngClass]="{ 'ng-select-error': validarEstablecimiento() }"
         ></ng-select>
         <small class="text-error" *ngIf="validarEstablecimiento()">
@@ -128,26 +129,23 @@
     <div formGroupName="formularioValores">
       <div class="row">
         <div class="col-md-6">
-          <mat-form-field class="input-field">
-            <mat-label>Hora inicio* </mat-label>
-            <mat-select formControlName="hora_inicio">
-              <mat-option *ngFor="let hora of horasDisponibles" [value]="hora">
-                {{ hora }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-
+          <ng-select
+            formControlName="hora_inicio"
+            [items]="horasDisponibles"
+            bindValue="hora"
+            placeholder="Hora inicio* "
+            appendTo="body"
+          ></ng-select>
         </div>
 
         <div class="col-md-6">
-          <mat-form-field class="input-field">
-            <mat-label>Hora fin* </mat-label>
-            <mat-select formControlName="hora_fin">
-              <mat-option *ngFor="let hora of horasDisponibles" [value]="hora">
-                {{ hora }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
+          <ng-select
+            formControlName="hora_fin"
+            [items]="horasFinDisponibles"
+            bindValue="hora"
+            placeholder="Hora fin* "
+            appendTo="body"
+          ></ng-select>
         </div>
       </div>
       <div class="row">
@@ -156,7 +154,7 @@
             <mat-label
               >Tarifa*
               <mat-icon
-                matTooltip="Valor que se cobrará por el uso de la cancha durante este horario."
+                matTooltip="Valor que se cobrará por el uso de la cancha durante una hora."
                 >info</mat-icon
               >
             </mat-label>
@@ -194,7 +192,9 @@
               class="mat-elevation-z8 custom-table"
             >
               <ng-container matColumnDef="hora_inicio">
-                <th mat-header-cell *matHeaderCellDef>Hora inicio</th>
+                <th mat-header-cell *matHeaderCellDef class="th-left">
+                  Hora inicio
+                </th>
                 <td mat-cell *matCellDef="let element">
                   {{ element.hora_inicio }}
                 </td>
@@ -215,7 +215,9 @@
               </ng-container>
 
               <ng-container matColumnDef="acciones">
-                <th mat-header-cell *matHeaderCellDef>Acciones</th>
+                <th mat-header-cell *matHeaderCellDef class="th-right">
+                  Acciones
+                </th>
                 <td mat-cell *matCellDef="let element">
                   <button
                     mat-icon-button

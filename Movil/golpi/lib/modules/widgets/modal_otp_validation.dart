@@ -6,7 +6,7 @@ class ModalOtpValidation {
   Widget validateOtp({
     required BuildContext context,
     required FormGroup formOtpConfirmation,
-    required String mobileNumber,
+    required String message
   }) {
     final screenSize = MediaQuery.of(context).size;
     const Color primaryColor = Color(0xFF04a57e);
@@ -27,7 +27,7 @@ class ModalOtpValidation {
                   return Column(
                     children: [
                       Text(
-                        'Se ha enviado un codigo OTP al numero $mobileNumber, ingresalo para continuar',
+                        message,
                         style: const TextStyle(
                           color: Colors.black87,
                           fontSize: 16,

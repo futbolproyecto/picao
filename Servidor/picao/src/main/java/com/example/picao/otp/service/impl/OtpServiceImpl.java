@@ -76,19 +76,28 @@ public class OtpServiceImpl implements OtpService {
 
     }
 
+    /**
+     * metodo para enviar otp por numero de celular, se usa al momento de crear un usuario o realizar una reserva
+     **/
     @Transactional
     @Override
-    public String sendMobileNumber(String mobileNumber) {
+    public String sendMobileNumber(String mobileNumber, Boolean isReserve) {
 
-        userRepository.findByMobileNumber(mobileNumber).ifPresent(
-                user -> {
-                    throw new AppException(ErrorMessages.DUPLICATE_PHONE_NUMBER, HttpStatus.BAD_REQUEST);
-                });
+        if (Boolean.FALSE.equals(isReserve)) {
+            userRepository.findByMobileNumber(mobileNumber).ifPresent(
+                    user -> {
+                        throw new AppException(ErrorMessages.DUPLICATE_PHONE_NUMBER, HttpStatus.BAD_REQUEST);
+                    });
 
-        otpRepository.findByMobileNumber(mobileNumber).ifPresent(
-                otpBD -> {
-                    throw new AppException(ErrorMessages.GENERATED_OTP, HttpStatus.BAD_REQUEST);
-                });
+            otpRepository.findByMobileNumber(mobileNumber).ifPresent(
+                    otpBD -> {
+                        throw new AppException(ErrorMessages.GENERATED_OTP, HttpStatus.BAD_REQUEST);
+                    });
+
+        } else {
+            otpRepository.deleteOtpByNumber(mobileNumber);
+        }
+
 
         String otp = generateOTP();
 

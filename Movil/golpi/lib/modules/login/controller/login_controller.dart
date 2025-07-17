@@ -37,16 +37,17 @@ class LoginController extends GetxController {
         disableBackBtn: true,
       );
 
-      final response = await loginRepository
+      final sesionModel = await loginRepository
           .login(LoginRequestModel.fromJson(formLogin.value));
-
-      final sesionModel = SesionModel.fromJson(response);
 
       SecureStorage()
           .addNewItem(ConstantSecureStorage.tokenSesion, sesionModel.token);
 
       SecureStorage().addNewItem(
           ConstantSecureStorage.idUsuer, sesionModel.idUsuer.toString());
+
+      SecureStorage().addNewItem(
+          ConstantSecureStorage.mobileNumber, sesionModel.mobileNumber);
 
       Get.back();
       Get.deleteAll();

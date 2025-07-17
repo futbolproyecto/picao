@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("El usuario " + username + " no existe."));
 
 
-        return new User(userEntity.getUsername(),
+        return new User(userEntity.getEmail(),
                 userEntity.getPassword(),
                 true,
                 true,
