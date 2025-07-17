@@ -1,8 +1,56 @@
 <div class="dashboard-container">
-  <h1>
-    <p>Dashboard</p>
-  </h1>
+  <h1><p>Dashboard</p></h1>
+
+  <!-- Gráfico 1 -->
   <div class="card">
-    <app-card></app-card>
+    <app-card>
+      <div class="container-card">
+        <apx-chart
+          [series]="chartSeries"
+          [chart]="chartDetails"
+          [xaxis]="chartXAxis"
+        ></apx-chart>
+      </div>
+    </app-card>
+  </div>
+
+  <!-- Gráfico 2 -->
+  <div class="card">
+    <app-card>
+      <div class="container-card">
+        <apx-chart
+          [series]="pieSeries"
+          [chart]="pieChart"
+          [labels]="pieLabels"
+        ></apx-chart>
+      </div>
+    </app-card>
+  </div>
+
+  <!-- Gráfico 3 -->
+  <div class="card">
+    <app-card>
+      <div class="container-card">
+        <apx-chart
+          [series]="barSeries"
+          [chart]="barChart"
+          [xaxis]="barXAxis"
+          [plotOptions]="barPlotOptions"
+        ></apx-chart>
+      </div>
+    </app-card>
+  </div>
+
+  <!-- Gráfico 5 -->
+  <div class="card">
+    <app-card>
+      <div class="container-card">
+        <apx-chart
+          [series]="multiLineSeries"
+          [chart]="multiLineChart"
+          [xaxis]="multiLineXAxis"
+        ></apx-chart>
+      </div>
+    </app-card>
   </div>
 </div>
