@@ -35,12 +35,14 @@ public class FieldServiceImpl implements FieldService {
             Establishment establishment = establishmentRepository.findById(requestDTO.establishmentId()).orElseThrow(
                     () -> new AppException(ErrorMessages.GENERIC_NOT_EXIST, HttpStatus.NOT_FOUND, "Establecimiento"));
 
-            fieldRepository.findByName(requestDTO.name()).ifPresent(
-                    field -> {
+            fieldRepository.findByNameAndEstablishmentId(requestDTO.name(), requestDTO.establishmentId())
+                    .ifPresent(field -> {
                         throw new AppException(
-                                ErrorMessages.GENERIC_DUPLICATE, HttpStatus.NOT_FOUND, "Nombre de la cancha");
+                                ErrorMessages.GENERIC_DUPLICATE,
+                                HttpStatus.BAD_REQUEST,
+                                "Ese nombre de cancha en el establecimiento"
+                        );
                     });
-
 
             Field field = MAPPER.toField(requestDTO);
             field.setEstablishment(establishment);

@@ -15,6 +15,9 @@ public interface FieldRepository extends JpaRepository<Field, UUID> {
 
     Optional<Field> findByName(String name);
 
+    Optional<Field> findByNameAndEstablishmentId(String name, UUID establishmentId);
+
+
     @Query(value = "SELECT new com.example.picao.field.dto.FieldResponseDTO(" +
             " f.id, f.name, f.capacity, f.isAvailable, f.isRoofed) FROM Field  " +
             "f JOIN  f.establishment e WHERE e.id = :establishmentId")
