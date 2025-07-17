@@ -21,7 +21,7 @@ p {
   padding-bottom: 15px;
   background: var(--color-surface-container--lowest);
   box-shadow: 0 3px 15px var(--color-outline-variant);
-  border-radius: 10px;
+  border-radius: 25px;
 }
 
 /* Contenedores internos */
