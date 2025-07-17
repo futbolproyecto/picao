@@ -21,7 +21,7 @@ p {
   padding-bottom: 15px;
   background: var(--color-surface-container--lowest);
   box-shadow: 0 3px 15px var(--color-outline-variant);
-  border-radius: 10px;
+  border-radius: 25px;
 }
 
 /* Contenedores internos */
@@ -102,27 +102,39 @@ li:hover {
   padding-bottom: 15px;
   background: var(--color-surface-container--lowest);
   box-shadow: 0 3px 15px var(--color-outline-variant);
-  border-radius: 10px;
+  border-radius: 25px;
 }
 
-.reservada {
-  background-color: #5bc0de;
+.disponible {
+  background-color: #17a2b8;
+}
+
+.reservado {
+  background-color: #0275d8;
 }
 
 .confirmado {
-  background-color: #5cb85c;
+  background-color: #28a745;
 }
 
-.pagada {
-  background-color: #f0ad4e;
+.bloqueado {
+  background-color: #6f42c1;
 }
 
-.sin_pagar {
-  background-color: #d9534f;
+.pagado {
+  background-color: #ffc107;
 }
 
-.ausente {
-  background-color: #999999;
+.inasistido {
+  background-color: #6c757d;
+}
+
+.no_pagado {
+  background-color: #fd7e14;
+}
+
+.cancelado {
+  background-color: #dc3545;
 }
 
 /* Contenedor del calendario */

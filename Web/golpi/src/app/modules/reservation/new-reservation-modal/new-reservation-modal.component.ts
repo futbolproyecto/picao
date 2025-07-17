@@ -33,15 +33,20 @@ import { AlertsService } from '../../../core/service/alerts.service';
 import { EstablishmentService } from '../../../core/service/establishment.service';
 import { BusyService } from '../../../core/busy.service';
 import { AgendaService } from '../../../core/service/agenda.service';
+import { UserService } from '../../../core/service/user.service';
+import { OtpService } from '../../../core/service/otp.service';
 
 // Dto
 import { EstablishmentRequestDto } from '../../../data/schema/establishmentRequestDto';
 import { MessageExceptionDto } from '../../../data/schema/MessageExceptionDto';
 import { AgendaDto } from '../../../data/schema/agendaDto';
 import { InformacionReservaDto } from '../../../data/schema/informacionReservaDto';
+import { ReserveRequestDto } from '../../../data/schema/reserveRequestDto';
+import { OtpRequestDto } from '../../../data/schema/otpRequestDto';
+import { UserResponseDto } from '../../../data/schema/userResponseDto';
 
 @Component({
-  selector: 'app-modal-reservation',
+  selector: 'app-new-reservation-modal',
   standalone: true,
   imports: [
     CommonModule,
@@ -57,15 +62,17 @@ import { InformacionReservaDto } from '../../../data/schema/informacionReservaDt
     MatCardContent,
     MatCheckbox,
   ],
-  templateUrl: './modal-reservation.component.html',
-  styleUrl: './modal-reservation.component.css',
+  templateUrl: './new-reservation-modal.component.html',
+  styleUrl: './new-reservation-modal.component.css',
 })
-export class ModalReservationComponent implements OnInit {
+export class NewReservationModalComponent implements OnInit {
   private establishmentService = inject(EstablishmentService);
   private destroyRef = inject(DestroyRef);
   private busyService = inject(BusyService);
   private agendaService = inject(AgendaService);
   private alertsService = inject(AlertsService);
+  private otpService = inject(OtpService);
+  private userService = inject(UserService);
 
   public formularioReserva: UntypedFormGroup = new UntypedFormGroup({});
   private formBuilder = inject(UntypedFormBuilder);
@@ -75,13 +82,17 @@ export class ModalReservationComponent implements OnInit {
     new Array<EstablishmentRequestDto>();
   public informacionReserva: InformacionReservaDto[] = [];
   public horariosSeleccionados: InformacionReservaDto[] = [];
+  public usuario: UserResponseDto = new UserResponseDto();
+  public reserveRequestDto: ReserveRequestDto = new ReserveRequestDto();
+  public otpRequestDto: OtpRequestDto = new OtpRequestDto();
 
   public establishmentError: string = '';
   public ciudadEstablecimiento: string = '';
   public horasDisponibles: string[] = [];
+  public numeroCelularUsuario: string = '';
 
   constructor(
-    private dialogRef: MatDialogRef<ModalReservationComponent>,
+    private dialogRef: MatDialogRef<NewReservationModalComponent>,
     @Inject(MAT_DIALOG_DATA)
     public data: {
       startDate: string;
@@ -104,6 +115,22 @@ export class ModalReservationComponent implements OnInit {
     this.formularioReserva.get('hora_inicio')?.setValue(this.data.startTime);
     this.formularioReserva.get('hora_fin')?.setValue(this.data.endTime);
     this.formularioReserva.get('establishment')?.setValue('Seleccione...');
+
+    const authDataString = sessionStorage.getItem('authentication');
+    if (authDataString) {
+      const authData = JSON.parse(authDataString);
+      this.usuario.id = authData.id;
+
+      this.userService.getById(authData.id).subscribe({
+        next: (response) => {
+          if (response?.payload) {
+            this.usuario = response.payload;
+            this.numeroCelularUsuario = this.usuario.mobile_number!;
+          }
+        },
+        error: () => {},
+      });
+    }
   }
 
   cargarEstablecimientosUsuario(): void {
@@ -278,15 +305,71 @@ export class ModalReservationComponent implements OnInit {
     return this.horariosSeleccionados.some((h) => h.id === id);
   }
 
-  agendarReserva() {
-    if (this.horariosSeleccionados.length === 0) {
-      this.alertsService.toast(
-        'error',
-        'Debes seleccionar al menos un horario para agendar.'
-      );
-      return;
-    }
+  envioOtp() {
+    this.otpRequestDto = {
+      mobile_number: this.numeroCelularUsuario,
+      is_reserve: true,
+    };
 
-    console.log('Reservar estos horarios:', this.horariosSeleccionados);
+    this.otpService
+      .envioCodigoNumeroCelular(this.otpRequestDto)
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        finalize(() => {
+          this.busyService.idle();
+        })
+      )
+      .subscribe({
+        next: (res) => {
+          this.agendarReserva();
+        },
+        error: (err) => {
+          const errorDto = new MessageExceptionDto({
+            status: err.error?.status,
+            error: err.error?.error,
+            recommendation: err.error?.recommendation,
+          });
+          this.alertsService.fireError(errorDto);
+        },
+      });
+  }
+
+  agendarReserva() {
+    this.alertsService.fireConfirmCodeNumber(
+      'question',
+      'Código de verificación',
+      'Por favor, ingrese el código recibido',
+      (otp: string) => {
+        this.reserveRequestDto = {
+          agenda_id: this.horariosSeleccionados.map((h) => h.id!),
+          otp: otp,
+        };
+
+        this.agendaService
+          .reservar(this.reserveRequestDto)
+          .pipe(takeUntilDestroyed(this.destroyRef))
+          .subscribe({
+            next: (res) => {
+              this.alertsService.toast(
+                'success',
+                'La reserva fue agendada correctamente.'
+              );
+
+              this.dialogRef.close();
+            },
+            error: (err) => {
+              const errorDto = new MessageExceptionDto({
+                status: err.error?.status,
+                error: err.error?.error,
+                recommendation: err.error?.recommendation,
+              });
+
+              this.alertsService.fireError2(errorDto, () => {
+                this.agendarReserva();
+              });
+            },
+          });
+      }
+    );
   }
 }

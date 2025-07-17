@@ -20,7 +20,6 @@ p {
 }
 
 .card {
-  padding-bottom: 15px;
   background: var(--color-surface-container--lowest);
   box-shadow: 0 3px 15px var(--color-outline-variant);
   border-radius: 10px;
@@ -61,4 +60,21 @@ p {
 ::ng-deep .fc-daygrid-day-frame,
 ::ng-deep .fc-timegrid-slot {
   cursor: pointer;
+}
+
+.boton {
+  margin-top: 10px;
+}
+
+.boton .btn {
+  background-color: var(--color-primary);
+  font-size: 16px;
+  color: var(--color-surface-container--lowest);
+  height: 45px;
+  width: 30%;
+  border-radius: 30px;
+}
+
+.list-establishment {
+  padding: 30px 0 0 25%;
 }

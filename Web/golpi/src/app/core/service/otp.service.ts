@@ -24,4 +24,24 @@ export class OtpService {
       params,
     });
   }
+
+  envioCodigoNumeroCelular(otpRequestDto: OtpRequestDto) {
+    const params = new HttpParams()
+      .set('mobile_number', otpRequestDto.mobile_number!)
+      .set('is_reserve', otpRequestDto.is_reserve!);
+
+    return this.http.post(this.baseUrl + 'otp/send-mobilenumber', null, {
+      params: params,
+    });
+  }
+
+  validarNumero(otp: OtpRequestDto) {
+    const params = new HttpParams()
+      .set('otp', otp.otp!)
+      .set('mobile_number', otp.mobile_number!);
+
+    return this.http.put(this.baseUrl + 'otp/validate-mobilenumber', null, {
+      params,
+    });
+  }
 }

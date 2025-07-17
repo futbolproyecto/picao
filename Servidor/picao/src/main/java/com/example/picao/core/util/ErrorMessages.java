@@ -74,7 +74,10 @@ public enum ErrorMessages {
             "E22"),
     FIELD_NOT_FOUND("No se encontraron canchas con los parametros de busqueda ingresados",
             "Verifique la informacion ingresada",
-            "E23");
+            "E23"),
+    AGENDA_NOT_AVAILABLE("Horario no disponible",
+            "Por favor realice nuevamente la busqueda",
+            "E24");
 
 
     private final String message;

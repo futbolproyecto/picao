@@ -12,7 +12,6 @@ import { NotificationsComponent } from './modules/notifications/notifications.co
 import { UserComponent } from './modules/settings/user/user.component';
 import { ChangePasswordComponent } from './modules/change-password/change-password.component';
 import { LoginComponent } from './modules/login/login.component';
-import { LockSettingsComponent } from './modules/settings/lock-settings/lock-settings.component';
 import { ScheduleSettingsComponent } from './modules/settings/schedule-settings/schedule-settings.component';
 
 export const routes: Routes = [
@@ -68,11 +67,6 @@ export const routes: Routes = [
             path: 'user',
             title: 'Usuario',
             component: UserComponent,
-          },
-          {
-            path: 'lock-settings',
-            title: 'Bloqueo de Horarios',
-            component: LockSettingsComponent,
           },
           {
             path: 'schedule-settings',

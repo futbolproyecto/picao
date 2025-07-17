@@ -25,11 +25,15 @@
 .boton .btn {
   background-color: var(--color-primary);
   color: var(--color-surface-container--lowest);
+  width: 100%;
+  border-radius: 30px;
 }
 
 .boton .btn-reserva {
   background-color: var(--color-secondary);
   color: var(--color-surface-container--lowest);
+  width: 100%;
+  border-radius: 30px;
 }
 
 ::ng-deep.mdc-text-field--filled:not(.mdc-text-field--disabled) {
@@ -53,11 +57,12 @@
   padding-left: 20px;
   justify-content: space-between;
   align-items: center;
+  color: var(--color-secondary);
 }
 
 h1 {
   font-weight: 500;
-  color: var(--color-on-tertiary-container);
+  color: var(--color-secondary);
 }
 
 .cerrar {

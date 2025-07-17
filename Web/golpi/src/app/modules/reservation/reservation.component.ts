@@ -1,5 +1,5 @@
 // Core
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DateSelectArg, EventClickArg } from '@fullcalendar/core';
 
@@ -12,8 +12,11 @@ import { MatCardModule } from '@angular/material/card';
 import { CardComponent } from '../../shared/components/custom/card/card.component';
 
 // Componentes
-import { ReservaModalComponent } from './reserva-modal/reserva-modal.component';
-import { ModalReservationComponent } from './modal-reservation/modal-reservation.component';
+import { NewReservationModalComponent } from './new-reservation-modal/new-reservation-modal.component';
+import { ReservationInformationModalComponent } from './reservation-information-modal/reservation-information-modal.component';
+
+// Services
+import { AgendaService } from '../../core/service/agenda.service';
 
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
@@ -31,12 +34,6 @@ export class ReservationComponent implements OnInit {
   public AdministrarActivo: boolean = true;
   public nombrePestana: string = 'Administrar reservaciones';
 
-  public totalTurnos = 50;
-  public turnosPendientes = 15;
-  public turnosConfirmados = 35;
-  public turnosFinalizados = 10;
-  public turnosSinConfirmar = 5;
-
   activarPestana(pestana: string): void {
     if (pestana === 'administrar') {
       this.nombrePestana = 'Administrar reservaciones';
@@ -45,35 +42,13 @@ export class ReservationComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.calendarEvents.push(
-      {
-        title: 'Reserva Cancha 1',
-        start: '2025-07-12T10:00:00',
-        end: '2025-07-12T11:00:00',
-        color: '#5bc0de',
-        extendedProps: {
-          cancha: 'Cancha 1',
-          tipo: 'Fútbol 5',
-          cliente: 'Juan',
-          estado: 'Reservada',
-        },
-      },
-      {
-        title: 'Reserva Cancha 2',
-        start: '2025-07-12T12:00:00',
-        end: '2025-07-12T13:00:00',
-        color: '#5cb85c',
-        extendedProps: {
-          cancha: 'Cancha 2',
-          tipo: 'Fútbol 7',
-          cliente: 'Andrea',
-          estado: 'Confirmada',
-        },
-      }
-    );
+    this.cargarReservas();
   }
 
-  constructor(private dialog: MatDialog) {}
+  constructor(
+    private dialog: MatDialog,
+    private reservaService: AgendaService
+  ) {}
 
   calendarEvents: any[] = [];
 
@@ -109,17 +84,23 @@ export class ReservationComponent implements OnInit {
     const startDate = new Date(eventInfo.event.start);
 
     const turno = eventInfo.event.extendedProps;
-    this.dialog.open(ReservaModalComponent, {
+    const dialogRef = this.dialog.open(ReservationInformationModalComponent, {
       disableClose: true,
       width: '700px',
       data: {
-        cancha: turno.cancha,
-        tipo: turno.tipo,
-        cliente: turno.cliente,
-        estado: turno.estado,
-        fecha: this.formatDate(startDate),
+        fecha: this.formatDate2(startDate),
         hora: this.formatTime(startDate),
+        user_name: turno.user_name,
+        user_last_name: turno.user_last_name,
+        mobile_number: turno.mobile_number,
+        name_field: turno.name_field,
+        id: turno.id,
+        estado: turno.estado,
       },
+    });
+
+    dialogRef.afterClosed().subscribe(() => {
+      this.cargarReservas();
     });
   }
 
@@ -127,7 +108,7 @@ export class ReservationComponent implements OnInit {
     const startDate = new Date(selectInfo.start);
     const endDate = new Date(selectInfo.end);
 
-    this.dialog.open(ModalReservationComponent, {
+    const dialogRef = this.dialog.open(NewReservationModalComponent, {
       disableClose: true,
       width: '700px',
       data: {
@@ -136,6 +117,10 @@ export class ReservationComponent implements OnInit {
         startTime: this.formatTime(startDate),
         endTime: this.formatTime(endDate),
       },
+    });
+
+    dialogRef.afterClosed().subscribe(() => {
+      this.cargarReservas();
     });
   }
 
@@ -146,10 +131,72 @@ export class ReservationComponent implements OnInit {
     return `${day}-${month}-${year}`;
   };
 
+  formatDate2 = (date: Date): string => {
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    return `${year}-${month}-${day}`;
+  };
+
   formatTime = (date: Date): string => {
     const hours = String(date.getHours()).padStart(2, '0');
     const minutes = String(date.getMinutes()).padStart(2, '0');
     const seconds = String(date.getSeconds()).padStart(2, '0');
     return `${hours}:${minutes}:${seconds}`;
   };
+
+  cargarReservas() {
+    const idEstablecimiento = localStorage.getItem(
+      'establecimientoSeleccionado'
+    );
+
+    this.reservaService
+      .cargarReservas(idEstablecimiento!)
+      .subscribe((response) => {
+        const reservas = response.payload;
+        const eventos = reservas.map((reserva: any) => {
+          const startDateTime = `${reserva.date}T${reserva.start_time}`;
+
+          return {
+            title: `${reserva.name_field}`,
+            start: startDateTime,
+            color: this.obtenerColorPorEstado(reserva.status),
+            textColor: 'black',
+            extendedProps: {
+              user_name: reserva.user_name,
+              user_last_name: reserva.user_last_name,
+              mobile_number: reserva.mobile_number,
+              name_field: reserva.name_field,
+              id: reserva.id,
+              estado: reserva.status,
+            },
+          };
+        });
+
+        this.calendarOptions.events = eventos;
+      });
+  }
+
+  obtenerColorPorEstado(estado: string): string {
+    switch (estado) {
+      case 'DISPONIBLE':
+        return '#17a2b8';
+      case 'RESERVADO':
+        return '#0275d8';
+      case 'CONFIRMADO':
+        return '#28a745';
+      case 'BLOQUEADO':
+        return '#6f42c1';
+      case 'PAGADO':
+        return '#ffc107';
+      case 'INASISTIDO':
+        return '#6c757d';
+      case 'NO_PAGADO':
+        return '#fd7e14';
+      case 'CANCELADO':
+        return '#dc3545';
+      default:
+        return '#343a40';
+    }
+  }
 }
