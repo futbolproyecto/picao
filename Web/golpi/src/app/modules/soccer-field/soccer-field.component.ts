@@ -278,6 +278,11 @@ export class SoccerFieldComponent implements OnInit {
   }
 
   limpiarFormulario(): void {
-    this.formularioCancha.reset();
+    this.formularioCancha.reset({
+      descripcion_cancha: '',
+      cantidad_jugadores: '',
+      disponible: false,
+      techado: false,
+    });
   }
 }
