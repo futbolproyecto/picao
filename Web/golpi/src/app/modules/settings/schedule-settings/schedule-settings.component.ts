@@ -41,6 +41,8 @@ import { ModalScheduleSettingsComponent } from './modal-schedule-settings/modal-
 import { EstablishmentRequestDto } from '../../../data/schema/establishmentRequestDto';
 import { MessageExceptionDto } from '../../../data/schema/MessageExceptionDto';
 import { AgendaDto } from '../../../data/schema/agendaDto';
+import { FieldRequestDto } from '../../../data/schema/fieldRequestDTO';
+import { FieldService } from '../../../core/service/field.service';
 
 @Component({
   selector: 'app-schedule-settings',
@@ -59,7 +61,7 @@ import { AgendaDto } from '../../../data/schema/agendaDto';
 })
 export class ScheduleSettingsComponent implements OnInit {
   private establishmentService = inject(EstablishmentService);
-  private scheduleService = inject(ScheduleService);
+  private fieldService = inject(FieldService);
   private alertsService = inject(AlertsService);
   private destroyRef = inject(DestroyRef);
   private busyService = inject(BusyService);
@@ -70,6 +72,7 @@ export class ScheduleSettingsComponent implements OnInit {
 
   public establishmentDto: Array<EstablishmentRequestDto> =
     new Array<EstablishmentRequestDto>();
+  public fieldtDto: Array<FieldRequestDto> = new Array<FieldRequestDto>();
   public agendaDto: AgendaDto = new AgendaDto();
   public establishmentError: string = '';
   public calendarEvents: any[] = [];
@@ -80,6 +83,12 @@ export class ScheduleSettingsComponent implements OnInit {
 
   ngOnInit() {
     this.cargarEstablecimientosUsuario();
+
+    this.formularioAgenda.get('establishment')?.valueChanges.subscribe((id) => {
+      this.cargarCanchasEstablecimiento();
+    });
+
+    this.formularioAgenda.get('field')?.setValue(0);
 
     const idEstablecimiento = localStorage.getItem(
       'establecimientoSeleccionado'
@@ -126,14 +135,40 @@ export class ScheduleSettingsComponent implements OnInit {
     }
   }
 
+  cargarCanchasEstablecimiento() {
+    const establishmentId = this.formularioAgenda.get('establishment')?.value;
+
+    if (!establishmentId) return;
+
+    this.fieldService.canchaPorEstablecimiento(establishmentId).subscribe({
+      next: (response) => {
+        const opcionDefault = { id: 0, name: 'Seleccione...' };
+        this.fieldtDto = [opcionDefault, ...(response?.payload ?? [])];
+      },
+      error: (err) => {
+        const errorDto = new MessageExceptionDto({
+          status: err.error?.status,
+          error: err.error?.error,
+          recommendation: err.error?.recommendation,
+        });
+        this.alertsService.fireError(errorDto);
+      },
+    });
+  }
+
   buildForm(): void {
     this.formularioAgenda = this.formBuilder.group({
-      establishment: [Validators.required],
+      establishment: ['', Validators.required],
+      field: ['', Validators.required],
     });
   }
 
   get establishment(): AbstractControl {
     return this.formularioAgenda.get('establishment')!;
+  }
+
+  get field(): AbstractControl {
+    return this.formularioAgenda.get('fields')!;
   }
 
   validarEstablecimiento(): boolean {
