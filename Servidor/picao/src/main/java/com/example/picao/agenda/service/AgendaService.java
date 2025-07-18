@@ -4,7 +4,6 @@ import com.example.picao.agenda.dto.AgendaResponseDTO;
 import com.example.picao.agenda.dto.ChangeReservationStatusRequestDTO;
 import com.example.picao.agenda.dto.CreateAgendaRequestDTO;
 import com.example.picao.agenda.dto.ReserveRequestDTO;
-import com.example.picao.agenda.entity.AgendaStatus;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -27,5 +26,5 @@ public interface AgendaService {
 
     AgendaResponseDTO changeReservationStatus(ChangeReservationStatusRequestDTO requestDTO);
 
-    List<String> obtenerEstadosAgenda();
+    List<String> getAgendaStatus();
 }

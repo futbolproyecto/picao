@@ -38,10 +38,8 @@ public class FieldServiceImpl implements FieldService {
             fieldRepository.findByNameAndEstablishmentId(requestDTO.name(), requestDTO.establishmentId())
                     .ifPresent(field -> {
                         throw new AppException(
-                                ErrorMessages.GENERIC_DUPLICATE,
-                                HttpStatus.BAD_REQUEST,
-                                "Ese nombre de cancha en el establecimiento"
-                        );
+                                ErrorMessages.GENERIC_DUPLICATE, HttpStatus.BAD_REQUEST,
+                                "Este nombre de cancha en el establecimiento");
                     });
 
             Field field = MAPPER.toField(requestDTO);

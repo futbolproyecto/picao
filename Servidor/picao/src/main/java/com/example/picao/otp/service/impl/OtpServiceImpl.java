@@ -61,7 +61,7 @@ public class OtpServiceImpl implements OtpService {
 
             String otp = generateOTP();
 
-            sendOtpWhatsApp(mobileNumber, otp);
+            sendOtpWhatsApp(mobileNumber, otp, "Su codigo otp es:");
 
             otpBD.setCode(otp);
             otpBD.setCreatedAt(LocalDateTime.now());
@@ -83,6 +83,8 @@ public class OtpServiceImpl implements OtpService {
     @Override
     public String sendMobileNumber(String mobileNumber, Boolean isReserve) {
 
+        String message;
+
         if (Boolean.FALSE.equals(isReserve)) {
             userRepository.findByMobileNumber(mobileNumber).ifPresent(
                     user -> {
@@ -94,14 +96,17 @@ public class OtpServiceImpl implements OtpService {
                         throw new AppException(ErrorMessages.GENERATED_OTP, HttpStatus.BAD_REQUEST);
                     });
 
+            message = "Su codigo opt para finalizar el registro es: ";
+
         } else {
             otpRepository.deleteOtpByNumber(mobileNumber);
+            message = "Su codigo opt para realizar la reserva es: ";
         }
 
 
         String otp = generateOTP();
 
-        sendOtpWhatsApp(mobileNumber, otp);
+        sendOtpWhatsApp(mobileNumber, otp, message);
 
         otpRepository.save(Otp.builder()
                 .code(otp)
@@ -161,13 +166,13 @@ public class OtpServiceImpl implements OtpService {
     }
 
 
-    private void sendOtpWhatsApp(String destinationNumberPhone, String otp) {
+    private void sendOtpWhatsApp(String destinationNumberPhone, String otp, String message) {
         Twilio.init(accountSid, authToken);
 
         Message.creator(
                         new PhoneNumber("whatsapp:+" + destinationNumberPhone),
                         new PhoneNumber("whatsapp:+14155238886"),
-                        "su codigo otp es: " + otp)
+                        message + otp)
                 .create();
 
     }

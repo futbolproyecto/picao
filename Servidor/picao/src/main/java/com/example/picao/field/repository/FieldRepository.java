@@ -13,10 +13,7 @@ import java.util.UUID;
 @Repository
 public interface FieldRepository extends JpaRepository<Field, UUID> {
 
-    Optional<Field> findByName(String name);
-
     Optional<Field> findByNameAndEstablishmentId(String name, UUID establishmentId);
-
 
     @Query(value = "SELECT new com.example.picao.field.dto.FieldResponseDTO(" +
             " f.id, f.name, f.capacity, f.isAvailable, f.isRoofed) FROM Field  " +
