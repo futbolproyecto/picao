@@ -1001,6 +1001,26 @@ class S {
     );
   }
 
+  /// `Estado`
+  String get estado {
+    return Intl.message(
+      'Estado',
+      name: 'estado',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Eventos`
+  String get eventos {
+    return Intl.message(
+      'Eventos',
+      name: 'eventos',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `--------------------------------------------`
   String get mensajesErrorFormularios {
     return Intl.message(
