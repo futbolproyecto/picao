@@ -1,0 +1,46 @@
+/* .dashboard-container {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  z-index: 1;
+} */
+
+h1 {
+  color: var(--color-on-tertiary-container);
+}
+
+p {
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.dashboard-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Dos columnas iguales */
+  gap: 20px;
+  padding: 20px;
+}
+
+/* Opcional: título completo */
+.dashboard-container h1 {
+  grid-column: 1 / -1; /* Hace que el h1 abarque las dos columnas */
+  margin-bottom: 10px;
+}
+
+.card {
+  background: var(--color-surface-container--lowest);
+  box-shadow: 0 3px 15px var(--color-outline-variant);
+  border-radius: 25px;
+}
+
+/* Espaciado interno para cada tarjeta */
+.container-card {
+  padding: 15px;
+}
+
+/* Responsive para pantallas pequeñas */
+@media (max-width: 768px) {
+  .dashboard-container {
+    grid-template-columns: 1fr; /* Cambia a una columna */
+  }
+}

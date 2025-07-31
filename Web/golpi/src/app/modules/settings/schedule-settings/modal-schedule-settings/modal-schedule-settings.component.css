@@ -1,0 +1,176 @@
+::ng-deep.ng-select-error .ng-select-container {
+  border: none !important;
+  border-bottom: 1px solid var(--color-error) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+::ng-deep.ng-select-error .ng-select-container:after {
+  content: none !important;
+}
+
+.lista {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+.canchas {
+  display: flex;
+}
+
+.checkbox-canchas {
+  gap: 5px;
+}
+
+.titulo {
+  border-radius: 10px;
+  font-weight: 500;
+  display: flex;
+  padding: 10px 0;
+  color: var(--color-scrim);
+}
+
+.input-field {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.boton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.boton .btn {
+  background-color: var(--color-primary);
+  color: var(--color-surface-container--lowest);
+  width: 100%;
+  border-radius: 30px;
+}
+
+::ng-deep.mdc-text-field--filled:not(.mdc-text-field--disabled) {
+  padding: 0;
+}
+
+:host ::ng-deep .fc-timegrid-slot {
+  height: 60px !important;
+  min-height: 60px !important;
+  max-height: 60px !important;
+}
+
+:host ::ng-deep .fc-timegrid {
+  max-height: 960px;
+  overflow-y: auto;
+}
+
+.container-titulo {
+  display: flex;
+  padding-top: 15px;
+  padding-left: 20px;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--color-secondary);
+}
+
+h1 {
+  font-weight: 500;
+  color: var(--color-secondary);
+}
+
+.checkbox-dias {
+  color: black;
+  align-items: center;
+  gap: 10px;
+  display: flex;
+}
+
+.checkbox-individual {
+  display: flex;
+  gap: 5px;
+}
+
+.label-dia {
+  padding: 5px;
+}
+
+.cerrar {
+  cursor: pointer;
+}
+
+.boton-agregar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.boton-agregar .btn-agregar {
+  background-color: var(--color-secondary);
+  color: var(--color-surface-container--lowest);
+  width: 100%;
+  border-radius: 30px;
+}
+
+.container-boton {
+  align-content: center;
+}
+
+.tabla-card {
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.tabla-wrapper {
+  overflow-x: auto;
+}
+
+.custom-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.custom-table th {
+  background-color: var(--color-secondary) !important;
+  color: var(--color-surface-container--lowest);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.custom-table td,
+.custom-table th {
+  padding: 12px 16px;
+  white-space: nowrap;
+}
+
+.custom-table td {
+  color: #333;
+}
+
+th.th-left {
+  border-top-left-radius: 12px;
+}
+
+th.th-right {
+  border-top-right-radius: 12px;
+}
+
+h2 {
+  padding-top: 15px;
+  align-self: center;
+  color: var(--color-primary);
+}
+
+.cerrar:focus {
+  outline: none;
+}
+
+.tabla-card {
+  overflow: visible;
+  border-radius: 12px; /* o el valor que desees */
+}

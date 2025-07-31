@@ -1,0 +1,10 @@
+.footer {
+  display: flex;
+  justify-content: center;
+}
+
+.container-footer {
+  padding: 10px;
+  text-align: center;
+  color: var(--color-on-tertiary-container);
+}

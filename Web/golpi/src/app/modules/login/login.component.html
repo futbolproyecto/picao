@@ -1,0 +1,130 @@
+<div class="container-main" [class.modo-registro]="esModoRegistro">
+  <div class="container-box">
+    <div class="container-login">
+      <div class="formulario">
+        <div>
+          <form [formGroup]="formularioLogin" class="inicio-sesion">
+            <div class="logo">
+              <img src="./assets/img/logo_normal.png" alt="Logo" />
+            </div>
+
+            <div class="regresar">
+              <button
+                *ngIf="mostrarSeleccionEstablecimiento"
+                mat-icon-button
+                (click)="volverAlLogin()"
+                class="btn-regresar"
+              >
+                <mat-icon>arrow_back</mat-icon>
+              </button>
+              <h1>Bienvenidos</h1>
+            </div>
+
+            <p *ngIf="!mostrarSeleccionEstablecimiento">
+              ¿No tienes una cuenta?
+              <a
+                routerLink="/contactenos"
+                class="toggle"
+                (click)="cambioModoInicioRegistro()"
+              >
+                Contáctenos
+              </a>
+            </p>
+
+            <div class="input-form">
+              <mat-form-field class="custom-input">
+                <mat-icon matPrefix class="custom-icon">mail</mat-icon>
+                <mat-label>Correo electrónico o celular</mat-label>
+                <input
+                  matInput
+                  formControlName="correo"
+                  type="text"
+                  autocomplete="off"
+                />
+              </mat-form-field>
+              <small class="text-error" *ngIf="validarCorreo()">
+                {{ correoError }}
+              </small>
+
+              <mat-form-field class="custom-input">
+                <mat-icon matPrefix class="custom-icon">lock</mat-icon>
+                <mat-label>Contraseña</mat-label>
+                <input
+                  matInput
+                  formControlName="pass"
+                  [type]="passVisible ? 'password' : 'text'"
+                  autocomplete="off"
+                  #inputPass
+                />
+                <mat-icon
+                  class="custom-icon"
+                  matSuffix
+                  (click)="passVisibleToogle()"
+                  >{{ passVisible ? "visibility" : "visibility_off" }}</mat-icon
+                >
+              </mat-form-field>
+              <small class="text-error" *ngIf="validarPass()">
+                {{ passError }}
+              </small>
+
+              <div *ngIf="!mostrarSeleccionEstablecimiento">
+                <a
+                  href="#"
+                  class="forgot-password"
+                  (click)="enviarCodigo($event)"
+                  >¿Olvidaste tu contraseña?</a
+                >
+
+                <br />
+
+                <div class="boton">
+                  <button
+                    mat-raised-button
+                    class="btn"
+                    (click)="iniciarSesion()"
+                    type="button"
+                  >
+                    INICIAR SESION
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="formulario-establecimiento"
+              *ngIf="mostrarSeleccionEstablecimiento"
+            >
+              <div class="seleccion-establecimiento">
+                <ng-select
+                  formControlName="establishment"
+                  [(ngModel)]="establecimientoSeleccionado"
+                  [items]="listaEstablecimientos"
+                  bindLabel="name"
+                  bindValue="id"
+                  placeholder="Seleccione un establecimiento"
+                ></ng-select>
+
+                <div class="boton">
+                  <button
+                    mat-raised-button
+                    class="btn"
+                    (click)="validarSeleccionEstablecimiento()"
+                  >
+                    VALIDAR
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <div class="contactenos">
+          <app-registre></app-registre>
+        </div>
+      </div>
+      <div class="carousel">
+        <app-carousel></app-carousel>
+      </div>
+    </div>
+  </div>
+</div>

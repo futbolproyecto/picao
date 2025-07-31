@@ -1,0 +1,50 @@
+<div class="container-titulo">
+  <h2 mat-dialog-title>Detalles de la Reserva</h2>
+  <span
+    ngClass="m-3 d-flex justify-content-end cerrar"
+    (click)="cerrar()"
+    (keyup.enter)="cerrar()"
+    tabindex="0"
+    role="button"
+    aria-label="Cerrar"
+  >
+    <i class="material-icons">close</i>
+  </span>
+</div>
+<mat-dialog-content>
+  <p><strong>Cancha:</strong> {{ data.name_field }}</p>
+  <p>
+    <strong>Cliente:</strong> {{ data.user_name }} {{ data.user_last_name }}
+  </p>
+  <p><strong>Número celular:</strong> +{{ data.mobile_number }}</p>
+  <p><strong>Estado:</strong> {{ data.estado }}</p>
+  <p><strong>Fecha - Hora:</strong> {{ data.fecha }} ({{ data.hora }})</p>
+
+  <form [formGroup]="formularioInformacion">
+    <div class="row">
+      <div class="col-md-12 mt-2">
+        <ng-select
+          [items]="estadoAgendaOptions"
+          bindLabel="label"
+          bindValue="value"
+          formControlName="estado"
+          placeholder="Estado"
+          appendTo="body"
+        >
+        </ng-select>
+      </div>
+    </div>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <div class="boton">
+    <button
+      (click)="cambiarEstado()"
+      mat-button
+      class="btn btn-continuar"
+      *ngIf="data.estado !== 'Pagada'"
+    >
+      Cambiar estado
+    </button>
+  </div>
+</mat-dialog-actions>

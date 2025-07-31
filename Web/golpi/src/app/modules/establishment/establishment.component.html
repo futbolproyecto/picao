@@ -1,0 +1,86 @@
+<form [formGroup]="formularioEstablecimiento" class="form-content">
+  <div class="row">
+    <div class="col-md-6">
+      <mat-form-field class="input-field">
+        <mat-label>Nombre establecimiento</mat-label>
+        <input
+          matInput
+          formControlName="nombre_establecimiento"
+          maxlength="50"
+          #nombre_establecimiento
+        />
+        <mat-hint align="end"
+          >{{ nombre_establecimiento.value.length }} / 50</mat-hint
+        >
+      </mat-form-field>
+      <small class="text-error" *ngIf="validarNombre()">
+        {{ nombreError }}
+      </small>
+    </div>
+    <div class="col-md-6">
+      <mat-form-field class="input-field">
+        <mat-label>Dirección</mat-label>
+        <input matInput formControlName="direccion" maxlength="50" #direccion />
+        <mat-hint align="end">{{ direccion.value.length }} / 50</mat-hint>
+      </mat-form-field>
+      <small class="text-error" *ngIf="validarDireccion()">
+        {{ direccionError }}
+      </small>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      <mat-form-field class="input-field">
+        <mat-label>Teléfono</mat-label>
+        <input
+          matInput
+          type="number"
+          formControlName="telefono"
+          maxlength="15"
+          #telefono
+        />
+        <mat-hint align="end">{{ telefono.value.length }} / 15</mat-hint>
+      </mat-form-field>
+      <small class="text-error" *ngIf="validarTelefono()">
+        {{ telefonoError }}
+      </small>
+    </div>
+    <div class="col-md-6">
+      <ng-select
+        formControlName="ciudad"
+        placeholder="Ciudad*"
+        [items]="cityDTO"
+        bindLabel="name"
+        bindValue="id"
+        class="lista"
+      >
+      </ng-select>
+      <small class="text-error" *ngIf="validarCiudad()">
+        {{ ciudadError }}
+      </small>
+    </div>
+  </div>
+
+  <div class="boton">
+    <button
+      mat-raised-button
+      (click)="registrarEstablecimiento()"
+      class="btn"
+      type="button"
+    >
+      Guardar
+    </button>
+  </div>
+</form>
+
+<div class="container-tabla">
+  <div class="table-wrapper">
+    <app-data-table
+      [titulo]="establecimientoTitulo"
+      [tableData]="tablaEstablecimientos"
+      [columnHeader]="encabezadosEstablecimientos"
+    >
+    </app-data-table>
+  </div>
+</div>
