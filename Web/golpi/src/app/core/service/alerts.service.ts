@@ -98,7 +98,8 @@ export class AlertsService {
     icon: SweetAlertIcon,
     title: string,
     text: string,
-    myCallBack: any
+    onConfirm: () => void,
+    onCancel?: () => void,
   ) {
     Swal.fire({
       title: title,
@@ -118,7 +119,9 @@ export class AlertsService {
       },
     }).then((result) => {
       if (result.isConfirmed) {
-        myCallBack();
+        onConfirm();
+      } else if (result.isDismissed && onCancel) {
+        onCancel();
       }
     });
   }
@@ -127,7 +130,7 @@ export class AlertsService {
     icon: SweetAlertIcon,
     title: string,
     text: string,
-    myCallBack: any
+    myCallBack: any,
   ) {
     Swal.fire({
       title: title,
@@ -154,7 +157,7 @@ export class AlertsService {
     icon: SweetAlertIcon,
     title: string,
     text: string,
-    myCallBack: (correo: string) => void
+    myCallBack: (correo: string) => void,
   ) {
     Swal.fire({
       title: title,
@@ -193,7 +196,7 @@ export class AlertsService {
     title: string,
     text: string,
     correo: string,
-    callback: (correo: string, otp: string) => void
+    callback: (correo: string, otp: string) => void,
   ) {
     Swal.fire({
       title: title,
@@ -227,7 +230,7 @@ export class AlertsService {
   fireChangePassword(
     correo: string,
     otp: string,
-    callback: (email: string, password: string, otp: string) => void
+    callback: (email: string, password: string, otp: string) => void,
   ) {
     Swal.fire({
       title: 'Ingrese su nueva contraseña',
@@ -254,7 +257,7 @@ export class AlertsService {
 
         if (!password || !confirmPassword) {
           Swal.showValidationMessage(
-            'Debe ingresar y confirmar la nueva contraseña'
+            'Debe ingresar y confirmar la nueva contraseña',
           );
           return false;
         }
@@ -279,7 +282,7 @@ export class AlertsService {
     icon: SweetAlertIcon,
     title: string,
     text: string,
-    callback: (otp: string) => void
+    callback: (otp: string) => void,
   ) {
     Swal.fire({
       title: title,

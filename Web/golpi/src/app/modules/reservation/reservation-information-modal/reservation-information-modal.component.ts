@@ -56,7 +56,7 @@ export class ReservationInformationModalComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<ReservationInformationModalComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: any,
   ) {
     console.log(this.data);
     this.buildForm();
@@ -88,39 +88,56 @@ export class ReservationInformationModalComponent implements OnInit {
         return;
       }
 
-      this.changeReservationStatusRequestDto = {
-        agenda_id: this.data.id,
-        agenda_status: this.estado.value,
-      };
-
-      this.busyService.busy();
-      this.agendaService
-        .cambiarEstadosAgenda(this.changeReservationStatusRequestDto)
-        .pipe(
-          takeUntilDestroyed(this.destroyRef),
-          finalize(() => {
-            this.busyService.idle();
-          })
-        )
-        .subscribe({
-          next: () => {
-            this.alertsService.toast(
-              'success',
-              'El estado se cambio correctamente.'
-            );
-
+      if (this.estado.value === 'CANCELADO') {
+        this.alertsService.fireConfirm(
+          'warning',
+          '',
+          '¿Estás seguro de que deseas cancelar esta reserva?',
+          () => {
+            this.procesarCambioEstado();
+          },
+          () => {
             this.dialogRef.close();
           },
-          error: (err) => {
-            const errorDto = new MessageExceptionDto({
-              status: err.error?.status,
-              error: err.error?.error,
-              recommendation: err.error?.recommendation,
-            });
-            this.alertsService.fireError(errorDto);
-          },
-        });
+        );
+      } else {
+        this.procesarCambioEstado();
+      }
     }
+  }
+
+  private procesarCambioEstado() {
+    this.changeReservationStatusRequestDto = {
+      agenda_id: this.data.id,
+      agenda_status: this.estado.value,
+    };
+
+    this.busyService.busy();
+    this.agendaService
+      .cambiarEstadosAgenda(this.changeReservationStatusRequestDto)
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        finalize(() => {
+          this.busyService.idle();
+        }),
+      )
+      .subscribe({
+        next: () => {
+          this.alertsService.toast(
+            'success',
+            'El estado se cambió correctamente.',
+          );
+          this.dialogRef.close();
+        },
+        error: (err) => {
+          const errorDto = new MessageExceptionDto({
+            status: err.error?.status,
+            error: err.error?.error,
+            recommendation: err.error?.recommendation,
+          });
+          this.alertsService.fireError(errorDto);
+        },
+      });
   }
 
   consultarEstadosAgenda(): void {
