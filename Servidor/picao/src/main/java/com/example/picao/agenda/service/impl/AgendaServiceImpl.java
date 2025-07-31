@@ -224,6 +224,7 @@ public class AgendaServiceImpl implements AgendaService {
         Set<java.time.DayOfWeek> diasPermitidos = Arrays.stream(dias)
                 .map(this::mapDay)
                 .collect(Collectors.toSet());
+        
 
         LocalDate current = startDate;
         while (!current.isAfter(endDate)) {
