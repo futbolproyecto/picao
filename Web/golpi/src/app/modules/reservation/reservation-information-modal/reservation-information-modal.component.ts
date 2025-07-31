@@ -125,7 +125,7 @@ export class ReservationInformationModalComponent implements OnInit {
         next: () => {
           this.alertsService.toast(
             'success',
-            'El estado se cambió correctamente.',
+            '¡Reserva actualizada correctamente!',
           );
           this.dialogRef.close();
         },
