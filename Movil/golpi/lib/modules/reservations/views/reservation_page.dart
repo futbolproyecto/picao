@@ -27,7 +27,7 @@ class MatchesPage extends StatelessWidget {
             children: [
               const SizedBox(height: 60),
               Center(
-                child: UiText(text: 'Eventos')
+                child: UiText(text: S.of(context).eventos)
                     .title(color: Theme.of(context).colorScheme.primary),
               ),
               const SizedBox(height: 20),
@@ -61,15 +61,19 @@ class MatchesPage extends StatelessWidget {
                                   color: Theme.of(context).colorScheme.primary,
                                   size: 60,
                                 )),
-                            UiText(text: S.of(context).crearReserva).paragraphSemiBold(
-                                color: Theme.of(context).colorScheme.primary)
+                            UiText(text: S.of(context).crearReserva)
+                                .paragraphSemiBold(
+                                    color:
+                                        Theme.of(context).colorScheme.primary)
                           ],
                         ),
                       ),
                     ),
                   ),
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      Get.toNamed(AppPages.listReservationFields);
+                    },
                     child: Card(
                       elevation: 3,
                       color: Theme.of(context).colorScheme.surface,
@@ -93,8 +97,10 @@ class MatchesPage extends StatelessWidget {
                                   color: Theme.of(context).colorScheme.primary,
                                   size: 60,
                                 )),
-                            UiText(text: S.of(context).misReservas).paragraphSemiBold(
-                                color: Theme.of(context).colorScheme.primary)
+                            UiText(text: S.of(context).misReservas)
+                                .paragraphSemiBold(
+                                    color:
+                                        Theme.of(context).colorScheme.primary)
                           ],
                         ),
                       ),

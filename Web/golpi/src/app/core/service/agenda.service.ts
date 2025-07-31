@@ -63,7 +63,7 @@ export class AgendaService {
   }
 
   obtenerEstadosAgenda() {
-    return this.http.get<GenericDto>(this.baseUrl + `agenda/agenda-status`);
+    return this.http.get<GenericDto>(this.baseUrl + `agenda/get-agenda-status`);
   }
 
   cambiarEstadosAgenda(

@@ -101,7 +101,9 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Establecimiento"),
         "establecimientosDistintos": MessageLookupByLibrary.simpleMessage(
             "Solo puedes seleccionar canchas del mismo establecimiento."),
+        "estado": MessageLookupByLibrary.simpleMessage("Estado"),
         "estaturaCm": MessageLookupByLibrary.simpleMessage("Estatura (CM)"),
+        "eventos": MessageLookupByLibrary.simpleMessage("Eventos"),
         "exitoActualizarClave": MessageLookupByLibrary.simpleMessage(
             "La clave se actualizó correctamente"),
         "exitoRegistrar": MessageLookupByLibrary.simpleMessage(

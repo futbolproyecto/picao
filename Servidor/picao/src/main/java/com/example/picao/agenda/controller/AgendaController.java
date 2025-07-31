@@ -59,9 +59,9 @@ public class AgendaController {
         return GenericResponseDTO.genericResponse(agendaService.changeReservationStatus(requestDTO));
     }
 
-    @GetMapping("agenda-status")
-    public ResponseEntity<GenericResponseDTO> obtenerEstadosAgenda() {
-        return GenericResponseDTO.genericResponse(agendaService.obtenerEstadosAgenda());
+    @GetMapping("get-agenda-status")
+    public ResponseEntity<GenericResponseDTO> getAgendaStatus() {
+        return GenericResponseDTO.genericResponse(agendaService.getAgendaStatus());
     }
 
 }

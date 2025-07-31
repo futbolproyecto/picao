@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:golpi/core/bindings/initial_binding.dart';
 import 'package:golpi/modules/login/views/login_page.dart';
+import 'package:golpi/modules/reservations/views/list_reservation_fileds.dart';
 import 'package:golpi/modules/user/views/profile_page.dart';
 import 'package:golpi/modules/splash/views/splash_page.dart';
 import 'package:golpi/modules/home/views/principal_page.dart';
@@ -27,6 +28,7 @@ class AppPages {
   static const registerTeam = Routes.registerTeam;
   static const manageTeam = Routes.manageTeam;
   static const reservationField = Routes.reservationField;
+  static const listReservationFields = Routes.listReservationFields;
 
   static final routes = [
     GetPage(
@@ -72,6 +74,11 @@ class AppPages {
     GetPage(
       name: _Paths.reservationField,
       page: () => const ReservationFieldPage(),
+      binding: ReservationBinding(),
+    ),
+    GetPage(
+      name: _Paths.listReservationFields,
+      page: () => const ListReservationFileds(),
       binding: ReservationBinding(),
     ),
   ];

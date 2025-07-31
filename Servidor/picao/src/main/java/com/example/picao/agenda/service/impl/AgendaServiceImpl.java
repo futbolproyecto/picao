@@ -167,7 +167,7 @@ public class AgendaServiceImpl implements AgendaService {
             throw new AppException(e.getErrorMessages(), e.getHttpStatus(), e.getArgs());
         }
     }
-
+    @Transactional(readOnly = true)
     @Override
     public Set<AgendaResponseDTO> getReserveByEstablishmentIdId(UUID establishmentId) {
 
@@ -177,7 +177,7 @@ public class AgendaServiceImpl implements AgendaService {
             throw new AppException(e.getErrorMessages(), e.getHttpStatus(), e.getArgs());
         }
     }
-
+    @Transactional
     @Override
     public AgendaResponseDTO changeReservationStatus(ChangeReservationStatusRequestDTO requestDTO) {
         try {
@@ -193,6 +193,17 @@ public class AgendaServiceImpl implements AgendaService {
 
             return MAPPER.toAgendaResponseDTO(agendaRepository.save(agenda));
 
+        } catch (AppException e) {
+            throw new AppException(e.getErrorMessages(), e.getHttpStatus(), e.getArgs());
+        }
+    }
+
+    @Override
+    public List<String> getAgendaStatus() {
+        try {
+            return Arrays.stream(AgendaStatus.values())
+                    .map(Enum::name)
+                    .toList();
         } catch (AppException e) {
             throw new AppException(e.getErrorMessages(), e.getHttpStatus(), e.getArgs());
         }
@@ -239,14 +250,5 @@ public class AgendaServiceImpl implements AgendaService {
         };
     }
 
-    public List<String> obtenerEstadosAgenda() {
-        try {
-            return Arrays.stream(AgendaStatus.values())
-                    .map(Enum::name)
-                    .collect(Collectors.toList());
-        } catch (AppException e) {
-            throw new AppException(e.getErrorMessages(), e.getHttpStatus(), e.getArgs());
-        }
-    }
 
 }
